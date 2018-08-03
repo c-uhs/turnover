@@ -1,0 +1,26 @@
+# data
+data/sources/private/*
+
+# code
+*.pyc
+.tags
+
+# tex
+*.aux
+*.lof
+*.log
+*.lot
+*.out
+*.toc
+*.bbl
+*.bcf
+*.blg
+*-blx.aux
+*-blx.bib
+*.run.xml
+*.synctex
+*.synctex.gz
+*.synctex.gz
+*.nav
+*.brf
+*.dvi

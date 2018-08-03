@@ -1,0 +1,296 @@
+\documentclass{article}
+\usepackage{underscore,relsize,bm,mathtools,amssymb}
+\usepackage[margin=2cm]{geometry}
+\usepackage{tikz}
+\usepackage[colorlinks,linkcolor=blue]{hyperref}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+\setlength{\skip\footins}{1cm}
+\newcommand{\N}{\textsc{n}}
+\newcommand{\hreftt}[1]{\href{#1}{\texttt{#1}}}
+\input{py/pylight.tex}
+
+\title{\vspace{-1.2cm}Automatically Computing Turnover\\for Steady-State Population Distributions}
+\author{Jesse Knight}
+\date{July 16, 2018}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\maketitle
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Background}
+When modelling sexually transmitted diseases, 
+it is important to consider heterogeneity in levels of sexual activity among the population,
+as transmission dynamics are profoundly impacted by these characteristics.
+Moreover, it is rarely sufficient to model static groups,
+since people's sexual behaviour typically changes over time.
+Therefore, transfer of individuals between activity groups should be included in the model,
+which we call ``turnover''.
+\par
+The most important implications of this feature are the transfer of
+\textit{infected} and \textit{susceptible} individuals
+from one activity group to another,
+which provides another mode of transmission besides
+direct sexual contact between the activity groups.%
+\footnote{An interesting parallel can be found with the modes of heat transfer:
+  conduction -- direct transfer of heat by particles in contact
+  (contact within an activity group),
+  versus 
+  convection -- movement of hot particles from one area to another
+  (turnover).}
+For example, in a perfectly assortative population,
+activity level turnover is the only way transmission can occur \textit{between} activity groups.
+\par
+From the modelling perspective,
+it is possible to consider turnover from any group to any other group.
+However, the definition of turnover rates among each of the groups
+will impact the steady-state population distribution.
+So too will the rates of births and deaths,
+and the distribution of new individuals. Our problem, then, is as follows:
+\par
+\textbf{Problem:} How do we choose turnover rates,
+in conjunction with rates of birth and death, and the distribution of entering individuals,
+in order to yield a specific steady-state distribution of activity levels in the population?
+\par
+\textbf{Hypothesis:} There exists a closed-form equation relating these rates and distributions.
+\par
+\textbf{Application:} This equation can be used to define
+the appropriate rates of population turnover,
+in order to match the other observed parameters.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Maths}
+We denote the state variable representing
+the proportion of the population in activity group $i \in [1 \dots \N]$ as $x_i$
+and the vector of all $x_i$ as $\bm{x}$.
+Since turnover transitions can occur between any two groups, in either direction,
+we denote the turnover rates as an $\N \times \N$ matrix $\zeta$,
+where $\zeta_{ij}$ corresponds to the transition $x_i \leftarrow x_j$.
+A verbose definition is given in Eq.~(\ref{eq:zeta}),
+where the diagonal elements are denoted $*$ since they are not useful.
+\begin{equation}\label{eq:zeta}
+\zeta = \left[\begin{array}{cccc}
+	         *          & x_1  \leftarrow x_2 & \cdots & x_1 \leftarrow x_\N \\[0.5em]
+	x_2  \leftarrow x_1 &          *          & \cdots & x_2 \leftarrow x_\N \\[0.5em]
+	      \vdots        &       \vdots        & \ddots &       \vdots        \\[0.5em]
+	x_\N \leftarrow x_1 & x_\N \leftarrow x_2 & \cdots &          *
+\end{array}\right]
+\end{equation}
+The rate of population entry is denoted $\nu$, and exit as $\mu$.
+The proportion of the entering population who are activity level $i$ is denoted $p_i$,
+while the distribution of exiting population is simply $x_i$.
+\par
+These transitions and related rates are summarized for $\N = 3$ in Figure \ref{fig:turnover}.
+\par
+Our aim now is to relate these quantities to
+a target steady-state distribution for the vector $\bm{x}$.
+\begin{figure}
+  \centering
+  \input{figs/tikz/turnover-tikz.tex}
+  \caption{Schematic of demographic transitions among 3 activity groups:
+    high $x_1$, medium $x_2$, low $x_3$;
+    entry is shown in black,
+    exit is shown in grey,
+    turnover is shown in purple.}%
+  \label{fig:turnover}
+\end{figure}
+% ==================================================================================================
+\subsection{System Equations}
+For a given activity level, the rate of change of the group is defined by the net flows, as in:
+\begin{equation}
+  \frac{d}{dt}x_i
+= \nu \thinspace p_i + \sum_{j}{\zeta_{ij} \thinspace x_j}
+- \mu \thinspace x_i - \sum_{i}{\zeta_{ij} \thinspace x_i}
+\end{equation}
+In matrix form, we can write the entire system as:
+\begin{equation}\label{eq:sys-dxdt}
+  \frac{d}{dt}\bm{x}
+= \nu \thinspace \bm{p} + {\left(\zeta \thinspace \bm{x}\right)}^{\mathsf{T}}
+-  \mu \thinspace \bm{x} - \left(\bm{x}^{\mathsf{T}} \zeta\right)
+\end{equation}
+Let's assume that $\nu$, $\mu$, and $\bm{p}$ are known,
+and that we aim to find $\zeta$ which yields
+the observed distribution of activity levels $\bm{x}$ at equilibrium.
+At equilibrium, the derivative may not actually be zero, however,
+since populations typically grow over time at a rate $g = \nu - \mu$.
+The desired equilibrium rate of change is therefore given by
+$\nu\thinspace\bm{x} - \mu\thinspace\bm{x}$,
+which we can substitute for the left hand side of Eq.~(\ref{eq:sys-dxdt})
+and rearrange to give:%
+\footnote{Note that this system does not depend on $\mu$.}
+\begin{equation}
+\nu (\bm{x} - \bm{p}) =
+{\left(\zeta \thinspace \bm{x}\right)}^{\mathsf{T}} - \left(\bm{x}^{\mathsf{T}} \zeta\right)
+\end{equation}
+The right hand side can then be factored to give
+a linear system of $\bm{z} = \mathrm{vec}(\zeta)$, parametrized by $\bm{x}$:
+\begin{equation}\label{eq:y=Az}
+\nu (\bm{x} - \bm{p}) =
+A \thinspace \bm{z}, \qquad
+A \in \mathbb{R}^{\N \times \N^2}, \enspace A_{ij} = f(x,i,j)
+\end{equation}
+Some example systems showing the linear factorization $A$ and $\bm{z}$
+are given in \nameref{ap:eg-sys},
+while \nameref{ap:code} gives an algorithm for defining $A$ for any $\N$.
+% ==================================================================================================
+\subsection{Solving the System}
+While it is possible to solve Eq.~(\ref{eq:y=Az}), a number of problems emerge.
+\begin{enumerate}
+  \item \textbf{Diagonal elements}\label{prob:diag} --
+  The diagonal elements of $\zeta$ have no impact on the system.
+  Therefore in any solution, they will be undefined.
+  \item \textbf{Underdetermined system}\label{prob:rank} --
+  For $\N > 2$, the system is underdetermined,
+  since $\mathrm{Rank}(A) = \N \le (\N\times\N - \N)$.
+  This means that A is not invertible and
+  there are many possible solutions to $\bm{b} = A\bm{z}$.
+  \item \textbf{Bounding $\bm{\zeta}$}\label{prob:bounds} --
+  Exact solution methods to this problem do not permit consideration of nonlinear constraints.
+  Importantly, this includes bounds on the values of $\zeta$,
+  which must not be negative or excessively large.
+\end{enumerate}
+Problem \ref{prob:diag} is actually trivial,
+as the diagonal values of $\zeta$ can simply be
+removed from the system before solving, then set to zero post-hoc,
+as in \nameref{ap:code}.
+\par
+Problem \ref{prob:rank} can also be solved easily using $\bm{z} = A^{+}\bm{b}$,
+where $A^{+}$ denotes the pseudo-inverse of $A$:
+\begin{equation}
+A^{+} = A^{\mathsf{T}}{\left(A \thinspace A^{\mathsf{T}}\right)}^{-1}
+\end{equation}
+This approach additionally minimizes the L2-norm of $\bm{z}$,
+which provides the necessary constraints to find a unique solution directly.
+In this case, smaller values of $\zeta$ are also desirable,
+since high levels of turnover are not expected,
+and smaller values afford stability to the model.
+\par
+Problem \ref{prob:bounds}, however, unfortunately precludes the use of
+direct solution methods like $\bm{z} = A^{+}\bm{b}$,
+since bounds on $x_i$ are not enforceable in these approaches.
+Still, many other (iterative) techniques for solving the system exist.
+In \nameref{ap:code}, the Limited-memory BFGS algorithm for bounded problems%
+\footnote{Courtesy of the
+  \href{https://docs.scipy.org/doc/scipy-1.0.0/reference/generated/scipy.optimize.minimize.html}%
+       {\texttt{optimize.minimize}}
+  function from SciPy.}
+is used to minimize $\mathcal{J}(\bm{z}) = {\left|\left| A\bm{z} - \bm{b} \right|\right|}_2$,
+subject to $l \le z_i \le u, \enspace\forall i$,
+providing a solution $\bm{z}$, which is reshaped to give $\zeta$.
+\par
+It should be noted that such optimizations should converge to zero, not just a small number,
+since the system is still underdetermined.
+Any other final values of $\mathcal{J}$ likely indicate convergence problems,
+and may result in model instability due to unbalanced transitions.
+% ==================================================================================================
+\subsection{Additional Constraints}
+One advantage of the proposed framework is that
+it is simple to add additional constraints on $\zeta$
+of the form $\bm{b}' = A' \thinspace \bm{z}$;
+these constraints can simply be appended to $\bm{b}$ and the rows of $A$ as in:
+\begin{equation}
+\left[\begin{array}{c} \bm{b}\\\bm{b}' \end{array}\right]
+=
+\left[\begin{array}{c}     A \\    A ' \end{array}\right]
+\end{equation}
+Here are some examples:
+\begin{itemize}
+  \item If one specific transition rate $\zeta_{ij} = r$ is known, append:
+  \begin{equation}
+    \left[\begin{array}{c} r \end{array}\right] =
+    \left[\begin{array}{ccccc} 0 & \cdots & \zeta_{ij} & \cdots & 0 \end{array}\right]
+  \end{equation}
+  \item If the average duration in a given activity class $d_k$ is known, append:
+  \begin{gather}
+    \left[\begin{array}{c} {d_k}^{-1} - \mu x_k \end{array}\right] =
+    \left[\begin{array}{ccc} e_{1} & \cdots & e_{\N^2} \end{array}\right]
+    \shortintertext{where}
+    e_{n} = \begin{cases}
+    x_n & n = j \enspace\mathrm{where}\enspace z_k = \zeta_{ij}\\
+    0   & \mathrm{else}
+    \end{cases}\nonumber
+    \shortintertext{since}
+    d_k = {\left( \mu x_k + \sum_{j} \zeta_{ij} x_j \right)}^{-1}
+  \end{gather}
+  \item If a crude control over the overall magnitude of turnover is desired
+  (L1-norm of $\zeta$ = $Z$), append:
+  \begin{equation}
+    \left[\begin{array}{c} Z \end{array}\right] =
+    \left[\begin{array}{ccc} 1 & \cdots & 1 \end{array}\right]
+  \end{equation}
+\end{itemize}
+The necessary number of additional constraints to yield
+a fully determined system is $\N\times\N - 2\thinspace\N$.
+While it is possible to construct such a system for a given $\N$,
+most sets of constraints won't easily fill this gap for any $\N$.
+For example, specifying the durations for all activity levels $\bm{d}$
+yields $\N$ additional constraints.
+For $\N = 3$, this happily yields a unique solution,
+but for $\N = 4$, we will still have $(\N\times\N - 2\thinspace\N) - \N = 4$ degrees of freedom,
+and so on.
+Still, this flexibility can certainly be useful to better match any available data.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Conclusion}
+We have resolved a relationship between some typically available demographic parameters
+and rates of group turnover $\zeta$ which yield a particular steady-state distribution.
+This allows us to compute $\zeta$ on the fly,
+as shown in the \texttt{zetafun} function in \nameref{ap:code}.
+Additional linear constraints can be considered when solving for $\zeta$,
+represented by the optional arguments \texttt{bprime} and \texttt{Aprime} to \texttt{zetafun}.
+Bounds on $\zeta$ can also be considered (e.g.\ \texttt{bounds}),
+depending on the method used to solve the system.
+\par
+Finally, it should be noted that the analysis here has not considered
+disease-attributable death,
+a potentially serious limitation.
+Methods to ensure demographic stability in the face of significant disease-attributable death,
+or even if it is suitable to do so,
+should be the subject of future work.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage\section*{Appendix A: Example Systems}\label{ap:eg-sys}
+Here we show examples of the system:
+\begin{equation}
+\nu (\bm{x} - \bm{p}) = A \thinspace \bm{z}
+\end{equation}
+for $\N = 2$ and $\N = 3$.
+% ==================================================================================================
+\subsection*{$\bm{\mathrm{N}}$ = 2}
+\begin{equation}
+\left[\begin{array}{c}
+\nu (x_1 - p_1) \\
+\nu (x_2 - p_2) 
+\end{array}\right]
+= 
+\left[\begin{array}{cccc}
+\cdot &  x_2  & -x_1  & \cdot \\
+\cdot & -x_2  &  x_1  & \cdot
+\end{array}\right]
+\left[\begin{array}{c}
+\zeta_{11} \\ \zeta_{12} \\ \zeta_{21} \\ \zeta_{22}
+\end{array}\right]
+\end{equation}
+% ==================================================================================================
+\subsection*{$\bm{\mathrm{N}}$ = 3}
+\begin{equation}
+\left[\begin{array}{c}
+\nu (x_1 - p_1) \\
+\nu (x_2 - p_2) \\
+\nu (x_3 - p_3) 
+\end{array}\right]
+= 
+\left[\begin{array}{ccccccccc}
+\cdot &  x_2  &  x_3  & -x_1  & \cdot & \cdot & -x_1  & \cdot & \cdot \\
+\cdot & -x_2  & \cdot &  x_1  & \cdot &  x_3  & \cdot & -x_2  & \cdot \\
+\cdot & \cdot & -x_3  & \cdot & \cdot & -x_3  &  x_1  &  x_2  & \cdot 
+\end{array}\right]
+\left[\begin{array}{c}
+\zeta_{11} \\ \zeta_{12} \\ \zeta_{13} \\ \zeta_{21} \\ \zeta_{22} \\ \zeta_{23} \\ \zeta_{31} \\ \zeta_{32} \\ \zeta_{33}
+\end{array}\right]
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage\section*{Appendix B: Python Code}\label{ap:code}
+\lstinputlisting[style=Python]{py/turnover.py}
+\textbf{Result}:
+\lstinputlisting[style=Python]{py/result.txt}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document}

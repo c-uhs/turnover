@@ -1,0 +1,15 @@
+\usetikzlibrary{positioning,arrows.meta,quotes,calc}
+\tikzset{%
+  arrow/.style    = { ->, >=Latex,  line width = 0.4mm, rounded corners, draw = black, every edge/.style={arrow} },
+  arrow/.style    = { >=Latex,  very thick, rounded corners,
+                      fill = #1, draw = #1 },
+  tbox/.style     = { fill = #1!20!white, draw = #1!80!white, thick, align = center,
+                      minimum width = 1cm, node distance = 1.5cm }
+}
+\newcommand{\connectall}[2]{
+  \foreach \s in {#1} {
+    \foreach \t in {#2} {
+      \draw[arrow,<->] (\s) -- (\t);
+    }
+  }
+}
