@@ -25,12 +25,12 @@
 \node(d2) [right = 1.5cm of i2] {$\mu \cdot x_2$};
 \node(d3) [right = 1.5cm of i3] {$\mu \cdot x_3$};
 
-\draw[arrow=purple] (i1) edge["$\zeta_{21}$", swap, bend right=20] (i2); 
-\draw[arrow=purple] (i2) edge["$\zeta_{12}$", swap, bend right=20] (i1);
-\draw[arrow=purple] (i3) edge["$\zeta_{23}$", swap, bend right=20] (i2); 
-\draw[arrow=purple] (i2) edge["$\zeta_{32}$", swap, bend right=20] (i3);
-\draw[arrow=purple] (i1) edge["$\zeta_{31}$", swap, bend right=55, near end] (i3); 
-\draw[arrow=purple] (i3) edge["$\zeta_{13}$", swap, bend right=55, near end] (i1);
+\draw[arrow=purple] (i1) edge["$\zeta_{12}$", swap, bend right=20] (i2); 
+\draw[arrow=purple] (i2) edge["$\zeta_{21}$", swap, bend right=20] (i1);
+\draw[arrow=purple] (i3) edge["$\zeta_{32}$", swap, bend right=20] (i2); 
+\draw[arrow=purple] (i2) edge["$\zeta_{23}$", swap, bend right=20] (i3);
+\draw[arrow=purple] (i1) edge["$\zeta_{13}$", swap, bend right=55, near end] (i3); 
+\draw[arrow=purple] (i3) edge["$\zeta_{31}$", swap, bend right=55, near end] (i1);
 \draw[arrow=black]  (b1) -- (i1);
 \draw[arrow=black]  (b2) -- (i2);
 \draw[arrow=black]  (b3) -- (i3);

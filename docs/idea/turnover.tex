@@ -13,7 +13,7 @@
 
 \title{\vspace{-1.2cm}Automatically Computing Turnover\\for Steady-State Population Distributions}
 \author{Jesse Knight}
-\date{July 16, 2018}
+\date{July 16, 2018\\\footnotesize{Revision 1: October 9, 2018\\[-1em]}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -65,15 +65,15 @@ the proportion of the population in activity group $i \in [1 \dots \N]$ as $x_i$
 and the vector of all $x_i$ as $\bm{x}$.
 Since turnover transitions can occur between any two groups, in either direction,
 we denote the turnover rates as an $\N \times \N$ matrix $\zeta$,
-where $\zeta_{ij}$ corresponds to the transition $x_i \leftarrow x_j$.
+where $\zeta_{ij}$ corresponds to the transition $x_i \rightarrow x_j$.
 A verbose definition is given in Eq.~(\ref{eq:zeta}),
 where the diagonal elements are denoted $*$ since they are not useful.
 \begin{equation}\label{eq:zeta}
 \zeta = \left[\begin{array}{cccc}
-	         *          & x_1  \leftarrow x_2 & \cdots & x_1 \leftarrow x_\N \\[0.5em]
-	x_2  \leftarrow x_1 &          *          & \cdots & x_2 \leftarrow x_\N \\[0.5em]
-	      \vdots        &       \vdots        & \ddots &       \vdots        \\[0.5em]
-	x_\N \leftarrow x_1 & x_\N \leftarrow x_2 & \cdots &          *
+	         *           & x_1  \rightarrow x_2 & \cdots & x_1 \rightarrow x_\N \\[0.5em]
+	x_2  \rightarrow x_1 &          *           & \cdots & x_2 \rightarrow x_\N \\[0.5em]
+	      \vdots         &       \vdots         & \ddots &       \vdots         \\[0.5em]
+	x_\N \rightarrow x_1 & x_\N \rightarrow x_2 & \cdots &          *
 \end{array}\right]
 \end{equation}
 The rate of population entry is denoted $\nu$, and exit as $\mu$.
@@ -99,14 +99,15 @@ a target steady-state distribution for the vector $\bm{x}$.
 For a given activity level, the rate of change of the group is defined by the net flows, as in:
 \begin{equation}
   \frac{d}{dt}x_i
-= \nu \thinspace p_i + \sum_{j}{\zeta_{ij} \thinspace x_j}
-- \mu \thinspace x_i - \sum_{i}{\zeta_{ij} \thinspace x_i}
+= \nu \thinspace p_i + \sum_{j}{\zeta_{ji} \thinspace x_j}
+%- \mu \thinspace x_i - \sum_{j}{\zeta_{ij} \thinspace x_i} % confusing...
+- x_i \left( \mu + \sum_{j}{\zeta_{ij}} \right) % ugly
 \end{equation}
 In matrix form, we can write the entire system as:
 \begin{equation}\label{eq:sys-dxdt}
   \frac{d}{dt}\bm{x}
-= \nu \thinspace \bm{p} + {\left(\zeta \thinspace \bm{x}\right)}^{\mathsf{T}}
--  \mu \thinspace \bm{x} - \left(\bm{x}^{\mathsf{T}} \zeta\right)
+= \nu \thinspace \bm{p} + \left(\bm{x}^{\mathsf{T}} \zeta\right)
+- \bm{x} \left( \mu + \sum_{j}{\zeta_{ij}} \right)
 \end{equation}
 Let's assume that $\nu$, $\mu$, and $\bm{p}$ are known,
 and that we aim to find $\zeta$ which yields
@@ -120,7 +121,7 @@ and rearrange to give:%
 \footnote{Note that this system does not depend on $\mu$.}
 \begin{equation}
 \nu (\bm{x} - \bm{p}) =
-{\left(\zeta \thinspace \bm{x}\right)}^{\mathsf{T}} - \left(\bm{x}^{\mathsf{T}} \zeta\right)
+\left(\bm{x}^{\mathsf{T}} \zeta\right) - \bm{x} \sum_{j}{\zeta_{ij}}
 \end{equation}
 The right hand side can then be factored to give
 a linear system of $\bm{z} = \mathrm{vec}(\zeta)$, parametrized by $\bm{x}$:
@@ -175,7 +176,7 @@ In \nameref{ap:code}, the Limited-memory BFGS algorithm for bounded problems%
        {\texttt{optimize.minimize}}
   function from SciPy.}
 is used to minimize $\mathcal{J}(\bm{z}) = {\left|\left| A\bm{z} - \bm{b} \right|\right|}_2$,
-subject to $l \le z_i \le u, \enspace\forall i$,
+subject to bounds $l \le z_i \le u, \enspace\forall i$,
 providing a solution $\bm{z}$, which is reshaped to give $\zeta$.
 \par
 It should be noted that such optimizations should converge to zero, not just a small number,
@@ -193,24 +194,31 @@ these constraints can simply be appended to $\bm{b}$ and the rows of $A$ as in:
 =
 \left[\begin{array}{c}     A \\    A ' \end{array}\right]
 \end{equation}
-Here are some examples:
+Using the notation $n_{ij}$ to represent the vectorized index $ij$ so that
+$z_{n_{ij}} = \zeta_{ij}$,
+here are some examples:
 \begin{itemize}
   \item If one specific transition rate $\zeta_{ij} = r$ is known, append:
-  \begin{equation}
-    \left[\begin{array}{c} r \end{array}\right] =
-    \left[\begin{array}{ccccc} 0 & \cdots & \zeta_{ij} & \cdots & 0 \end{array}\right]
-  \end{equation}
-  \item If the average duration in a given activity class $d_k$ is known, append:
   \begin{gather}
-    \left[\begin{array}{c} {d_k}^{-1} - \mu x_k \end{array}\right] =
+    \left[\begin{array}{c} r \end{array}\right] =
     \left[\begin{array}{ccc} e_{1} & \cdots & e_{\N^2} \end{array}\right]
     \shortintertext{where}
     e_{n} = \begin{cases}
-    x_n & n = j \enspace\mathrm{where}\enspace z_k = \zeta_{ij}\\
-    0   & \mathrm{else}
+    1 & n = n_{ij}\\
+    0 & \mathrm{else}
+    \end{cases}
+  \end{gather}
+  \item If the average duration in a given activity class $d_{i}$ is known, append:
+  \begin{gather}
+    \left[\begin{array}{c} {d_{i}}^{-1} - \mu \end{array}\right] =
+    \left[\begin{array}{ccc} e_{1} & \cdots & e_{\N^2} \end{array}\right]
+    \shortintertext{where}
+    e_{n} = \begin{cases}
+    1 & n = n_{ij},\enspace j\in [1,\dots,\N] \\
+    0 & \mathrm{else}
     \end{cases}\nonumber
     \shortintertext{since}
-    d_k = {\left( \mu x_k + \sum_{j} \zeta_{ij} x_j \right)}^{-1}
+    d_k = {\left( \mu + \sum_{j}{\zeta_{kj}} \right)}^{-1}
   \end{gather}
   \item If a crude control over the overall magnitude of turnover is desired
   (L1-norm of $\zeta$ = $Z$), append:
@@ -262,8 +270,8 @@ for $\N = 2$ and $\N = 3$.
 \end{array}\right]
 = 
 \left[\begin{array}{cccc}
-\cdot &  x_2  & -x_1  & \cdot \\
-\cdot & -x_2  &  x_1  & \cdot
+\cdot & -x_1  &  x_2  & \cdot \\
+\cdot &  x_1  & -x_2  & \cdot
 \end{array}\right]
 \left[\begin{array}{c}
 \zeta_{11} \\ \zeta_{12} \\ \zeta_{21} \\ \zeta_{22}
@@ -279,9 +287,9 @@ for $\N = 2$ and $\N = 3$.
 \end{array}\right]
 = 
 \left[\begin{array}{ccccccccc}
-\cdot &  x_2  &  x_3  & -x_1  & \cdot & \cdot & -x_1  & \cdot & \cdot \\
-\cdot & -x_2  & \cdot &  x_1  & \cdot &  x_3  & \cdot & -x_2  & \cdot \\
-\cdot & \cdot & -x_3  & \cdot & \cdot & -x_3  &  x_1  &  x_2  & \cdot 
+\cdot & -x_1  & -x_1  &  x_2  & \cdot & \cdot &  x_3  & \cdot & \cdot \\
+\cdot &  x_1  & \cdot & -x_2  & \cdot & -x_2  & \cdot &  x_3  & \cdot \\
+\cdot & \cdot &  x_1  & \cdot & \cdot &  x_2  & -x_3  & -x_3  & \cdot 
 \end{array}\right]
 \left[\begin{array}{c}
 \zeta_{11} \\ \zeta_{12} \\ \zeta_{13} \\ \zeta_{21} \\ \zeta_{22} \\ \zeta_{23} \\ \zeta_{31} \\ \zeta_{32} \\ \zeta_{33}
