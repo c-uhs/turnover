@@ -1,0 +1,61 @@
+[
+  { "name": "index health state",
+    "idx": "hi",
+    "bins": ["S", "I", "R"],
+    "labels": [
+      "Susceptible",
+      "Infected",
+      "Recovered"
+    ]
+  },
+  { "name": "index gender",
+    "idx": "ki",
+    "bins": ["M", "W"],
+    "labels": [
+      "Men",
+      "Women"
+    ]
+  },
+  { "name": "index activity level",
+    "idx": "ii",
+    "bins": ["H", "M", "L"],
+    "labels": [
+      "High",
+      "Medium",
+      "Low"
+    ]
+  },
+  { "name": "partner health state",
+    "idx": "hp",
+    "bins": ["S", "I", "R"],
+    "labels": [
+      "Susceptible",
+      "Infected",
+      "Recovered"
+    ]
+  },
+  { "name": "partner gender",
+    "idx": "kp",
+    "bins": ["M", "W"],
+    "labels": [
+      "Men",
+      "Women"
+    ]
+  },
+  { "name": "partner activity level",
+    "idx": "ip",
+    "bins": ["H", "M", "L"],
+    "labels": [
+      "High",
+      "Medium",
+      "Low"
+    ]
+  },
+  { "name": "partnership type",
+    "idx": "p",
+    "bins": ["P"],
+    "labels": [
+      "partnership"
+    ]
+  }
+]

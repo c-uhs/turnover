@@ -1,0 +1,17 @@
+[
+  { "name": "all",  "title": "All",             "select": {}, "color": [0, 0, 0] },
+  { "name": "S",    "title": "Susceptible",     "select": { "hi": ["S"] }, "color": [  0, 204, 102]  },
+  { "name": "I",    "title": "Infected",        "select": { "hi": ["I"] }, "color": [204,   0,  51]  },
+  { "name": "R",    "title": "Recovered",       "select": { "hi": ["R"] }, "color": [153,  51, 255]  },
+  { "name": "W",    "title": "All Women",       "select": { "ki": ["W"] }, "color": [204,   0,   0] },
+  { "name": "M",    "title": "All Men",         "select": { "ki": ["M"] }, "color": [  0,   0, 204] },
+  { "name": "High", "title": "High Activity",   "select": { "ii": ["H"] }, "color": [ 34,  34,  34] },
+  { "name": "Med",  "title": "Medium Activity", "select": { "ii": ["M"] }, "color": [ 85,  85,  85] },
+  { "name": "Low",  "title": "Low Activity",    "select": { "ii": ["L"] }, "color": [187, 187, 187] },
+  { "name": "WH",   "title": "Women High",      "select": { "ki": ["W"], "ii": ["H"] }, "color": [102,   0,   0] },
+  { "name": "WM",   "title": "Women Medium",    "select": { "ki": ["W"], "ii": ["M"] }, "color": [255,   0,   0] },
+  { "name": "WL",   "title": "Women Low",       "select": { "ki": ["W"], "ii": ["L"] }, "color": [255, 153, 153] },
+  { "name": "MH",   "title": "Men High",        "select": { "ki": ["M"], "ii": ["H"] }, "color": [  0,   0, 102] },
+  { "name": "MM",   "title": "Men Medium",      "select": { "ki": ["M"], "ii": ["M"] }, "color": [  0,   0, 255] },
+  { "name": "ML",   "title": "Men Low",         "select": { "ki": ["M"], "ii": ["L"] }, "color": [153, 153, 255] }
+]

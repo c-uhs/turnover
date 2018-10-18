@@ -1,0 +1,54 @@
+[
+  { "name": "N0",
+    "desc": "initial population size",
+    "arr": {
+      "idxs": [],
+      "arr": 1000
+    }
+  },
+  { "name": "px",
+    "desc": "steady-state proportion of individuals",
+    "arr": {
+      "idxs": ["kp","ip"],
+      "arr": [[0.2,0.3,0.5],
+              [0.1,0.3,0.6]]
+    }
+  },
+  { "name": "tau",
+    "desc": "rate of treatment",
+    "arr": {
+      "idxs": [],
+      "arr": 0.1
+    }
+  },
+  { "name": "gamma",
+    "desc": "rate of loss of immunity",
+    "arr": {
+      "idxs": [],
+      "arr": 0.1
+    }
+  },
+  { "name": "eps",
+    "desc": "parameter controlling mixing: $0 \\Rightarrow$ assortative, $1 \\Rightarrow$ proportionate",
+    "arr": {
+      "idxs": [],
+      "arr": 1.0
+    }
+  },
+  { "name": "C",
+    "desc": "number of partnerships formed per year by each individual",
+    "arr": {
+      "idxs": ["ki", "ii", "p"],
+      "arr": [[[8],[3],[1]],
+              [[8],[3],[1]]]
+    }
+  },
+  { "name": "beta",
+    "desc": "probability of transmission per partnership",
+    "arr": {
+      "idxs": ["ki","kp"],
+      "arr": [[0.00, 0.04],
+              [0.08, 0.00]]
+    }
+  }
+]
