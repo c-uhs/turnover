@@ -1,0 +1,170 @@
+\documentclass{article}
+\usepackage{amsmath,bm,upgreek}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage[margin=2cm]{geometry}
+\usepackage[colorlinks,linkcolor=blue]{hyperref}
+% --------------------------------------------------------------------------------------------------
+\graphicspath{{figs/}{figs/tikz/}}
+\input{figs/tikz/tikz-style.tex}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+\numberwithin{equation}{section}
+\setlist[enumerate,1]{label=\arabic*.}
+\setlist[enumerate,2]{label*=\arabic*.}
+\renewcommand{\zeta}{\upzeta}
+\newcommand{\x}{\hat{x}}
+\newcommand{\z}{\hat{z}}
+\newcommand{\N}{\textsc{n}}
+\newcommand{\G}{\textsc{g}}
+% --------------------------------------------------------------------------------------------------
+\title{Disease Convection:\\
+  Modelling Population Turnover in Simulated Epidemics}
+\author{Jesse Knight}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\maketitle
+\tableofcontents
+\clearpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Background}
+
+% ==================================================================================================
+\subsection{Notation}
+We denote the variable representing
+the size of group $i \in [1 \dots \G]$ as $x_i$
+and the vector of all $x_i$ as $\bm{x}$.
+The total population size is denoted $\N$,
+and the proportions represented by each group by $\x_i = x_i \N^{-1}$.
+The rate of population entry into group $i$ is denoted by $\nu_i$, and
+the rate of exit by $\mu_i$
+(which may include group-specific disease-attributable death).
+The proportion of the entering population who are in group $i$,
+which may not be equal to the proportion of the current population in group $i$,
+is denoted $\z_i$.
+Since the rate of entry $\nu_i$ is typically expressed as
+a function of the total population size $\N$,
+we model each group in the entering population $\bm{z}$
+as having size $z_i = \z_i \N$.
+%This somewhat awkwardly implies the existence of a population $\bm{z}$
+%which is not included in the model, but which can be thought of as
+%the stream of individuals who enter the model.
+\par
+Turnover transitions can occur between any two groups, in either direction;
+therefore we denote the turnover rates as a $\G \times \G$ matrix $\zeta$,
+where $\zeta_{ij}$ corresponds to the transition $x_i \rightarrow x_j$.
+An explicit definition is given in Eq.~(\ref{eq:zeta}),
+where the diagonal elements are denoted $*$ since they represent
+transitions from a group to itself, which is inconsequential.
+\begin{equation}\label{eq:zeta}
+\zeta = \left[\begin{array}{cccc}
+         *           & x_1  \rightarrow x_2 & \cdots & x_1 \rightarrow x_\G \\[0.5em]
+x_2  \rightarrow x_1 &          *           & \cdots & x_2 \rightarrow x_\G \\[0.5em]
+      \vdots         &       \vdots         & \ddots &       \vdots         \\[0.5em]
+x_\G \rightarrow x_1 & x_\G \rightarrow x_2 & \cdots &          *
+\end{array}\right]
+\end{equation}
+These transition flows and the associated rates are summarized for $\G = 3$ in Figure~\ref{fig:system}.
+\begin{figure}[h]
+  \centering\input{figs/tikz/system-tikz.tex}
+  \caption{System of compartments and flows among them for $\G = 3$}
+  \label{fig:system}
+\end{figure}
+% ==================================================================================================
+\subsection{Data Sources}
+No doubt, the system in Figure~\ref{fig:system} is pretty,
+but how can this model be parametrized
+-- which data can be used to define the values of
+$\N$, $\bm{x}$, $\bm{z}$, $\bm{\nu}$, $\bm{\mu}$, and $\zeta$\thinspace?
+% --------------------------------------------------------------------------------------------------
+\subsubsection{Population Size $N$}
+% --------------------------------------------------------------------------------------------------
+\subsubsection{Population Proportions $x$}
+% --------------------------------------------------------------------------------------------------
+\subsubsection{Entering Proportions $z$}
+% --------------------------------------------------------------------------------------------------
+\subsubsection{Entry $\nu$ and Exit $\mu$}
+% --------------------------------------------------------------------------------------------------
+\subsubsection{Turnover $\zeta$}
+% ==================================================================================================
+\subsection{Approaches to Turnover}
+In this section, we will examine previous approaches to modelling turnover
+and highlight their assumptions.
+% --------------------------------------------------------------------------------------------------
+\subsubsection{Assumptions}
+The major assumptions which might be made when modelling turnover are summarized as follows:
+\begin{enumerate} % TODO: work in progress
+  \item \label{ass:zeta=0} There is no turnover: $\zeta_{ij} = 0$
+  \item \label{ass:const} Parameter values are constant:
+  \begin{enumerate}
+    \item \label{ass:const-N} The population size $\N$ does not change with time
+    \item \label{ass:const-x} The proportions of each group $\x_i$ do not change with time
+    \item \label{ass:const-z} The proportions of the entering population $\z_i$ to not change with time
+    \item \label{ass:const-nu-mu} The rates of entry $\nu_i$ and exit $\mu_i$ do not change with time
+    \item \label{ass:const-zeta} The rates of turnover $\zeta_{ij}$ do not change with time
+  \end{enumerate}
+  \item \label{ass:know} Parameter values are known:
+  \begin{enumerate}
+    \item \label{ass:know-N} The population size $\N$ is known
+    \item \label{ass:know-x} The proportions of one or more groups $\x_i$ are known
+    \item \label{ass:know-z} The proportions of the entering population $\z_i$ are known
+    \item \label{ass:know-nu-mu} The rates of entry $\nu_i$ and exit $\mu_i$ are known
+    \item \label{ass:know-zeta-i} The proportion of group $i$ who transfer to group $j$ in a given year is known: $\zeta_{ij}$
+    \item \label{ass:know-dur-i} The average duration of an individual in group $i$ is known: $D_i$
+  \end{enumerate}
+  \item \label{ass:equal} Some parameters are equal:
+  \begin{enumerate}
+    \item \label{ass:z=x} The group proportions in the entering population are equal to those in the general population: $\z_i = \x_i$
+    \item \label{ass:one-nu} The rate of entry into the population is the same for all groups: $\nu_i = \nu, \enspace\forall i$
+    \item \label{ass:one-mu} The rate of exit from the population is the same for all groups: $\mu_i = \mu, \enspace\forall i$
+  \end{enumerate}
+\end{enumerate}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Methods}
+% ==================================================================================================
+\subsection{Equations}
+In this work, we propose a framework for implementing turnover,
+namely methods for estimating the parameters outlined in Figure~\ref{fig:system},
+given a that some are already known from data.
+This framework is rooted in a set of equations, which we can summarize as follows:
+\begin{enumerate}
+  \item \label{sys:mass-balance}\textbf{Mass Balance:}
+  the rate of change of group $i$ is equal to the net sum of the flows in and out of the group:
+  \begin{equation}\label{eq:mass-balance}
+    \frac{d}{dt}x_i
+    = \nu_i \thinspace z_i + \sum_{j}{\zeta_{ji} \thinspace x_j}
+    - x_i \left( \mu_i + \sum_{j}{\zeta_{ij}} \right)
+  \end{equation}
+% TODO: this needs review due to nonlinearities of attributable death
+%  \item \label{sys:growth}\textbf{Population Growth:}
+%  the total growth rate of the population $G$ is simply entry minus exit:
+%  \begin{equation}
+%    G = \sum_i \nu_i z_i - \sum_i \mu_i x_i
+%  \end{equation}
+  \item \label{sys:duration}\textbf{Duration:}
+  the average duration in group $i$, $D_i$, is the inverse of all efferent flow rates:
+  \begin{equation}
+    D_i = {\left(\mu_i + \sum_{j}{\zeta_{ij}}\right)}^{-1}
+  \end{equation}
+\end{enumerate}
+
+% ==================================================================================================
+\subsection{Solving the System}
+% TODO: from idea/turnover.tex
+% ==================================================================================================
+\subsection{Experiment}
+In this section, we introduce a simple epidemic model.
+With this model, we aim to answer the following questions:
+\begin{enumerate}
+  \item What are the differences in the simulated epidemic using different turnover implementations?
+\end{enumerate}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Results}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Discussion}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Conclusions}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

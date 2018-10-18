@@ -1,0 +1,38 @@
+
+\newcommand{\colorx}{blue}
+\newcommand{\colori}{\colorx!40!white}
+\newcommand{\coloro}{\colorx!60!black}
+\newcommand{\colort}{\colorx!50!green}
+\newcommand{\colord}{\colorx!50!red}
+
+\begin{tikzpicture}
+\node(x1) [tbox=\colorx] at (0.0,0.0)     {$x_1$};
+\node(x2) [tbox=\colorx, below = of x1]   {$x_2$};
+\node(x3) [tbox=\colorx, below = of x2]   {$x_3$};
+\node(i1) [tbox=\colori, left  = 2cm of x1] {$z_1$};
+\node(i2) [tbox=\colori, left  = 2cm of x2] {$z_2$};
+\node(i3) [tbox=\colori, left  = 2cm of x3] {$z_3$};
+\node(o1) [,   right = 2cm of x1] {};
+\node(o2) [,   right = 2cm of x2] {};
+\node(o3) [,   right = 2cm of x3] {};
+%\node(d1) [,   above right = 0.5cm and 2.5cm of x1] {};
+%\node(d2) [,   above right = 0.5cm and 2.5cm of x2] {};
+%\node(d3) [,   above right = 0.5cm and 2.5cm of x3] {};
+
+\draw[arrow=\colort] (x1) edge["$\zeta_{12}$", swap, bend right=20] (x2); 
+\draw[arrow=\colort] (x2) edge["$\zeta_{21}$", swap, bend right=20] (x1);
+\draw[arrow=\colort] (x3) edge["$\zeta_{32}$", swap, bend right=20] (x2); 
+\draw[arrow=\colort] (x2) edge["$\zeta_{23}$", swap, bend right=20] (x3);
+\draw[arrow=\colort] (x1) edge["$\zeta_{13}$", swap, bend right=55, near end] (x3); 
+\draw[arrow=\colort] (x3) edge["$\zeta_{31}$", swap, bend right=55, near end] (x1);
+\draw[arrow=\colori] (i1) edge["$\nu_1$", near start] (x1);
+\draw[arrow=\colori] (i2) edge["$\nu_2$", near start] (x2);
+\draw[arrow=\colori] (i3) edge["$\nu_3$", near start] (x3);
+\draw[arrow=\coloro] (x1) edge["$\mu_1$", near end]   (o1);
+\draw[arrow=\coloro] (x2) edge["$\mu_2$", near end]   (o2);
+\draw[arrow=\coloro] (x3) edge["$\mu_3$", near end]   (o3);
+%\draw[arrow=\colord] (x1) edge["$\phi_1$", near end]  (d1);
+%\draw[arrow=\colord] (x2) edge["$\phi_2$", near end]  (d2);
+%\draw[arrow=\colord] (x3) edge["$\phi_3$", near end]  (d3);
+
+\end{tikzpicture}
