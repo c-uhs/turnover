@@ -1,0 +1,3 @@
+[submodule "code/epi-model"]
+	path = code/epi-model
+	url = https://github.com/c-uhs/epi-model.git
