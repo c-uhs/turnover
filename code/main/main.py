@@ -9,17 +9,23 @@ import transmit
 # external imports
 import numpy as np
 
+ATTRDEATHS = False
+
 def dxfun(X,t,P,dxout={}):
   dX = X*0
   # births and deaths
-  dX.update(P['nu']*P['pz']*X.sum(), **{'hi':'S'}, accum=np.add)
+  dX.update(P['nu']*P['pe']*X.sum(), hi='S', accum=np.add)
   dX.update(P['mu']*X, accum=np.subtract)
   # attributable death
-  # dX.update(P['phi']*X.iselect(**{'hi':'I'}), **{'hi':'I'}, accum=np.subtract)
+  if ATTRDEATHS:
+    dX.update(X.iselect(hi='I')*P['phi'], hi='I', accum=np.subtract)
   # turnover
   Xi = X.expand(Space(X.space.dims+[modelutils.partner(X.space.dim('ii'))]),norm=False)
   for ki in ['M','W']:
-    zeta = transmit.zeta_fun(P['nu'],P['mu'],P['pz'].islice(ki=ki),P['px'].islice(ki=ki))
+    phi = P['phi'] * X.islice(ki=ki,hi='I') / X.islice(ki=ki).isum('hi')
+    if not ATTRDEATHS:
+      phi = 0*phi
+    zeta = transmit.zeta_fun(P['nu'],P['mu'],phi,P['pe'].islice(ki=ki),P['px'].islice(ki=ki))
     XZk = Xi.iselect(ki=ki) * zeta
     dX.update(XZk.isum('ip'),ki=ki,accum=np.subtract)
     dX.update(XZk.isum('ii'),ki=ki,accum=np.add)
@@ -37,21 +43,23 @@ def dxfun(X,t,P,dxout={}):
 
 def initfun(model,spaces):
   P = model.params
-  P['beta'] = P['beta'].expand(spaces['super']) # expand beta
+  P['beta'] = P['beta'].expand(spaces['super']) * P['f-beta-h'].expand(spaces['super'])
   model.X0.update(P['N0']*P['px'],hi='S') # initial condition
 
 def infectfun(sim):
   sim.init_x(transmit.transfer(
-    X = sim.X.islice(t=sim.t[0]),
+    X = sim.X,
     src = {'hi':'S'},
     dst = {'hi':'I'},
-    N   = 1))
+    both = {'t':sim.t[0]},
+    N = 1))
   return sim
 
-dims   = initutils.objs_from_json(Dimension,            os.path.join('specs','dimensions.json'))
-spaces = initutils.objs_from_json(initutils.make_space, os.path.join('specs','spaces.json'),dims=dims.values())
-select = initutils.objs_from_json(Selector,             os.path.join('specs','selectors.json'))
-params = initutils.objs_from_json(initutils.make_param, os.path.join('specs','params.json'),space=spaces['super'])
+specdir = os.path.join(config.path['root'],'code','main','specs')
+dims   = initutils.objs_from_json(Dimension,            os.path.join(specdir,'dimensions.json'))
+spaces = initutils.objs_from_json(initutils.make_space, os.path.join(specdir,'spaces.json'),dims=dims.values())
+select = initutils.objs_from_json(Selector,             os.path.join(specdir,'selectors.json'))
+params = initutils.objs_from_json(initutils.make_param, os.path.join(specdir,'params.json'),space=spaces['super'])
 model = Model(X0 = Array(0,spaces['index']),
              dxfun = dxfun,
              params = params,
@@ -60,5 +68,6 @@ model = Model(X0 = Array(0,spaces['index']),
 t = np.around(np.arange(1975, 2025+1e-6, 1),6)
 sim = infectfun(Simulation(model,t))
 sim.solve()
+sim.X *= (sim.X.isum('t',keep=True))**-1
 # sim.plot(selectors=[select[name] for name in ['S','I','R']])
 sim.plot(selectors=[select[name] for name in ['WH','MH','WM','MM','WL','ML']])

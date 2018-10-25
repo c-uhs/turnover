@@ -17,14 +17,14 @@
   { "name": "px",
     "desc": "steady-state proportion of individuals",
     "arr": { "idxs": ["ki","ii"],
-             "arr": [[0.08,0.17,0.25],
+             "arr": [[0.15,0.15,0.20],
                      [0.05,0.15,0.30]] }
   },
-  { "name": "pz",
+  { "name": "pe",
     "desc": "proportion of entering individuals",
     "arr": { "idxs": ["ki","ii"],
-             "arr": [[0.15,0.15,0.20],
-                     [0.10,0.15,0.25]] }
+             "arr": [[0.10,0.15,0.25],
+                     [0.05,0.15,0.30]] }
   },
   { "name": "tau",
     "desc": "rate of treatment",
@@ -55,7 +55,12 @@
   { "name": "beta",
     "desc": "probability of transmission per partnership",
     "arr": { "idxs": ["ki","kp"],
-             "arr": [[0.00, 0.04],
-                     [0.08, 0.00]] }
+             "arr": [[0.00, 0.10],
+                     [0.20, 0.00]] }
+  },
+  { "name": "f-beta-h",
+    "desc": "factor change in beta per health state",
+    "arr": { "idxs": ["hp"],
+             "arr": [0.0, 1.0, 0.0] }
   }
 ]
