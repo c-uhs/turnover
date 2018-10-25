@@ -1,3 +1,6 @@
+from scipy.optimize import minimize
+import numpy as np
+
 def zeta_fun(ri,ro,rd,xi,xo,D=None,bprime=None,Aprime=None):
   r"""Compute the turnover matrix to yield a steady-state population distribution
 

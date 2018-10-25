@@ -6,10 +6,11 @@ from space import *
 from simulation import *
 import initutils
 import transmit
+import test
 # external imports
 import numpy as np
 
-ATTRDEATHS = False
+ATTRDEATHS = True
 
 def dxfun(X,t,P,dxout={}):
   dX = X*0
@@ -25,7 +26,7 @@ def dxfun(X,t,P,dxout={}):
     phi = P['phi'] * X.islice(ki=ki,hi='I') / X.islice(ki=ki).isum('hi')
     if not ATTRDEATHS:
       phi = 0*phi
-    zeta = transmit.zeta_fun(P['nu'],P['mu'],phi,P['pe'].islice(ki=ki),P['px'].islice(ki=ki))
+    zeta = test.zeta_fun(P['nu'],P['mu'],phi,P['pe'].islice(ki=ki),P['px'].islice(ki=ki))
     XZk = Xi.iselect(ki=ki) * zeta
     dX.update(XZk.isum('ip'),ki=ki,accum=np.subtract)
     dX.update(XZk.isum('ii'),ki=ki,accum=np.add)
