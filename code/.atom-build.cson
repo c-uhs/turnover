@@ -1,4 +1,9 @@
 {
   "cmd": "python3 main/main.py",
   "name": "main",
+  "targets": {
+    "symbolic": {
+      "cmd": "python3 symbolic/solve-symbolic.py"
+    }
+  }
 }
