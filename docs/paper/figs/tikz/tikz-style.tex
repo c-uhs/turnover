@@ -1,11 +1,14 @@
 \usepackage{tikz}
+\usepackage{tikz-qtree}
 \usetikzlibrary{positioning,arrows.meta,quotes,calc}
 \tikzset{%
   arrow/.style    = { ->, >=Latex,  line width = 0.4mm, rounded corners, draw = black, every edge/.style={arrow} },
   arrow/.style    = { ->, >=Latex,  very thick, rounded corners,
                       fill = #1, draw = #1 },
   tbox/.style     = { fill = #1!20!white, draw = #1!80!white, thick, align = center,
-                      minimum width = 0.8cm, node distance = 1.5cm }
+                      minimum width = 0.8cm, minimum height = 0.6cm, node distance = 1.5cm },
+  leaf/.style     = { fill = #1!20!white, draw = #1!80!white, thick, align = center, rounded corners = 0.3cm, grow = down,
+                      minimum width = 1.2cm, minimum height = 0.6cm, node distance = 1.5cm }
 }
 \newcommand{\connectall}[2]{
   \foreach \s in {#1} {
