@@ -56,26 +56,37 @@ def zeta_fun(ri,ro,rd,xi,xo,D=None,bprime=None,Aprime=None):
   # solve the system
   jfun = lambda z: np.linalg.norm((np.dot(A,z)-b),2)
   # z0   = np.dot(np.linalg.pinv(A),b)
-  # print(z0)
   z0 = np.zeros((N*N-N,1))
   out  = minimize(jfun, z0, bounds = [(0.00,0.50) for i in z0],
                             method = 'L-BFGS-B', options = {'ftol':1e-8})
   z  = out['x']
   if not (out['fun'] < 1e-8):
     print('Warning: zeta_fun did not reach zero; final jfun = {}'.format(out['fun']))
-    dz = 0.0001
-    zi = np.arange(0,0.02,dz)
-    zj = np.arange(0,0.02,dz)
-    ij = [2,5]
-    J = np.array([[ jfun([ i if k == ij[0] else  j if k == ij[1] else zk \
-      for k,zk in enumerate(z)]) \
-        for i in zi]
-          for j in zj])
-    import matplotlib.pyplot as plt
-    plt.imshow(J**-1,cmap='magma')
-    plt.plot(z[ij[0]]/dz,z[ij[1]]/dz,'bx')
-    plt.show()
-    return None
+    # DEBUG overview:
+    # We think the system is underdetermined, so it should reach zero exactly,
+    # not just a minimum. However, when attributable death is considered,
+    # we never reach zero. Trying to understand why this is the case.
+    # cf. https://math.stackexchange.com/questions/2977829
+    # cf. /code/symbolic/
+    # DEBUG 1) print the system
+    # print(A)
+    # print(b)
+    # print(z,flush=True)
+    # DEBUG 2) plot a 2D slice of the 6D optimization space (all 6 values of z)
+    #          to check we are at the minimum (then error to exit...)
+    # dz = 0.0001
+    # zi = np.arange(0,0.02,dz)
+    # zj = np.arange(0,0.02,dz)
+    # ij = [2,5]
+    # J = np.array([[ jfun([ i if k == ij[0] else  j if k == ij[1] else zk \
+    #   for k,zk in enumerate(z)]) \
+    #     for i in zi]
+    #       for j in zj])
+    # import matplotlib.pyplot as plt
+    # plt.imshow(J**-1,cmap='magma')
+    # plt.plot(z[ij[0]]/dz,z[ij[1]]/dz,'bx')
+    # plt.show()
+    # return None
   if not out['success']:
     print('Warning: zeta_fun did not converge; final jfun = {}'.format(out['fun']))
   # return zeta as a matrix

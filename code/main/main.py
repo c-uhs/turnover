@@ -10,22 +10,17 @@ import test
 # external imports
 import numpy as np
 
-ATTRDEATHS = True
-
 def dxfun(X,t,P,dxout={}):
   dX = X*0
   # births and deaths
   dX.update(P['nu']*P['pe']*X.sum(), hi='S', accum=np.add)
   dX.update(P['mu']*X, accum=np.subtract)
   # attributable death
-  if ATTRDEATHS:
-    dX.update(X.iselect(hi='I')*P['phi'], hi='I', accum=np.subtract)
+  dX.update(X.iselect(hi='I')*P['phi'], hi='I', accum=np.subtract)
   # turnover
   Xi = X.expand(Space(X.space.dims+[modelutils.partner(X.space.dim('ii'))]),norm=False)
   for ki in ['M','W']:
     phi = P['phi'] * X.islice(ki=ki,hi='I') / X.islice(ki=ki).isum('hi')
-    if not ATTRDEATHS:
-      phi = 0*phi
     zeta = test.zeta_fun(P['nu'],P['mu'],phi,P['pe'].islice(ki=ki),P['px'].islice(ki=ki))
     XZk = Xi.iselect(ki=ki) * zeta
     dX.update(XZk.isum('ip'),ki=ki,accum=np.subtract)
