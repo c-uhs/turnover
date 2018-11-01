@@ -34,8 +34,6 @@
 % --------------------------------------------------------------------------------------------------
 \title{Risk Group Dynamics in Simulated STI Epidemics}
 \author{Jesse Knight}
-\usepackage{halloweenmath}
-\date{$\mathghost$ October 31, 2018 $\pumpkin$}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -57,16 +55,16 @@
 \begin{itemize}
   \item key factors in risk of HIV acquisition
   \item intro HIV modelling, prior work showing importance of heterogeneity
-  \item prior work on turnover, comment on need for ``equilibration''
+  \item comments on applicability of these concepts to non-HIV transmissible diseases
+        (other STI, non-S TI)
+  \item prior work on turnover, comment on need for ``equilibration'' / ``burn-in'' period
 \end{itemize}
-Some papers to include in Table~\ref{tab:prior-work-table}:
-\cite{Barnighausen2012,Cremin2013,Eaton2014,Estill2012,Granich2009,Hallett2008,Johnson2006,Phillips2011,Rosenberg2004,Shah2016}
-\par
 What do we mean by ``risk group dynamics''?
 \begin{enumerate}
   \item inclusion of risk groups at all (yes / no)
   \item inclusion of turnover among these groups (yes / no, how?)
   \item consideration of how groups are re-balanced given differential attributable death
+  -- subject of future work
 \end{enumerate}
 \par
 From \citet{Eaton2014}:
@@ -74,10 +72,13 @@ From \citet{Eaton2014}:
 -- the rate of transition from higher- to lower-risk groups and \textup{[\dots]} -- 
 were particularly important for simulating the observed prevalence trend in many different ways,
 as well as determining the intervention impact.}
+\par
+Some papers to include in Table~\ref{tab:prior-work-table}:
+\cite{Barnighausen2012,Cremin2013,Eaton2014,Estill2012,Granich2009,Hallett2008,Johnson2006,Phillips2011,Rosenberg2004,Shah2016}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{The System}\label{s:system}
 This section introduces a system of compartments, flows, and equations
-which describe a reasonably complete formulation of risk group dynamics.
+which can be used to describe risk group dynamics.
 \par
 We denote the variable representing
 the size of risk group $i \in [1, \dots, \G]$ as $x_i$
@@ -85,9 +86,9 @@ and the vector of all $x_i$ as $\bm{x}$.
 The total population size is denoted $\N = \sum_i x_i$,
 and the proportions represented by each group by $\x_i = x_i \N^{-1}$.
 The rate of population entry for all groups is denoted by $\nu$, and
-the rate of exit by $\mu$;
-this is separated from
-the rate of disease-attributable death, which varies by group and is denoted $\phi_i$.
+the rate of exit by $\mu$.
+We do not consider disease-attributable death, which may vary by group,
+though this will be the subject of future work.
 All rates have units \textit{per year} ($\mathrm{yr}^{-1}$).
 The proportion of the entering population who are in group $i$,
 which may not be equal to the proportion of the current population in group $i$,
@@ -113,18 +114,16 @@ x_\G \rightarrow x_1 & x_\G \rightarrow x_2 & \cdots &          *
 \end{equation}
 These transition flows and the associated rates are summarized for $\G = 3$ in Figure~\ref{fig:system}.
 \begin{figure}[h]
-  \centering\input{figs/tikz/system-tikz.tex}
+  \centering\input{figs/tikz/tikz-system.tex}
   \caption{System of compartments and flows between them for $\G = 3$}
   \label{fig:system}
 \end{figure}
 % ==================================================================================================
 \subsection{Parameterization}
-This section outlines methods for defining the values of parameters
-in the system described above,
+Next, we explore methods for estimating the values of parameters
+in the system described above
+($\nu$, $\mu$, $\bm{\x}$, $\bm{\e}$, and $\zeta$)
 directly from some commonly available sources of data.
-In particular, we are interested in estimating $\nu$, $\mu$, $\bm{\x}$, $\bm{\e}$, and $\zeta$,
-since $\phi$ is essentially a biological parameter
-whose value will not depend on the epidemic context.
 \par
 In most cases, there will not be sufficient data to directly estimate all parameters,
 especially $\zeta$.
@@ -143,7 +142,7 @@ If we know the annual growth rate over time $\mathcal{G}(t)$, then \dots
 If we know the duration of time spent in a particular group, then \dots
 
 \begin{equation}\label{eq:duration}
-  \mathcal{D}_i = {\left(\mu + \phi_i + \sum_{j}{\zeta_{ij}}\right)}^{-1}
+  \mathcal{D}_i = {\left(\mu + \sum_{j}{\zeta_{ij}}\right)}^{-1}
 \end{equation}
 
 If we know the proportion $z$ of group $i$ who transition to group $j$ in a given year, then \dots
@@ -158,7 +157,7 @@ is simply the sum of flows in / out of the group,
 \begin{equation}\label{eq:mass-balance}
   \frac{d}{dt}x_i
   = \nu \thinspace e_i + \sum_{j}{\zeta_{ji} \thinspace x_j}
-  - x_i \left( \mu + \phi_i + \sum_{j}{\zeta_{ij}} \right)
+  - \mu \thinspace x_i - \sum_{j}{\zeta_{ij} \thinspace x_i}
 \end{equation}
 While \eq{eq:mass-balance} is written in terms of absolute population sizes $\bm{x}$ and $\bm{e}$,
 it is equivalent to divide through by $\N$, yielding a system in terms of $\bm{\x}$ and $\bm{\e}$,
@@ -170,24 +169,24 @@ will be equal to the growth of the risk group, $\mathcal{G} x_i$.
 Substituting this quantity into \eq{eq:mass-balance}, we have
 \begin{equation}
   \mathcal{G}x_i = \nu \thinspace e_i + \sum_{j}{\zeta_{ji} \thinspace x_j}
-               - x_i \left( \mu + \phi_i + \sum_{j}{\zeta_{ij}} \right)
+                 - \mu \thinspace x_i - \sum_{j}{\zeta_{ij} \thinspace x_i}
 \end{equation}
 which, using the definition of $\mathcal{G}$ in \eq{eq:pop-growth}, we can simplify to
 \begin{equation}
   \nu \thinspace x_i
       = \nu \thinspace e_i + \sum_{j}{\zeta_{ji} \thinspace x_j}
-       - x_i \phi_i - x_i \sum_{j}{\zeta_{ij}}
+                           - \sum_{j}{\zeta_{ij} \thinspace x_i}
   \label{eq:system}
 \end{equation}
 % --------------------------------------------------------------------------------------------------
-\subsubsection{Solving for $\zeta$}
+\subsubsection{Solving for $\zeta$}\label{sss:solve-zeta}
 To solve for We rearrange \eq{eq:system} to obtain
 \footnote{
   Using matrix notation, we \textit{could} rewrite the RHS of \eq{eq:system-zeta} as:
   ${({\bm{x}}^{\mathsf{T}}\zeta)}^{\mathsf{T}} - \zeta \thinspace \bm{x}$, % is this correct? cf. https://math.stackexchange.com/questions/2977829
   but this doesn't actually help us too much here.}
 \begin{equation}\label{eq:system-zeta}
-  \nu \left( x_i - e_i \right) + \phi_i \thinspace x_i
+  \nu \left( x_i - e_i \right)
   = \sum_{j}{\zeta_{ji} \thinspace x_j}
   - \sum_{j}{\zeta_{ij} \thinspace x_i}
 \end{equation}
@@ -196,16 +195,15 @@ which, considering all $i$, can be refactored to yield a system of the form:
 \bm{b} = A \bm{z}
 \end{equation}
 where
-$\bm{b} = \nu (\bm{x} - \bm{e}) + \bm{\phi} \thinspace \bm{x}$ is a $\G$-length vector,
+$\bm{b} = \nu (\bm{x} - \bm{e})$ is a $\G$-length vector,
 $A$ is a ${\G}\times\G^2$ matrix of coefficients, and
 $\bm{z} = \mathrm{vec}(\zeta)$ is the $\G^2$-length vectorization of $\zeta$.
 % --------------------------------------------------------------------------------------------------
-\subsubsection{Solving for $e$}
+\subsubsection{Solving for $e$}\label{sss:solve-e}
 To solve for $\bm{e}$, we rearrange \eq{eq:system} to obtain
 \begin{equation}\label{eq:system-e}
 e_i = x_i - \left[ \sum_{j}{\zeta_{ji} \thinspace x_j}
-                 - \sum_{j}{\zeta_{ij} \thinspace x_i}
-                 - \phi_i \thinspace x_i \right] \nu^{-1}
+                 - \sum_{j}{\zeta_{ij} \thinspace x_i} \right] \nu^{-1}
 \end{equation}
 % This final rearrangement is probably not useful, since we rarely know zeta, e, but not nu ...
 %% --------------------------------------------------------------------------------------------------
@@ -213,7 +211,7 @@ e_i = x_i - \left[ \sum_{j}{\zeta_{ji} \thinspace x_j}
 %To solve for $\nu$, we rearrange \eq{eq:system} to obtain
 %\begin{equation}\label{eq:system-nu}
 %  \nu = \left[ \sum_{j}{\zeta_{ji} \thinspace x_j}
-%             - \sum_{j}{\zeta_{ij} \thinspace x_i} - \phi_i \thinspace x_i \right]
+%             - \sum_{j}{\zeta_{ij} \thinspace x_i} \right]
 %       {\left( x_i - e_i \right)}^{-1}
 %\end{equation}
 %We actually cannot use this system to solve for $\mu$, however,
@@ -221,8 +219,10 @@ e_i = x_i - \left[ \sum_{j}{\zeta_{ji} \thinspace x_j}
 % --------------------------------------------------------------------------------------------------
 \subsubsection{Numerical Solutions}
 * (from \texttt{/docs/idea/turnover.pdf}, \S~2.2)
+\par
+* This is only applicable to \ref{sss:solve-zeta}, should rearrange \dots
 % ==================================================================================================
-\subsection{Prior Work}
+\subsection{Previous Approaches}
 In this section, we will examine previous approaches to modelling
 risk groups in simulated HIV epidemics,
 and the assumptions inherent to these methods.
@@ -253,9 +253,10 @@ since there is only one risk group, $\G = 1$.
   \label{tab:prior-work-table}
   \input{prior-work-table.tex}
 \end{table}
+\clearpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Experiment}\label{s:exp}
-In this section, we explore differences in projected model outputs
+Next, we will explore differences in projected model outputs
 under different implementations of risk groups dynamics,
 using a simple model of heterosexual HIV transmission.
 % ==================================================================================================
@@ -265,55 +266,58 @@ and 3 levels of sexual activity (risk groups, $\G = 3$).
 \dots
 \begin{table}
   \centering\caption{Model parameters -- e.g. table}
-  \begin{tabular}{clc}
+  \label{tab:model-params}
+  \begin{tabular}{clcc}
   	\toprule
-  	Symbol  & Description                                 & Value \\
+  	Symbol  & Description                                 & Value & Sampled Range \\
   	\midrule
-  	$\beta$ & Probability of transmission per partnership & e.g.  \\
-  	        & \dots                                       &       \\
+  	$\beta$ & Probability of transmission per partnership & e.g.  & e.g. \\
+  	        & \dots                                       &       & \\
   	\bottomrule
   \end{tabular}
 \end{table}
-
 
 \begin{figure}
   \centering\input{figs/tikz/tikz-health-states.tex}
   \caption{Modelled health states}\label{fig:health-states}
 \end{figure}
-
 % ==================================================================================================
-\subsection{Risk Group Implementations}
+\subsection{Model Variants}\label{ss:model-variants}
 Drawing on the most common assumptions outlined in Box~\ref{box:assumptions},
 we define a series of model variants for investigation;
 these variants are summarized in Figure~\ref{fig:variant-tree}.
 \begin{figure}
   \centering\input{figs/tikz/tikz-tree.tex}
-  \caption{Summary of 10 model variants with respect to risk group dynamics.
+  \caption{Summary of 3 model variants with respect to models of population turnover.
     $\G$:~number of risk groups,
-    $\phi$:~rate of HIV-attributable death,
-    $RB$:~re-balancing method,
     $\zeta$:~rates of population turnover,
-    $(\cdot)$:~not applicable,
-    $(\times)$:~``no'',
-    $\Delta\bm{\e}$:~dynamic distribution of entering population,
-    $\Delta\zeta$:~dynamic rates of turnover,
-    $C$:~a constant,
-    $f$:~a function.}
+    $(\thinspace\cdot\thinspace)$:~not applicable,
+    $C$:~a constant}
   \label{fig:variant-tree}
 \end{figure}
 % ==================================================================================================
 \subsection{Simulations}
 The simulated epidemic is initialized in 1975 with \dots
 
+* Describe the scenario
 \par
-* (The outcomes in which differences will be quantified):
+This epidemic was simulated
+using each of the model variants described in \S~\ref{ss:model-variants}.
+In each case, we compared the model predictions across the variants
+regarding three outputs:
 \begin{enumerate}
   \item Projected prevalence for $t = 1975 - 2050$
   \item Population attributable fraction of highest risk group (variants with $\G = 3$ only)
   \item Estimated impact of \{intervention x -- ART?\} at reducing cumulative new infections between 2020 and 2050
 \end{enumerate}
+\dots
+\par
+Since the results of these comparisons are significantly affected by several model parameters,
+we performed a comprehensive sensitivity analysis.
+The parameter ranges specified in Table~\ref{tab:model-params} were used,
+and \dots
 
-\clearpage
+* (construct a GLM or something to describe the impacts?)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Results}\label{s:results}
 
@@ -337,78 +341,3 @@ The simulated epidemic is initialized in 1975 with \dots
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-% SOME OLD CONTENT
-% --------------------------------------------------------------------------------------------------
-\subsubsection{Assumptions}
-When considering risk groups,
-
-\begin{enumerate} % TODO: work in progress
-  \item \label{ass:zeta=0} There is no turnover: $\zeta_{ij} = 0$
-  \item \label{ass:const} Parameter values are constant:
-  \begin{enumerate}
-    \item \label{ass:const-N} The population size $\N$ does not change with time
-    \item \label{ass:const-x} The proportions of each group $\x_i$ do not change with time
-    \item \label{ass:const-e} The proportions of the entering population $\e_i$ to not change with time
-    \item \label{ass:const-nu-mu} The rates of entry $\nu$ and exit $\mu$ do not change with time
-    \item \label{ass:const-zeta} The rates of turnover $\zeta_{ij}$ do not change with time
-  \end{enumerate}
-  \item \label{ass:know} Parameter values are known:
-  \begin{enumerate}
-    \item \label{ass:know-N} The population size $\N$ is known
-    \item \label{ass:know-x} The proportions of one or more groups $\x_i$ are known
-    \item \label{ass:know-e} The proportions of the entering population $\e_i$ are known
-    \item \label{ass:know-nu-mu} The rates of entry $\nu$ and exit $\mu$ are known
-    \item \label{ass:know-zeta-i} The proportion of group $i$ who transfer to group $j$ in a given year is known: $\zeta_{ij}$
-    \item \label{ass:know-dur-i} The average duration of an individual in group $i$ is known: $D_i$
-  \end{enumerate}
-  \item \label{ass:equal} Some parameters are equal:
-  \begin{enumerate}
-    \item \label{ass:z=x} The group proportions in the entering population are equal to those in the general population: $\e_i = \x_i$
-  \end{enumerate}
-\end{enumerate}
-% ==================================================================================================
-\subsection{Data Sources}
-No doubt, the system in Figure~\ref{fig:system} is pretty,
-but how can this model be parametrized
--- which data can be used to define the values of
-$\N$, $\bm{x}$, $\bm{e}$, $\nu$, $\mu$, and $\zeta$\thinspace?
-% --------------------------------------------------------------------------------------------------
-\subsubsection{Population Size $N$}
-% --------------------------------------------------------------------------------------------------
-\subsubsection{Population Proportions $\x$}
-% --------------------------------------------------------------------------------------------------
-\subsubsection{Entering Proportions $\e$}
-% --------------------------------------------------------------------------------------------------
-\subsubsection{Entry $\nu$ and Exit $\mu$}
-% --------------------------------------------------------------------------------------------------
-\subsubsection{Turnover $\zeta$}
-
-  In high-prevalence epidemics, HIV-attributable death may affect
-  the relative proportions of risk groups $\bm{\x}$;
-  some models attempt to re-balance the risk groups using dynamic rate parameters
-
-In this work, we propose a framework for implementing turnover,
-namely methods for estimating the parameters outlined in Figure~\ref{fig:system},
-given a list of available data and plausible assumptions.
-This framework is rooted in a set of equations, which we can summarize as follows:
-\begin{enumerate}
-  \item \label{sys:mass-balance}\textbf{Mass Balance:}
-  the rate of change of group $i$ is equal to the net sum of the flows in and out of the group:
-  \begin{equation}%\label{eq:mass-balance}
-  \frac{d}{dt}x_i
-  = \nu \thinspace e_i + \sum_{j}{\zeta_{ji} \thinspace x_j}
-  - x_i \left( \mu + \phi_i + \sum_{j}{\zeta_{ij}} \right)
-  \end{equation}
-  \item \label{sys:duration}\textbf{Duration:}
-  the average duration in group $i$, $\mathcal{D}_i$, is the inverse of all efferent flow rates:
-  \begin{equation}%\label{eq:duration}
-  \mathcal{D}_i = {\left(\mu + \phi_i + \sum_{j}{\zeta_{ij}}\right)}^{-1}
-  \end{equation}
-  \item \label{sys:pop-growth}\textbf{Population Growth:}
-  the growth rate of group $i$, $\mathcal{G}_i$, is entry minus exit, relative to the group $x_i$.
-  \begin{equation}%\label{eq:pop-growth}
-  \mathcal{G}_i = \nu \thinspace x_i - \mu \thinspace x_i
-  \end{equation}
-\end{enumerate}

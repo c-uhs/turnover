@@ -1,12 +1,13 @@
-\newlength{\lvl}\setlength{\lvl}{1cm}
+\newlength{\lvl}\setlength{\lvl}{1.2cm}
+%\begin{tikzpicture}[
+%    level distance = \lvl,
+%    edge from parent/.append style = { draw = none } 
+%  ]
+%  \Tree [.{} [.{$\G$} [.{$\zeta$} ] ] ] 
+%\end{tikzpicture}\hspace{0.5\lvl}
 \begin{tikzpicture}[
     level distance = \lvl,
-    edge from parent/.append style = { draw = none } 
-  ]
-  \Tree [.{} [.{$\G$} [.{$\phi$} [.{$RB$} [.{$\zeta$} ] ] ] ] ]
-\end{tikzpicture}\hspace{0.5\lvl}
-\begin{tikzpicture}[
-    level distance = \lvl,
+    sibling distance = 0.4\lvl,
     every path/.append style = { thick },
     edge from parent path = {
       (\tikzparentnode) -- +(0.0,-0.5\lvl) -| (\tikzchildnode)
@@ -15,79 +16,11 @@
   \Tree
     [.{}
       [.\node[leaf=gray]{$\G=1$};
-        [.\node[leaf=gray]{$\phi=0$};
-          [.\node[leaf=gray]{$\cdot$};
-            [.\node[leaf=gray]{$\cdot$}; ]
-          ]
-        ]
-        [.\node[leaf=gray]{$\phi>0$};
-          [.\node[leaf=gray]{$\times$};
-            [.\node[leaf=gray]{$\cdot$}; ]
-          ]
-          [.\node[leaf=gray]{$\Delta \thinspace \bm{\e}$};
-            [.\node[leaf=gray]{$\cdot$}; ]
-          ]
-        ]
+        [.\node[leaf=gray]{$\cdot$}; ]
       ]
       [.\node[leaf=gray]{$\G=3$};
-        [.\node[leaf=gray]{$\phi=0$};
-          [.\node[leaf=gray]{$\cdot$};
-            [.\node[leaf=gray]{$\zeta = 0$}; ]
-            [.\node[leaf=gray]{$\zeta = C$}; ]
-          ]
-        ]
-        [.\node[leaf=gray]{$\phi>0$};
-          [.\node[leaf=gray]{$\times$};
-            [.\node[leaf=gray]{$\zeta = 0$}; ]
-            [.\node[leaf=gray]{$\zeta = C$}; ]
-          ]
-          [.\node[leaf=gray]{$\Delta \thinspace \bm{\e}$};
-            [.\node[leaf=gray]{$\zeta = 0$}; ]
-            [.\node[leaf=gray]{$\zeta = C$}; ]
-          ]
-          [.\node[leaf=gray]{$\Delta \thinspace \zeta$};
-            [.\node[leaf=gray]{$\zeta = f$}; ]
-          ]
-        ]
+        [.\node[leaf=gray]{$\zeta = 0$}; ]
+        [.\node[leaf=gray]{$\zeta = C$}; ]
       ]
     ]
 \end{tikzpicture}
-%  \Tree
-%[.{}
-%[.\node[leaf=blue!60!green]{$\G=1$};
-%[.\node[leaf=blue!30!green]{$\phi=0$};
-%[.\node[leaf=blue!30!green]{$\cdot$};
-%[.\node[leaf=blue!30!green]{$\cdot$}; ]
-%]
-%]
-%[.\node[leaf=blue!70!green]{$\phi>0$};
-%[.\node[leaf=blue!50!green]{$\times$};
-%[.\node[leaf=blue!50!green]{$\cdot$}; ]
-%]
-%[.\node[leaf=blue!90!green]{$\Delta \thinspace \bm{\e}$};
-%[.\node[leaf=blue!90!green]{$\cdot$}; ]
-%]
-%]
-%]
-%[.\node[leaf=gray]{$\G=3$};
-%[.\node[leaf=blue!50!red]{$\phi=0$};
-%[.\node[leaf=blue!50!red]{$\cdot$};
-%[.\node[leaf=blue!70!red]{$\zeta = 0$}; ]
-%[.\node[leaf=blue!30!red]{$\zeta = C$}; ]
-%]
-%]
-%[.\node[leaf=gray]{$\phi>0$};
-%[.\node[leaf=yellow!15!red]{$\times$};
-%[.\node[leaf=yellow!00!red]{$\zeta = 0$}; ]
-%[.\node[leaf=yellow!30!red]{$\zeta = C$}; ]
-%]
-%[.\node[leaf=gray]{$\Delta \thinspace \bm{\e}$};
-%[.\node[leaf=yellow!60!red]{$\zeta = 0$}; ]
-%[.\node[leaf=gray]{$\zeta = C$}; ]
-%]
-%[.\node[leaf=gray]{$\Delta \thinspace \zeta$};
-%[.\node[leaf=gray]{$\zeta = f$}; ]
-%]
-%]
-%]
-%]

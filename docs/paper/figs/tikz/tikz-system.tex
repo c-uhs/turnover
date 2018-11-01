@@ -6,18 +6,18 @@
 \newcommand{\colord}{\colorx!50!red}
 
 \begin{tikzpicture}
-\node(x1) [tbox=\colorx] at (0.0,0.0)     {$x_1$};
-\node(x2) [tbox=\colorx, below = of x1]   {$x_2$};
-\node(x3) [tbox=\colorx, below = of x2]   {$x_3$};
+\node(x1) [tbox=\colorx] at (0.0,0.0)       {$x_1$};
+\node(x2) [tbox=\colorx, below = of x1]     {$x_2$};
+\node(x3) [tbox=\colorx, below = of x2]     {$x_3$};
 \node(i1) [tbox=\colori, left  = 2cm of x1] {$e_1$};
 \node(i2) [tbox=\colori, left  = 2cm of x2] {$e_2$};
 \node(i3) [tbox=\colori, left  = 2cm of x3] {$e_3$};
-\node(o1) [,   right = 2.5cm of x1] {};
-\node(o2) [,   right = 2.5cm of x2] {};
-\node(o3) [,   right = 2.5cm of x3] {};
-\node(d1) [,   above right = 0.5cm and 2.5cm of x1] {};
-\node(d2) [,   above right = 0.5cm and 2.5cm of x2] {};
-\node(d3) [,   above right = 0.5cm and 2.5cm of x3] {};
+\node(o1) [tbox=white,   right = 2cm of x1] {};
+\node(o2) [tbox=white,   right = 2cm of x2] {};
+\node(o3) [tbox=white,   right = 2cm of x3] {};
+%\node(d1) [,   above right = 0.5cm and 2.5cm of x1] {};
+%\node(d2) [,   above right = 0.5cm and 2.5cm of x2] {};
+%\node(d3) [,   above right = 0.5cm and 2.5cm of x3] {};
 
 \draw[arrow=\colort] (x1) edge["$\zeta_{12}$", swap, bend right=20] (x2); 
 \draw[arrow=\colort] (x2) edge["$\zeta_{21}$", swap, bend right=20] (x1);
@@ -31,8 +31,8 @@
 \draw[arrow=\coloro] (x1) edge["$\mu$", near end]   (o1);
 \draw[arrow=\coloro] (x2) edge["$\mu$", near end]   (o2);
 \draw[arrow=\coloro] (x3) edge["$\mu$", near end]   (o3);
-\draw[arrow=\colord] (x1) edge["$\phi_1$", near end]  (d1);
-\draw[arrow=\colord] (x2) edge["$\phi_2$", near end]  (d2);
-\draw[arrow=\colord] (x3) edge["$\phi_3$", near end]  (d3);
+%\draw[arrow=\colord] (x1) edge["$\phi_1$", near end]  (d1);
+%\draw[arrow=\colord] (x2) edge["$\phi_2$", near end]  (d2);
+%\draw[arrow=\colord] (x3) edge["$\phi_3$", near end]  (d3);
 
 \end{tikzpicture}
