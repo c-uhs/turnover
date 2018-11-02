@@ -1,11 +1,11 @@
 [
   { "name": "index health state",
     "idx": "hi",
-    "bins": ["S", "I", "R"],
+    "bins": ["S", "I", "T"],
     "labels": [
       "Susceptible",
       "Infected",
-      "Recovered"
+      "Treated"
     ]
   },
   { "name": "index gender",
@@ -27,11 +27,11 @@
   },
   { "name": "partner health state",
     "idx": "hp",
-    "bins": ["S", "I", "R"],
+    "bins": ["S", "I", "T"],
     "labels": [
       "Susceptible",
       "Infected",
-      "Recovered"
+      "Treated"
     ]
   },
   { "name": "partner gender",

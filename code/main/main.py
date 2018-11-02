@@ -15,13 +15,10 @@ def dxfun(X,t,P,dxout={}):
   # births and deaths
   dX.update(P['nu']*P['pe']*X.sum(), hi='S', accum=np.add)
   dX.update(P['mu']*X, accum=np.subtract)
-  # attributable death
-  dX.update(X.iselect(hi='I')*P['phi'], hi='I', accum=np.subtract)
   # turnover
   Xi = X.expand(Space(X.space.dims+[modelutils.partner(X.space.dim('ii'))]),norm=False)
   for ki in ['M','W']:
-    phi = P['phi'] * X.islice(ki=ki,hi='I') / X.islice(ki=ki).isum('hi')
-    zeta = test.zeta_fun(P['nu'],P['mu'],phi,P['pe'].islice(ki=ki),P['px'].islice(ki=ki))
+    zeta = test.zeta_fun(P['nu'],P['mu'],P['pe'].islice(ki=ki),P['px'].islice(ki=ki))
     XZk = Xi.iselect(ki=ki) * zeta
     dX.update(XZk.isum('ip'),ki=ki,accum=np.subtract)
     dX.update(XZk.isum('ii'),ki=ki,accum=np.add)
@@ -29,9 +26,9 @@ def dxfun(X,t,P,dxout={}):
   lam = transmit.lambda_fun(X,P['C'],P['beta'],P['eps'],dxout).isum('p')
   transmit.transfer(dX, src={'hi':'S'}, dst={'hi':'I'}, N = lam.iselect(hi='S')*X.iselect(hi='S'))
   # treatment
-  transmit.transfer(dX, src={'hi':'I'}, dst={'hi':'R'}, N = X.iselect(hi='I') * P['tau'])
-  # loss of immunity
-  transmit.transfer(dX, src={'hi':'R'}, dst={'hi':'S'}, N = X.iselect(hi='R') * P['gamma'])
+  transmit.transfer(dX, src={'hi':'I'}, dst={'hi':'T'}, N = X.iselect(hi='I') * P['tau'])
+  # # full recovery -> for SIT model, we have no recovery
+  # transmit.transfer(dX, src={'hi':'T'}, dst={'hi':'S'}, N = X.iselect(hi='T') * P['gamma'])
   # dxout
   dxout.update({v:locals()[v] for v in dxout if v in locals()})
   # return
@@ -54,16 +51,20 @@ def infectfun(sim):
 specdir = os.path.join(config.path['root'],'code','main','specs')
 dims   = initutils.objs_from_json(Dimension,            os.path.join(specdir,'dimensions.json'))
 spaces = initutils.objs_from_json(initutils.make_space, os.path.join(specdir,'spaces.json'),dims=dims.values())
-select = initutils.objs_from_json(Selector,             os.path.join(specdir,'selectors.json'))
 params = initutils.objs_from_json(initutils.make_param, os.path.join(specdir,'params.json'),space=spaces['super'])
+select = initutils.objs_from_json(Selector,             os.path.join(specdir,'selectors.json'))
+accum  = initutils.objs_from_json(initutils.make_accum, os.path.join(specdir,'accumulators.json'),params=params)
 model = Model(X0 = Array(0,spaces['index']),
              dxfun = dxfun,
              params = params,
+             select = select,
              initfun = lambda model: initfun(model,spaces))
+
+model.params.collapse(accum,idxs=['ii'])
 # sim = model.equilibriate()
-t = np.around(np.arange(1975, 2025+1e-6, 1),6)
+t = np.around(np.arange(1975, 2025+1e-6, 0.1),6)
 sim = infectfun(Simulation(model,t))
 sim.solve()
 sim.X *= (sim.X.isum('t',keep=True))**-1
-# sim.plot(selectors=[select[name] for name in ['S','I','R']])
-sim.plot(selectors=[select[name] for name in ['WH','MH','WM','MM','WL','ML']])
+sim.plot(selectors=[model.select[name] for name in ['S','I','T']])
+sim.plot(selectors=[model.select[name] for name in ['WH','MH','WM','MM','WL','ML']])

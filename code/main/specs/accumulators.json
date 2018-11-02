@@ -1,0 +1,12 @@
+[
+  { "name": "wax",
+    "fun": "np.average",
+    "idxs": [],
+    "weights": "px",
+    "default": true
+  },
+  { "name": "sum",
+    "fun": "np.sum",
+    "idxs": []
+  }
+]
