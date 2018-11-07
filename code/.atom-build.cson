@@ -5,5 +5,8 @@
     "symbolic": {
       "cmd": "python3 symbolic/solve-symbolic.py"
     }
+    "surface": {
+      "cmd": "python3 surface/surface.py"
+    }
   }
 }
