@@ -12,14 +12,14 @@
   { "name": "mu",
     "desc": "rate of population exit",
     "arr": { "idxs": [],
-             "arr": 0.05 }
+             "arr": 0.03 }
   },
   { "name": "px",
     "desc": "steady-state proportion of individuals",
     "accum": "sum",
     "arr": { "idxs": ["ki","ii"],
-             "arr": [[0.10,0.15,0.25],
-                     [0.10,0.15,0.25]] }
+             "arr": [[0.05,0.15,0.30],
+                     [0.05,0.15,0.30]] }
   },
   { "name": "pe",
     "desc": "proportion of entering individuals",
@@ -27,6 +27,17 @@
     "arr": { "idxs": ["ki","ii"],
              "arr": [[0.10,0.15,0.25],
                      [0.10,0.15,0.25]] }
+  },
+  { "name": "dur",
+    "desc": "duration spent in each group",
+    "arr": { "idxs": ["ki","ii"],
+             "arr": [[  5 , 15 , 35 ],
+                     [  5 , 15 , 35 ]] }
+  },
+  { "name": "zeta",
+    "desc": "rate of turnover between activity groups",
+    "arr": { "idxs": ["ki","ii","ip"],
+             "arr": null }
   },
   { "name": "tau",
     "desc": "rate of treatment",
@@ -52,18 +63,21 @@
     "desc": "number of partnerships formed per year by each individual",
     "accum": "wax",
     "arr": { "idxs": ["ki", "ii", "p"],
-             "arr": [[[8],[3],[1]],
-                     [[8],[3],[1]]] }
+             "arr": [[[15],[5],[1]],
+                     [[15],[5],[1]]] }
   },
   { "name": "beta",
     "desc": "probability of transmission per partnership",
     "arr": { "idxs": ["ki","kp"],
-             "arr": [[0.00, 0.10],
-                     [0.20, 0.00]] }
+             "arr": [[0.00, 0.05],
+                     [0.10, 0.00]] }
   },
   { "name": "f-beta-h",
     "desc": "factor change in beta per health state",
-    "arr": { "idxs": ["hp"],
-             "arr": [0.0, 1.0, 0.0] }
+    "arr": { "idxs": ["hp","t"],
+             "t":    [1990, 2000],
+             "arr": [[0.0, 0.0],
+                     [1.0, 1.0],
+                     [0.0, 0.0]] }
   }
 ]
