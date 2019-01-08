@@ -1,0 +1,71 @@
+If we know the duration of time spent in a particular group, then \dots
+
+\begin{equation}\label{eq:duration-group}
+  \mathcal{D}_i = {\left(\mu + \sum_{j}{\zeta_{ij}}\right)}^{-1}
+\end{equation}
+
+If we know the proportion $z$ of group $i$ who transition to group $j$ in a given year, then \dots
+
+\begin{equation}
+\zeta_{ij} = z
+\end{equation}
+
+% ==================================================================================================
+\subsection{Solving the System}\label{ss:solve}
+In order to solve the system, we first note that the desired rate of change for risk group $i$
+will be equal to the growth of the risk group, $\growth x_i$.
+Substituting this quantity into \eq{eq:mass-balance}, we have
+\begin{equation}
+  \growth x_i = \nu \thinspace e_i + \sum_{j}{\zeta_{ji} \thinspace x_j}
+              - \mu \thinspace x_i - \sum_{j}{\zeta_{ij} \thinspace x_i}
+\end{equation}
+which, using the definition of $\growth$ in \eq{eq:growth-G}, we can simplify to
+\begin{equation}
+  \nu \thinspace x_i
+      = \nu \thinspace e_i + \sum_{j}{\zeta_{ji} \thinspace x_j}
+                           - \sum_{j}{\zeta_{ij} \thinspace x_i}
+  \label{eq:system}
+\end{equation}
+\subsubsection{Solving for $\zeta$}\label{sss:solve-zeta}
+To solve for We rearrange \eq{eq:system} to obtain
+\footnote{
+  Using matrix notation, we \textit{could} rewrite the RHS of \eq{eq:system-zeta} as:
+  ${({\bm{x}}^{\mathsf{T}}\zeta)}^{\mathsf{T}} - \zeta \thinspace \bm{x}$,
+  % is this correct? cf. https://math.stackexchange.com/questions/2977829
+  but this doesn't actually help us too much here.}
+\begin{equation}\label{eq:system-zeta}
+\nu \left( x_i - e_i \right)
+= \sum_{j}{\zeta_{ji} \thinspace x_j}
+- \sum_{j}{\zeta_{ij} \thinspace x_i}
+\end{equation}
+which, considering all $i$, can be refactored to yield a system of the form:
+\begin{equation}
+\bm{b} = A \bm{z}
+\end{equation}
+where
+$\bm{b} = \nu (\bm{x} - \bm{e})$ is a $\G$-length vector,
+$A$ is a ${\G}\times\G^2$ matrix of coefficients with Rank $\G-1$, and
+$\bm{z} = \mathrm{vec}(\zeta)$ is the $\G^2$-length vectorization of $\zeta$.
+% --------------------------------------------------------------------------------------------------
+\subsubsection{Solving for $e$}\label{sss:solve-e}
+To solve for $\bm{e}$, we rearrange \eq{eq:system} to obtain
+\begin{equation}\label{eq:system-e}
+e_i = x_i - \left[ \sum_{j}{\zeta_{ji} \thinspace x_j}
+- \sum_{j}{\zeta_{ij} \thinspace x_i} \right] \nu^{-1}
+\end{equation}
+% This final rearrangement is probably not useful, since we rarely know zeta, e, but not nu ...
+% --------------------------------------------------------------------------------------------------
+\subsubsection{Solving for $\nu$}
+To solve for $\nu$, we rearrange \eq{eq:system} to obtain
+\begin{equation}\label{eq:system-nu}
+  \nu = \left[ \sum_{j}{\zeta_{ji} \thinspace x_j}
+             - \sum_{j}{\zeta_{ij} \thinspace x_i} \right]
+       {\left( x_i - e_i \right)}^{-1}
+\end{equation}
+We actually cannot use this system to solve for $\mu$, however,
+because this term factors out of \eq{eq:system}.
+% --------------------------------------------------------------------------------------------------
+\subsubsection{Numerical Solutions}
+* (from \texttt{/docs/idea/turnover.pdf}, \S~2.2)
+\par
+* This is only applicable to \ref{sss:solve-zeta}, should rearrange \dots

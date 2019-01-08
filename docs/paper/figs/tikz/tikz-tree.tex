@@ -1,26 +1,30 @@
-\newlength{\lvl}\setlength{\lvl}{1.2cm}
-%\begin{tikzpicture}[
-%    level distance = \lvl,
-%    edge from parent/.append style = { draw = none } 
-%  ]
-%  \Tree [.{} [.{$\G$} [.{$\zeta$} ] ] ] 
-%\end{tikzpicture}\hspace{0.5\lvl}
+\newlength{\lvl}\setlength{\lvl}{1cm}
+\newcounter{variant}
+\newcommand{\nvar}{\stepcounter{variant}S\thevariant}
 \begin{tikzpicture}[
     level distance = \lvl,
-    sibling distance = 0.4\lvl,
+    sibling distance = 0.3\lvl,
     every path/.append style = { thick },
     edge from parent path = {
       (\tikzparentnode) -- +(0.0,-0.5\lvl) -| (\tikzchildnode)
-    }
+    },
+    frontier/.style = { distance from root = 4\lvl }
   ]
   \Tree
     [.{}
-      [.\node[leaf=gray]{$\G=1$};
-        [.\node[leaf=gray]{$\cdot$}; ]
+      [.\node[branch]{$\nu>\mu$};
+        [.\node[branch]{$\G=3$};
+          [.\node[branch]{$\zeta > 0$}; \node[leaf]{\nvar}; ]
+          [.\node[branch]{$\zeta = 0$}; \node[leaf]{\nvar}; ]
+        ]
+        [.\node[branch]{$\G=1$}; \node[leaf]{\nvar}; ]
       ]
-      [.\node[leaf=gray]{$\G=3$};
-        [.\node[leaf=gray]{$\zeta = 0$}; ]
-        [.\node[leaf=gray]{$\zeta = C$}; ]
+      [.\node[branch]{$\nu=\mu$};
+        [.\node[branch]{$\G=3$};
+          [.\node[branch]{$\zeta > 0$}; \node[leaf]{\nvar}; ]
+          [.\node[branch]{$\zeta = 0$}; \node[leaf]{\nvar}; ]
+        ]
+        [.\node[branch]{$\G=1$}; \node[leaf]{\nvar}; ]
       ]
     ]
 \end{tikzpicture}
