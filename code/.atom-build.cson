@@ -2,6 +2,9 @@
   "cmd": "python3 main/main.py",
   "name": "main",
   "targets": {
+    "debug": {
+      "cmd": "python3 debug/turnover/turnover.py"
+    }
     "symbolic": {
       "cmd": "python3 symbolic/solve-symbolic.py"
     }

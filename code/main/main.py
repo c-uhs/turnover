@@ -1,138 +1,192 @@
 import os,sys; sys.path.append(os.path.join((lambda r,f:f[0:f.index(r)+len(r)])('code',os.path.abspath(__file__)),'config')); import config
 config.epimodel()
 config.plot()
-# epi-model imports
-from space import *
-from simulation import *
-import outputfuns
-import initutils
-import transmit
-import test
-# external imports
+
 import numpy as np
+config.numpy()
+from copy import deepcopy
+from collections import OrderedDict as odict
+import matplotlib.pyplot as plt
 
-def dxfun(X,t,P,dxout={}):
-  dX = X*0
-  # births and deaths
-  dX.update(P['nu']*P['pe']*X.sum(), hi='S', accum=np.add)
-  dX.update(P['mu']*X, accum=np.subtract)
-  # turnover
-  Xi = X.expand(Space(X.space.dims+[modelutils.partner(X.space.dim('ii'))]),norm=False)
-  for ki in ['M','W']:
-    XZk = Xi.iselect(ki=ki) * P['zeta'].iselect(ki=ki)
-    dX.update(XZk.isum('ip'),ki=ki,accum=np.subtract)
-    dX.update(XZk.isum('ii'),ki=ki,accum=np.add)
-  # force of infection
-  lamp = transmit.lambda_fun(X,P['C'],P['beta'].islice(t=t),P['eps'],dxout)
-  transmit.transfer(dX, src={'hi':'S'}, dst={'hi':'I'}, N = lamp.isum('p').iselect(hi='S')*X.iselect(hi='S'))
-  # treatment
-  transmit.transfer(dX, src={'hi':'I'}, dst={'hi':'T'}, N = X.iselect(hi='I') * P['tau'])
-  # # full recovery -> for SIT model, we have no recovery
-  # transmit.transfer(dX, src={'hi':'T'}, dst={'hi':'S'}, N = X.iselect(hi='T') * P['gamma'])
-  # dxout
-  dxout.update({v:locals()[v] for v in dxout if v in locals()})
-  # return
-  return dX
+import system
+import modelutils
+from utils import flatten, unique
 
-def initfun(model,spaces):
-  P = model.params
-  # beta
-  sbeta = spaces['super'].union(P['f-beta-h'].space)
-  P['beta'] = P['beta'].expand(sbeta) * P['f-beta-h'].expand(sbeta)
-  # turnover
-  for ki in ['M','W']:
-    P['zeta'].update(transmit.zeta_fun( P['nu'], P['mu'],
-        P['pe'].islice(ki=ki), P['px'].islice(ki=ki), P['dur'].islice(ki=ki)),
-      ki=ki)
-  # initial condition
-  model.X0.update(P['N0']*P['px'],hi='S')
+def get_sims_structure(outputs=[]):
+  # build a dictionary of model variants, starting from the most complicated
+  specs = system.get_specs()
+  sims = odict()
+  for nu in [specs['params']['mu'],specs['params']['nu']]:
+    for G in [3,1]:
+      for Z in [1,0]:
+        # get the default model
+        model = system.get_model()
+        # define the growth rate
+        model.params['nu'].update(nu)
+        # define the number of of groups
+        if G == 1:
+          if Z != 0: continue # Z is irrelevant for G = 1, so only need 1 variant
+          model.collapse(['ii'])
+        # define turnover via specified durations
+        if Z == 0:
+          model.params['dur'].update(np.nan)
+          model.params['zeta'].update(np.nan)
+        # add simulation to dictionary
+        sims.update({
+          'nu={}_G={}_Z={}'.format(nu,G,Z):
+          system.get_simulation(model,outputs=outputs)
+        })
+  return sims
 
-def infectfun(sim):
-  sim.init_x(transmit.transfer(
-    X = sim.X,
-    src = {'hi':'S'},
-    dst = {'hi':'I'},
-    both = {'t':sim.t[0]},
-    N = 1))
-  return sim
+def get_sims_zeta(outputs=[]):
+  def get_zeta_specs(nu,mu,pe,dur,zeta):
+    # build set of sufficient constraints given zeta with some entries zero:
+    #   zeta will be either zero or nan (calculated)
+    #   dur will be either input value of nan (calculated)
+    #   pe will be nan (calculated) always
+    # NOTE did not check validity of this constraint building for G > 3
+    zeta = deepcopy(zeta)
+    for i,zi in enumerate(zeta):
+      zc = sum(np.isnan(zi))
+      if zc == 0:
+        # calculate dur if all zeta for this i specified
+        dur[i] = np.nan
+      if zc == 2:
+        # specify zeta for this i if all to be calculated (even split)
+        zsum = (1/dur[i] - mu)
+        zeta[i] = [zsum/2 if (i != j) else (0) for j in range(3)]
+      # calculate pe always
+      pe[i] = np.nan
+    return {'zeta':zeta,'dur':dur,'pe':pe}
 
-def get_outputs(spaces,select,t=None,names=None):
-  def tspace(space):
-    return space.union(Space([modelutils.tdim(flatten(t))]))
-  outputs = [
-    Output('N',
-           space = tspace(spaces['index']),
-           fun = lambda sim: sim.X,
-           accum = np.sum,
-           wax = False),
-    Output('X',
-           space = tspace(spaces['index']),
-           fun = lambda sim: sim.X / sim.X.isum('t',keep=True),
-           accum = np.sum,
-           wax = False),
-    Output('prevalence',
-           space = tspace(spaces['index']),
-           fun = lambda sim: outputfuns.prevalence(sim),
-           accum = np.average,
-           wax = True),
-    Output('incidence',
-          space = tspace(spaces['super'].subspace(['ki','ii','p'],keep=True)),
-          fun = lambda sim,t,lamp: outputfuns.incidence(sim,lam=lamp,t=t,per=1000,s='S'),
-          accum = np.average,
-          wax = True,
-          calc = 'peri', dxout = ['lamp']),
-    Output('cum-infect',
-          space = tspace(spaces['super'].subspace(['ki','ii','p'],keep=True)),
-          fun = lambda sim,t,lamp: outputfuns.incidence(sim,lam=lamp,t=t,per=False),
-          accum = np.sum,
-          wax = False,
-          calc = 'peri', dxout = ['lamp'], cum = True),
-  ]
-  names = [output.name for output in outputs] if names is None else flatten(names)
-  return xdict(xfilter(outputs,name=names))
+  def zeta_str(zeta):
+    return str(
+      [
+        ['.' if i==j else
+         '0' if zij == 0 else
+         'x' if np.isnan(zij) else
+         'Z'
+        for j,zij in enumerate(zi)]
+      for i,zi in enumerate(zeta)]
+    ).replace('\'','').replace(', ','')
 
-specdir = os.path.join(config.path['root'],'code','main','specs')
-dims   = initutils.objs_from_json(Dimension,            os.path.join(specdir,'dimensions.json'))
-spaces = initutils.objs_from_json(initutils.make_space, os.path.join(specdir,'spaces.json'),dims=dims.values())
-params = initutils.objs_from_json(initutils.make_param, os.path.join(specdir,'params.json'),space=spaces['super'])
-select = initutils.objs_from_json(Selector,             os.path.join(specdir,'selectors.json'))
-accum  = initutils.objs_from_json(initutils.make_accum, os.path.join(specdir,'accumulators.json'),params=params)
-model = Model(X0 = Array(0,spaces['index']),
-             dxfun = dxfun,
-             params = params,
-             select = select,
-             initfun = lambda model: initfun(model,spaces))
+  specs = system.get_specs()
+  model = system.get_model()
+  sims = odict()
+  zeta = np.zeros((3,3))
+  pe   = deepcopy(model.params['pe'])
+  dur  = deepcopy(model.params['dur'])
+  for i,ij in enumerate([None,(0,2),(0,1),(1,2),(2,0),(2,1),(1,0)]):
+    if ij:
+      zeta[ij[0],ij[1]] = np.nan
+    for ki in ['M','W']:
+      zspecs = get_zeta_specs(nu = model.params['nu'],
+                              mu = model.params['mu'],
+                              pe = pe.islice(ki=ki),
+                              dur = dur.islice(ki=ki),
+                              zeta = zeta)
+      for param in ['zeta','dur','pe']:
+        model.params[param].update(zspecs[param],ki=ki)
+      sims.update({
+        '({})-{}'.format(i,zeta_str(zspecs['zeta'])):
+        system.get_simulation(model,outputs=outputs)
+      })
+  return sims
 
-# model.params.collapse(accum,idxs=['ii'])
-# model.params['zeta']
+def runsim(sim,plots,variant,vset):
+  # run a single simulation for a single model variant, and generate named plots
+  specs = system.get_specs()
 
-t = np.around(np.arange(1975, 2025+1e-6, 0.1),6)
-outputs = get_outputs(spaces,select,t=t,names=['N','X','prevalence'])
-sim = infectfun(Simulation(model,t,outputs=outputs))
+  def savename(vset,plot,variant,ftype='png'):
+    # filename for the plot
+    fname = plot+'_'+variant+'.'+ftype
+    return os.path.join(config.path['root'],'outputs','figs','plots',vset,fname)
 
-# # 1-off plotting
-# sim.solve()
-# sim.plot(outputs=['X'],selectors=[model.select[name] for name in ['S','I','T']])
-# sim.plot(outputs=['incidence'],selectors=[model.select[name] for name in ['WH','MH','WM','MM','WL','ML']])
+  def specfun(**spec):
+    # clean-up the plot specifications
+    spec['outputs'] = [spec.pop('output')]
+    spec['selectors'] = [sim.model.select[name] for name in spec['selectors']]
+    spec['fun'] = spec.pop('fun',lambda **kwargs: sim.plot(**kwargs))
+    return spec
 
-# # gif plotting
-def gifplot(dur):
-  # sim.model.params['nu'].update(nu)
-  sim.model.params['dur'].update(dur,ki='W',ii='H')
-  sim.init_model(sim.model)
-  sim.init_params()
+  def tpafplotfun(**spec):
+    # special plotting function for tPAF since it is not a model output
+    spec.pop('outputs')
+    pop = spec.pop('pop')
+    tpaf = modelutils.tpaf(sim,pop,dxinf='xlam',beta='beta',copy=True)
+    modelutils.plot(sim.t,tpaf,**spec)
+
+  # dictionary of specifications for the plots
+  specs = { name:spec for name,spec in \
+    { 'N': specfun(
+        output = 'N',
+        selectors = ['WH','MH','WM','MM','WL','ML'],
+        ylim = [0,1500]),
+      'X-sit': specfun(
+        output = 'X',
+        selectors = ['S','I','T'],
+        ylim = [0,1.0]),
+      'X-groups': specfun(
+        output = 'X',
+        selectors = ['WH','MH','WM','MM','WL','ML'],
+        ylim = [0,0.55]),
+      'prevalence': specfun(
+        output = 'prevalence',
+        selectors = ['WH','WM','WL'],
+        ylim = [0,0.8]),
+      'incidence': specfun(
+        output = 'incidence',
+        selectors = ['WH','WM','WL'],
+        ylim = [0,300]),
+      'incidence-abs': specfun(
+        output = 'incidence-abs',
+        selectors = ['WH','WM','WL'],
+        ylim = [0,50]),
+      'cum-infect': specfun(
+        output = 'cum-infect',
+        selectors = ['WH','WM','WL'],
+        ylim = [0,1000]),
+      'tpaf-fsw': specfun(
+        fun = tpafplotfun,
+        output = 'tPAF',
+        pop = {'ki':'W','ii':'H'},
+        selectors = ['all'],
+        ylabel = 'tPAF of FSW',
+        ylim = [0,1])
+    }.items() if (name in plots) or (len(plots)==0) }
+
+  # initialize the required outputs
+  outputs = unique(flatten(spec['outputs'] for spec in specs.values()))
+  sim.init_outputs(system.get_outputs(
+    spaces = sim.model.spaces,
+    select = sim.model.select,
+    t = sim.t,
+    names = outputs))
+  # solve the system
+  print('> {}'.format(variant),flush=True)
   sim.solve()
-  sim.plot(outputs=['prevalence'],
-           # selectors=[model.select[name] for name in ['S','I','T']],
-           selectors=[model.select[name] for name in ['WH','MH','WM','MM','WL','ML']],
-           show=False)
-  import matplotlib.pyplot as plt
-  plt.gca().set_ylim([0,1])
+  # generate and save the specified plots
+  for plot,spec in specs.items():
+    print('  + {}'.format(plot),flush=True)
+    spec.pop('fun')(**spec,
+      show = False,
+      title = variant,
+      save = savename(vset,plot,variant))
+    plt.close()
 
-# using decorator from utils
-gif(fname='test.gif',clf=True,verbose=True,overlay=(0.05,0.95),
-    # nu=np.linspace(0.03,0.06,5),
-    dur=np.linspace(5,15,5),
-    # eps=np.linspace(0,1,6),
-  )(gifplot)
-    
+if __name__ == '__main__':
+
+  # variants w.r.t. model structure
+  for variant,sim in get_sims_structure(outputs=[]).items():
+    runsim(sim,[],variant,'structure')
+
+  # variants w.r.t. values of zeta
+  for variant,sim in get_sims_zeta(outputs=[]).items():
+    runsim(sim,[],variant,'zeta')
+
+    # # double check key turnover parameters after solving
+    # print('-'*50)
+    # print(variant)
+    # print(sim.model.params['zeta'].islice(t=2000,ki='M'))
+    # print(sim.model.params['dur'].islice(t=2000,ki='M'))
+    # print(sim.model.params['pe'].islice(t=2000,ki='M'))

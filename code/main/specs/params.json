@@ -18,41 +18,43 @@
     "desc": "steady-state proportion of individuals",
     "accum": "sum",
     "arr": { "idxs": ["ki","ii"],
-             "arr": [[0.05,0.15,0.30],
-                     [0.05,0.15,0.30]] }
+             "arr": [[0.02,0.10,0.38],
+                     [0.02,0.10,0.38]] }
   },
   { "name": "pe",
     "desc": "proportion of entering individuals",
     "accum": "sum",
     "arr": { "idxs": ["ki","ii"],
-             "arr": [[0.10,0.15,0.25],
-                     [0.10,0.15,0.25]] }
+             "arr": [[0.02,0.10,0.38],
+                     [0.02,0.10,0.38]] }
   },
   { "name": "dur",
     "desc": "duration spent in each group",
     "arr": { "idxs": ["ki","ii"],
-             "arr": [[  5 , 15 , 35 ],
-                     [  5 , 15 , 35 ]] }
+             "arr": [[  5 , 15, 25 ],
+                     [  5 , 15, 25 ]] }
   },
   { "name": "zeta",
     "desc": "rate of turnover between activity groups",
     "arr": { "idxs": ["ki","ii","ip"],
-             "arr": null }
+             "arr": [[[ null , null , 0.10 ],
+                      [ null , null , null ],
+                      [ null , null , null ]],
+                     [[ null , null , 0.10 ],
+                      [ null , null , null ],
+                      [ null , null , null ]]] }
   },
   { "name": "tau",
     "desc": "rate of treatment",
     "arr": { "idxs": [],
              "arr": 0.1 }
   },
-  { "name": "gamma",
-    "desc": "rate of loss of immunity",
-    "arr": { "idxs": [],
-             "arr": 0.1 }
-  },
-  { "name": "phi",
-    "desc": "rate of infection attributable death",
-    "arr": { "idxs": [],
-             "arr": 0.1 }
+  { "name": "infect",
+    "desc": "number of infected individuals at the simulation start",
+    "accum": "sum",
+    "arr": { "idxs": ["ki","ii"],
+             "arr": [[ 1 , 1 , 1 ],
+                     [ 1 , 1 , 1 ]] }
   },
   { "name": "eps",
     "desc": "parameter controlling mixing: $0 \\Rightarrow$ assortative, $1 \\Rightarrow$ proportionate",
@@ -63,8 +65,8 @@
     "desc": "number of partnerships formed per year by each individual",
     "accum": "wax",
     "arr": { "idxs": ["ki", "ii", "p"],
-             "arr": [[[15],[5],[1]],
-                     [[15],[5],[1]]] }
+             "arr": [[[25],[5],[1]],
+                     [[25],[5],[1]]] }
   },
   { "name": "beta",
     "desc": "probability of transmission per partnership",
