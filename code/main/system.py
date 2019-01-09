@@ -38,8 +38,8 @@ def dxfun(X,t,P,dxout={}):
 def initfun(model,spaces):
   P = model.params
   # beta
-  sbeta = spaces['super'].union(P['f-beta-h'].space)
-  P['beta'] = P['beta'].expand(sbeta) * P['f-beta-h'].expand(sbeta)
+  sbeta = spaces['super']
+  P['beta'].update(P['beta-k'].expand(sbeta) * P['f-beta-h'].expand(sbeta))
   # turnover
   if P['zeta'].space.dim('ii').n > 1:
     for ki in ['M','W']:
@@ -64,6 +64,16 @@ def infectfun(sim,N=1):
     both = {'t':sim.t[0]},
     N = N))
   return sim
+
+def get_targets(spaces,select,outputs,t=None,names=None):
+  specdir = os.path.join(config.path['root'],'code','main','specs')
+  targets = initutils.objs_from_json(initutils.make_target,
+    os.path.join(specdir,'targets.json'),
+    space = spaces['super'],
+    select = select,
+    outputs = outputs)
+  names = [target.name for target in targets.values()] if names is None else flatten(names)
+  return xdict(xfilter(targets.values(),name=names),ord=True)
 
 def get_outputs(spaces,select,t=None,names=None):
   def tspace(space):
@@ -130,10 +140,13 @@ def get_model():
                params = ParameterSet(specs['params'],accum=specs['accum']),
                initfun = lambda model: initfun(model,model.spaces))
 
-def get_simulation(model,infect=True,outputs=[]):
+def get_t(dt=0.5):
+  return np.around(np.arange(1975, 2025+1e-6, dt),6)
+
+def get_simulation(model,infect=True,outputs=[],dt=0.5):
   infect = atleast(model.params['infect'],3) if 'infect' in model.params else \
            int(infect)
-  t = np.around(np.arange(1975, 2025+1e-6, 0.5),6)
+  t = get_t(dt=dt)
   outputs = get_outputs(model.spaces,model.select,t=t,names=outputs)
   sim = Simulation(model,t,outputs=outputs)
   return infectfun(sim,N=infect)

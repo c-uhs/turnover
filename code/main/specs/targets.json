@@ -1,0 +1,13 @@
+[
+{ "name": "prevalence", "output": "prevalence", "selector": "all",
+  "arr": {
+    "idxs": ["t"],
+    "t":    [ 2020 ],
+    "arr":  [ 0.10 ]
+  },
+  "ci": {
+    "min": [ 0.08 ],
+    "max": [ 0.12 ]
+  }
+}
+]

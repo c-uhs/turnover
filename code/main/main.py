@@ -10,7 +10,8 @@ import matplotlib.pyplot as plt
 
 import system
 import modelutils
-from utils import flatten, unique
+import calibration
+import utils
 
 def get_sims_structure(outputs=[]):
   # build a dictionary of model variants, starting from the most complicated
@@ -71,26 +72,24 @@ def get_sims_zeta(outputs=[]):
     ).replace('\'','').replace(', ','')
 
   specs = system.get_specs()
-  model = system.get_model()
   sims = odict()
   zeta = np.zeros((3,3))
-  pe   = deepcopy(model.params['pe'])
-  dur  = deepcopy(model.params['dur'])
   for i,ij in enumerate([None,(0,2),(0,1),(1,2),(2,0),(2,1),(1,0)]):
+    model = system.get_model()
     if ij:
       zeta[ij[0],ij[1]] = np.nan
     for ki in ['M','W']:
       zspecs = get_zeta_specs(nu = model.params['nu'],
                               mu = model.params['mu'],
-                              pe = pe.islice(ki=ki),
-                              dur = dur.islice(ki=ki),
+                              pe = model.params['pe'].islice(ki=ki),
+                              dur = model.params['dur'].islice(ki=ki),
                               zeta = zeta)
       for param in ['zeta','dur','pe']:
         model.params[param].update(zspecs[param],ki=ki)
-      sims.update({
-        '({})-{}'.format(i,zeta_str(zspecs['zeta'])):
-        system.get_simulation(model,outputs=outputs)
-      })
+    sims.update({
+      '({})-{}'.format(i,zeta_str(zspecs['zeta'])):
+      system.get_simulation(model,outputs=outputs)
+    })
   return sims
 
 def runsim(sim,plots,variant,vset):
@@ -104,7 +103,6 @@ def runsim(sim,plots,variant,vset):
 
   def specfun(**spec):
     # clean-up the plot specifications
-    spec['outputs'] = [spec.pop('output')]
     spec['selectors'] = [sim.model.select[name] for name in spec['selectors']]
     spec['fun'] = spec.pop('fun',lambda **kwargs: sim.plot(**kwargs))
     return spec
@@ -116,47 +114,75 @@ def runsim(sim,plots,variant,vset):
     tpaf = modelutils.tpaf(sim,pop,dxinf='xlam',beta='beta',copy=True)
     modelutils.plot(sim.t,tpaf,**spec)
 
+  def fitfun(**spec):
+    # initialize the targets and calsim
+    targets = system.get_targets(
+      sim.model.spaces,
+      sim.model.select,
+      sim.outputs,
+      t = sim.t)
+    calsim = calibration.CalibrationSim('calsim',
+      sim = sim,
+      targets = targets)
+    # initialize the results file if it does not already exist
+    fname = os.path.join(config.path['root'],'outputs','params','optimized.json')
+    if not os.path.exists(fname):
+      with open(fname,'w') as f:
+        f.write('{}')
+    results = utils.loadjson(fname)
+    # run the optimization
+    opt = calsim.optimize(plot='tmp.png')
+    # update and order the results file
+    results.update({spec['title']:{name:param.tolist() for name,param in opt.items()}})
+    results = odict([(p,v) for p,v in sorted(results.items())])
+    utils.savejson(fname,results,indent=2)
+
   # dictionary of specifications for the plots
   specs = { name:spec for name,spec in \
     { 'N': specfun(
-        output = 'N',
+        outputs = ['N'],
         selectors = ['WH','MH','WM','MM','WL','ML'],
         ylim = [0,1500]),
       'X-sit': specfun(
-        output = 'X',
+        outputs = ['X'],
         selectors = ['S','I','T'],
         ylim = [0,1.0]),
       'X-groups': specfun(
-        output = 'X',
+        outputs = ['X'],
         selectors = ['WH','MH','WM','MM','WL','ML'],
         ylim = [0,0.55]),
       'prevalence': specfun(
-        output = 'prevalence',
+        outputs = ['prevalence'],
         selectors = ['WH','WM','WL'],
         ylim = [0,0.8]),
       'incidence': specfun(
-        output = 'incidence',
+        outputs = ['incidence'],
         selectors = ['WH','WM','WL'],
         ylim = [0,300]),
       'incidence-abs': specfun(
-        output = 'incidence-abs',
+        outputs = ['incidence-abs'],
         selectors = ['WH','WM','WL'],
         ylim = [0,50]),
       'cum-infect': specfun(
-        output = 'cum-infect',
+        outputs = ['cum-infect'],
         selectors = ['WH','WM','WL'],
         ylim = [0,1000]),
-      'tpaf-fsw': specfun(
+      'tpaf-h': specfun(
         fun = tpafplotfun,
-        output = 'tPAF',
-        pop = {'ki':'W','ii':'H'},
+        outputs = ['tPAF'],
+        pop = {'kp':'W','ip':'H'},
         selectors = ['all'],
-        ylabel = 'tPAF of FSW',
-        ylim = [0,1])
+        ylabel = 'tPAF of High Risk Group',
+        ylim = [0,1]),
+      'fit': specfun(
+        fun = fitfun,
+        outputs = ['prevalence'],
+        selectors = [],
+      ),
     }.items() if (name in plots) or (len(plots)==0) }
 
   # initialize the required outputs
-  outputs = unique(flatten(spec['outputs'] for spec in specs.values()))
+  outputs = utils.unique(utils.flatten(spec['outputs'] for spec in specs.values()))
   sim.init_outputs(system.get_outputs(
     spaces = sim.model.spaces,
     select = sim.model.select,
@@ -177,12 +203,12 @@ def runsim(sim,plots,variant,vset):
 if __name__ == '__main__':
 
   # variants w.r.t. model structure
-  for variant,sim in get_sims_structure(outputs=[]).items():
-    runsim(sim,[],variant,'structure')
+  # for variant,sim in get_sims_structure(outputs=[]).items():
+  #   runsim(sim,[],variant,'structure')
 
   # variants w.r.t. values of zeta
-  for variant,sim in get_sims_zeta(outputs=[]).items():
-    runsim(sim,[],variant,'zeta')
+  for i,(variant,sim) in enumerate(get_sims_zeta(outputs=[]).items()):
+    runsim(sim,['fit'],variant,'zeta')
 
     # # double check key turnover parameters after solving
     # print('-'*50)
@@ -190,3 +216,5 @@ if __name__ == '__main__':
     # print(sim.model.params['zeta'].islice(t=2000,ki='M'))
     # print(sim.model.params['dur'].islice(t=2000,ki='M'))
     # print(sim.model.params['pe'].islice(t=2000,ki='M'))
+      # break
+
