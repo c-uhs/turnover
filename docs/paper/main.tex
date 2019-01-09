@@ -456,7 +456,7 @@ and are solved numerically using Euler's method with a time step of $dt = 0.5$ y
 % ==================================================================================================
 \subsection{Structural Variants}\label{ss:structure-variants}
 Drawing on the most common assumptions outlined in Box~\ref{box:assumptions},
-we define a series of six structural model variants for investigation.
+we define a series of six structural model variants (S1~--~S6) for investigation.
 These variants, summarized in Figure~\ref{fig:variant-tree}, include
 zero versus nonzero population growth,
 homogeneous versus heterogeneous risk ($\G = 1$ vs $\G = 3$),
@@ -470,12 +470,6 @@ and zero versus nonzero turnover among risk groups ($\zeta = 0$ vs $\zeta > 0$).
     $\zeta$:~rates of population turnover}
   \label{fig:variant-tree}
 \end{figure}
-\begin{table}
-  \centering\caption{Model parameters for structural variants.
-    All rates have units $\mathrm{year}^{-1}$ and durations are in $\mathrm{years}$.}
-  \label{tab:params-structure}
-  \input{tabs/tab-params-structure.tex}
-\end{table}
 \par
 In order to facilitate fair comparisons across model variants with respect to parameter values,
 we start from the base model described above (S1~in Figure~\ref{fig:variant-tree}),
@@ -483,21 +477,47 @@ and aim to make simplifications with minimal impact on system characteristics.
 % not sure how to communicate this idea...
 For example, when moving from $\nu > \mu$ to $\nu = \mu$,
 we ensure the average duration of individuals in the model $\mu^{-1}$ is unchanged
-by fixing $\mu$ and reducing $\nu$ to match (S4--S6).
-Similarly, when collapsing the stratification of risk groups from $\G = 3$ to $\G = 1$ (S3,S6),
+by fixing $\mu$ and reducing $\nu$ to match (S4~--~S6).
+Similarly, when collapsing the stratification of risk groups from $\G = 3$ to $\G = 1$ (S3,~S6),
 we define the homogeneous partner change rate $C$
 as the weighted average of the previously risk-stratified $C$.
 Finally, considering rates of turnover $\zeta$
-(which are only applicable for S1,S4)
+(which are only applicable for S1,~S4)
 we fully determine the system, as outlined in Section~\ref{sss:params-turnover},
 by specifying the average duration of individuals in each group $\bm{\delta}$,
 as well as the distribution of individuals entering the model $\bm{\hat{e}}$,
 and the proportion of high activity individuals moving to the low activity group each year $\zeta_{HL}$.
 The resulting parameter values for each scenario
 are summarized in Table~\ref{tab:params-structure}.
+\begin{table}
+  \centering\caption{Model parameters for structural variants.
+    All rates have units $\mathrm{year}^{-1}$ and durations are in $\mathrm{years}$.}
+  \label{tab:params-structure}
+  \input{tabs/tab-params-structure.tex}
+\end{table}
 % ==================================================================================================
 \subsection{Turnover Variants}\label{ss:zeta-variants}
-\begin{table}
+While implementing the complete system described in Section~\ref{s:system}
+affords potential improvements in model accuracy,
+parameterizing such a system poses several challenges,
+such as data availability
+and combining constraints to yield a fully determined system.
+As such, it may be tempting to implement only some turnover transitions.
+In the current framework, this equates to setting some elements in $\zeta$ to zero.
+However, such an approach may introduce bias in the results.
+This section introduces seven model variants (Z0~--~Z6) with respect to sparsity of $\zeta$,
+to explore this possibility.
+\par
+Variant Z0 has no turnover, making it identical to S2,
+while variant Z6 includes all transitions, making it very similar to S1
+(transition rates are slightly different).
+Variants Z1 through Z5 then represent models ``in between'' S1 and S2,
+with Z1~--~Z3 adding flows from higher activity groups to lower activity groups,
+and Z4~--~Z6 adding the reverse flows.
+A summary of the corresponding turnover matrices $\zeta$,
+as well as the necessary constraints to obtain a unique solution ($\bm{\hat{e}}$, $\bm{\delta}$),
+are given in Table~\ref{tab:params-zeta}.
+\begin{table} % TODO: change notation of "z_i" in this table, as it conflicts with z = vec(\zeta)
   \centering\caption{Model parameters for turnover variants.
     All rates have units $\mathrm{year}^{-1}$ and durations are in $\mathrm{years}$.}
   \label{tab:params-zeta}
