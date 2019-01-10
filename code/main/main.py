@@ -4,106 +4,28 @@ config.plot()
 
 import numpy as np
 config.numpy()
-from copy import deepcopy
 from collections import OrderedDict as odict
-import matplotlib.pyplot as plt
+from matplotlib.pyplot import close as plt_close
 
 import system
+import variants
 import modelutils
 import calibration
 import utils
 
-def get_sims_structure(outputs=[]):
-  # build a dictionary of model variants, starting from the most complicated
-  specs = system.get_specs()
-  sims = odict()
-  for nu in [specs['params']['mu'],specs['params']['nu']]:
-    for G in [3,1]:
-      for Z in [1,0]:
-        # get the default model
-        model = system.get_model()
-        # define the growth rate
-        model.params['nu'].update(nu)
-        # define the number of of groups
-        if G == 1:
-          if Z != 0: continue # Z is irrelevant for G = 1, so only need 1 variant
-          model.collapse(['ii'])
-        # define turnover via specified durations
-        if Z == 0:
-          model.params['dur'].update(np.nan)
-          model.params['zeta'].update(np.nan)
-        # add simulation to dictionary
-        sims.update({
-          'nu={}_G={}_Z={}'.format(nu,G,Z):
-          system.get_simulation(model,outputs=outputs)
-        })
-  return sims
-
-def get_sims_zeta(outputs=[]):
-  def get_zeta_specs(nu,mu,pe,dur,zeta):
-    # build set of sufficient constraints given zeta with some entries zero:
-    #   zeta will be either zero or nan (calculated)
-    #   dur will be either input value of nan (calculated)
-    #   pe will be nan (calculated) always
-    # NOTE did not check validity of this constraint building for G > 3
-    zeta = deepcopy(zeta)
-    for i,zi in enumerate(zeta):
-      zc = sum(np.isnan(zi))
-      if zc == 0:
-        # calculate dur if all zeta for this i specified
-        dur[i] = np.nan
-      if zc == 2:
-        # specify zeta for this i if all to be calculated (even split)
-        zsum = (1/dur[i] - mu)
-        zeta[i] = [zsum/2 if (i != j) else (0) for j in range(3)]
-      # calculate pe always
-      pe[i] = np.nan
-    return {'zeta':zeta,'dur':dur,'pe':pe}
-
-  def zeta_str(zeta):
-    return str(
-      [
-        ['.' if i==j else
-         '0' if zij == 0 else
-         'x' if np.isnan(zij) else
-         'Z'
-        for j,zij in enumerate(zi)]
-      for i,zi in enumerate(zeta)]
-    ).replace('\'','').replace(', ','')
-
-  specs = system.get_specs()
-  sims = odict()
-  zeta = np.zeros((3,3))
-  for i,ij in enumerate([None,(0,2),(0,1),(1,2),(2,0),(2,1),(1,0)]):
-    model = system.get_model()
-    if ij:
-      zeta[ij[0],ij[1]] = np.nan
-    for ki in ['M','W']:
-      zspecs = get_zeta_specs(nu = model.params['nu'],
-                              mu = model.params['mu'],
-                              pe = model.params['pe'].islice(ki=ki),
-                              dur = model.params['dur'].islice(ki=ki),
-                              zeta = zeta)
-      for param in ['zeta','dur','pe']:
-        model.params[param].update(zspecs[param],ki=ki)
-    sims.update({
-      '({})-{}'.format(i,zeta_str(zspecs['zeta'])):
-      system.get_simulation(model,outputs=outputs)
-    })
-  return sims
-
-def runsim(sim,plots,variant,vset):
+def runsim(sim,plots,varname,vset):
   # run a single simulation for a single model variant, and generate named plots
   specs = system.get_specs()
 
-  def savename(vset,plot,variant,ftype='png'):
+  def savename(vset,plot,varname,ftype='png'):
     # filename for the plot
-    fname = plot+'_'+variant+'.'+ftype
+    fname = plot+'_'+varname+'.'+ftype
     return os.path.join(config.path['root'],'outputs','figs','plots',vset,fname)
 
   def specfun(**spec):
-    # clean-up the plot specifications
+    # replace names with selectors
     spec['selectors'] = [sim.model.select[name] for name in spec['selectors']]
+    # assign default plot fun if none assigned
     spec['fun'] = spec.pop('fun',lambda **kwargs: sim.plot(**kwargs))
     return spec
 
@@ -115,6 +37,7 @@ def runsim(sim,plots,variant,vset):
     modelutils.plot(sim.t,tpaf,**spec)
 
   def fitfun(**spec):
+    # special case: fit model to targets, save fitted parameters (from params.json)
     # initialize the targets and calsim
     targets = system.get_targets(
       sim.model.spaces,
@@ -167,7 +90,7 @@ def runsim(sim,plots,variant,vset):
         outputs = ['cum-infect'],
         selectors = ['WH','WM','WL'],
         ylim = [0,1000]),
-      'tpaf-h': specfun(
+      'tpaf-fsw': specfun(
         fun = tpafplotfun,
         outputs = ['tPAF'],
         pop = {'kp':'W','ip':'H'},
@@ -179,7 +102,7 @@ def runsim(sim,plots,variant,vset):
         outputs = ['prevalence'],
         selectors = [],
       ),
-    }.items() if (name in plots) or (len(plots)==0) }
+    }.items() if (name in plots) or ((len(plots)==0) and (name != 'fit')) }
 
   # initialize the required outputs
   outputs = utils.unique(utils.flatten(spec['outputs'] for spec in specs.values()))
@@ -189,32 +112,33 @@ def runsim(sim,plots,variant,vset):
     t = sim.t,
     names = outputs))
   # solve the system
-  print('> {}'.format(variant),flush=True)
+  print('> {}'.format(varname),flush=True)
   sim.solve()
   # generate and save the specified plots
   for plot,spec in specs.items():
     print('  + {}'.format(plot),flush=True)
     spec.pop('fun')(**spec,
       show = False,
-      title = variant,
-      save = savename(vset,plot,variant))
-    plt.close()
+      title = varname,
+      save = savename(vset,plot,varname))
+    plt_close()
+
+def print_turnover(name,sim):
+  print('-'*50)
+  print(name)
+  print(sim.model.params['zeta'].islice(t=2000,ki='M'))
+  print(sim.model.params['dur'].islice(t=2000,ki='M'))
+  print(sim.model.params['pe'].islice(t=2000,ki='M'))
 
 if __name__ == '__main__':
 
   # variants w.r.t. model structure
-  # for variant,sim in get_sims_structure(outputs=[]).items():
-  #   runsim(sim,[],variant,'structure')
+  for name,sim in variants.get_sims_structure().items():
+    # print_turnover(name,sim)
+    runsim(sim,[],name,'structure')
 
   # variants w.r.t. values of zeta
-  for i,(variant,sim) in enumerate(get_sims_zeta(outputs=[]).items()):
-    runsim(sim,['fit'],variant,'zeta')
-
-    # # double check key turnover parameters after solving
-    # print('-'*50)
-    # print(variant)
-    # print(sim.model.params['zeta'].islice(t=2000,ki='M'))
-    # print(sim.model.params['dur'].islice(t=2000,ki='M'))
-    # print(sim.model.params['pe'].islice(t=2000,ki='M'))
-      # break
+  for name,sim in variants.get_sims_zeta().items():
+    # print_turnover(name,sim)
+    runsim(sim,[],name,'zeta')
 
