@@ -3,8 +3,10 @@ import os
 root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 path = {
-  'root':      root,
+  'root': root,
   'epi-model': os.path.join(root,'code','epi-model','src'),
+  'figs': os.path.join(root,'outputs','figs'),
+  'specs': os.path.join(root,'code','main','specs'),
 }
 
 def epimodel():
@@ -22,4 +24,4 @@ def plot(tex=False):
   plt.rc('legend',frameon=True,framealpha=0.9)
   if tex:
     plt.rc('text',usetex=True)
-    plt.rc('font',family='serif',serif=['computer modern roman'])
+    # plt.rc('font',family='serif',serif=['computer modern roman'])
