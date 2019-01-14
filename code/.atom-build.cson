@@ -1,9 +1,18 @@
 {
-  "cmd": "python3 main/main.py",
-  "name": "main",
+  "name": "main"
+  "cmd": "python3 main/main-compare.py"
   "targets": {
+    "compare": {
+      "cmd": "python3 main/main-compare.py"
+    }
+    "vary-zeta": {
+      "cmd": "python3 main/main-vary-zeta.py"
+    }
+    "batch": {
+      "cmd": "python3 main/main-batch.py"
+    }
     "debug": {
-      "cmd": "python3 debug/turnover/turnover.py"
+      "cmd": "python3 main/infinite-zeta.py"
     }
     "symbolic": {
       "cmd": "python3 symbolic/solve-symbolic.py"
