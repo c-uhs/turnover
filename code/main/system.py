@@ -140,13 +140,13 @@ def get_model():
                params = ParameterSet(specs['params'],accum=specs['accum']),
                initfun = lambda model: initfun(model,model.spaces))
 
-def get_t(dt=0.5):
-  return np.around(np.arange(1975, 2025+1e-6, dt),6)
+def get_t(dt=0.5,tmin=1975,tmax=2025):
+  return np.around(np.arange(tmin, tmax+1e-6, dt), 6)
 
-def get_simulation(model,infect=True,outputs=[],dt=0.5):
+def get_simulation(model,infect=True,outputs=[],t=None):
   infect = atleast(model.params['infect'],3) if 'infect' in model.params else \
            int(infect)
-  t = get_t(dt=dt)
+  t = t if t is not None else get_t()
   outputs = get_outputs(model.spaces,model.select,t=t,names=outputs)
   sim = Simulation(model,t,outputs=outputs)
   return infectfun(sim,N=infect)

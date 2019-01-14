@@ -133,12 +133,7 @@ def print_turnover(name,sim):
 if __name__ == '__main__':
 
   # variants w.r.t. model structure
-  for name,sim in variants.get_sims_structure().items():
+  for name,sim in variants.get_sims().items():
     # print_turnover(name,sim)
     runsim(sim,[],name,'structure')
-
-  # variants w.r.t. values of zeta
-  for name,sim in variants.get_sims_zeta().items():
-    # print_turnover(name,sim)
-    runsim(sim,[],name,'zeta')
 
