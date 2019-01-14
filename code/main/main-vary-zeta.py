@@ -63,6 +63,6 @@ if __name__ == '__main__':
     legend += plotfun(*get_sim('zeta',dh=dh),color=c)
   legend += plotfun(*get_sim('homo'),color=[0,0,0],linestyle='--')
   plt.legend(legend,loc='lower right',fontsize=8)
-  plt.savefig(os.path.join(config.path['figs'],'plots','compare','homo-vs-zeta-prev-full.eps'))
+  plt.savefig(os.path.join(config.path['figs'],'plots','compare','vary-zeta-prev-full.eps'))
   plt.show()
 
