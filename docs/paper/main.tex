@@ -14,17 +14,17 @@
 \usepackage[hang,flushmargin]{footmisc}
 \usepackage[margin=2cm]{geometry}
 \usepackage[colorlinks,linkcolor=blue,citecolor=purple]{hyperref}
-\usepackage[backend=bibtex,citestyle=numeric,
+\usepackage[backend=bibtex,citestyle=numeric,sorting=none,
             maxcitenames=2,isbn=false,url=false]{biblatex}
 % --------------------------------------------------------------------------------------------------
 % paths
 \graphicspath{
   {figs/}
   {figs/tikz/}
-  {../../outputs/figs/plots/structure}
-  {../../outputs/figs/plots/values}}
+  {../../outputs/figs/plots/compare/}}
 \input{figs/tikz/tikz-style.tex}
-\bibliography{../../refs/refs.bib}
+\addbibresource{../../refs/refs.bib}
+\input{../config/turnover-git.tex}
 % create box float
 \newtcolorbox{fboxed}{sharp corners = all, colback = white!97!black, boxrule=1pt}
 \DeclareFloatingEnvironment[name=Box]{floatbox}
@@ -36,6 +36,7 @@
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{6pt}
 \setlength{\tabcolsep}{4pt}
+\setlength{\footnotemargin}{8pt}
 % numbering & bullets
 \setlist[itemize]{label=\raisebox{0.2em}{\footnotesize\textbullet},topsep=0pt,itemsep=0pt}
 \setlist[enumerate,1]{label=\arabic*.}
@@ -45,14 +46,17 @@
 \renewcommand{\zeta}{\upzeta}
 \newcommand{\N}{{\mbox{\footnotesize{\textit{N}}}}}
 \newcommand{\G}{{\mbox{\footnotesize{\textit{G}}}}}
-\newcommand{\tarr}[1]{{\def\arraycolsep{3pt}$[\begin{matrix}\StrSubstitute{#1}{,}{&}\end{matrix}]$}}
+\newcommand{\tarr}[1]{{\def\arraycolsep{3pt}[\begin{matrix}\StrSubstitute{#1}{,}{&}\end{matrix}]}}
+\newcommand{\hreftt}[1]{\href{#1}{\texttt{#1}}}
 % references
 \newcommand{\citet}[1]{\citeauthor{#1}~(\citeyear{#1})~\cite{#1}}
 \newcommand{\eq}[1]{Eq.~(\ref{#1})}
+\newcommand{\fig}[1]{Figure~\ref{#1}}
+\newcommand{\tab}[1]{Table~\ref{#1}}
 \newcommand{\app}[1]{Appendix~\ref{#1}~\nameref{#1}}
 % --------------------------------------------------------------------------------------------------
-\title{Risk Group Demographics in Simulated STI Epidemics}
-\author{Jesse Knight}
+\title{On Parameterizing Risk Group Dynamics in Simulated STI Epidemics}
+\author{Jesse Knight, Linwei Wang, Huiting Ma, Sharmistha Mishra}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -70,49 +74,62 @@
 \end{enumerate}
 \clearpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Background}\label{s:background}
-** R O U G H **
-\begin{itemize}
-  \item key factors in risk of HIV acquisition
-  \item intro HIV modelling, prior work showing importance of heterogeneity
-  \item comments on applicability of these concepts to non-HIV transmissible diseases
-        (other STI, non-S TI)
-  \item prior work on turnover, comment on need for ``equilibration'' / ``burn-in'' period
-\end{itemize}
-What do we mean by ``risk group dynamics''?
-\begin{enumerate}
-  \item inclusion of risk groups at all (yes / no)
-  \item inclusion of turnover among these groups (yes / no, how?)
-  \item consideration of how groups are re-balanced given differential attributable death
-  -- subject of future work
-\end{enumerate}
+\section{Introduction}\label{s:intro}
+Core group theory has long underpinned modelling of STI epidemics.
+It generally describes maintenance of an epidemic by
+high levels of exposure in a small subset of individuals,
+relative to a larger general population with less exposure. % \cite{?} who is the true seminal paper?
+When considering one or more core groups
+-- i.e.\ a population composed of several risk-stratified groups --
+the epidemic characteristics are known to depend on
+the group sizes, relative exposures, and rates of sexual mixing between groups.
+Less discussed is a similar dependence on
+movement of individuals between risk groups, which we call ``turnover''.%
+\footnote{In early works, such as \cite{Stigum1994},
+  movement of individuals between risk groups is often called ``migration'';
+  in order to avoid confusion with population entry / exit,
+  we prefer the term ``turnover''.}
+This turnover of individuals between risk groups has a similar effect to
+sexual mixing between groups, making it
+an important feature to include in representative models~\cite{Stigum1994}.
 \par
-From \citet{Eaton2014}:
-\textit{Two behavioral parameters
--- the rate of transition from higher- to lower-risk groups and \textup{[\dots]} -- 
-were particularly important for simulating the observed prevalence trend in many different ways,
-as well as determining the intervention impact.}
+Models with more than two risk groups
+are increasingly relevant for exploring epidemic nuance
+and for aligning model outputs with programmatic decision support
+-- i.e.\ prioritization specific interventions for specific risk groups. % \cite{?}
+Yet, implementations of risk groups and turnover in recent models vary widely,
+from no modelled risk groups~\cite{Estill2012,Barnighausen2012}
+to seven risk groups with highly context-specific turnover [[best Mishra 7-groups citation]].
+In fact, many HIV models still do not consider turnover,
+despite the fact that rates of movement between risk groups
+can play an important role during estimation of intervention impact
+following model fitting to calibration targets~\cite{Eaton2014}.
 \par
-From SR by \citet{Mishra2012}:
-N = 107 models included behavioural heterogeneity, while
-N = 88 did not.
+Two major challenges exist to implementing turnover,
+which may help explain its inconsistent usage.
+First, unlike behavioural parameters,
+estimating the rates of movement between groups
+directly from cross-sectional survey data is difficult,
+and typically requires strong assumptions.
+Second, ensuring the relative sizes of risk groups do not vary
+dramatically over time requires
+careful selection rates of turnover among groups,
+or other compensatory parameters.
+Prior works have generally solved this problem \textit{ad hoc},
+without providing a generalized approach,
+while some simply rely on a ``burn-in'' period,
+which permits equilibriation of risk group sizes due to turnover dynamics
+before introduction of the infection.
 \par
-From SR by \citet{Ronn2017}:
-N = 34 included risk heterogeneity, while
-N = 11 models had none.
-\par
-Some papers to include in Table~\ref{tab:prior-work}:
-%\cite{Barnighausen2012,
-%      Cremin2013,
-%      Eaton2014,
-%      Estill2012,
-%      Granich2009,
-%      Hallett2008,
-%      Johnson2006,
-%      Phillips2011,
-%      Rosenberg2004,
-%      Shah2016}
-\clearpage
+We therefore expect that a unified framework for
+defining and parameterizing risk group dynamics
+would be of great use.
+We present such a framework here,
+and draw direct links to modelling assumptions and relevant sources of data.
+Building on previous work by~\citet{Stigum1994},
+we then leverage this framework to explore the impact of
+several risk group implementations on model outputs (incidence, prevalence)
+in a representative model.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{The System}\label{s:system}
 This section introduces a system of compartments, flows between them, and equations
@@ -153,20 +170,20 @@ x_\G \rightarrow x_1 & x_\G \rightarrow x_2 & \cdots &          *
 \end{array}\right]
 \end{equation}
 These transition flows and the associated rates
-are summarized for $\G = 3$ in Figure~\ref{fig:system}.
+are summarized for $\G = 3$ in \fig{fig:system}.
 \begin{figure}[h]
   \centering\input{figs/tikz/tikz-system.tex}
   \caption{System of compartments and flows between them for $\G = 3$}
   \label{fig:system}
 \end{figure}
-\par
-Some key assumptions of this work:
-\begin{itemize}
-  \item The health states of individuals moving between risk groups due to turnover
-  is proportional to the health states of the group overall.
-  \item Disease-attributable death has negligible impact on risk-group proportions.
-  \item 
-\end{itemize}
+%\par
+%Some key assumptions of this work:
+%\begin{itemize}
+%  \item The health states of individuals moving between risk groups due to turnover
+%  is proportional to the health states of the group overall.
+%  \item Disease-attributable death has negligible impact on risk-group proportions.
+%  \item 
+%\end{itemize}
 % ==================================================================================================
 \subsection{Parameterization}\label{ss:params}
 Next, we explore methods for estimating the values of parameters
@@ -211,7 +228,7 @@ The simplest approach assumes a constant population size $\N(t) = \N_0$,
 or a growth rate of zero, yielding $\nu = \mu$.
 However, this does not reflect the true positive population growth of most contexts,
 and may result in underestimated incidence,
-due to the relative reduction in inflow of susceptibles.
+due to the relative reduction in inflow of susceptible individuals.
 % verified in code, see:
 % https://github.com/c-uhs/turnover/blob/f029bd1/outputs/figs/debug/incidence-nu.gif
 \par
@@ -260,12 +277,6 @@ Therefore, the desired rate of change for risk group $i$
 will be equal to the growth of the risk group, $\mathcal{G} x_i$.
 Substituting this into \eq{eq:mass-balance},
 and simplifying, we have:
-%we have:
-%\begin{equation}
-%\mathcal{G} x_i = \nu \thinspace e_i + \sum_{j}{\zeta_{ji} \thinspace x_j}
-%- \mu \thinspace x_i - \sum_{j}{\zeta_{ij} \thinspace x_i}
-%\end{equation}
-%which, using the definition of $\mathcal{G}$ in \eq{eq:growth-G}, we can simplify to:
 \begin{equation}\label{eq:system}
 \nu \thinspace x_i
 = \nu \thinspace e_i + \sum_{j}{\zeta_{ji} \thinspace x_j}
@@ -347,25 +358,25 @@ However, the choice of $f$ implies a prior on the values of $\bm{\theta}$,
 and so introduces bias in the solution.
 % ==================================================================================================
 \subsection{Previous Approaches}
-In this section, we will examine previous approaches to modelling
-risk groups in simulated HIV epidemics,
-and the assumptions inherent to these methods.
-Box~\ref{box:assumptions} summarizes
-the most common assumptions regarding the dynamics of these risk groups,
-while Table~\ref{tab:prior-work} summarizes previous works
-with respect to these assumptions.
-\par
-Many of the previously proposed models of HIV transmission
-follow Assumption~\ref{ass:risk-groups-no} and do not consider heterogeneity
-in risk of acquisition within major demographic groups,
-such as heterosexual men / women, and MSM.
-This is a significant assumption,
-and may lead to large discrepancies with models which do consider risk heterogeneity,
-as explored in Section~\ref{s:exp}.
-Moreover, this assumption precludes any consideration of turnover,
-since there is only one risk group, $\G = 1$.
-\par
-* (discussion of each assumption in turn)
+%In this section, we will examine previous approaches to modelling
+%risk groups in simulated HIV epidemics,
+%and the assumptions inherent to these methods.
+%Box~\ref{box:assumptions} summarizes
+%the most common assumptions regarding the dynamics of these risk groups,
+%while \tab{tab:prior-work} summarizes previous works
+%with respect to these assumptions.
+%\par
+%Many of the previously proposed models of HIV transmission
+%follow Assumption~\ref{ass:risk-groups-no} and do not consider heterogeneity
+%in risk of acquisition within major demographic groups,
+%such as heterosexual men / women, and MSM.
+%This is a significant assumption,
+%and may lead to large discrepancies with models which do consider risk heterogeneity,
+%as explored in Section~\ref{s:exp}.
+%Moreover, this assumption precludes any consideration of turnover,
+%since there is only one risk group, $\G = 1$.
+%\par
+%* (discussion of each assumption in turn)
 \begin{floatbox}
   \caption{Common assumptions regarding the dynamics of risk groups}
   \label{box:assumptions}
@@ -387,18 +398,17 @@ Next, we will explore the
 \textit{importance} of including these components
 through comparison of projected model outputs
 across different implementations of risk group dynamics.
-First, we will compare major structural variants
-involving population growth, risk groups, and turnover.
-Second, we will investigate the impact of turnover sparsity
--- that is, only modelling certain transitions,
-such as in~\cite{Eaton2014}.
+Specifically, we will compare structural variants
+involving differences in population growth, number of risk groups, and turnover.
 % ==================================================================================================
 \subsection{Model \& Simulations}\label{ss:model}
-We use a simple deterministic model of heterosexual HIV transmission,
-including three health states:
+We start with a simple deterministic model of heterosexual HIV transmission,
+which is meant to be generally representative of a plausible HIV epidemic,
+rather than any specific context.
+The model includes three health states:
 susceptible~$\mathcal{S}$, infected~$\mathcal{I}$, and on treatment~$\mathcal{T}$,
-as shown in Figure~\ref{fig:health-states},
-and up to three levels of sexual activity (risk groups $\G$):
+as shown in \fig{fig:health-states},
+and $\G = 3$ levels of sexual activity (risk groups):
 high~$H$, medium~$M$, and low~$L$.
 Individuals of sex $\mathit{k}$ in risk group $i$ are assumed to
 form sexual partnerships at a rate $C_{ki}$
@@ -413,7 +423,7 @@ the formulation proposed by \citeauthor{Garnett1994}~\cite{Garnett1994}:
    +(\epsilon)\pi_{\mathit{ki}\mathrm{ki}}
 \end{equation}
 where $\epsilon$ is a parameter controlling the dominance of
-assortative $\psi$ ($\epsilon = 0$) versus proportional $\pi$ ($\epsilon = 1$) mixing.
+assortative $\psi$ ($\epsilon = 0$) or proportional $\pi$ ($\epsilon = 1$) mixing.
 \begin{figure}
   \centering\input{figs/tikz/tikz-health-states.tex}
   \caption{Modelled health states}\label{fig:health-states}
@@ -422,7 +432,7 @@ assortative $\psi$ ($\epsilon = 0$) versus proportional $\pi$ ($\epsilon = 1$) m
 Transmission of HIV from infected $\mathcal{I}$ to susceptible $\mathcal{S}$ individuals
 is assumed to occur with probability $\beta_{\mathit{k}\mathrm{k}}$ per partnership.
 Individuals on treatment $\mathcal{T}$ are not considered infectious.
-The force of infection for susceptibles of sex $k$ in risk group $i$
+The force of infection for susceptible individuals of sex $k$ in risk group $i$
 is therefore modelled using the following equation:%~\cite{?}
 \begin{equation}
   \lambda_{ki} =
@@ -431,38 +441,39 @@ is therefore modelled using the following equation:%~\cite{?}
   \rho_{\mathit{ki}\mathrm{ki}} \thinspace
   \beta_{\mathit{k}\mathrm{k}}
   \frac{\mathcal{I}_{\mathrm{ki}}}{\N_{\mathrm{ki}}}
+  \label{eq:foi}
 \end{equation}
 Infected individuals are assumed to be diagnosed and begin treatment at a rate $\tau$ (per year).
 As described in Section \ref{s:system},
 individuals enter the model at a rate $\nu$,
 exit at a rate $\mu$,
-and transition between risk groups at rates $\zeta_{ij}$.
+and transition between from risk group $i$ to group $j$ at a rate $\zeta_{ij}$.
 The default parameters for this base model are summarized in
-Table~\ref{tab:params-base}.
+\tab{tab:params-base}.
 \begin{table}[b]
   \centering\caption{Base model parameters. All rates have units $\mathrm{year}^{-1}$ and durations are in $\mathrm{years}$.}
   \label{tab:params-base}
   \input{tabs/tab-params-base.tex}
 \end{table}
 \par
-Using this model (and its variants),
-simulated epidemics are initialized in $t = 1975$ with $\N_0 = 1000$ individuals,
+Using this model (and variants, described below),
+simulated epidemics are initialized at $t = 1975$ with $\N_0 = 1000$ individuals,
 distributed proportionally according to $\bm{\hat{x}}$.
 Among these individuals, 6 are infected, and the remainder are susceptible;
 for $\G = 3$, this corresponds to one infected person in each sex-risk group,
 while for $\G = 1$, this corresponds to three infected people in each sex.
 Simulated epidemics run until $t = 2025$,
-and are solved numerically using Euler's method with a time step of $dt = 0.5$ years.
+and are solved numerically using Euler's method with a time step of $dt = 0.1$ years.
 % ==================================================================================================
-\subsection{Structural Variants}\label{ss:structure-variants}
+\subsection{Model Variants}\label{ss:exp-variants}
 Drawing on the most common assumptions outlined in Box~\ref{box:assumptions},
-we define a series of six structural model variants (S1~--~S6) for investigation.
-These variants, summarized in Figure~\ref{fig:variant-tree}, include
-zero versus nonzero population growth,
+we define a series of six structural model variants (V1~--~V6) for investigation.
+These variants, summarized in \fig{fig:variant-tree}, include
+zero versus nonzero population growth ($\nu = \mu$ vs $\nu > \mu$),
 homogeneous versus heterogeneous risk ($\G = 1$ vs $\G = 3$),
 and zero versus nonzero turnover among risk groups ($\zeta = 0$ vs $\zeta > 0$).
 \begin{figure}
-  \centering\input{figs/tikz/tikz-tree.tex}
+  \centering\input{figs/tikz/tikz-variant-tree.tex}
   \caption{Summary of 6 structural model variants with respect to simulated risk group dynamics.
     $\nu$:~rate of population entry,
     $\mu$:~rate of population exit,
@@ -472,95 +483,224 @@ and zero versus nonzero turnover among risk groups ($\zeta = 0$ vs $\zeta > 0$).
 \end{figure}
 \par
 In order to facilitate fair comparisons across model variants with respect to parameter values,
-we start from the base model described above (S1~in Figure~\ref{fig:variant-tree}),
+we start from the base model described above (V1~in \fig{fig:variant-tree}),
 and aim to make simplifications with minimal impact on system characteristics.
 % not sure how to communicate this idea...
 For example, when moving from $\nu > \mu$ to $\nu = \mu$,
 we ensure the average duration of individuals in the model $\mu^{-1}$ is unchanged
-by fixing $\mu$ and reducing $\nu$ to match (S4~--~S6).
-Similarly, when collapsing the stratification of risk groups from $\G = 3$ to $\G = 1$ (S3,~S6),
+by fixing $\mu$ and reducing $\nu$ to match (V4~--~V6).
+Similarly, when collapsing the stratification of risk groups from $\G = 3$ to $\G = 1$ (V3,~V6),
 we define the homogeneous partner change rate $C$
 as the weighted average of the previously risk-stratified $C$.
 Finally, considering rates of turnover $\zeta$
-(which are only applicable for S1,~S4)
+(which are only applicable for V1,~V4)
 we fully determine the system, as outlined in Section~\ref{sss:params-turnover},
 by specifying the average duration of individuals in each group $\bm{\delta}$,
 as well as the distribution of individuals entering the model $\bm{\hat{e}}$,
 and the proportion of high activity individuals moving to the low activity group each year $\zeta_{HL}$.
 The resulting parameter values for each scenario
-are summarized in Table~\ref{tab:params-structure}.
+are summarized in \tab{tab:params-variants}.
 \begin{table}
   \centering\caption{Model parameters for structural variants.
     All rates have units $\mathrm{year}^{-1}$ and durations are in $\mathrm{years}$.}
-  \label{tab:params-structure}
-  \input{tabs/tab-params-structure.tex}
+  \label{tab:params-variants}
+  \input{tabs/tab-params-variants.tex}
 \end{table}
-% ==================================================================================================
-\subsection{Turnover Variants}\label{ss:zeta-variants}
-While implementing the complete system described in Section~\ref{s:system}
-affords potential improvements in model accuracy,
-parameterizing such a system poses several challenges,
-such as data availability
-and combining constraints to yield a fully determined system.
-As such, it may be tempting to implement only some turnover transitions.
-In the current framework, this equates to setting some elements in $\zeta$ to zero.
-However, such an approach may introduce bias in the results.
-This section introduces seven model variants (Z0~--~Z6) with respect to sparsity of $\zeta$,
-to explore this possibility.
 \par
-Variant Z0 has no turnover, making it identical to S2,
-while variant Z6 includes all transitions, making it very similar to S1
-(transition rates are slightly different).
-Variants Z1 through Z5 then represent models ``in between'' S1 and S2,
-with Z1~--~Z3 adding flows from higher activity groups to lower activity groups,
-and Z4~--~Z6 adding the reverse flows.
-A summary of the corresponding turnover matrices $\zeta$,
-as well as the necessary constraints to obtain a unique solution ($\bm{\hat{e}}$, $\bm{\delta}$),
-are given in Table~\ref{tab:params-zeta}.
-\begin{table} % TODO: change notation of "z_i" in this table, as it conflicts with z = vec(\zeta)
-  \centering\caption{Model parameters for turnover variants.
-    All rates have units $\mathrm{year}^{-1}$ and durations are in $\mathrm{years}$.}
-  \label{tab:params-zeta}
-  \input{tabs/tab-params-zeta.tex}
-\end{table}
+For each model variant,
+we project the simulated epidemic using these fixed parameter values.
+While this was mostly sufficient to derive the insights of interest,
+we additionally fit the model to overall prevalence of 10\% in 2050,
+varying a single parameter $f_{\beta} \approx 1$ to scale both elements of $\bm{\beta}$,%
+\footnote{The absolute difference between the target and predicted prevalence
+  was minimized using
+  the Sequential Least SQuares Programming (SLSQP) method~\cite{Kraft1988} from
+  the \texttt{scipy.optimize.minimize} Python package:\\
+  \hreftt{https://docs.scipy.org/doc/scipy/reference/optimize.minimize-slsqp.html}}
+in order to highlight the impacts of model structure on fitted values of $\beta$.
 % ==================================================================================================
-%\subsection{Simulations}
-%For each of the model structures described above,
-%we simulate ...
-%
-%\par
-%%This epidemic was simulated
-%%using each of the model variants described in \S~\ref{ss:model-variants}.
-%%In each case, we compared the model predictions across the variants
-%%regarding three outputs:
-%\begin{enumerate}
-%  \item Projected prevalence for $t = 1975 - 2050$
-%  \item Population attributable fraction of highest risk group (variants with $\G = 3$ only)
-%  \item Estimated impact of \{intervention x -- ART?\}
-%  at reducing cumulative new infections between 2020 and 2050
-%\end{enumerate}
-%\dots
-%\par
-%Since the results of these comparisons are significantly affected by several model parameters,
-%we performed a comprehensive sensitivity analysis.
-%The parameter ranges specified in Table~\ref{tab:base-model-params} were used,
-%and \dots
-%* (construct a GLM or something to describe the impacts?)
+\subsection{Turnover Magnitude}\label{ss:exp-zeta-mag}
+The overall effect of including turnover in a model is not straightforward.
+On one hand, transfer of infected individuals from high to low risk groups may
+increase disease penetration in the lower risk groups;
+however, turnover also decreases the duration of individuals in the higher risk groups,
+and in turn, their cumulative exposure to risk.
+In order to clarify the dominant effect,
+we additionally explored a wide range of turnover magnitudes
+with model variant V1.
+Since particular values of $\zeta$ are difficult to conceptualize,
+we leveraged the methods outlined in Section~\ref{sss:params-turnover}
+to derive the necessary matrix for specified durations $\delta_i$ in each risk group.
+That is, we actually varied $\bm{\delta}$,
+and calculated $\zeta$ to ensure risk group proportions $\bm{\hat{x}}$ were maintained over time.%
+\footnote{Throughout this work,
+  we define duration $\delta_i$ as a ``single average pass through the group''
+  which does not consider reentrance after exiting to another group.}
+Note that rates of turnover are inversely proportional to the duration in each group.
+Furthermore, we defined
+$\delta_M = \min{\{ 5\delta_H,\mu^{-1}\}}$ and
+$\delta_L = \min{\{80\delta_H,\mu^{-1}\}}$
+so that a single parameter $\delta_H$ controls the entire system.
+Unlike above, no values of $\bm{\hat{e}}$ or $\zeta$ were specified,
+leaving 3 degrees of freedom in the system;
+this helped ensure each system had a solution.
+\par
+The duration in the highest risk group $\delta_H$ was then varied
+from approximately 31.6 years through 11.5 days.
+From \eq{eq:duration-group}, we can see that no duration can exceed $\mu^{-1}$,
+or 33.3 years here.
+Technically, no lower bound on $\delta_i$ exists,
+though we note that the very small values explored here ($< 1$ year)
+are mainly for illustrative purposes.
+For each $\delta_H$, sufficient values of $\bm{\hat{e}}$ and $\zeta$ are then resolved,
+and an epidemic is simulated with fixed parameters as before.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\section{Results}\label{s:results}
+\section{Results \& Discussion}\label{s:results+discussion}
+% "A combined Results and Discussion section is often appropriate"
+% https://www.elsevier.com/journals/epidemics/1755-4365/guide-for-authors
+The aim of these experiments was to explore the impact of
+different implementations of risk group demographics on model outputs.
+We compared projected outputs from 6 model variants
+and explored the effect of overall turnover magnitude.
+In this discussion, we generally assume that
+the first model variant presented (S1) is the \textit{most plausible} variant,
+since it includes population growth, risk heterogeneity, and risk group turnover.
+% ==================================================================================================
+\subsection{Model Variants}\label{ss:rd-variants}
+\begin{figure}
+  \centering\includegraphics[width=0.7\textwidth]{incidence-compare.eps}
+  \caption{Projected incidence under each of the 6 model structural variants.}
+  \label{fig:incidence-compare}
+\end{figure}
+\fig{fig:incidence-compare} illustrates
+the projected overall incidence for each model variant, with fixed parameters.
+In general, turnover increases the chances of
+susceptible individuals in the higher risk groups finding susceptible partners
+through replacement of exiting infectious individuals
+with mainly susceptible individuals.
+This parallels the characteristics of a system under proportionate mixing ($\epsilon = 1$)
+as compared to assortative mixing ($\epsilon = 0$),
+since both proportionate mixing and turnover
+act to erode the concentration of risk among higher risk groups.
+The similarities persist as the system approaches equilibrium,
+where increased mixing between risk groups
+increases disease penetration in the lower risk groups.%
+\footnote{A useful analogy is to describe
+  proportionate partnership mixing as risk ``conduction'' (direct contact) between groups,
+  and turnover as risk ``convection'' (movement of individuals).}
+Therefore, if turnover is omitted from the model ($\zeta = 0$),
+the initial incidence and prevalence are overestimated relative to when turnover is considered,
+%This is due to longer average duration of individuals in the higher risk groups,
+%yielding increased risk exposure and faster ``core group'' saturation.
+while steady-state incidence and prevalence are underestimated.
+% Note: \cite{Stigum1997} predict that turnover (described as ``migration'')
+% would have a similar effect as shown here for HIV,
+% though they only explore the steady-state impacts.
+For the same reason, when $\beta$ is fitted to steady-state prevalence without turnover,
+it will likely be overestimated,
+with potentially important implications for simulated interventions.
+% would be much better to actually show this!
+\par
+Next, we note that omission of risk heterogeneity ($\G = 1$ vs $\G = 3$)
+has the most dramatic impact on system dynamics,
+reducing both the rate of infection spread and the steady-state incidence and prevalence.
+This is supported by long-standing literature on core group theory,
+and so should come as no surprise.
+However, we take this opportunity to reiterate the importance of
+stratifying modelled populations by risk
+considering the dramatic differences shown in \fig{fig:incidence-compare}.
+\par
+Finally, comparing V1~--~V3 with V4~--~V6, we note that
+assumptions about population growth rate $\mathcal{G} = \nu - \mu$
+can have meaningful impacts on projected model outputs.
+In particular, assuming a constant population size
+has a similar overall effect as omitting turnover,
+since inflow of susceptible individuals into high risk groups is reduced.
+As a result, prevalence in high risk groups increases faster,
+but then ``saturates''.
+Unlike with turnover, however,
+
+and yet the steady state
+% XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+% (!) ALERT (!)
+% Prevalence has been calculated wrong: (I)/N instead of (I+T)/N
+% so all results in this version are essentially wrong.
+% Using these parameters, prevalence is actually much higher than shown (~80% not ~20%)
+% making these epidemics not representative of any plausible epidemic.
+% need to adjust \beta and C and see what happens :(
+% (!) ALERT (!)
+% XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+% ... Not sure where to put this:
+%Recall that, while the force of infection for a given susceptible individual $\lambda$
+%is maximized as $\frac{\mathcal{I}}{N}$ approaches 1
+%-- i.e.\ all potential partners are infected --
+%absolute incidence, given by $\mathcal{S}\times\lambda$,
+%is subject to $\mathcal{S} + \mathcal{I} + \mathcal{T} = \N$,
+%and so is maximized when $\mathcal{S} = \mathcal{I} = \frac{1}{2}\N$ (and $\mathcal{T} = 0$).
 %\begin{figure}
-%  \centering\scalebox{6}{$\times$}
-%%  \centering\includegraphics[width=0.4\textwidth]{{cum-infect_nu=0.03_G=1_Z=0}.pdf}
-%  \caption{Projected prevalence under each of the 10 model variants.}
+%  \centering\includegraphics[width=0.7\textwidth]{prevalence-fit-compare.eps}
+%  \caption{Projected prevalence under each of the 6 model structural variants,
+%    after fitting $\beta$ to overall prevalence of 10\% in 2020.}
+%  \label{fig:prevalence-fit-compare}
 %\end{figure}
-%\begin{figure}
-%  \centering\scalebox{6}{$\times$}
-%  \caption{Estimated impact of \{intervention x\} on
-%    cumulative new infections between 2020 and 2050.}
-%\end{figure}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\section{Discussion}\label{s:discussion}
-% ideas
+% ==================================================================================================
+\subsection{Turnover Magnitude}\label{ss:rd-zeta-mag}
+\begin{figure}
+  \centering\includegraphics[width=0.7\textwidth]{vary-zeta-prev-full.eps}
+  \caption{Overall prevalence predicted by a heterogeneous system
+    under a wide range of population turnover rates.
+    Note how the heterogeneous system ($\G = 3$) converges on a homogeneous system ($\G = 1$)
+    with very high turnover rates (duration $\delta$ approaches zero).}
+  \label{fig:zeta-mag}
+\end{figure}
+\fig{fig:zeta-mag} illustrates
+the overall prevalence predicted by the model
+under a wide range of turnover rates, based on $\delta_H$.
+As noted above, increasing the rate of turnover
+actually slows the initial infection spread,
+but eventually yields a higher steady-state incidence and prevalence overall.
+However, we also note that with very high levels of turnover (e.g.\ $\delta_H < 1$ year),
+steady-state prevalence actually declines.
+This implies dominance of a ``wash-out'' effect in the higher risk groups
+over the penetration effect described above.
+At the extreme, individuals spend so little time in each risk group
+that their overall risk behaviour and exposure is homogenized.
+Indeed, \fig{fig:zeta-mag} also gives the prevalence predicted by model V3 (with $\G = 1$),
+and we can see that the heterogeneous model V1 (with $\G = 3$)
+converges on the homogeneous model V3
+as $\delta_H$ approaches zero ($\zeta \rightarrow \infty$).
+While this result may be interesting,
+it is generally not applicable to real-world systems,
+since it requires very short durations in risk groups.
+% might also want to comment on HIV vs other STI:
+% if \beta increases (most other STI), then
+% the time scale of infection spread is reduced,
+% and the duration required for "wash-out" to dominate
+% is likely reduced even further
+% i.e. same dominant effect expected as HIV.
+% however: not sure what impact the infection duration would have
+% \cite{Stigum1993} explores this though.
+Therefore, the typical impact of including turnover in a model
+is slight delay of infection spread,
+followed by an increase in steady-state incidence and prevalence,
+as illustrated in Section~\ref{ss:rd-variants}.
+% damn it, classic. we're 25 years late \cite{Stigum1993} Fig.~9.
+\par
+Finally, we note that these results imply the existence of
+a set of turnover rates $\zeta$ which maximize the steady-state incidence.
+We have not attempted to derive an analytical expression for this set,
+but such a contribution in future works may lend
+further insights into the impacts of population turnover on
+infectious epidemics in different contexts.
+% ==================================================================================================
+\subsection{Implications}
+% epidemics described as "generalized" due to high overall prevalence
+% may not necessariily arise due to "multiple concurrent partnerships",
+% as asserted by some observers.
+% Rather, this high prevalence may be at least partially attributable
+% to high levels of population growth and turnover among higher risk groups.
+% ==================================================================================================
+\subsection{Limitations}
 % - limitations
 %   - have not considered differential death -> dynamic recalculation possible solution
 %     - but which assumption is more plausible: (1) constant x -> adaptive zeta?
@@ -588,6 +728,13 @@ are given in Table~\ref{tab:params-zeta}.
 %% ==================================================================================================
 %\subsection{$\G = 4$}
 %\input{app/system-g=4.tex}
+\clearpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Code}\label{a:code}
+The code for this work is available at:\\
+\projrepocommit\\
+which uses the \texttt{epi-model} framework from:\\
+\epimodelrepocommit\\
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \end{document}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
