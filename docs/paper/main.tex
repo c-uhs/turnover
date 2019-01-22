@@ -7,6 +7,7 @@
             booktabs,
             enumitem,
             booktabs,
+            subcaption,
             tcolorbox,
             newfloat,
             graphicx,
@@ -21,7 +22,8 @@
 \graphicspath{
   {figs/}
   {figs/tikz/}
-  {../../outputs/figs/plots/compare/}}
+  {../../outputs/figs/plots/compare/}
+  {../../outputs/figs/2d/}}
 \input{figs/tikz/tikz-style.tex}
 \addbibresource{../../refs/refs.bib}
 \input{../config/turnover-git.tex}
@@ -37,6 +39,9 @@
 \setlength{\parskip}{6pt}
 \setlength{\tabcolsep}{4pt}
 \setlength{\footnotemargin}{8pt}
+\newlength{\figi}  \setlength{\figi}  {0.800\textwidth}
+\newlength{\figii} \setlength{\figii} {0.490\textwidth}
+\newlength{\figiii}\setlength{\figiii}{0.325\textwidth}
 % numbering & bullets
 \setlist[itemize]{label=\raisebox{0.2em}{\footnotesize\textbullet},topsep=0pt,itemsep=0pt}
 \setlist[enumerate,1]{label=\arabic*.}
@@ -78,7 +83,7 @@
 Core group theory has long underpinned modelling of STI epidemics.
 It generally describes maintenance of an epidemic by
 high levels of exposure in a small subset of individuals,
-relative to a larger general population with less exposure. % \cite{?} who is the true seminal paper?
+relative to a larger general population with less exposure~\cite{Yorke1978}.
 When considering one or more core groups
 -- i.e.\ a population composed of several risk-stratified groups --
 the epidemic characteristics are known to depend on
@@ -288,7 +293,7 @@ We denote these variables as the vector $\bm{\theta} = \left[\bm{e}, \bm{z}\righ
 where $\bm{z} = \mathrm{vec}_{i \ne j}(\zeta)$;
 this allows us to define
 a system of linear equations of the form:
-\begin{equation}
+\begin{equation}\label{eq:system-matrix}
 \bm{b} = A \thinspace \bm{\theta}
 \end{equation}
 where $A$ is a $\G \times \G^2 $ matrix
@@ -416,7 +421,7 @@ with individuals of the opposite sex $\mathrm{k}$.
 The probability of partnership formation with
 a partner of sex $\mathrm{k}$ in risk group $\mathrm{i}$
 is assumed to follow
-the formulation proposed by \citeauthor{Garnett1994}~\cite{Garnett1994}:
+the formulation proposed by \citeauthor{Garnett1994}~\cite{Garnett1994}: % \cite{?} someone else proposed this first ...
 \begin{equation}
   \rho_{\mathit{ki}\mathrm{ki}} =
   (1-\epsilon)\psi_{\mathit{ki}\mathrm{ki}}
@@ -447,7 +452,7 @@ Infected individuals are assumed to be diagnosed and begin treatment at a rate $
 As described in Section \ref{s:system},
 individuals enter the model at a rate $\nu$,
 exit at a rate $\mu$,
-and transition between from risk group $i$ to group $j$ at a rate $\zeta_{ij}$.
+and transition from risk group $i$ to group $j$ at a rate $\zeta_{ij}$.
 The default parameters for this base model are summarized in
 \tab{tab:params-base}.
 \begin{table}[b]
@@ -457,13 +462,13 @@ The default parameters for this base model are summarized in
 \end{table}
 \par
 Using this model (and variants, described below),
-simulated epidemics are initialized at $t = 1975$ with $\N_0 = 1000$ individuals,
+simulated epidemics are initialized at $t = 0$ with $\N_0 = 1000$ individuals,
 distributed proportionally according to $\bm{\hat{x}}$.
 Among these individuals, 6 are infected, and the remainder are susceptible;
 for $\G = 3$, this corresponds to one infected person in each sex-risk group,
 while for $\G = 1$, this corresponds to three infected people in each sex.
-Simulated epidemics run until $t = 2025$,
-and are solved numerically using Euler's method with a time step of $dt = 0.1$ years.
+Simulated epidemics are solved numerically using Euler's method
+with a time step of $dt = 0.1$ years.
 % ==================================================================================================
 \subsection{Model Variants}\label{ss:exp-variants}
 Drawing on the most common assumptions outlined in Box~\ref{box:assumptions},
@@ -508,28 +513,26 @@ are summarized in \tab{tab:params-variants}.
 \end{table}
 \par
 For each model variant,
-we project the simulated epidemic using these fixed parameter values.
-While this was mostly sufficient to derive the insights of interest,
-we additionally fit the model to overall prevalence of 10\% in 2050,
-varying a single parameter $f_{\beta} \approx 1$ to scale both elements of $\bm{\beta}$,%
-\footnote{The absolute difference between the target and predicted prevalence
-  was minimized using
-  the Sequential Least SQuares Programming (SLSQP) method~\cite{Kraft1988} from
-  the \texttt{scipy.optimize.minimize} Python package:\\
-  \hreftt{https://docs.scipy.org/doc/scipy/reference/optimize.minimize-slsqp.html}}
-in order to highlight the impacts of model structure on fitted values of $\beta$.
+we project the simulated epidemic using these fixed parameter values,
+and calculate the incidence and prevalence for each risk group, as well as overall.
+Comparing the results, we highlight trends in the projected outputs
+across the structural variants.
 % ==================================================================================================
-\subsection{Turnover Magnitude}\label{ss:exp-zeta-mag}
+\subsection{Impact of Turnover}\label{ss:exp-zeta}
 The overall effect of including turnover in a model is not straightforward.
-On one hand, transfer of infected individuals from high to low risk groups may
-increase disease penetration in the lower risk groups;
+On one hand, transfer of infected individuals from high to low risk groups
+increases disease penetration in the lower risk groups;
 however, turnover also decreases the duration of individuals in the higher risk groups,
 and in turn, their cumulative exposure to risk.
-In order to clarify the dominant effect,
+In order to clarify which effect dominates when,
 we additionally explored a wide range of turnover magnitudes
 with model variant V1.
-Since particular values of $\zeta$ are difficult to conceptualize,
-we leveraged the methods outlined in Section~\ref{sss:params-turnover}
+Moreover, since the average exposure experienced by each group
+is directly affected by the duration of infectiousness,
+we also explored the impact of treatment rate $\tau$ on this result.
+\par
+Particular values of $\zeta$ are difficult to conceptualize,
+so we leveraged the methods outlined in Section~\ref{sss:params-turnover}
 to derive the necessary matrix for specified durations $\delta_i$ in each risk group.
 That is, we actually varied $\bm{\delta}$,
 and calculated $\zeta$ to ensure risk group proportions $\bm{\hat{x}}$ were maintained over time.%
@@ -541,23 +544,45 @@ Furthermore, we defined
 $\delta_M = \min{\{ 5\delta_H,\mu^{-1}\}}$ and
 $\delta_L = \min{\{80\delta_H,\mu^{-1}\}}$
 so that a single parameter $\delta_H$ controls the entire system.
-Unlike above, no values of $\bm{\hat{e}}$ or $\zeta$ were specified,
-leaving 3 degrees of freedom in the system;
-this helped ensure each system had a solution.
+In order to fully determine the system,
+the turnover flows from each group were evenly divided among the destination groups
+using $\zeta_{ij_1} = \zeta_{ij_2} = \frac{1}{2}\left(\delta_i^{-1} - \mu\right)$.
+The values of $\bm{\hat{e}}$ were the solved to maintain group proportions $\bm{\hat{x}}$
+as in \eq{eq:system-matrix}.
 \par
 The duration in the highest risk group $\delta_H$ was then varied
-from approximately 31.6 years through 11.5 days.
+from approximately 33 years through 2 days.
 From \eq{eq:duration-group}, we can see that no duration can exceed $\mu^{-1}$,
 or 33.3 years here.
 Technically, no lower bound on $\delta_i$ exists,
 though we note that the very small values explored here ($< 1$ year)
 are mainly for illustrative purposes.
-For each $\delta_H$, sufficient values of $\bm{\hat{e}}$ and $\zeta$ are then resolved,
-and an epidemic is simulated with fixed parameters as before.
+For each $\delta_H$, and for a range of $\tau \in [0,0.2]$,
+an epidemic is simulated with these fixed parameters as before.
+% ==================================================================================================
+\subsection{Implications for Model Fitting}\label{ss:exp-zeta-fit}
+Finally, since almost all context-specific applications of epidemic models entail
+fitting uncertain model parameters to data-driven calibration targets,
+we explore some potential implications of omitting turnover from a fitted model.
+In particular, we calibrate model variants V1 (includes turnover) and V2 (no turnover) to
+50\% HIV prevalence in the High risk group, and
+10\% HIV prevalence in the Low risk group,
+both at quasi-equilibrium, 200 years after the epidemic start,
+fitting the partner change rate of the High and Low risk groups, $C_H$ and $C_L$.%
+\footnote{The absolute difference between the target and predicted prevalences
+  were minimized using the Sequential Least SQuares Programming (SLSQP) method~\cite{Kraft1988}
+  from the \texttt{scipy.optimize.minimize} Python package:\\
+  \hreftt{https://docs.scipy.org/doc/scipy/reference/optimize.minimize-slsqp.html}}
+We then estimate the transmission population attributable fraction (TPAF) %~\cite{?}
+of Women in the High risk group, who are approximately representative of female sex workers,
+using the pre-calibration and post-calibration models
+(4 total variants).
+TPAF estimates the proportion of onward transmission which is attributable to
+prevention gaps for a specific population.
+We aim to highlight potential underestimation of the TPAF of women in the High-risk group
+due to omission of turnover in models, before and after model fitting.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Results \& Discussion}\label{s:results+discussion}
-% "A combined Results and Discussion section is often appropriate"
-% https://www.elsevier.com/journals/epidemics/1755-4365/guide-for-authors
 The aim of these experiments was to explore the impact of
 different implementations of risk group demographics on model outputs.
 We compared projected outputs from 6 model variants
@@ -568,130 +593,222 @@ since it includes population growth, risk heterogeneity, and risk group turnover
 % ==================================================================================================
 \subsection{Model Variants}\label{ss:rd-variants}
 \begin{figure}
-  \centering\includegraphics[width=0.7\textwidth]{incidence-compare.eps}
-  \caption{Projected incidence under each of the 6 model structural variants.}
-  \label{fig:incidence-compare}
+  \centering
+  \begin{subfigure}{\figiii}
+    \includegraphics[width=\textwidth]{prevalence-all-compare.eps}
+    \caption{Prevalence Overall}
+    \label{fig:prevalence-variants-all}
+  \end{subfigure}
+  \begin{subfigure}{\figiii} % TODO: remove V3 and V6 (G=1) from these plots
+    \includegraphics[width=\textwidth]{prevalence-high-compare.eps}
+    \caption{High activity prevalence}
+    \label{fig:prevalence-variants-high}
+  \end{subfigure}
+  \begin{subfigure}{\figiii} % TODO: remove V3 and V6 (G=1) from these plots
+    \includegraphics[width=\textwidth]{prevalence-low-compare.eps}
+    \caption{Low activity prevalence}
+    \label{fig:prevalence-variants-low}
+  \end{subfigure}
+  \caption{Projected prevalence under each of the 6 model structural variants.}
+  \label{fig:prevalence-variants}
 \end{figure}
-\fig{fig:incidence-compare} illustrates
-the projected overall incidence for each model variant, with fixed parameters.
-In general, turnover increases the chances of
-susceptible individuals in the higher risk groups finding susceptible partners
+\fig{fig:prevalence-variants} illustrates
+the projected HIV prevalence for each model variant
+for the population overall, and among High and Low activity groups specifically.
+Omission of risk heterogeneity ($\G = 1$ vs $\G = 3$)
+has the most dramatic impact on system dynamics,
+reducing $R_0$ below 1 for both variants V3 and V6, resulting in no epidemic.
+This is supported by long-standing literature on core group theory,
+and so should come as no surprise.
+Next, we note that population growth (V1~--~V3) universally reduces projected HIV prevalence,
+especially among the low risk group.
+This effect is mainly attributable to
+increases in the denominator $\N$ of the prevalence equation
+with susceptible entrants to the model,
+since absolute incidence given population growth
+remains higher than with constant population size
+-- just not high enough to keep pace with the additional population.
+Again, these results should not be surprising,
+but we take this opportunity to reiterate the importance of
+stratifying modelled populations by risk,
+and reasonably approximating population growth,
+considering the impacts demonstrated here.
+\par
+Finally, we turn to risk group turnover.
+Generally, turnover decreases HIV prevalence in the high-risk group
 through replacement of exiting infectious individuals
-with mainly susceptible individuals.
+with mainly susceptible individuals from lower risk groups
+(\fig{fig:prevalence-variants-high}),
+and increases prevalence in the low-risk group,
+through ``retirement'' of infected individuals from high to low risk groups
+(\fig{fig:prevalence-variants-low}).
 This parallels the characteristics of a system under proportionate mixing ($\epsilon = 1$)
 as compared to assortative mixing ($\epsilon = 0$),
 since both proportionate mixing and turnover
-act to erode the concentration of risk among higher risk groups.
-The similarities persist as the system approaches equilibrium,
-where increased mixing between risk groups
-increases disease penetration in the lower risk groups.%
+act to erode the concentration of risk among higher risk groups.%
 \footnote{A useful analogy is to describe
   proportionate partnership mixing as risk ``conduction'' (direct contact) between groups,
   and turnover as risk ``convection'' (movement of individuals).}
 Therefore, if turnover is omitted from the model ($\zeta = 0$),
 the initial incidence and prevalence are overestimated relative to when turnover is considered,
-%This is due to longer average duration of individuals in the higher risk groups,
-%yielding increased risk exposure and faster ``core group'' saturation.
-while steady-state incidence and prevalence are underestimated.
-% Note: \cite{Stigum1997} predict that turnover (described as ``migration'')
-% would have a similar effect as shown here for HIV,
-% though they only explore the steady-state impacts.
-For the same reason, when $\beta$ is fitted to steady-state prevalence without turnover,
-it will likely be overestimated,
-with potentially important implications for simulated interventions.
-% would be much better to actually show this!
-\par
-Next, we note that omission of risk heterogeneity ($\G = 1$ vs $\G = 3$)
-has the most dramatic impact on system dynamics,
-reducing both the rate of infection spread and the steady-state incidence and prevalence.
-This is supported by long-standing literature on core group theory,
-and so should come as no surprise.
-However, we take this opportunity to reiterate the importance of
-stratifying modelled populations by risk
-considering the dramatic differences shown in \fig{fig:incidence-compare}.
-\par
-Finally, comparing V1~--~V3 with V4~--~V6, we note that
-assumptions about population growth rate $\mathcal{G} = \nu - \mu$
-can have meaningful impacts on projected model outputs.
-In particular, assuming a constant population size
-has a similar overall effect as omitting turnover,
-since inflow of susceptible individuals into high risk groups is reduced.
-As a result, prevalence in high risk groups increases faster,
-but then ``saturates''.
-Unlike with turnover, however,
-
-and yet the steady state
-% XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-% (!) ALERT (!)
-% Prevalence has been calculated wrong: (I)/N instead of (I+T)/N
-% so all results in this version are essentially wrong.
-% Using these parameters, prevalence is actually much higher than shown (~80% not ~20%)
-% making these epidemics not representative of any plausible epidemic.
-% need to adjust \beta and C and see what happens :(
-% (!) ALERT (!)
-% XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-% ... Not sure where to put this:
-%Recall that, while the force of infection for a given susceptible individual $\lambda$
-%is maximized as $\frac{\mathcal{I}}{N}$ approaches 1
-%-- i.e.\ all potential partners are infected --
-%absolute incidence, given by $\mathcal{S}\times\lambda$,
-%is subject to $\mathcal{S} + \mathcal{I} + \mathcal{T} = \N$,
-%and so is maximized when $\mathcal{S} = \mathcal{I} = \frac{1}{2}\N$ (and $\mathcal{T} = 0$).
-%\begin{figure}
-%  \centering\includegraphics[width=0.7\textwidth]{prevalence-fit-compare.eps}
-%  \caption{Projected prevalence under each of the 6 model structural variants,
-%    after fitting $\beta$ to overall prevalence of 10\% in 2020.}
-%  \label{fig:prevalence-fit-compare}
-%\end{figure}
+particularly in the high risk group, but also overall.
+At steady state, the \textit{overall} impact of turnover is not so straightforward,
+but the trends in prevalence described above generally persist.
+These trends are further clarified in the next section,
+which considers both the impact of turnover magnitude and treatment rate.
 % ==================================================================================================
-\subsection{Turnover Magnitude}\label{ss:rd-zeta-mag}
+\subsection{Impact of Turnover}\label{ss:rd-zeta}
 \begin{figure}
-  \centering\includegraphics[width=0.7\textwidth]{vary-zeta-prev-full.eps}
+  \centering
+  \begin{subfigure}{\figiii}
+    \includegraphics[width=\textwidth]{2d-incidence-high.eps}
+    \caption{High activity incidence}
+    \label{fig:2d-inc-high}
+  \end{subfigure}
+  \begin{subfigure}{\figiii}
+    \includegraphics[width=\textwidth]{2d-incidence-low.eps}
+    \caption{Low activity incidence}
+    \label{fig:2d-inc-low}
+  \end{subfigure}\\
+  \begin{subfigure}{\figiii}
+    \includegraphics[width=\textwidth]{2d-prevalence-high.eps}
+    \caption{High activity prevalence}
+    \label{fig:2d-prev-high}
+  \end{subfigure}
+  \begin{subfigure}{\figiii}
+    \includegraphics[width=\textwidth]{2d-prevalence-low.eps}
+    \caption{Low activity prevalence}
+    \label{fig:2d-prev-low}
+  \end{subfigure}
+  \caption{Steady-state incidence and prevalence
+    for different rates of turnover (based on $\delta_H$, log scale)
+    and treatment rate $\tau$ (linear scale).}
+  \label{fig:2d-inc-prev-zeta}
+\end{figure}
+\begin{figure}
+  \centering
+  \begin{subfigure}{\figiii}
+    \includegraphics[width=\textwidth]{2d-prevalence-norm-all.eps}
+    \caption{Overall}
+    \label{fig:2d-prev-norm-all}
+  \end{subfigure}
+  \begin{subfigure}{\figiii}
+    \includegraphics[width=\textwidth]{2d-prevalence-norm-high.eps}
+    \caption{High activity}
+    \label{fig:2d-prev-norm-high}
+  \end{subfigure}
+  \begin{subfigure}{\figiii}
+    \includegraphics[width=\textwidth]{2d-prevalence-norm-low.eps}
+    \caption{Low activity}
+    \label{fig:2d-prev-norm-low}
+  \end{subfigure}
+  \caption{Steady-state prevalence
+    for different rates of turnover (based on $\delta_H$, log scale)
+    and treatment rate $\tau$ (linear scale),
+    after normalizing by prevalence at $\delta_H = 33$ for each $\tau$,
+    in order to highlight the impact of turnover for a given $\tau$.}
+  \label{fig:2d-prev-norm-zeta}
+\end{figure}
+\fig{fig:2d-inc-prev-zeta} shows the projected steady-state incidence and prevalence
+for model V1 under several rates of overall turnover and treatment.
+As suggested above, increasing turnover (decreasing $\delta_H$)
+reduces HIV prevalence in the high risk group (\fig{fig:2d-prev-high}),
+due to reduced cumulative exposure to risk with shorter duration in the group.
+However, at low treatment rate,
+turnover actually increases incidence in the high risk group (\fig{fig:2d-inc-high}),
+since with prevalence over 50\%, supply of susceptibles, not infectious individuals,
+increases the probability of serodiscordant partnerships.
+Among the low-risk group, still with low treatment rate,
+the prevalence trend approximately reverses,
+as increased turnover contributes additional infected individuals to the low-risk group.
+Interestingly, incidence again exhibits the opposite trend of prevalence;
+we hypothesize that this time, it is due to
+decreased prevalence among the high-risk group,
+representing the main source of serodiscordant partnerships
+under the proportional mixing assumptions here.
+\par
+As treatment rates increases,
+incidence and prevalence predictably decline among all groups.
+However, since differences across $\tau$ tend to dominate
+the magnitude of prevalence in \fig{fig:2d-inc-prev-zeta},
+we additionally normalize these plots
+by the turnover-free magnitude ($\delta_H = 33$) for each $\tau$.
+From the resulting plots, we can see that
+increasing turnover continues to erode prevalence among the high-risk group
+(\fig{fig:2d-prev-norm-high}),
+while prevalence among the low-risk group increases with turnover
+up to a $\tau$-dependent threshold
+(\fig{fig:2d-prev-norm-low}).
+After this point -- for high rates of treatment and turnover --
+wash-out of the core group rapidly reduces steady-state incidence and prevalence.
+At the extreme, even the core group $R_0$ is reduced to $< 1$, yielding no epidemic.
+Since the overall prevalence in this system
+is dominated by the large low-risk group,
+the effect of turnover on low-risk prevalence approximates
+the effect on overall prevalence, yielding
+the complex relationship with turnover and treatment rate
+shown in \fig{fig:2d-prev-norm-all}.
+Given this result,
+turnover cannot be said to simply increase or decrease
+overall estimated prevalence;
+indeed, even the trends in \fig{fig:2d-prev-norm-all} may subject to the
+specific parameters and assumptions employed here.
+\par
+Finally, we note that % need different transition here & maybe better explanation
+the homogenizing effect of turnover can be illustrated empirically.
+Specifically, we show that model variant V1 will actually converge on V3 ($\G = 1$)
+as the rates of turnover increase, though well beyond plausible values,
+since individuals spend so little time in each risk group
+that their overall risk behaviour and exposure becomes approximately uniform.
+After increasing $\bm{\beta}$ by a factor of 2.5 so that V3 obtains an epidemic,
+\fig{fig:prev-converge} demonstrates the convergence of overall projected prevalence
+from model V1 with high turnover on that from model V3.
+\begin{figure}
+  \centering
+  \includegraphics[width=\figi]{vary-zeta-prevalence-[0005,05].eps}
   \caption{Overall prevalence predicted by a heterogeneous system
-    under a wide range of population turnover rates.
+    under a wide range of high turnover rates.
     Note how the heterogeneous system ($\G = 3$) converges on a homogeneous system ($\G = 1$)
     with very high turnover rates (duration $\delta$ approaches zero).}
-  \label{fig:zeta-mag}
+  \label{fig:prev-converge}
 \end{figure}
-\fig{fig:zeta-mag} illustrates
-the overall prevalence predicted by the model
-under a wide range of turnover rates, based on $\delta_H$.
-As noted above, increasing the rate of turnover
-actually slows the initial infection spread,
-but eventually yields a higher steady-state incidence and prevalence overall.
-However, we also note that with very high levels of turnover (e.g.\ $\delta_H < 1$ year),
-steady-state prevalence actually declines.
-This implies dominance of a ``wash-out'' effect in the higher risk groups
-over the penetration effect described above.
-At the extreme, individuals spend so little time in each risk group
-that their overall risk behaviour and exposure is homogenized.
-Indeed, \fig{fig:zeta-mag} also gives the prevalence predicted by model V3 (with $\G = 1$),
-and we can see that the heterogeneous model V1 (with $\G = 3$)
-converges on the homogeneous model V3
-as $\delta_H$ approaches zero ($\zeta \rightarrow \infty$).
-While this result may be interesting,
-it is generally not applicable to real-world systems,
-since it requires very short durations in risk groups.
-% might also want to comment on HIV vs other STI:
-% if \beta increases (most other STI), then
-% the time scale of infection spread is reduced,
-% and the duration required for "wash-out" to dominate
-% is likely reduced even further
-% i.e. same dominant effect expected as HIV.
-% however: not sure what impact the infection duration would have
-% \cite{Stigum1993} explores this though.
-Therefore, the typical impact of including turnover in a model
-is slight delay of infection spread,
-followed by an increase in steady-state incidence and prevalence,
-as illustrated in Section~\ref{ss:rd-variants}.
-% damn it, classic. we're 25 years late \cite{Stigum1993} Fig.~9.
+% ==================================================================================================
+\subsection{Fitted Models with Turnover}\label{ss:rd-zeta-fit}
+\begin{figure}
+  \centering
+  \includegraphics[width=\figi]{tpaf-fit-not-C-compare.eps}
+  \caption{Estimated transmission population attributable fraction (TPAF)
+    of high-risk women with and without turnover,
+    and with and without fitting $C$ to group-specific prevalence.
+    Turnover increases the estimated TPAF of high risk groups for fixed parameters.
+    Moreover, the difference in estimated TPAF with and without turnover
+    increases after fitting $C$ to group-specific prevalence.}
+  \label{fig:tpaf}
+\end{figure}
+Finally, we return to model fitting,
+where parameters (typically behavioural) are adjusted so that
+the model projections match historically observed data, such as prevalence.
+As shown in Figures~\ref{fig:2d-prev-norm-high}~and~\ref{fig:2d-prev-norm-low},
+omission of turnover promises to overestimate prevalence in the high-risk group
+and (for low treatment rate) underestimate prevalence in the low-risk group.
+Therefore, when fitting to consistent group-wise prevalence targets without turnover,
+the risk behaviour of high-risk groups will be underestimated,
+while that of low-risk groups will likely be overestimated.
+Following the experiment described in Section~\ref{ss:exp-zeta-fit},
+we fit $C_H$ and $C_L$ to prevalence targets for the high and low risk groups,
+with and without turnover.
+With turnover, the ratio of fitted $C_H / C_L$ was 70.6,
+while without turnover, the ratio was only 9.4.
 \par
-Finally, we note that these results imply the existence of
-a set of turnover rates $\zeta$ which maximize the steady-state incidence.
-We have not attempted to derive an analytical expression for this set,
-but such a contribution in future works may lend
-further insights into the impacts of population turnover on
-infectious epidemics in different contexts.
+The TPAF of high-risk women with turnover and fixed parameters
+is already larger than that without turnover for all time horizons
+(\fig{fig:tpaf}, solid lines),
+implying that models lacking turnover are liable to underestimate
+the importance of reaching key populations like female sex workers with interventions.
+However, after fitting, with the adjustments to behavioural parameters described above,
+the gap in estimated TPAF grows (\fig{fig:tpaf}, dotted lines),
+implying that \textit{fitted} models lacking turnover underestimate
+the importance of reaching core groups even more.
 % ==================================================================================================
 \subsection{Implications}
 % epidemics described as "generalized" due to high overall prevalence
