@@ -1,13 +1,24 @@
 [
-{ "name": "prevalence", "output": "prevalence", "selector": "all",
+{ "name": "prevalence-high", "output": "prevalence", "selector": "high",
   "arr": {
     "idxs": ["t"],
-    "t":    [ 2020 ],
+    "t":    [ 200 ],
+    "arr":  [ 0.50 ]
+  },
+  "ci": {
+    "min": [ 0.49 ],
+    "max": [ 0.51 ]
+  }
+},
+{ "name": "prevalence-low", "output": "prevalence", "selector": "low",
+  "arr": {
+    "idxs": ["t"],
+    "t":    [ 200 ],
     "arr":  [ 0.10 ]
   },
   "ci": {
-    "min": [ 0.08 ],
-    "max": [ 0.12 ]
+    "min": [ 0.09 ],
+    "max": [ 0.11 ]
   }
 }
 ]

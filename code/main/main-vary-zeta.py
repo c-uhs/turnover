@@ -8,17 +8,11 @@ import modelutils
 import elements
 import system
 
-output = 'prevalence'
-N = 7
-
-def idur(i):
-  return 10**-i
-
-def iterdur():
-  for i in np.logspace(-1.5,+1.5,N)[::-1]:
+def iterdur(min,max,N):
+  for i in np.logspace(np.log10(min),np.log10(max),N)[::-1]:
     yield i
 
-def get_sim(type,dh=None):
+def get_sim(type,output,dh=None):
   model = system.get_model()
   if type == 'homo':
     model.collapse(['ii','ip'])
@@ -26,9 +20,18 @@ def get_sim(type,dh=None):
     dt = 0.2
   if type == 'zeta':
     dhmax = 1.0/model.params['mu']
-    model.params['pe'].update(np.nan)
-    model.params['zeta'].update(np.nan)
     model.params['dur'].update([dh,min(dh*5,dhmax),min(dh*30,dhmax)])
+    # z1 = (1/model.params['dur'].iselect(ii='H',ki='M') - model.params['mu'])/2
+    # z2 = (1/model.params['dur'].iselect(ii='M',ki='M') - model.params['mu'])/2
+    # z3 = (1/model.params['dur'].iselect(ii='L',ki='M') - model.params['mu'])/2
+    # model.params['zeta'].update(z1,ii='H',ip='M')
+    # model.params['zeta'].update(z1,ii='H',ip='L')
+    # model.params['zeta'].update(z2,ii='M',ip='L')
+    # model.params['zeta'].update(z2,ii='M',ip='H')
+    # model.params['zeta'].update(z3,ii='L',ip='M')
+    # model.params['zeta'].update(z3,ii='L',ip='H')
+    model.params['zeta'].update(np.nan)
+    # model.params['pe'].update(np.nan)
     name = '$G = 3, \\delta_H = {:.03f}$'.format(model.params['dur'][0,0])
     dt = min(dh*0.8,0.2)
   t = system.get_t(dt=dt,tmin=0,tmax=200)
@@ -41,7 +44,7 @@ def get_sim(type,dh=None):
   ))
   return sim,name
 
-def plotfun(sim,name,color,**specs):
+def plotfun(sim,name,color,output,**specs):
   selector = sim.model.select['all']
   selector.color = color
   selector.specs.update(**specs)
@@ -55,14 +58,27 @@ def plotfun(sim,name,color,**specs):
   )
   return [name]
 
-if __name__ == '__main__':
+def make_plot(output,min,max,N,homo=False):
   legend = []
   cmap = elements.Color([1,0,0]).cmap(N,[-0.7 ,+0.7])[::-1]
-  for dh,c in zip(iterdur(),cmap):
+  durs = iterdur(min,max,N)
+  fb = 2.5 if homo else 1.0
+  from pprint import pprint
+  for dh,c in zip(durs,cmap):
     print(dh,flush=True)
-    legend += plotfun(*get_sim('zeta',dh=dh),color=c)
-  legend += plotfun(*get_sim('homo'),color=[0,0,0],linestyle='--')
+    sim,name = get_sim('zeta',dh=dh,output=output)
+    sim.params['beta'] *= fb
+    legend += plotfun(sim,name,output=output,color=c)
+  if homo:
+    sim,name = get_sim('homo',output=output)
+    sim.params['beta'] *= fb
+    legend += plotfun(sim,name,output=output,color=[0,0,0],linestyle='--')
   plt.legend(legend,loc='lower right',fontsize=8)
-  plt.savefig(os.path.join(config.path['figs'],'plots','compare','vary-zeta-prev-full.eps'))
+  save = 'vary-zeta-{}-[{:0.2f},{:0.2f}].eps'.format(output,min,max)
+  plt.savefig(os.path.join(config.path['figs'],'plots','compare',save))
   plt.show()
+
+if __name__ == '__main__':
+  # make_plot('prevalence',3,33,5)
+  make_plot('prevalence',0.005,0.5,9,homo=True)
 

@@ -34,7 +34,7 @@ def make_title(nu,G,Z):
     '>' if bool(Z) else '=',
   )
 
-def get_sims():
+def get_sims(t=None):
   # build a dictionary of model structural variants, starting from the most complicated
   specs = system.get_specs()
   sims = odict()
@@ -53,7 +53,7 @@ def get_sims():
     # add simulation to dictionary
     sims.update({
       make_name(nu,G,Z):
-      system.get_simulation(model)
+      system.get_simulation(model,t=t)
     })
   return sims
 
@@ -62,9 +62,9 @@ def get_selectors():
   for nu,G,Z in iter_params():
     name = make_name(nu,G,Z)
     if nu == list(iter_params())[0][0]:
-      color = elements.Color([0.8,  0,  0]).lighten(0.4*Z)
+      color = elements.Color([0.8,  0,  0]).lighten(0.6*(1-Z))
     else:
-      color = elements.Color([  0,  0,0.8]).lighten(0.4*Z)
+      color = elements.Color([  0,  0,0.8]).lighten(0.6*(1-Z))
     linestyle = '--' if (G == 1) else '-'
     select.update({
       name:
@@ -78,8 +78,8 @@ def get_selectors():
     })
   return select
 
-def iter_all():
+def iter_all(t=None):
   select = get_selectors()
-  sims = get_sims()
+  sims = get_sims(t=t)
   for name,sim in sims.items():
     yield name,sim,select[name]

@@ -3,7 +3,7 @@
   { "name": "S",       "title": "Susceptible",     "select": { "hi": ["S"] },     "color": [  0, 0.8, 0.4] },
   { "name": "I",       "title": "Infectious",      "select": { "hi": ["I"] },     "color": [0.8,   0, 0.2] },
   { "name": "T",       "title": "Treated",         "select": { "hi": ["T"] },     "color": [0.6, 0.2, 1.0] },
-  { "name": "infected","title": "Infected",        "select": { "hi": ["I","T"] }, "color": [0.8,   0, 0.2]  },
+  { "name": "infected","title": "Infected",        "select": { "hi": ["I","T"] }, "color": [0.8,   0, 0.2] },
   { "name": "W",       "title": "All Women",       "select": { "ki": ["W"] },     "color": [0.8,   0,   0] },
   { "name": "M",       "title": "All Men",         "select": { "ki": ["M"] },     "color": [  0,   0, 0.8] },
   { "name": "high",    "title": "High Activity",   "select": { "ii": ["H"] },     "color": [0.1, 0.1, 0.1] },

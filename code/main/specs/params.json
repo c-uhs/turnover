@@ -64,9 +64,21 @@
   { "name": "C",
     "desc": "number of partnerships formed per year by each individual",
     "accum": "wax",
-    "arr": { "idxs": ["ki", "ii", "p"],
-             "arr": [[[25],[5],[1]],
-                     [[25],[5],[1]]] }
+    "arr": { "idxs": ["ki","ii","p"],
+             "arr": null
+    }
+  },
+  { "name": "C-i",
+    "desc": "number of partnerships formed per year by each individual by activity level",
+    "accum": "wax",
+    "arr": { "idxs": ["ii"],
+             "arr": [25, 5, 1]
+    },
+    "ci": {
+      "min":  [   5 ,  1 , 0.1 ],
+      "max":  [ 100 , 25 , 5   ]
+    },
+    "fitted": [ 1, 0, 1 ]
   },
   { "name": "beta",
     "desc": "probability of transmission per partnership",
@@ -77,28 +89,15 @@
     "desc": "probability of transmission per partnership",
     "arr": {
       "idxs": ["ki","kp"],
-      "arr":  [[0    , 0.05 ],
-               [0.1  , 0    ]]
-    },
-    "ci": {
-      "min":  [[0    , 0.001],
-               [0.001, 0    ]],
-      "max":  [[0    , 0.50 ],
-               [0.50 , 0    ]]
-    },
-    "fitted": [[  0 ,   0 ],
-               [  0 ,   0 ]]
+      "arr":  [[0    , 0.02 ],
+               [0.04 , 0    ]]
+    } 
   },
   { "name": "f-beta-h",
     "desc": "factor of beta by health state",
     "arr": {
       "idxs": ["hp"],
       "arr":  [ 0, 1, 0 ]
-    },
-    "ci": {
-      "min":  [ 0 ,   0.01, 0 ],
-      "max":  [ 0 , 100.0 , 0 ]
-    },
-    "fitted": [0, 1, 0 ]
+    }
   }
 ]

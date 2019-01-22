@@ -3,10 +3,9 @@ config.epimodel()
 # epi-model imports
 from space import *
 from simulation import *
-import outputfuns
+import outpututils
 import initutils
 import transmit
-import test
 # external imports
 import numpy as np
 
@@ -23,20 +22,23 @@ def dxfun(X,t,P,dxout={}):
       dX.update(XZk.isum('ip'),ki=ki,accum=np.subtract)
       dX.update(XZk.isum('ii'),ki=ki,accum=np.add)
   # force of infection
-  lamp = transmit.lambda_fun(X,P['C'],P['beta'].islice(t=t),P['eps'],dxout)
-  xlam = lamp.isum('p').iselect(hi='S')*X.iselect(hi='S')
+  lam = transmit.lambda_fun(X,P['C'],P['beta'].islice(t=t),P['eps'],dxout)
+  xlam = lam.isum('p').iselect(hi='S')*X.iselect(hi='S')
   transmit.transfer(dX, src={'hi':'S'}, dst={'hi':'I'}, N = xlam)
   # treatment
   transmit.transfer(dX, src={'hi':'I'}, dst={'hi':'T'}, N = X.iselect(hi='I') * P['tau'])
   # # full recovery -> for SIT model, we have no recovery
   # transmit.transfer(dX, src={'hi':'T'}, dst={'hi':'S'}, N = X.iselect(hi='T') * P['gamma'])
   # dxout
-  dxout.update({v:locals()[v] for v in dxout if v in locals()})
+  dxout.update({'lam':locals()['lam']}) # TODO: what is going on here?
+  # dxout.update({v:locals()[v] for v in dxout if v in locals()})
   # return
   return dX
 
 def initfun(model,spaces):
   P = model.params
+  # change rate
+  P['C'].update(P['C-i'].expand(P['C'].space))
   # beta
   sbeta = spaces['super']
   P['beta'].update(P['beta-k'].expand(sbeta) * P['f-beta-h'].expand(sbeta))
@@ -75,46 +77,20 @@ def get_targets(spaces,select,outputs,t=None,names=None):
   names = [target.name for target in targets.values()] if names is None else flatten(names)
   return xdict(xfilter(targets.values(),name=names),ord=True)
 
-def get_outputs(spaces,select,t=None,names=None):
-  def tspace(space):
-    return space.union(Space([modelutils.tdim(flatten(t))]))
-  outputs = [
-    Output('N',
-           space = tspace(spaces['index']),
-           fun = lambda sim: sim.X,
-           accum = np.sum,
-           wax = False),
-    Output('X',
-           space = tspace(spaces['index']),
-           fun = lambda sim: sim.X / sim.X.isum('t',keep=True),
-           accum = np.sum,
-           wax = False),
-    Output('prevalence',
-           space = tspace(spaces['index']),
-           fun = lambda sim: outputfuns.prevalence(sim),
-           accum = np.average,
-           wax = True),
-    Output('incidence',
-          space = tspace(spaces['super'].subspace(['ki','ii','p'],keep=True)),
-          fun = lambda sim,t,lamp: outputfuns.incidence(sim,lam=lamp,t=t,per=1000,ss='S'),
-          accum = np.average,
-          wax = True,
-          calc = 'peri', dxout = ['lamp']),
-    Output('incidence-abs',
-          space = tspace(spaces['super'].subspace(['ki','ii','p'],keep=True)),
-          fun = lambda sim,t,lamp: outputfuns.incidence(sim,lam=lamp,t=t,per=False,ss='S'),
-          accum = np.average,
-          wax = True,
-          calc = 'peri', dxout = ['lamp']),
-    Output('cum-infect',
-          space = tspace(spaces['super'].subspace(['ki','ii','p'],keep=True)),
-          fun = lambda sim,t,lamp: outputfuns.incidence(sim,lam=lamp,t=t,per=False,ss='S'),
-          accum = np.sum,
-          wax = False,
-          calc = 'peri', dxout = ['lamp'], cum = True),
-  ]
-  names = [output.name for output in outputs] if names is None else flatten(names)
-  return xdict(xfilter(outputs,name=names))
+def get_outputs(spaces,select,t,names=None,**kwargs):
+  specs = {
+    'N': {},
+    'X': {},
+    'prevalence': {'si':'infected'},
+    'incidence': {'ss':'S'},
+    'incidence-abs': {'ss':'S'},
+    'cum-infect': {'ss':'S'},
+    'tpaf-WH': {'beta':'beta','ss':'S'},
+  }
+  return xdict([
+    outpututils.make_output(name,t=t,spaces=spaces,**specs[name])
+    for name in names
+  ])
 
 def get_specs():
   specdir = os.path.join(config.path['root'],'code','main','specs')
@@ -140,7 +116,7 @@ def get_model():
                params = ParameterSet(specs['params'],accum=specs['accum']),
                initfun = lambda model: initfun(model,model.spaces))
 
-def get_t(dt=0.5,tmin=1975,tmax=2025):
+def get_t(dt=0.5,tmin=0,tmax=200):
   return np.around(np.arange(tmin, tmax+1e-6, dt), 6)
 
 def get_simulation(model,infect=True,outputs=[],t=None):

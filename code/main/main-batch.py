@@ -29,13 +29,6 @@ def runsim(sim,plots,varname,vset):
     spec['fun'] = spec.pop('fun',lambda **kwargs: sim.plot(**kwargs))
     return spec
 
-  def tpafplotfun(**spec):
-    # special plotting function for tPAF since it is not a model output
-    spec.pop('outputs')
-    pop = spec.pop('pop')
-    tpaf = modelutils.tpaf(sim,pop,dxinf='xlam',beta='beta',copy=True)
-    modelutils.plot(sim.t,tpaf,**spec)
-
   def fitfun(**spec):
     # special case: fit model to targets, save fitted parameters (from params.json)
     # initialize the targets and calsim
@@ -43,22 +36,18 @@ def runsim(sim,plots,varname,vset):
       sim.model.spaces,
       sim.model.select,
       sim.outputs,
-      t = sim.t)
-    calsim = calibration.CalibrationSim('calsim',
+      t = sim.t,
+    )
+    calsim = calibration.CalibrationSim(
+      spec['title'],
       sim = sim,
-      targets = targets)
-    # initialize the results file if it does not already exist
-    fname = os.path.join(config.path['root'],'outputs','params','optimized.json')
-    if not os.path.exists(fname):
-      with open(fname,'w') as f:
-        f.write('{}')
-    results = utils.loadjson(fname)
-    # run the optimization
-    opt = calsim.optimize(plot='tmp.png')
-    # update and order the results file
-    results.update({spec['title']:{name:param.tolist() for name,param in opt.items()}})
-    results = odict([(p,v) for p,v in sorted(results.items())])
-    utils.savejson(fname,results,indent=2)
+      targets = targets,
+      verbose = True,
+    )
+    calsim.sim.params['tau'].update(0.05)
+    pfile = os.path.join(config.path['specs'],'fit',calsim.name+'.json')
+    opt = calsim.optimize(eps=0.1)
+    calsim.fitted_params().save(pfile)
 
   # dictionary of specifications for the plots
   specs = { name:spec for name,spec in \
@@ -90,19 +79,17 @@ def runsim(sim,plots,varname,vset):
         outputs = ['cum-infect'],
         selectors = ['WH','WM','WL'],
         ylim = [0,1000]),
-      'tpaf-fsw': specfun(
-        fun = tpafplotfun,
-        outputs = ['tPAF'],
-        pop = {'kp':'W','ip':'H'},
+      'tpaf-WH': specfun(
+        outputs = ['tpaf-WH'],
         selectors = ['all'],
-        ylabel = 'tPAF of High Risk Group',
+        ylabel = 'tPAF of High Risk Women',
         ylim = [0,1]),
       'fit': specfun(
         fun = fitfun,
         outputs = ['prevalence'],
         selectors = [],
       ),
-    }.items() if (name in plots) or ((len(plots)==0) and (name != 'fit')) }
+    }.items() if (name in plots) or ((len(plots)==0) and not (name in ['fit','tpaf-fsw'] )) }
 
   # initialize the required outputs
   outputs = utils.unique(utils.flatten(spec['outputs'] for spec in specs.values()))
@@ -126,14 +113,18 @@ def runsim(sim,plots,varname,vset):
 def print_turnover(name,sim):
   print('-'*50)
   print(name)
-  print(sim.model.params['zeta'].islice(t=2000,ki='M'))
-  print(sim.model.params['dur'].islice(t=2000,ki='M'))
-  print(sim.model.params['pe'].islice(t=2000,ki='M'))
+  print(sim.model.params['zeta'].islice(t=50,ki='M'))
+  print(sim.model.params['dur'].islice(t=50,ki='M'))
+  print(sim.model.params['pe'].islice(t=50,ki='M'))
 
 if __name__ == '__main__':
 
   # variants w.r.t. model structure
-  for name,sim in variants.get_sims().items():
+  t = system.get_t(tmax = 200)
+  idx = int(sys.argv[1])
+  for i,(name,sim) in enumerate(variants.get_sims(t=t).items()):
     # print_turnover(name,sim)
-    runsim(sim,[],name,'structure')
+    # runsim(sim,[],name,'structure')
+    if idx == i:
+      runsim(sim,['fit'],name,'structure')
 
