@@ -1,3 +1,6 @@
+# old files
+.old/
+
 # data
 data/sources/private/*
 
