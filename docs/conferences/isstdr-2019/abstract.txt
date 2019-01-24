@@ -1,0 +1,17 @@
+TITLE:
+Risk-group turnover in high-prevalence HIV epidemics: implications for prioritization of key populations
+
+(104/125 characters)
+
+ABSTRACT:
+
+Background: Heterogeneity in the risks of HIV acquisition and transmission are central to core group theory, wherein simulated epidemics achieve a higher overall HIV prevalence compared to if homogeneous risk is assumed. The impacts of sexual mixing patterns between risk groups on epidemic dynamics are well studied; less so are the impacts of population turnover among risk groups, perhaps because standard methods to parameterize this phenomenon using demographic data have been lacking.
+
+Methods: We developed an analytical approach to modeling risk group turnover that leverages available demographic data and ensures constant group proportions. We then incorporated this approach into a deterministic model of heterosexual HIV transmission with three risk-groups, including one representative of sex work. We explored the influence of duration in sex work (inverse of turnover) on projected HIV prevalence and the transmission population attributable fraction (tPAF) of high-risk women to cumulative HIV infections in the total population over subsequent years.
+
+Results: Risk-group turnover acts to erode concentration of risk among the core group, reducing initial epidemic spread. At steady-state, core group HIV prevalence is also reduced due to shorter in-group risk exposure, while low-risk prevalence typically increases due to movement of infected individuals from core to the periphery. As a result, the impact of turnover on overall prevalence is not consistent, and depends on system characteristics. However, tPAF of high-risk women is consistently underestimated in the absence of turnover, a potential bias which is magnified through model calibration to group-specific prevalence targets.
+
+Discussion: Many transmission models do not consider risk-group turnover. This omission may result in overestimated HIV prevalence among the core-group, or compensation by behavioural parameters during model fitting. As a result, the impacts of reaching key populations may be underestimated by such models. Hopefully the methods presented here can help address this bias through incorporation of turnover in all future models.
+
+(305/300 words)
+
