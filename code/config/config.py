@@ -6,6 +6,7 @@ path = {
   'root': root,
   'epi-model': os.path.join(root,'code','epi-model','src'),
   'figs': os.path.join(root,'outputs','figs'),
+  'data': os.path.join(root,'outputs','data'),
   'specs': os.path.join(root,'code','main','specs'),
 }
 

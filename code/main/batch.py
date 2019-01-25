@@ -1,6 +1,6 @@
 import os,sys; sys.path.append(os.path.join((lambda r,f:f[0:f.index(r)+len(r)])('code',os.path.abspath(__file__)),'config')); import config
 config.epimodel()
-config.plot()
+config.plot(tex=True)
 
 import numpy as np
 config.numpy()
@@ -13,14 +13,17 @@ import modelutils
 import calibration
 import utils
 
-def runsim(sim,plots,varname,vset):
+def fname_fig(plot,varname,ftype='png'):
+  # filename for the plot
+  fname = plot+'_'+varname+'.'+ftype
+  return os.path.join(config.path['figs'],'plots','batch',fname)
+
+def fname_fit(varname):
+  return os.path.join(config.path['data'],'fit',varname+'.json')
+
+def run_sim(sim,todo,varname):
   # run a single simulation for a single model variant, and generate named plots
   specs = system.get_specs()
-
-  def savename(vset,plot,varname,ftype='png'):
-    # filename for the plot
-    fname = plot+'_'+varname+'.'+ftype
-    return os.path.join(config.path['root'],'outputs','figs','plots',vset,fname)
 
   def specfun(**spec):
     # replace names with selectors
@@ -45,9 +48,8 @@ def runsim(sim,plots,varname,vset):
       verbose = True,
     )
     calsim.sim.params['tau'].update(0.05)
-    pfile = os.path.join(config.path['specs'],'fit',calsim.name+'.json')
     opt = calsim.optimize(eps=0.1)
-    calsim.fitted_params().save(pfile)
+    calsim.fitted_params().save(fname_fit(calsim.name))
 
   # dictionary of specifications for the plots
   specs = { name:spec for name,spec in \
@@ -89,7 +91,8 @@ def runsim(sim,plots,varname,vset):
         outputs = ['prevalence'],
         selectors = [],
       ),
-    }.items() if (name in plots) or ((len(plots)==0) and not (name in ['fit','tpaf-fsw'] )) }
+    # default: return all except 'fit', else, only user specified
+    }.items() if (name in todo) or ((len(todo)==0) and not (name in ['fit','tpaf-fsw'] )) }
 
   # initialize the required outputs
   outputs = utils.unique(utils.flatten(spec['outputs'] for spec in specs.values()))
@@ -106,25 +109,19 @@ def runsim(sim,plots,varname,vset):
     print('  + {}'.format(plot),flush=True)
     spec.pop('fun')(**spec,
       show = False,
-      title = varname,
-      save = savename(vset,plot,varname))
+      title = variants.make_title(*variants.parse_name(varname)),
+      save = fname_fig(plot,varname)
+    )
     plt_close()
 
+def run_sims(todo=None):
+  todo = todo if todo is not None else []
+  for i,(name,sim) in enumerate(variants.get_sims().items()):
+    run_sim(sim,todo,name)
+  
 def print_turnover(name,sim):
   print('-'*50)
   print(name)
   print(sim.model.params['zeta'].islice(t=50,ki='M'))
   print(sim.model.params['dur'].islice(t=50,ki='M'))
   print(sim.model.params['pe'].islice(t=50,ki='M'))
-
-if __name__ == '__main__':
-
-  # variants w.r.t. model structure
-  t = system.get_t(tmax = 200)
-  idx = int(sys.argv[1])
-  for i,(name,sim) in enumerate(variants.get_sims(t=t).items()):
-    # print_turnover(name,sim)
-    # runsim(sim,[],name,'structure')
-    if idx == i:
-      runsim(sim,['fit'],name,'structure')
-

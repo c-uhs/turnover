@@ -27,8 +27,9 @@ def parse_name(name):
   nu,G,Z = re.findall('nu\=(.*)\_G\=(.*)\_Z\=(.*)',name)[0]
   return float(nu),int(G),int(Z)
 
-def make_title(nu,G,Z):
-  return '$\\nu {} \\mu, G = {}, \\zeta {} 0$'.format(
+def make_title(nu,G,Z,i=None):
+  return '{}$\\nu {} \\mu, G = {}, \\zeta {} 0$'.format(
+    'V{}: '.format(i+1) if (i is not None) else '',
     '>' if (nu > mu) else '=',
     int(G),
     '>' if bool(Z) else '=',
