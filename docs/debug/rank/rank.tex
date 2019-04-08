@@ -1,0 +1,60 @@
+\documentclass{article}
+\usepackage{amsmath,bm,footnote,booktabs}
+\usepackage[margin=2cm]{geometry}
+\setlength{\parskip}{6pt}
+\setlength{\parindent}{0pt}
+\newcommand{\viii}[3]{%
+ $\left[\begin{matrix}
+ #1 & #2 & #3
+ \end{matrix}\right]$}
+\newcommand{\mzeta}[6]{%
+  $\left[\begin{matrix}
+  	\cdot & #1    & #2    \\
+  	#3    & \cdot & #4    \\
+  	#5    & #6    & \cdot \\
+  \end{matrix}\right]$}
+\begin{document}
+\section{Which Constraints are Needed?}
+It's not immediately obvious which combinations of
+specified parameter values will yield a fully determined system.
+Here we present combinations for $\textsc{G} = 3$.
+
+\begin{table}[h]
+\centering
+\caption{Seven fully determined systems with varying sparsity in modelled turnover ($\zeta$).}
+\begin{tabular}{cccccccc}\toprule
+  Parameter & 1 & 2 & 3 & 4 & 5 & 6 & 7 \\\midrule
+  $\zeta$: & 
+  \mzeta{ 0 }{ 0 }{ 0 }{ 0 }{ 0 }{ 0 } &
+  \mzeta{ 0 }{ * }{ 0 }{ 0 }{ 0 }{ 0 } &
+  \mzeta{z_1}{z_1}{ 0 }{ 0 }{ 0 }{ 0 } & 
+  \mzeta{z_1}{z_1}{ 0 }{ * }{ 0 }{ 0 } &
+  \mzeta{z_1}{z_1}{ 0 }{ * }{ * }{ 0 } &
+  \mzeta{z_1}{z_1}{ 0 }{ * }{z_3}{z_3} &
+  \mzeta{z_1}{z_1}{z_2}{z_2}{z_3}{z_3} 
+  \\[2em]
+  $\bm{\hat{e}}$: & 
+  \viii{*}{*}{*} &
+  \viii{*}{*}{*} &
+  \viii{*}{*}{*} &
+  \viii{*}{*}{*} &
+  \viii{*}{*}{*} &
+  \viii{*}{*}{*} &
+  \viii{*}{*}{*}
+  \\[1em]
+  $\bm{\delta}$: &
+  \viii{    *   }{    *   }{    *   } &
+  \viii{\delta_1}{    *   }{    *   } &
+  \viii{\delta_1}{    *   }{    *   } &
+  \viii{\delta_1}{\delta_2}{    *   } &
+  \viii{\delta_1}{\delta_2}{\delta_3} &
+  \viii{\delta_1}{\delta_2}{\delta_3} &
+  \viii{\delta_1}{\delta_2}{\delta_3}
+  \\\bottomrule
+\end{tabular}\\
+\footnotesize
+  $z_i$, $\delta_i$: specified values;
+  $*$: calculated values;
+  $(\cdot)\thinspace$: inconsequential.
+\end{table}
+\end{document}
