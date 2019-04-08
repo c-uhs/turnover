@@ -1,0 +1,24 @@
+\usepackage{hyperref,catchfile,ifplatform,xstring}
+
+% Try to load the most recent commit key from the local .git files
+% so that the compiled appendix references the "current" version
+% and not one in the future, where things may have changed.
+% As usual, windows breaks something.
+
+% online repos
+\newcommand{\projrepo}{https://github.com/c-uhs/turnover}
+\newcommand{\epimodelrepo}{https://github.com/c-uhs/epi-model}
+
+% commit keys
+
+\ifwindows
+  \newcommand{\projcommit}{master}
+\else
+  \newcommand{\projcommitfile}{../../.git/refs/heads/master}
+  \CatchFileDef{\projcommit}{\projcommitfile}{\endlinechar=-1}
+\fi
+\newcommand{\epimodelcommit}{master}
+
+% some handy pre-formatted links
+\newcommand{\projrepocommit}{\href{\projrepo/tree/\projcommit}{\texttt{\projrepo}}}
+\newcommand{\epimodelrepocommit}{\href{\epimodelrepo/tree/\epimodelcommit}{\texttt{\epimodelrepo}}}
