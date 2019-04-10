@@ -7,6 +7,7 @@ data/sources/private/*
 # code
 *.pyc
 .tags
+.prof/
 
 # tex
 *.aux
