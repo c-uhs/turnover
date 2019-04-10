@@ -5,9 +5,10 @@ root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)
 path = {
   'root': root,
   'epi-model': os.path.join(root,'code','epi-model','src'),
-  'figs': os.path.join(root,'outputs','figs'),
-  'data': os.path.join(root,'outputs','data'),
-  'specs': os.path.join(root,'code','main','specs'),
+  'figs':      os.path.join(root,'outputs','figs'),
+  'data':      os.path.join(root,'outputs','data'),
+  'specs':     os.path.join(root,'code','main','specs'),
+  'model':     os.path.join(root,'code','main'),
 }
 
 def epimodel():

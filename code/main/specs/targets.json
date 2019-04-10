@@ -3,22 +3,24 @@
   "arr": {
     "idxs": ["t"],
     "t":    [ 200 ],
-    "arr":  [ 0.50 ]
+    "arr":  [ 0.25 ]
   },
-  "ci": {
-    "min": [ 0.49 ],
-    "max": [ 0.51 ]
+  "dist": {
+    "name": "binom",
+    "N": 1000,
+    "p": 0.25
   }
 },
 { "name": "prevalence-low", "output": "prevalence", "selector": "low",
   "arr": {
     "idxs": ["t"],
     "t":    [ 200 ],
-    "arr":  [ 0.10 ]
+    "arr":  [ 0.05 ]
   },
-  "ci": {
-    "min": [ 0.09 ],
-    "max": [ 0.11 ]
+  "dist": {
+    "name": "binom",
+    "N": 1000,
+    "p": 0.05
   }
 }
 ]

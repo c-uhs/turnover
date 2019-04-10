@@ -45,7 +45,7 @@ def fname_data(output,select):
     '{}-{}.csv'.format(output,select))
 
 def fname_fig(output,select,norm):
-  return os.path.join(config.path['figs'],'surface',
+  return os.path.join(config.path['figs'],'plots','surface',
     '2d-{}{}-{}.eps'.format(output,'-norm' if norm else '',select))
 
 # define the simulation parameters
@@ -54,15 +54,15 @@ def get_sim(dh,tau):
   model = system.get_model()
   dhmax = 1.0/model.params['mu']
   model.params['dur'].update([dh,min(dh*5,dhmax),min(dh*30,dhmax)])
-  z1 = (1/model.params['dur'].iselect(ii='H',ki='M') - model.params['mu'])/2
-  z2 = (1/model.params['dur'].iselect(ii='M',ki='M') - model.params['mu'])/2
-  z3 = (1/model.params['dur'].iselect(ii='L',ki='M') - model.params['mu'])/2
-  model.params['zeta'].update(z1,ii='H',ip='M')
-  model.params['zeta'].update(z1,ii='H',ip='L')
-  model.params['zeta'].update(z2,ii='M',ip='L')
-  model.params['zeta'].update(z2,ii='M',ip='H')
-  model.params['zeta'].update(z3,ii='L',ip='M')
-  model.params['zeta'].update(z3,ii='L',ip='H')
+  z1 = (1/model.params['dur'].iselect(ii=['H'],ki=['M']) - model.params['mu'])/2
+  z2 = (1/model.params['dur'].iselect(ii=['M'],ki=['M']) - model.params['mu'])/2
+  z3 = (1/model.params['dur'].iselect(ii=['L'],ki=['M']) - model.params['mu'])/2
+  model.params['zeta'].update(z1,ii=['H'],ip=['M'])
+  model.params['zeta'].update(z1,ii=['H'],ip=['L'])
+  model.params['zeta'].update(z2,ii=['M'],ip=['L'])
+  model.params['zeta'].update(z2,ii=['M'],ip=['H'])
+  model.params['zeta'].update(z3,ii=['L'],ip=['M'])
+  model.params['zeta'].update(z3,ii=['L'],ip=['H'])
   model.params['pe'].update(np.nan)
   model.params['tau'].update(tau)
   dt = min(dh*0.8,0.2)
@@ -84,9 +84,9 @@ def run_sims(idx=[]):
     if id in idx:
       print('Dh = {:6.3f} | tau = {:6.3f}'.format(dh,tau),flush=True)
       sim = get_sim(dh,tau)
-      run_sim(sim,dh,tau,id,it,N)
+      run_sim(sim,id,it,N)
 
-def run_sim(sim,dh,tau,id,it,N):
+def run_sim(sim,id,it,N):
   def save(output,select):
     fname = fname_data(output.name,select.name)
     if not os.path.exists(fname):
@@ -99,7 +99,7 @@ def run_sim(sim,dh,tau,id,it,N):
   tmax = sim.t[-1]
   for output in sim.outputs.values():
     for select in iter_selectors(sim):
-      select.update(t=tmax)
+      select.update(t=[tmax])
       save(output,select)
 
 # make surface plots of the result
@@ -123,13 +123,12 @@ def make_plot(output,select,N,norm=False):
   plt.grid(None)
   plt.tight_layout(pad=0.5)
   plt.text(N-1,N-1,'$R_0 < 1$',fontsize=20,color='w',va='bottom',ha='right')
-  # plt.savefig(fname_fig(output,select,norm))
-  plt.show()
+  plt.savefig(fname_fig(output,select,norm))
+  # plt.show()
   plt.close()
 
 def make_plots():
   for output in OUTPUTS:
     for select in SELECTORS:
       make_plot(output,select,N,norm=False)
-      return
       make_plot(output,select,N,norm=True)

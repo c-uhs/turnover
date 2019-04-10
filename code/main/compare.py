@@ -38,10 +38,10 @@ def add_plot(sim,selector,output):
   )
   sim.solve()
   sim.plot(
-    outputs = [output],
+    output = output,
     selectors = [selector],
     xlabel = 'Time (years)',
-    ylabel = ylabel,
+    # ylabel = ylabel, # TEMP
     show = False,
     leg = False,
   )
