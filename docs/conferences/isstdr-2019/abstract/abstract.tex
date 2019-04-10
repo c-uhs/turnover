@@ -1,0 +1,26 @@
+\documentclass{article}
+\usepackage{titlesec,titling,authblk}
+\usepackage[margin=3cm]{geometry}
+\titleformat{\section}[runin]{\bfseries}{}{0pt}{}[:]
+\titlespacing{\section}{0pt}{6pt}{6pt}
+\setlength{\parskip}{0pt}
+\setlength{\parindent}{0pt}
+\setlength{\droptitle}{-2cm}
+\immediate\write18{detex body.tex | wc -w > wordcount.tex}
+% --------------------------------------------------------------------------------------------------
+\title{The influence of risk group turnover in STI/HIV epidemics: mechanistic insights from transmission modeling}
+\input{../../../meta/author.tex}
+\date{Feb 1 2019}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\maketitle
+\vspace{-2em}
+% --------------------------------------------------------------------------------------------------
+\input{body.tex}
+% --------------------------------------------------------------------------------------------------
+\section{Word Count}
+\input{wordcount.tex}~/~300
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
