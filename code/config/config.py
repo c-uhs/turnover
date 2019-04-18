@@ -24,6 +24,7 @@ def plot(tex=False):
   plt.style.use('seaborn-whitegrid')
   plt.rc('grid',color=[0.95,0.95,0.95])
   plt.rc('legend',frameon=True,framealpha=0.9)
+  plt.rc('savefig',directory=path['figs'],format='pdf')
   if tex:
     plt.rc('text',usetex=True)
     # plt.rc('font',family='serif',serif=['computer modern roman'])
