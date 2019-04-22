@@ -13,29 +13,34 @@ import transmit
 import numpy as np
 
 def dxfun(X,t,P,dxout={}):
-  dX = X*0
+  dXi = X*0 # entry to  all compartments
+  dXo = X*0 # exit from all compartments
   # births and deaths
-  dX.update(P['nu']*P['pe']*X.sum(), hi=['S'], accum=np.add)
-  dX.update(P['mu']*X, accum=np.subtract)
-  # turnover
+  dXi.update(P['nu']*P['pe']*X.sum(), hi=['S'], accum=np.add)
+  dXo.update(P['mu']*X, accum=np.add)
+  # turnover: ii -> ip ("from" group is index, not "to")
   if X.space.dim('ii').n > 1:
     Xi = X.expand(Space(X.space.dims+[modelutils.partner(X.space.dim('ii'))]),norm=False)
-    for ki in ['M','W']:
-      XZk = Xi.iselect(ki=[ki],udims=True) * atleast(P['zeta'].iselect(ki=[ki]),4,end=+1)
-      dX.update(XZk.isum(['ip']),ki=[ki],accum=np.subtract)
-      dX.update(XZk.isum(['ii']),ki=[ki],accum=np.add)
-  # force of infection
+    XZ = Xi * atleast(P['zeta'],4,end=+1,cp=True)
+    dXi.update(XZ.isum(['ii']),accum=np.add)
+    dXo.update(XZ.isum(['ip']),accum=np.add)
+  # force of infection: S -> I
   lam = transmit.lambda_fun(X,P['C'],P['beta'].islice(t=t),P['eps'],dxout)
   xlam = lam.iselect(hi=['S'])*X.iselect(hi=['S'])
-  transmit.transfer(dX, src={'hi':['S']}, dst={'hi':['I']}, N = xlam)
-  # treatment
-  transmit.transfer(dX, src={'hi':['I']}, dst={'hi':['T']}, N = X.iselect(hi=['I']) * P['tau'])
-  # # full recovery -> for SIT model, we have no recovery
-  # transmit.transfer(dX, src={'hi':['T']}, dst={'hi':['S']}, N = X.iselect(hi=['T']) * P['gamma'])
+  dXi.update(xlam, hi=['I'], accum=np.add)
+  dXo.update(xlam, hi=['S'], accum=np.add)
+  # treatment: I -> T
+  treat = X.iselect(hi=['I']) * P['tau']
+  dXi.update(treat, hi=['T'], accum=np.add)
+  dXo.update(treat, hi=['I'], accum=np.add)
   # dxout
-  for v in dxout: dxout.update({v:locals()[v]})
+  if dxout: # TODO: this should be a decorator
+    lvars = locals()
+    for v in dxout:
+      if v in lvars:
+        dxout.update({v:locals()[v]})
   # return
-  return dX
+  return dXi - dXo
 
 def initfun(model):
   P = model.params
@@ -48,13 +53,13 @@ def initfun(model):
   if P['zeta'].space.dim('ii').n > 1:
     for ki in ['M','W']:
       turnover = transmit.turnover(
-        nu = P['nu'],
-         mu = P['mu'],
-         px = P['px'].islice(ki=ki),
-         pe = P['pe'].islice(ki=ki),
-         zeta = P['zeta'].islice(ki=ki),
-         dur = P['dur'].islice(ki=ki),
-         warn = False, # TEMP
+        nu   = P['nu'],
+        mu   = P['mu'],
+        px   = P['px'].islice(ki=ki),
+        pe   = P['pe'].islice(ki=ki),
+        zeta = P['zeta'].islice(ki=ki),
+        dur  = P['dur'].islice(ki=ki),
+        warn = True,
       )
       P['zeta'].update(turnover['zeta'],ki=[ki])
       P['dur'].update(turnover['dur'],ki=[ki])
@@ -90,7 +95,7 @@ def get_outputs(spaces,select,t,names=None,**kwargs):
     'incidence-abs': {'ss':'S'},
     'cum-infect': {'ss':'S'},
     'tpaf-WH': {'beta':'beta','ss':'S'},
-    # 'prop-from-WH': {},
+    'inf-ratio': {'ss':'S','si':'infected'},
   }
   return xdict([
     outpututils.make_output(name,t=t,spaces=spaces,**specs[name])
