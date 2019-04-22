@@ -28,3 +28,4 @@ data/sources/private/*
 *.nav
 *.brf
 *.dvi
+*-converted-to.pdf
