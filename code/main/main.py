@@ -2,6 +2,8 @@ import sys
 import surface
 import batch
 import compare
+import debug
+import newinf
 
 todo = sys.argv[1]
 if todo == 'compare-growth':
@@ -18,4 +20,8 @@ if todo == 'surface-plot':
   surface.make_plots()
 if todo == 'batch':
   batch.run_sims(sys.argv[2:])
+if todo == 'newinf':
+  newinf.main()
+if todo == 'debug':
+  debug.main(sys.argv[2:])
 print('done')

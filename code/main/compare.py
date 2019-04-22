@@ -46,12 +46,13 @@ def add_plot(sim,selector,output):
     leg = False,
   )
 
-def make_plot(output,sim_iter,save=None,t=None):
+def make_plot(output,sim_iter,save=None,t=None,legloc=None):
   legend = []
   for title,sim,selector in sim_iter(t=t):
     add_plot(sim,selector,output)
     legend += [title]
-  plt.legend(legend,loc='lower right',fontsize=8)
+  legloc = legloc if legloc is not None else 'lower right'
+  plt.legend(legend,loc=legloc,fontsize=8)
   if save:
     plt.savefig(fname_fig(save))
     plt.close()
@@ -74,15 +75,10 @@ def growth():
     for i,(name,sim) in enumerate(variants.get_sims(t=t).items()):
       if i in [0,3]:
         selector = next(selecti)
-        for who in ['all','high','low']:
-          select = sim.model.select[who]
-          selector.update(select)
-          if who == 'high':
-            selector.color = selector.color.lighten(0.6)
-          if who == 'low':
-            selector.specs.update(linestyle = '--')
-          title = variants.make_title(*variants.parse_name(name),i=i)+' '+select.title
-          yield title,sim,selector
+        select = sim.model.select['all']
+        selector.update(select)
+        title = variants.make_title(*variants.parse_name(name),i=i)
+        yield title,sim,selector
   make_plot(
     output = 'prevalence',
     sim_iter = sim_iter,
@@ -104,20 +100,20 @@ def hetero():
   )
 
 def turnover(*outputs):
-  def sim_iter(t=None,who='all'):
+  def sim_iter(who,t=None):
     selecti = select_iter()
     for i,(name,sim) in enumerate(variants.get_sims(t=t).items()):
       if i in [0,1]:
         selector = next(selecti)
-        selector.title = sim.model.select[who].title
-        selector.update(sim.model.select[who])
-        title = variants.make_title(*variants.parse_name(name),i=i)
+        select = sim.model.select[who]
+        selector.update(select)
+        title = variants.make_title(*variants.parse_name(name),i=i)+' '+select.title
         yield title,sim,selector
   for output in outputs:
     for who in ['all','high','low']:
       make_plot(
         output = output,
-        sim_iter = lambda t: sim_iter(t=t,who=who),
+        sim_iter = lambda t: sim_iter(who=who,t=t),
         save = 'compare-turnover-{}-{}.eps'.format(output,who),
       )
 
