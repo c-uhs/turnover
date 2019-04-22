@@ -1,0 +1,12 @@
+\input{../config.tex}
+\begin{document}
+\begin{tikzpicture}
+\node(S) [tbox=S] at (0.0,0.0) {$\mathcal{S}$};
+\node(I) [tbox=I, right = of S]{$\mathcal{I}$};
+\node(R) [tbox=R, right = of I]{$\mathcal{R}$};
+
+\draw[arrow=black] (S) edge["$\lambda$"] (I);
+\draw[arrow=black] (I) edge["$\tau$"]  (R);
+%\draw[arrow=black] (R) edge["$\gamma$", bend right] (S);
+\end{tikzpicture}
+\end{document}
