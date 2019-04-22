@@ -1,0 +1,30 @@
+\documentclass{article}
+\usepackage{graphicx,subcaption,tikz,pdflscape,titlecaps}
+\usepackage[margin=0.5cm,top=3cm,bottom=3cm]{geometry}
+\setlength{\parskip}{6pt}
+\setlength{\parindent}{0pt}
+\graphicspath{{./../../../outputs/figs/plots/surface/}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\pagenumbering{gobble}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{landscape}
+\foreach \out in {incidence,prevalence}{
+  \begin{figure}
+    \foreach \norm in {,-norm}{
+      \foreach \group in {all,high,med,low}{
+        \begin{subfigure}{0.24\linewidth}
+          \centering\includegraphics[width=\textwidth]{surface-\out\norm-\group}
+          \caption{\titlecap{\group\norm}}
+        \end{subfigure}
+      }
+    }
+    \caption{\titlecap{\out}}
+  \end{figure}
+}
+\end{landscape}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

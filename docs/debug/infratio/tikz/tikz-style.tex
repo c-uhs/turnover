@@ -1,0 +1,24 @@
+\usepackage{tikz}
+
+\newlength{\nodey}\setlength{\nodey}{0.3cm}
+\newlength{\nodex}\setlength{\nodex}{0.5cm}
+\usetikzlibrary{positioning,quotes,calc}
+
+\tikzset{
+  arrow/.style = {
+    thick,
+    rounded corners,
+    draw = black,
+    every edge,
+  },
+  tbox/.style = {
+    fill = #1!20!white,
+    draw = #1!80!white,
+    thick,
+    align = center,
+    rounded corners,
+    minimum width = 2\nodex,
+    node distance = 1.5\nodex and 2.5\nodex,
+    minimum height = 2\nodey,
+  }
+}

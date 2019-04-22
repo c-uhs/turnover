@@ -1,0 +1,13 @@
+\begin{tikzpicture}
+  \node(y)[tbox=red] {$I_i$};
+  \node(s)[tbox=blue, left = of y]{$S_i$};
+  \node(b)[tbox=red, right = of y]{$I_2$};
+  \node(a)[tbox=red, above = of b]{$I_1$};
+  \node(c)[tbox=red, below = of b]{$I_3$};
+  \node(x)[below = of y]{};
+  \draw[arrow,<-] (y) -- node[above] {$\lambda_{i}$} (s);
+  \draw[arrow,<-] (y) -- node[above] {$\zeta_{1i}$} (a);
+  \draw[arrow,<-] (y) -- node[above] {$\zeta_{2i}$} (b);
+  \draw[arrow,<-] (y) -- node[above] {$\zeta_{3i}$} (c);
+  \draw[arrow,->] (y) -- node[below left] {$\mu + \sum_j{\zeta_{ij}} + \dots$} (x);
+\end{tikzpicture}
