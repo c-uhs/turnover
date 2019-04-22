@@ -2,7 +2,7 @@
 .old/
 
 # data
-data/sources/private/*
+outputs/data/surface/raw/
 
 # code
 *.pyc

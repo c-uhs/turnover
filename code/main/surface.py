@@ -36,9 +36,14 @@ def iter_selectors(sim):
 
 # filenames for saving (data, figures)
 
-def fname_data(output,select,dh,di):
-  return os.path.join(config.path['data'],'surface',output,select,
+def fname_element(output,select,dh=None,di=None):
+  return os.path.join(config.path['data'],'surface','raw',output,select,
     'dh={}-di={}.txt'.format(dh,di))
+
+def fname_array(output,select,norm=False):
+  select += '-norm' if norm else ''
+  return os.path.join(config.path['data'],'surface',
+    '{}-{}.csv'.format(output,select))
 
 def fname_fig(output,select,norm):
   return os.path.join(config.path['figs'],'plots','surface',
@@ -88,7 +93,7 @@ def run_sim(sim,dh,di,N):
   for output in sim.outputs.values():
     for select in iter_selectors(sim):
       select.update(t=[tmax])
-      fname = fname_data(output.name,select.name,dh,di)
+      fname = fname_element(output.name,select.name,dh,di)
       value = modelutils.taccum(output,**select)[0]
       utils.savecsv(fname,[[value]],append=False)
 
@@ -97,10 +102,16 @@ def run_sim(sim,dh,di,N):
 def load_data(output,select,N,norm=False):
   dhn = list(iter_dh(N))[-1]
   def load_one(dh,di):
-    x = np.float(utils.loadcsv(fname_data(output,select,dh,di),asdict=False)[0][0])
-    n = np.float(utils.loadcsv(fname_data(output,select,dhn,di),asdict=False)[0][0]) if norm else 1
+    x = np.float(utils.loadcsv(fname_element(output,select,dh,di),asdict=False)[0][0])
+    n = np.float(utils.loadcsv(fname_element(output,select,dhn,di),asdict=False)[0][0]) if norm else 1
     return (x / n) if x > 1e-5 else 0
-  return [[ load_one(dh,di) for dh in iter_dh(N)] for di in iter_di(N)]
+  dname = fname_array(output,select,norm)
+  if not os.path.exists(dname):
+    array = [[ load_one(dh,di) for dh in iter_dh(N)] for di in iter_di(N)]
+    utils.savecsv(dname,array,append=False)
+  else:
+    array = np.array(utils.loadcsv(dname,asdict=False),dtype=np.float)
+  return array
 
 def make_surface(data,N,labels=None,fs=16):
   def ticks(values,incr,dec):
