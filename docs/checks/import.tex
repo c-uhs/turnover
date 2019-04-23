@@ -1,0 +1,30 @@
+\usepackage{subcaption,tikz,float,chngcntr}
+\counterwithin{figure}{subsection}
+\counterwithin{table}{subsection}
+\def\basedir{../../outputs/figs/plots/batch}
+\graphicspath{
+  {\basedir/}
+}
+% figures
+\newcommand{\variter}[1]{
+  \foreach \iname/\ititle in {
+    nu=0.05_G=3_Z=1/$\nu = 0.05; G = 3; \zeta = 1$,
+    nu=0.03_G=3_Z=1/$\nu = 0.03; G = 3; \zeta = 1$,
+    nu=0.05_G=3_Z=0/$\nu = 0.05; G = 3; \zeta = 0$,
+    nu=0.03_G=3_Z=0/$\nu = 0.03; G = 3; \zeta = 0$,
+    nu=0.05_G=1_Z=0/$\nu = 0.05; G = 1; \zeta = 0$,
+    nu=0.03_G=1_Z=0/$\nu = 0.03; G = 1; \zeta = 0$}{#1}
+}
+\newcommand{\varfig}[2]{
+  \begin{figure}[H]
+    \centering
+    \variter{
+      \begin{subfigure}{0.47\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{#1_\iname}
+        \caption{\ititle}
+      \end{subfigure}
+    }
+    \caption{#2}
+  \end{figure}
+}
