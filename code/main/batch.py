@@ -1,4 +1,6 @@
-import os,sys; sys.path.append(os.path.join((lambda r,f:f[0:f.index(r)+len(r)])('code',os.path.abspath(__file__)),'config')); import config
+import os,sys;
+sys.path.append(os.path.join((lambda r,f:f[0:f.index(r)+len(r)])('code',os.path.abspath(__file__)),'config'));
+import config
 config.epimodel()
 config.plot(tex=True)
 
@@ -13,7 +15,7 @@ import modelutils
 import calibration
 import utils
 
-def fname_fig(plot,varname,ftype='png'):
+def fname_fig(plot,varname,ftype='pdf'):
   # filename for the plot
   fname = plot+'_'+varname+'.'+ftype
   return os.path.join(config.path['figs'],'plots','batch',fname)
@@ -62,34 +64,34 @@ def run_sim(sim,todo,varname):
   specs = { name:spec for name,spec in \
     { 'N': specfun(
         output = 'N',
-        selectors = ['WH','MH','WM','MM','WL','ML'],
-        ylim = [0,1500]),
-      'X-sit': specfun(
+        selectors = ['high','med','low'],
+        ylim = [0,5000]),
+      'X-sir': specfun(
         output = 'X',
-        selectors = ['S','I','T'],
-        ylim = [0,1.0]),
+        selectors = ['S','I','R'],
+        ylim = [0,1]),
       'X-groups': specfun(
         output = 'X',
-        selectors = ['WH','MH','WM','MM','WL','ML'],
-        ylim = [0,0.55]),
+        selectors = ['high','med','low'],
+        ylim = [0,1]),
       'prevalence': specfun(
         output = 'prevalence',
-        selectors = ['WH','WM','WL'],
-        ylim = [0,0.8]),
+        selectors = ['high','med','low'],
+        ylim = [0,1]),
       'incidence': specfun(
         output = 'incidence',
-        selectors = ['WH','WM','WL'],
-        ylim = [0,300]),
+        selectors = ['high','med','low'],
+        ylim = [0,100]),
       'incidence-abs': specfun(
         output = 'incidence-abs',
-        selectors = ['WH','WM','WL'],
+        selectors = ['high','med','low'],
         ylim = [0,50]),
       'cum-infect': specfun(
         output = 'cum-infect',
-        selectors = ['WH','WM','WL'],
+        selectors = ['high','med','low'],
         ylim = [0,1000]),
-      'tpaf-WH': specfun(
-        output = 'tpaf-WH',
+      'tpaf-high': specfun(
+        output = 'tpaf-high',
         selectors = ['all'],
         # ylabel = 'tPAF of High Risk Women',
         ylim = [0,1]),
@@ -103,7 +105,7 @@ def run_sim(sim,todo,varname):
       #   ylabel = 'testing ...',
       #   ylim = [0,1]),
     # default: return all except 'fit', else, only user specified
-    }.items() if (name in todo) or ((len(todo)==0) and not (name in ['fit','tpaf-WH'] )) }
+    }.items() if (name in todo) or ((len(todo)==0) and not (name in ['fit','tpaf-high'] )) }
 
   # initialize the required outputs
   outputs = utils.unique(utils.flatten(spec['output'] for spec in specs.values()))

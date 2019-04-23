@@ -1,11 +1,11 @@
 [
   { "name": "super",
-    "idxs": ["hi", "ki", "ii", "hp", "kp", "ip", "p"]
+    "idxs": ["hi", "ii", "hp", "ip", "p"]
   },
   { "name": "index",
-    "idxs": ["hi", "ki", "ii"]
+    "idxs": ["hi", "ii"]
   },
   { "name": "partner",
-    "idxs": ["hp", "kp", "ip"]
+    "idxs": ["hp", "ip"]
   }
 ]
