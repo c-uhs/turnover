@@ -10,21 +10,15 @@
     frontier/.style = { distance from root = 4.4cm }
   ]
   \Tree
-    [.\node[branch=purple]{Baseline Model};
-      [.\node[branch]{$\nu>\mu$};
-        [.\node[branch]{$G=3$};
+    [.\node[branch=purple]{Base Model};
+      [.\node[branch]{$G=3$};
+        [.\node[branch]{$\nu>\mu$};
           [.\node[branch]{$\zeta > 0$}; \node[leaf=purple]{V1}; ]
           [.\node[branch]{$\zeta = 0$}; \node[leaf]{V2}; ]
         ]
-        [.\node[branch]{$G=1$}; \node[leaf]{V3}; ]
+        [.\node[branch]{$\nu=\mu$}; \node[leaf]{V3}; ]
       ]
-      [.\node[branch]{$\nu=\mu$};
-        [.\node[branch]{$G=3$};
-          [.\node[branch]{$\zeta > 0$}; \node[leaf]{V4}; ]
-          [.\node[branch]{$\zeta = 0$}; \node[leaf]{V5}; ]
-        ]
-        [.\node[branch]{$G=1$}; \node[leaf]{V6}; ]
-      ]
+      [.\node[branch]{$G=1$}; \node[leaf]{V4}; ]
     ]
 \end{tikzpicture}
 \end{document}

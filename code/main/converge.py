@@ -1,4 +1,6 @@
-import os,sys; sys.path.append(os.path.join((lambda r,f:f[0:f.index(r)+len(r)])('code',os.path.abspath(__file__)),'config')); import config
+import os,sys;
+sys.path.append(os.path.join((lambda r,f:f[0:f.index(r)+len(r)])('code',os.path.abspath(__file__)),'config'));
+import config
 import numpy as np
 config.epimodel()
 config.plot(tex=True)
@@ -81,4 +83,3 @@ def make_plot(output,min,max,N,homo=False):
 if __name__ == '__main__':
   # make_plot('prevalence',3,33,5)
   make_plot('prevalence',0.005,0.5,9,homo=True)
-

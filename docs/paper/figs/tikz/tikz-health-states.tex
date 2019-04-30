@@ -1,9 +1,0 @@
-\begin{tikzpicture}
-\node(S) [tbox=S] at (0.0,0.0) {$\mathcal{S}$};
-\node(I) [tbox=I, right = of S]{$\mathcal{I}$};
-\node(T) [tbox=T, right = of I]{$\mathcal{T}$};
-
-\draw[arrow=black] (S) edge["$\lambda$"] (I);
-\draw[arrow=black] (I) edge["$\tau$"]  (T);
-%\draw[arrow=black] (T) edge["$\gamma$", bend right] (S);
-\end{tikzpicture}

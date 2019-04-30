@@ -1,0 +1,133 @@
+% TODO: update for SIR, not STI focus
+Core group theory has long underpinned the study of
+epidemics of sexually transmitted infections (STI).
+The theory posits that heterogeneity in
+acquisition and transmission risk are sometimes necessary and sometimes sufficient for
+an STI epidemic to emerge and persist.
+This heterogeneity is often demarcated by identifying potential cores,
+comprised of sub-populations or geographies,
+where onward transmission risks are the highest,
+such that the core's unmet STI prevention and treatment needs
+sustain local epidemics~\citep{Yorke1978,Gesink2011}.
+\par
+Mathematical models of STI transmission include heterogeneity in risk
+by stratifying the modelled population by features such as
+the partner change rate, and levels of sexual mixing between subgroups, and partnership types%
+~\cite{}. % TBD
+The implications of including heterogeneity,
+as compared to assumptions of homogeneity, include
+higher basic reproductive ratios $R_0$, and
+lower overall STI prevalence
+(provided the latter still results in $R_0 > 1$)~\citep{Boily1997}.
+% Anderson & May; Watmough, VanDeDriesse
+$R_0$ and overall STI prevalence are further influenced by
+mixing between subgroups~\citep{Boily1997}.
+Thus, models with more than two risk groups
+are increasingly relevant for exploring epidemic nuance
+and for aligning model outputs with programmatic decision support
+-- i.e.\ prioritization of specific interventions for specific risk groups~\cite{}. % TBD
+\par
+Less often discussed or included in STI transmission models
+is the influence of movement of individuals between risk groups,
+which we herein refer to as ``turnover''.
+For example, a period of higher risk could represent
+the average duration in sex work,
+which is often associated with larger number of sexual partners as paid clients,
+and other STI-associated vulnerabilities~\cite{}. % Watts
+It could also represent periods of higher partner change
+outside the formal sex work.~\cite{}. % TBD
+\citeauthor{Stigum1994} modelled movement between risk groups as a form of ``migration'',
+and showed that % TBD - expand; how turnover effect similar to proportional mixing
+and thus, had nearly as large an influence on overall STI prevalence
+as sexual mixing between sub-groups~\citep{Stigum1994}.
+It has also been shown that rates of movement between risk groups
+can play an important role during estimation of intervention impact,
+following model fitting to calibration targets,
+since % TBD - expand
+~\citep{Eaton2014}.
+\par
+Yet, implementation of risk groups and turnover in recent models vary widely,
+from no modelled risk groups to
+seven risk groups with highly context-specific turnover~\citep{Boily2015}.
+A common challenge in structuring and parameterizing STI models
+are considerations on how to best incorporate
+turnover and duration of periods of risk
+using available data.
+Models require parameters on transition rates between risk groups,
+but must also content with considerations such as
+stability in the relative size of risk groups over time.
+\par
+First, estimating the rates of movement between groups
+directly from cross-sectional survey data is difficult,
+and typically requires strong assumptions.
+% TBD - ensure we address this challenge in paper else move this to discussion
+Second, ensuring the relative sizes of risk groups
+do not vary dramatically over time requires
+careful selection of rates of turnover among groups,
+or other compensatory parameters.
+\par
+% TBD - introduce specific previous approaches
+\par
+% TBD - introduce specific objectives
+%We therefore draw on prior work to propose a unified framework for
+%defining and parameterizing risk group dynamics.
+%
+% OLD:
+%
+%Building on previous work,
+%we then leverage this framework to explore the influence of
+%Core group theory has long underpinned modelling of STI epidemics.
+%It generally describes maintenance of an epidemic by
+%high levels of exposure in a small subset of individuals,
+%relative to a larger general population with less exposure~\cite{Yorke1978}.
+%When considering one or more core groups
+%-- i.e.\ a population composed of several risk-stratified groups --
+%the epidemic characteristics are known to depend on
+%the group sizes, relative exposures, and rates of sexual mixing between groups.
+%Less discussed is a similar dependence on
+%movement of individuals between risk groups, which we call ``turnover''.%
+%\footnote{In early works, such as \cite{Stigum1994},
+%  movement of individuals between risk groups is often called ``migration'';
+%  in order to avoid confusion with population entry / exit,
+%  we prefer the term ``turnover''.}
+%This turnover of individuals between risk groups has a similar effect to
+%sexual mixing between groups, making it
+%an important feature to include in representative models~\cite{Stigum1994}.
+%\par
+%Models with more than two risk groups
+%are increasingly relevant for exploring epidemic nuance
+%and for aligning model outputs with programmatic decision support
+%-- i.e.\ prioritization specific interventions for specific risk groups. % \cite{?}
+%Yet, implementations of risk groups and turnover in recent models vary widely,
+%from no modelled risk groups~\cite{Estill2012,Barnighausen2012}
+%to seven risk groups with highly context-specific turnover [[best Mishra 7-groups citation]].
+%In fact, many HIV models still do not consider turnover,
+%despite the fact that rates of movement between risk groups
+%can play an important role during estimation of intervention impact
+%following model fitting to calibration targets~\cite{Eaton2014}.
+%\par
+%Two major challenges exist to implementing turnover,
+%which may help explain its inconsistent usage.
+%First, unlike behavioural parameters,
+%estimating the rates of movement between groups
+%directly from cross-sectional survey data is difficult,
+%and typically requires strong assumptions.
+%Second, ensuring the relative sizes of risk groups do not vary
+%dramatically over time requires
+%careful selection rates of turnover among groups,
+%or other compensatory parameters.
+%Prior works have generally solved this problem \textit{ad hoc},
+%without providing a generalized approach,
+%while some simply rely on a ``burn-in'' period,
+%which permits equilibriation of risk group sizes due to turnover dynamics
+%before introduction of the infection.
+%\par
+%We therefore expect that a unified framework for
+%defining and parameterizing risk group dynamics
+%would be of great use.
+%We present such a framework here,
+%and draw direct links to modelling assumptions and relevant sources of data.
+%Building on previous work by~\citet{Stigum1994},
+%we then leverage this framework to explore the impact of
+%several risk group implementations on model outputs (incidence, prevalence)
+%in a representative model.

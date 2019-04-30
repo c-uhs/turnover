@@ -1,4 +1,6 @@
-import os,sys; sys.path.append(os.path.join((lambda r,f:f[0:f.index(r)+len(r)])('code',os.path.abspath(__file__)),'config')); import config
+import os,sys;
+sys.path.append(os.path.join((lambda r,f:f[0:f.index(r)+len(r)])('code',os.path.abspath(__file__)),'config'));
+import config
 import numpy as np
 config.epimodel()
 config.plot(tex=True)
@@ -53,18 +55,13 @@ def fname_fig(output,select,norm):
 
 def get_sim(dh,di,tmax=200):
   model = system.get_model()
-  dhmax = 1.0/model.params['mu']
-  model.params['dur'].update([dh,min(dh*5,dhmax),min(dh*30,dhmax)])
+  dmax = 1.0/model.params['mu']
+  model.params['dur'].update(dh,               ii=['H'])
+  model.params['dur'].update(dh+0.30*(dmax-dh),ii=['M'])
+  model.params['dur'].update(np.nan,           ii=['L'])
   z1 = (1/model.params['dur'].iselect(ii=['H'],ki=['M']) - model.params['mu'])/2
-  z2 = (1/model.params['dur'].iselect(ii=['M'],ki=['M']) - model.params['mu'])/2
-  z3 = (1/model.params['dur'].iselect(ii=['L'],ki=['M']) - model.params['mu'])/2
   model.params['zeta'].update(z1,ii=['H'],ip=['M'])
   model.params['zeta'].update(z1,ii=['H'],ip=['L'])
-  model.params['zeta'].update(z2,ii=['M'],ip=['L'])
-  model.params['zeta'].update(z2,ii=['M'],ip=['H'])
-  model.params['zeta'].update(z3,ii=['L'],ip=['M'])
-  model.params['zeta'].update(z3,ii=['L'],ip=['H'])
-  model.params['pe'].update(np.nan)
   model.params['tau'].update(1/di)
   dt = min(dh*0.8,0.5)
   t = system.get_t(dt=dt,tmin=0,tmax=tmax)
@@ -113,6 +110,14 @@ def load_data(output,select,N,norm=False):
     array = np.array(utils.loadcsv(dname,asdict=False),dtype=np.float)
   return array
 
+def draw_edge(N):
+  for selector in ['all','low','med','high']:
+    for output in ['prevalence','incidence']:
+      data = load_data(output,selector,N,norm=True)
+      imax = np.argmax(data,axis=1)
+      imax[data[:,-1]==0] = N-1
+      plt.plot(imax,range(N))
+
 def make_surface(data,N,labels=None,fs=16):
   def ticks(values,incr,dec):
     return range(len(values))[::incr],[np.around(v,dec) for v in values][::incr]
@@ -132,6 +137,7 @@ def make_surface(data,N,labels=None,fs=16):
 def make_plot(data,N,save=None):
   plt.figure(figsize=(6.5,5))
   make_surface(data,N)
+  draw_edge(N)
   plt.tight_layout(pad=0.5)
   plt.text(0,N-1,'$R_0 < 1$',fontsize=20,color='w',va='bottom',ha='left')
   if save:
@@ -141,7 +147,10 @@ def make_plot(data,N,save=None):
   plt.close()
 
 def make_plots():
+  # make_plot(load_data('prevalence','all',N,True),N)
+  # make_plot(load_data('prevalence','low',N,True),N)
   for output in OUTPUTS:
     for select in SELECTORS:
       for norm in [False,True]:
-        make_plot(load_data(output,select,N,norm),N,fname_fig(output,select,norm))
+        make_plot(load_data(output,select,N,norm),N)
+        # make_plot(load_data(output,select,N,norm),N,fname_fig(output,select,norm))

@@ -18,13 +18,13 @@
     "desc": "steady-state proportion of individuals",
     "accum": "sum",
     "arr": { "idxs": ["ii"],
-             "arr": [ 0.04 , 0.20 , 0.76 ] }
+             "arr": [ 0.05 , 0.20 , 0.75 ] }
   },
   { "name": "pe",
     "desc": "proportion of entering individuals",
     "accum": "sum",
     "arr": { "idxs": ["ii"],
-             "arr": [ 0.04 , 0.20 , 0.76 ] }
+             "arr": [ 0.05 , 0.20 , 0.75 ] }
   },
   { "name": "dur",
     "desc": "duration spent in each group",
@@ -36,9 +36,7 @@
     "desc": "rate of turnover between activity groups",
     "accum": null,
     "arr": { "idxs": ["ii","ip"],
-             "arr": [[ null , null , 0.10 ],
-                     [ null , null , null ],
-                     [ null , null , null ]] }
+             "arr": null }
   },
   { "name": "tau",
     "desc": "rate of treatment",
@@ -55,18 +53,25 @@
     "desc": "number of partnerships formed per year by each individual",
     "accum": "wax",
     "arr": { "idxs": ["ii"],
-             "arr": [  25 ,  5 , 1   ]
+             "arr": [  25   , 5 ,   1   ]
     },
-    "ci": { "min":  [   5 ,  1 , 0.2 ],
-            "max":  [ 125 , 25 , 5   ]
+    "ci": { "min":  [   2.5 , 5 ,   0.1 ],
+            "max":  [ 250   , 5 ,  10   ]
     },
-    "fitted":       [   1 ,  0 , 1   ]
+    "fitted":       [   1   , 0 ,   1   ]
+  },
+  { "name": "beta-i",
+    "desc": "probability of transmission per partnership (I -> S)",
+    "arr": {
+      "idxs": [],
+      "arr":  0.03
+    } 
   },
   { "name": "beta",
     "desc": "probability of transmission per partnership",
     "arr": {
-      "idxs": ["hp"],
-      "arr":  [ 0.00, 0.03, 0.00 ]
+      "idxs": ["ii","ip","hp"],
+      "arr":  null
     } 
   }
 ]

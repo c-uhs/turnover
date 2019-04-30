@@ -3,11 +3,11 @@
 # run this script from: turnover/code/
 
 i1=${1:-0}
-i2=${2:-14}
+i2=${2:-31}
 echo "=================================================="
 for i in `seq $i1 $i2`; do
   echo "--------------------------------------------------"
-  echo "submitting opt #$i"
+  echo "submitting run #$i"
   echo """#!/bin/bash
 # module load anaconda3
 python3 main/main.py surface-run $i

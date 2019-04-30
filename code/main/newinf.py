@@ -1,5 +1,7 @@
 # load code / config
-import os,sys; sys.path.append(os.path.join((lambda r,f:f[0:f.index(r)+len(r)])('code',os.path.abspath(__file__)),'config')); import config
+import os,sys;
+sys.path.append(os.path.join((lambda r,f:f[0:f.index(r)+len(r)])('code',os.path.abspath(__file__)),'config'));
+import config
 config.epimodel()
 config.numpy()
 config.plot()

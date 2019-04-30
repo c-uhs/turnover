@@ -1,0 +1,21 @@
+\begin{alignat}{9}
+\frac{d}{dt}\mathcal{S}_i(t) &=
+        \sum_j \zeta_{ji} \mathcal{S}_j(t)
+&&    - \sum_j \zeta_{ij} \mathcal{S}_i(t)
+&&    - \mu \mathcal{S}_i(t)
+&&    + \nu \hat{e}_i N(t)
+&&    - \lambda_i(t) \mathcal{S}_i(t)
+\\
+\frac{d}{dt}\mathcal{I}_i(t) &=
+        \sum_j \zeta_{ji} \mathcal{I}_j(t)
+&&    - \sum_j \zeta_{ij} \mathcal{I}_i(t)
+&&    - \mu \mathcal{I}_i(t)
+&&&&  + \lambda_i(t) \mathcal{S}_i(t)
+&&    - \tau \mathcal{I}_i(t)
+\\
+\frac{d}{dt}\mathcal{R}_i(t) &=
+        \sum_j \zeta_{ji} \mathcal{R}_j(t)
+&&    - \sum_j \zeta_{ij} \mathcal{R}_i(t)
+&&    - \mu \mathcal{R}_i(t)
+&&&&&&+ \tau \mathcal{I}_i(t)
+\end{alignat}

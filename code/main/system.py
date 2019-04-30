@@ -23,8 +23,9 @@ def dxfun(X,t,P,dxout={}):
     XC  = Xp.isum(['hp']) * Cp
     rho = XC / XC.isum(['ip'])
     rho[np.isnan(rho)] = 1
+    rho = rho.expand(beta.space.subspace(['hp'],keep=False))
     return Ci * (
-      rho * (beta.expand(Xp.space) * Xp).isum(['hp']) / Xp.isum(['hp'])
+      rho * (beta * Xp).isum(['hp']) / Xp.isum(['hp'])
     ).isum(['ip'])
     # / TODO
   # dxfun
@@ -48,7 +49,6 @@ def dxfun(X,t,P,dxout={}):
   treat = X.iselect(hi=['I']) * P['tau']
   dXi.update(treat, hi=['R'], accum=np.add)
   dXo.update(treat, hi=['I'], accum=np.add)
-  # import ipdb; ipdb.set_trace()
   # dxout
   if dxout: # TODO: this should be a decorator
     lvars = locals()
@@ -60,20 +60,26 @@ def dxfun(X,t,P,dxout={}):
 
 def initfun(model):
   P = model.params
+  # define beta
+  P['beta'].update(0)
+  P['beta'].update(P['beta-i'],hp=['I'])
   # turnover
   if P['zeta'].space.dim('ii').n > 1:
-    turnover = transmit.turnover(
-      nu   = P['nu'],
-      mu   = P['mu'],
-      px   = P['px'],
-      pe   = P['pe'],
-      zeta = P['zeta'],
-      dur  = P['dur'],
-      warn = True,
-    )
-    P['zeta'].update(turnover['zeta'])
-    P['dur'].update(turnover['dur'])
-    P['pe'].update(turnover['pe'])
+    if np.all(np.isnan(P['dur'])): # TODO: this is not a robust condition
+      P['zeta'].update(0)
+    else:
+      turnover = transmit.turnover(
+        nu   = P['nu'],
+        mu   = P['mu'],
+        px   = P['px'],
+        pe   = P['pe'],
+        zeta = P['zeta'],
+        dur  = P['dur'],
+        warn = True,
+      )
+      P['zeta'].update(turnover['zeta'])
+      P['dur'].update(turnover['dur'])
+      P['pe'].update(turnover['pe'])
   # initial condition
   model.X0.update(P['N0']*P['px'],hi=['S'])
 
@@ -107,7 +113,7 @@ def get_outputs(spaces,select,t,names=None,**kwargs):
     'incidence':     {'ss':'S'},
     'incidence-abs': {'ss':'S'},
     'cum-infect':    {'ss':'S'},
-    'tpaf-WH':       {'beta':'beta','ss':'S'},
+    'tpaf-high':     {'beta':'beta','ss':'S','mode':'to'},
     'inf-ratio':     {'ss':'S','si':'infected'},
   }
   return xdict([

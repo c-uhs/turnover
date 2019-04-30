@@ -2,11 +2,13 @@
 % packages
 \usepackage{tikz}
 \usepackage{tikz-qtree}
-\usetikzlibrary{positioning,quotes,calc}
+\usepackage{upgreek}\renewcommand{\zeta}{\upzeta}
+\usetikzlibrary{positioning,quotes,calc,arrows.meta}
 % tikz setup
 \tikzset{%
   arrow/.style = {
     ->,
+    > = latex,
     very thick,
     rounded corners,
     fill = #1,

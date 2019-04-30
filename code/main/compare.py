@@ -1,4 +1,6 @@
-import os,sys; sys.path.append(os.path.join((lambda r,f:f[0:f.index(r)+len(r)])('code',os.path.abspath(__file__)),'config')); import config
+import os,sys;
+sys.path.append(os.path.join((lambda r,f:f[0:f.index(r)+len(r)])('code',os.path.abspath(__file__)),'config'));
+import config
 config.epimodel()
 config.plot(tex=True)
 
@@ -107,7 +109,7 @@ def turnover(*outputs):
         selector = next(selecti)
         select = sim.model.select[who]
         selector.update(select)
-        title = variants.make_title(*variants.parse_name(name),i=i)+' '+select.title
+        title = variants.make_title(*variants.parse_name(name),i=i)#+' '+select.title
         yield title,sim,selector
   for output in outputs:
     for who in ['all','high','low']:
@@ -131,7 +133,7 @@ def tpaf():
         selector.specs.update(linestyle = '--')
         yield title,sim,selector
   make_plot(
-    output = 'tpaf-WH',
+    output = 'tpaf-high',
     sim_iter = sim_iter,
     save = 'compare-turnover-tpaf-fit.eps',
   )

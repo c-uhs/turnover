@@ -1,0 +1,47 @@
+% temporary paths
+\newcommand{\figpath}{../../outputs/figs}
+\newcommand{\datapath}{../../outputs/data}
+% front matter
+\makeatletter
+\def\abbrfootnote{\gdef\@thefnmark{}\@footnotetext}
+\makeatother
+% enumerate & itemize
+\usepackage{enumitem}
+% references
+\bibliographystyle{apalike}
+% fixing natbib & hyperref issues
+\makeatletter
+\def\bibinfo#1{%
+  \@ifundefined{bibinfo@X@#1}%
+  {\@firstofone}
+  {\csname bibinfo@X@#1\endcsname}}
+\makeatother
+\newcommand*{\doi}[1]{DOI \href{https://doi.org/#1}{\texttt{#1}}}
+% maths
+\usepackage{bm,amsmath,upgreek}
+\usepackage{xstring}
+\newcommand{\tarr}[1]{{\def\arraycolsep{3pt}[\begin{matrix}\StrSubstitute{#1}{,}{&}\end{matrix}]}} % TEMP
+\renewcommand{\zeta}{\upzeta}
+% tables
+\usepackage{booktabs,caption}
+% figures
+\usepackage{graphicx,subcaption}
+\graphicspath{
+  {\figpath/tikz/turnover/}
+  {\figpath/tikz/health/}
+  {\figpath/tikz/variants/}
+  {\figpath/plots/compare/}
+  {\figpath/plots/surface/}
+}
+\captionsetup[sub]{size=footnotesize}
+% float box environment
+\usepackage{tcolorbox,newfloat,float}
+\newtcolorbox{fboxed}{sharp corners=all,colback=white!97!black,boxrule=1pt}
+\DeclareFloatingEnvironment[name=Box]{floatbox}
+% footnotes
+\usepackage[hang]{footmisc}
+\setlength{\footnotesep}{\baselineskip}
+% hyperlink
+\usepackage[colorlinks]{hyperref}
+% temp formatting
+\renewcommand{\floatpagefraction}{0.7}

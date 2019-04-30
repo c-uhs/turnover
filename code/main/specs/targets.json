@@ -2,7 +2,7 @@
 { "name": "prevalence-high", "output": "prevalence", "selector": "high",
   "arr": {
     "idxs": ["t"],
-    "t":    [ 200 ],
+    "t":    [ 500 ],
     "arr":  [ 0.25 ]
   },
   "dist": {
@@ -14,7 +14,7 @@
 { "name": "prevalence-low", "output": "prevalence", "selector": "low",
   "arr": {
     "idxs": ["t"],
-    "t":    [ 200 ],
+    "t":    [ 500 ],
     "arr":  [ 0.05 ]
   },
   "dist": {

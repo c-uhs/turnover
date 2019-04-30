@@ -23,6 +23,9 @@ def fname_fig(plot,varname,ftype='pdf'):
 def fname_fit(varname):
   return os.path.join(config.path['data'],'fit',varname+'.json')
 
+def fname_fit_param(varname,param):
+  return os.path.join(config.path['data'],'fit','{}-{}.txt'.format(varname,param))
+
 def run_sim(sim,todo,varname):
   # run a single simulation for a single model variant, and generate named plots
   specs = system.get_specs()
@@ -42,8 +45,8 @@ def run_sim(sim,todo,varname):
     # special case: fit model to targets, save fitted parameters (from params.json)
     # initialize the targets and calsim
     name = spec.pop('name')
-    nu,G,Z = variants.parse_name(spec['name'])
-    if G > 1:
+    nu,G,Z = variants.parse_name(name)
+    if G > 1 and nu > sim.model.params['mu']:
       targets = system.get_targets(
         sim.model.spaces,
         sim.model.select,
@@ -51,14 +54,20 @@ def run_sim(sim,todo,varname):
         t = sim.t,
       )
       calsim = calibration.CalibrationSim(
-        spec['name'],
+        name,
         sim = sim,
         targets = targets,
         verbose = True,
       )
-      calsim.sim.params['tau'].update(0.05)
       opt = calsim.optimize(plot='tmp.pdf',ftol=1e-3)
       utils.savejson(fname_fit(calsim.name),calsim.fitted_params().todict())
+      # HACK (assumes we know fitted_params)
+      C = calsim.sim.params['C']
+      psave = lambda name,value: utils.savetxt(fname_fit_param(calsim.name,name),'{:.02f}'.format(value))
+      psave('CH',float(C.islice(ii='H')))
+      psave('CL',float(C.islice(ii='L')))
+      psave('CR',float(C.islice(ii='H') / C.islice(ii='L')))
+      
 
   # dictionary of specifications for the plots
   specs = { name:spec for name,spec in \
@@ -99,11 +108,6 @@ def run_sim(sim,todo,varname):
         fun = fitfun,
         output = 'prevalence',
         selectors = []),
-      # 'prop-from-WH': specfun(
-      #   output = 'prop-from-WH',
-      #   selectors = ['infected'],
-      #   ylabel = 'testing ...',
-      #   ylim = [0,1]),
     # default: return all except 'fit', else, only user specified
     }.items() if (name in todo) or ((len(todo)==0) and not (name in ['fit','tpaf-high'] )) }
 
@@ -130,7 +134,7 @@ def run_sim(sim,todo,varname):
 
 def run_sims(todo=None):
   todo = todo if todo is not None else []
-  for i,(name,sim) in enumerate(variants.get_sims().items()):
+  for i,(name,sim) in enumerate(variants.get_sims(system.get_t(dt=1,tmax=500)).items()):
     run_sim(sim,todo,name)
 
 def print_turnover(name,sim):
