@@ -22,6 +22,7 @@ outputs/data/surface/raw/
 *-blx.aux
 *-blx.bib
 *.run.xml
+*.spl
 *.synctex
 *.synctex.gz
 *.synctex.gz
