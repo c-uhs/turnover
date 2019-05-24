@@ -1,0 +1,49 @@
+Rearranging the force of infection $\lambda_i$
+to isolate the dynamic (not constant) component ($*$):
+\begin{equation}\label{eq:lambda-dynamic}
+\begin{aligned}
+  \lambda_i
+    &= C_i \sum_k \rho_{ik} \beta \thinspace \frac{\mathcal{I}_k(t)}{N_k}\\
+    &= C_i \beta \sum_k
+    \frac{C_k N_k}{\sum_{\mathrm{k}}C_{\mathrm{k}}N_{\mathrm{k}}}
+    \frac{\mathcal{I}_k(t)}{N_k}\\
+    &= C_i \beta \underbrace{
+      \frac{\sum_k C_k \mathcal{I}_k(t)}{\sum_{\mathrm{k}}C_{\mathrm{k}}N_{\mathrm{k}}}
+    }_{\text{*}}
+\end{aligned}
+\end{equation}
+This component ($*$) is:
+$\bm{C}_{\mathcal{I}}$~%
+\textit{the proportion of available partnerships which are offered by infectious individuals}.
+As the only dynamic component, only this component can be affected by turnover.
+\par
+Now consider that $\bm{C}_{\mathcal{I}}$
+can be written in terms of the following three factors:
+\begin{itemize}
+  \item The average contact rate among infectious individuals
+  $\hat{C}_{\mathcal{I}} = \frac{\sum_k C_k \mathcal{I}_k}{\sum_k \mathcal{I}_k}$
+  \item The proportion of the population who are infectious
+  $\hat{\mathcal{I}} = \frac{\sum_k \mathcal{I}_k}{\sum_k N_k}$
+  \item The average contact rate among all individuals (constant)
+  $\hat{C} = \frac{\sum_k C_k N_k}{\sum_k N_k}$
+\end{itemize}
+\begin{equation}
+\begin{aligned}
+\bm{C}_{\mathcal{I}}
+&= \hat{C}_{\mathcal{I}} \times \hat{\mathcal{I}} \times \hat{C}^{-1}\\
+&= \frac{\sum_k C_k \mathcal{I}_k}{\sum_k \mathcal{I}_k}
+\times
+\frac{\sum_k \mathcal{I}_k}{\sum_k N_k}
+\times
+\frac{\sum_k N_k}{\sum_k C_k N_k}\\
+&= \frac{\sum_k C_k \mathcal{I}_k}{\sum_{\mathrm{k}}C_{\mathrm{k}}N_{\mathrm{k}}}\\
+\end{aligned}
+\end{equation}
+Therefore, actually only two dynamic factors control the force of infection:
+1) the average contact rate among infectious individuals $\hat{C}_{\mathcal{I}}$, and
+2) the proportion of the population who are infectious $\hat{\mathcal{I}}$;
+and the product of these factors (scaled by $\hat{C}^{-1}$) gives $\bm{C}_{\mathcal{I}}$.
+Overall incidence is then directly proportional to $\bm{C}_{\mathcal{I}}$,
+following Eq.~(\ref{eq:lambda-dynamic}).
+In fact, the incidence in each group individually is proportional to $\bm{C}_{\mathcal{I}}$,
+as $C_i$ is only factor depending on $i$.

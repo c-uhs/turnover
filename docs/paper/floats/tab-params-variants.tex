@@ -1,12 +1,20 @@
-\begin{tabular}{ccccc}
+\begin{threeparttable}
+\begin{tabularx}{0.95\linewidth}{c *{4}{Y}}
 	\toprule
-	  Parameter    &                   V1                   &                    V2                     &                   V3                   &         V4          \\
+	  Parameter    & Base                     & V1                           & V2                       & V3                                         \\
 	\midrule
-	$\bm{\hat{x}}$ & $[ 0.04 \enspace 0.20 \enspace 0.76 ]$ &  $[ 0.04 \enspace 0.20 \enspace 0.76 ]$   & $[ 0.04 \enspace 0.20 \enspace 0.76 ]$ &         ---         \\
-	$\bm{\hat{e}}$ & $[ 0.04 \enspace 0.20 \enspace 0.76 ]$ &  $[ 0.04 \enspace 0.20 \enspace 0.76 ]$   & $[ 0.04 \enspace 0.20 \enspace 0.76 ]$ &         ---         \\
-	     $C$       &     $[ 25 \enspace 5 \enspace 1 ]$     &      $[ 25 \enspace 5 \enspace 1 ]$       &     $[ 25 \enspace 5 \enspace 1 ]$     & $[ \textbf{2.76} ]$ \\
-	   $\delta$    &    $[ 5 \enspace 15 \enspace 25 ]$     & $[ \textbf{33 \enspace 33 \enspace 33} ]$ &    $[ 5 \enspace 15 \enspace 25 ]$     & $[ \textbf{33}  ]$  \\
-	    $\nu$      &                 $0.05$                 &                  $0.05$                   &            $\textbf{0.03}$             &       $0.05$        \\
-	    $\mu$      &                 $0.03$                 &                  $0.03$                   &                 $0.03$                 &       $0.03$        \\
+	$\bm{\hat{x}}$ & $[ 0.05\es0.20\es0.75 ]$ & ---                          & $[ 0.05\es0.20\es0.75 ]$ & $[ 0.05\es0.20\es0.75 ]$                   \\
+	$\bm{\hat{e}}$ & $[ 0.05\es0.20\es0.75 ]$ & ---                          & $[ 0.05\es0.20\es0.75 ]$ & $[ 0.05\es0.20\es0.75 ]$                   \\
+	     $C$       & $[ 25\es5\es1 ]$         & $[ \textbf{3} ]$\tnote{a}    & $[ 25\es5\es1 ]$         & $[ 25\es5\es1 ]$                           \\
+	   $\delta$    & $[ 5\es15\es25 ]$        & $[ \textbf{33.3} ]$\tnote{b} & $[ 5\es15\es25 ]$        & $[ \textbf{33.3\es33.3\es33.3} ]$\tnote{b} \\
+	    $\nu$      & $0.05$                   & $0.05$                       & $\textbf{0.03}$\tnote{c} & $0.05$                                     \\
+	    $\mu$      & $0.03$                   & $0.03$                       & $0.03$                   & $0.03$                                     \\
 	\bottomrule
-\end{tabular}
+\end{tabularx}
+\footnotesize
+\begin{tablenotes}
+  \item[a] Weighted average of risk-stratified $C$
+  \item[b] Without turnover, duration in all groups must be equal to the inverse of the exit rate, $\mu^{-1}$
+  \item[c] Adjusting the entry rate, versus exit rate, does not affect average duration in the model
+\end{tablenotes}
+\end{threeparttable}

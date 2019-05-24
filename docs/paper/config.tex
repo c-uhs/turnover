@@ -18,20 +18,24 @@
 \makeatother
 \newcommand*{\doi}[1]{DOI \href{https://doi.org/#1}{\texttt{#1}}}
 % maths
-\usepackage{bm,amsmath,upgreek}
+\usepackage{bm,amsmath}
 \usepackage{xstring}
 \newcommand{\tarr}[1]{{\def\arraycolsep{3pt}[\begin{matrix}\StrSubstitute{#1}{,}{&}\end{matrix}]}} % TEMP
-\renewcommand{\zeta}{\upzeta}
+\newcommand{\es}{\enspace}
 % tables
-\usepackage{booktabs,caption}
+\usepackage{booktabs,caption,tabularx}
+\usepackage{threeparttable}
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
 % figures
 \usepackage{graphicx,subcaption}
 \graphicspath{
   {\figpath/tikz/turnover/}
   {\figpath/tikz/health/}
   {\figpath/tikz/variants/}
+  {\figpath/tikz/flows/}
   {\figpath/plots/compare/}
-  {\figpath/plots/surface/}
+  {\figpath/plots/sensitivity/}
+  {\figpath/} % TEMP
 }
 \captionsetup[sub]{size=footnotesize}
 % float box environment
@@ -41,7 +45,9 @@
 % footnotes
 \usepackage[hang]{footmisc}
 \setlength{\footnotesep}{\baselineskip}
+\setlength{\footnotemargin}{1em}
 % hyperlink
-\usepackage[colorlinks]{hyperref}
+\usepackage[colorlinks,linkcolor=blue]{hyperref}
 % temp formatting
-\renewcommand{\floatpagefraction}{0.7}
+\renewcommand{\floatpagefraction}{0.8}
+\usepackage{tikz}

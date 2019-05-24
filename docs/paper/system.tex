@@ -1,33 +1,46 @@
-This section introduces a system of states, flows between them, and equations
+This section introduces a system of risk groups, flows between them, and equations
 which can be used to describe risk group dynamics
 in deterministic compartmental epidemic models.
-\par
-We denote the size of risk group $i \in [1, \dots, G]$ as $x_i$
-and the vector of all $x_i$ as $\bm{x}$.
-The total population size is denoted $N = \sum_i {x_i}$,%
-\footnote{Here, as in many models, ``total population'' actually refers to
-  an age-constrained range.}
-and the proportion that each group represents by $\hat{x}_i = x_i / N$.
-The rate of population entry overall is denoted $\nu$,
-and the rate of exit by $\mu$.
-We do not consider disease-attributable death, which may vary by group,
-though this should be the subject of future work.
-All rates have units \textit{per year}.
-The proportion of the entering population who will enter group $i$
-is denoted $\hat{e}_i$.
-Since the rate of entry $\nu$ is typically expressed as
-a proportion of the total size $N$,
-we model the theoretical entering population $\bm{e}$ as also having size $N$,
-so that $e_i = \hat{e}_i N$.
+% ==================================================================================================
+\subsection{Notation}
+Consider a population divided into $G$ risk groups.
+The number of individuals in risk group $i \in [1, \dots, G]$ is denoted as $x_i$
+and the set of all risk groups is denoted as $\bm{x} = \{x_1, \dots, x_G\}$.
+The total population size is $N = \sum_i {x_i}$,%
+\footnote{Here, as in many models, ``total population'' actually represents
+  a subset of the population with a consistent duration in the model --
+  e.g. an age-constrained range.}
+and the proportion of the total population that each group represents
+is denoted as $\hat{x}_i = x_i / N$.
+Individuals enter the model at a rate $\nu$ per year,
+and exit at a rate $\mu$ per year.
+However, the proportion of individuals entering into group $i$ from outside the model
+may be different from
+the proportion of individuals currently in group $i$ in the model ($\hat{x}_i$).
+Therefore, we distinguish these proportions
+and denote the proportion entering into group $i$ as $\hat{e}_i$.
+For example, a higher proportion of youth (model entrants, $\hat{e}_i$)
+may engage in high-risk sexual behaviour,
+as compared to the population overall ($\hat{x}_i$).
+It will later be shown how rates of turnover can maintain such a system at equilibrium.
+%The number of entrants into group $i$ is therefore given by
+%$\nu N \hat{e}_i$.
+%This assumption then implies then implies the existence of
+%a ``source'' population $\bm{e} = \{e_1, \dots, e_G\}$,
+%from which model entrants originate.
+%The size of this population is then assumed to be the same as $\bm{x}$ ($\sum_i e_i = N$)
+%so that the entry rate $\nu$ can be used in the usual way,
+%as a proportion of $N$.
 \par
 Turnover transitions can occur between any two groups, in either direction;
-therefore we denote the turnover rates as a $G \times G$ matrix $\zeta$,
-where $\zeta_{ij}$ corresponds to the transition $x_i \rightarrow x_j$.
-An explicit definition is given in Eq.~(\ref{eq:zeta}),
+therefore the turnover rates are denoted as a $G \times G$ matrix $\phi$.
+The element $\phi_{ij}$ corresponds to the proportion of individuals in group $x_i$
+who move from group $x_i$ to group $x_j$ each year.
+An example matrix is given in Eq.~(\ref{eq:phi}),
 where the diagonal elements are written $*$ since they represent
 transitions from a group to itself, which are inconsequential.
-\begin{equation}\label{eq:zeta}
-\zeta = \left[\begin{array}{cccc}
+\begin{equation}\label{eq:phi}
+\phi = \left[\begin{array}{cccc}
 	         *          & x_1  \rightarrow x_2 & \cdots & x_1 \rightarrow x_G \\[0.5em]
 	x_2 \rightarrow x_1 &          *           & \cdots & x_2 \rightarrow x_G \\[0.5em]
 	      \vdots        &        \vdots        & \ddots &       \vdots        \\[0.5em]
@@ -35,54 +48,59 @@ transitions from a group to itself, which are inconsequential.
 \end{array}\right]
 \end{equation}
 These transition flows and the associated rates
-are summarized for $G = 3$ in Figure~\ref{fig:system}.
+are also shown for $G = 3$ in Figure~\ref{fig:system}.
 \begin{figure}
   \centering
-  \includegraphics[width=0.4\linewidth]{turnover-system}
+  \includegraphics[width=0.5\linewidth]{turnover-system}
   \caption{System of states and flows between them for $G = 3$}
   \label{fig:system}
 \end{figure}
-% key assumptions
-% other stuff?
 % ==================================================================================================
 \subsection{Parameterization}\label{ss:params}
-Next, we explore methods for estimating the values of parameters
-in the system described above
-($\nu$, $\mu$, $\bm{\hat{x}}$, $\bm{\hat{e}}$, and $\zeta$)
-directly from some commonly available sources of data.
+Next, consider the goal of constructing a system like the one described above,
+which reflects the risk group dynamics observed in a real-world context.
+It will be assumed that the number of risk groups to model is already determined,
+and also that the relative sizes of these groups ($\hat{x}_i$) should remain constant over time.
+Thus, what remains is to estimate the values of the following parameters:
+$\nu$, $\mu$, $\bm{\hat{x}}$, $\bm{\hat{e}}$, and $\phi$.
+Methods to do so, which leverage some commonly available sources of data,
+are presented next.
 % --------------------------------------------------------------------------------------------------
 \subsubsection{Total Population Size}\label{sss:params-nu-mu}
-The model of total population size over time is defined by
-entry and exit rates, $\nu$ and $\mu$, as in:
+The difference between the entry rate $\nu(t)$ and exit rate $\mu(t)$ for a population,
+gives a net growth rate $\mathcal{G}(t)$.
+The total population $N(t)$ is then defined by the exponential growth
+of the original population $N_0$ according to $\mathcal{G}(t)$,
+% TODO: this is not trivial!
 \begin{subequations}
   \begin{align}
-  N(t) &= N_0 {\big(1+\mathcal{G}(t)\big)}^{t} \label{eq:growth-N}\\
-  \mathcal{G}(t) &= \nu(t) - \mu(t)              \label{eq:growth-G}
+  \mathcal{G}(t) &= \nu(t) - \mu(t)            \label{eq:growth-G}\\
+%  N(t) &= N_0 \prod_{\tau}^{t} \big(1+\mathcal{G}(\tau)\big) \label{eq:growth-N}
   \end{align}
 \end{subequations}
-and we note that the average duration of an individual in the model at time $t$
-is given by:
+Note that the average duration of an individual in the model at time $t$ is given by:
 \begin{equation} \label{eq:duration-model}
 \delta(t) = \mu^{-1}(t)
 \end{equation}
 Variation in rate of entry across risk groups is captured in $\bm{\hat{e}}$,
-and we generally do not stratify rate of exit by activity group
-(besides disease-attributable death);
-therefore, we can assume that $\nu$ and $\mu$ do not vary across risk groups,
-which allows us to derive them with $N(t)$, independent of
-the population proportions $\bm{\hat{x}}$, $\bm{\hat{e}}$, and turnover $\zeta$.
+and rate of exit is generally not stratified by activity group
+(besides disease-attributable death, which we do not consider here).
+Therefore, it can be assumed that $\nu$ and $\mu$ do not vary across risk groups,
+allowing these rates to be derived independent of
+the population proportions $\bm{\hat{x}}$, $\bm{\hat{e}}$, and turnover $\phi$.
 \par
-The simplest approach assumes a constant population size $N(t) = N_0$,
-or a growth rate of zero, yielding $\nu = \mu$.
-However, this does not reflect the true positive population growth of most contexts,
-and may result in underestimated incidence,
-due to the relative reduction in inflow of susceptible individuals.
+The simplest approach to obtaining $\nu$ and $\mu$ assumes
+a constant population size $N(t) = N_0$.
+This implies a growth rate of zero, yielding $\nu = \mu$.
+However, this does not reflect the positive population growth of most real contexts.
+%and may result in underestimated incidence,
+%due to the relative reduction in inflow of susceptible individuals.
 % verified in code, see:
 % https://github.com/c-uhs/turnover/blob/f029bd1/outputs/figs/debug/incidence-nu.gif
-\par
+% \cite{} ?
 Another approach is to fix $\mathcal{G}(t)$ as some constant.
-When using this approach, extra care should be taken to ensure
-the resulting $N(t)$ matches any available population size estimates to a reasonable degree.
+When using this approach, care should be taken to ensure
+the resulting $N(t)$ matches available population size estimates to a reasonable degree.
 \par
 Typically, data will be available for the total size of the population over time $N(t)$,
 so the growth rate for each time interval $t_i$
@@ -91,28 +109,30 @@ can be derived by rearranging Eq.~(\ref{eq:growth-N}):
 \mathcal{G}(t_i) = {\left(\frac{N(t_{i+1})}{N(t_{i})}\right)}^{-(t_{i+1}-t_i)} - 1
 \end{equation}
 All of these approaches help define $\mathcal{G}(t)$, but leave one degree of freedom,
-since any choice of $\mu(t)$ can be compensated by $\nu(t)$ to yield the desired $\mathcal{G}(t)$.
-However, we can usually leverage the known duration of individuals in the model $\delta(t)$
-to choose $\mu(t)$ as in Eq.~(\ref{eq:duration-model}).
-This can come from an assumed duration of sexual activity,
-or a constant, predefined age range relevant to parameterization.
-Then, we can solve for $\nu(t)$ using Eq.~(\ref{eq:growth-G}).
+since many choices of $\mu(t)$ can be compensated by an appropriate choice of $\nu(t)$
+to yield the desired $\mathcal{G}(t)$.
+However, an assumed duration of individuals in the model $\delta(t)$
+can usually be leveraged to choose $\mu(t)$ as in Eq.~(\ref{eq:duration-model}).
+This duration can be assumed,
+or be chosen to reflect the age range in data sources for other model parameters.
+Then, $\nu(t)$ can be resolved using the growth rate in Eq.~(\ref{eq:growth-G}).
 % --------------------------------------------------------------------------------------------------
 \subsubsection{Turnover}\label{sss:params-turnover}
 % TODO: discuss common approaches - especially turnover is constant, or zero.
 % TODO: discuss more the assumptions throughout.
-Next, we assume that $\nu(t)$ and $\mu(t)$ are known,
-and we focus on resolving $\bm{\hat{e}}(t)$ and $\zeta(t)$.
-Similar to above, we will first formulate the problem as a system of equations;
-then we will consider which data and assumptions we can leverage to solve the system.
+% TODO: add approach for balancing absolute flows between compartments
+Next, methods for resolving $\bm{\hat{e}}(t)$ and $\phi(t)$
+are presented, assuming that $\nu(t)$ and $\mu(t)$ are known.
+Similar to above, the problem is first formulated as a system of equations.
+then the data and assumptions which can be leveraged to solve the system will be considered.
 \par
 We begin by defining the ``conservation of mass'' equation for a given group $x_i$,
 where that the rate of change of the group
 is simply the sum of flows in~/~out of the group:
 \begin{equation}\label{eq:mass-balance}
 \frac{d}{dt}x_i
-= \nu \thinspace e_i + \sum_{j}{\zeta_{ji} \thinspace x_j}
-- \mu \thinspace x_i - \sum_{j}{\zeta_{ij} \thinspace x_i}
+= \nu \thinspace e_i + \sum_{j}{\phi_{ji} \thinspace x_j}
+- \mu \thinspace x_i - \sum_{j}{\phi_{ij} \thinspace x_i}
 \end{equation}
 While Eq.~(\ref{eq:mass-balance}) is written in terms of
 absolute population sizes $\bm{x}$ and $\bm{e}$,
@@ -127,13 +147,13 @@ Substituting this into Eq.~(\ref{eq:mass-balance}),
 and simplifying, we have:
 \begin{equation}\label{eq:system}
 \nu \thinspace x_i
-= \nu \thinspace e_i + \sum_{j}{\zeta_{ji} \thinspace x_j}
-- \sum_{j}{\zeta_{ij} \thinspace x_i}
+= \nu \thinspace e_i + \sum_{j}{\phi_{ji} \thinspace x_j}
+- \sum_{j}{\phi_{ij} \thinspace x_i}
 \end{equation}
 Now, depending on the number of risk groups, we have
-$G$ and $G(G-1)$ unknowns in $\bm{e}$ and $\zeta$, totalling $G^2$ variables to resolve.
+$G$ and $G(G-1)$ unknowns in $\bm{e}$ and $\phi$, totalling $G^2$ variables to resolve.
 We denote these variables as the vector $\bm{\theta} = \left[\bm{e}, \bm{z}\right]$,
-where $\bm{z} = \mathrm{vec}_{i \ne j}(\zeta)$;
+where $\bm{z} = \mathrm{vec}_{i \ne j}(\phi)$;
 this allows us to define
 a system of linear equations of the form:
 \begin{equation}\label{eq:system-matrix}
@@ -143,9 +163,9 @@ where $A$ is a $G \times G^2 $ matrix
 and $\bm{b}$ is a $G$-length vector,
 representing the right-hand side and left-hand side of Eq.~(\ref{eq:system}), respectively.
 In this form, we can use $A^{-1}\bm{b} = \bm{\theta}$ to solve for $\bm{\theta}$.
-\par
+\par % TODO: underdetermined by this? What about sum{e} = 1?
 Unfortunately, for any $G > 1$, the system is underdetermined by a factor of $G(G-1)$,
-meaning there are many combinations of $\bm{e}$ and $\zeta$ which satisfy Eq.~(\ref{eq:system}).
+meaning there are many combinations of $\bm{e}$ and $\phi$ which satisfy Eq.~(\ref{eq:system}).
 Therefore, we now resume our task of leveraging data and assumptions
 to define a unique solution.
 \par
@@ -153,21 +173,21 @@ Our first tool is another equation.
 We note that the duration of time spent in a particular group $\delta_i$
 is the inverse of all efferent flow rates:
 \begin{equation}\label{eq:duration-group}
-\delta_i = {\bigg(\mu + \sum_{j}{\zeta_{ij}}\bigg)}^{-1}
+\delta_i = {\bigg(\mu + \sum_{j}{\phi_{ij}}\bigg)}^{-1}
 \end{equation}
 These durations could be derived from survey data, including for key populations,
 or they could be assumed.
 Rearranging Eq.~(\ref{eq:duration-group}), we obtain
-${\delta_i}^{-1} - \mu = \sum_{j}{\zeta_{ij}}$,
+${\delta_i}^{-1} - \mu = \sum_{j}{\phi_{ij}}$,
 which yields an additional $G$ equations in our linear system -- i.e.\ rows of $A$ and $\bm{b}$.
-For $G = 2$, this provides enough constraints to fully determine the system,
+For $G = 2$, this provides enough constraints to fully determine the system, % TODO: does it though? as 2nd duration is redundant, no?
 as shown in \ref{aa:eqs-turnover} \nameref{aa:eqs-turnover},
 but for larger $G$, still more constraints are needed.
 \par
 The simplest additional constraints can be elements in $\bm{\theta}$ which are directly specified
--- i.e.\ elements of of $\bm{e}$ or $\zeta$.
+-- i.e.\ elements of of $\bm{e}$ or $\phi$.
 For example, the proportion of individuals who
-move from one risk group to another each year ($\zeta_{ij}$)
+move from one risk group to another each year ($\phi_{ij}$)
 may be assumed or derived from data.
 Similarly, the distribution of individuals
 across risk groups in the entering population $\bm{\hat{e}}$
@@ -182,12 +202,12 @@ First, not all combinations of specified elements will add an equal number of co
 Specifying all elements of $\bm{e}$
 will only add $G-1$ (not $G$) constraints,
 since $\sum \bm{\hat{e}} = 1$, so the final element adds no new information.
-Similarly, specifying all elements of $\zeta_{ij}$ for a given $i$
+Similarly, specifying all elements of $\phi_{ij}$ for a given $i$
 as well as the duration for the group $\delta_i$
 will only add $G-1$ (not $G$) constraints,
 since Eq.~(\ref{eq:duration-group}) must hold.
-%\footnote{Recall that the diagonal elements of $\zeta$ are inconsequential,
-%  so only $G-1$ elements of $\zeta_{ij}$ may be specified at all for a given $i$.}
+%\footnote{Recall that the diagonal elements of $\phi$ are inconsequential,
+%  so only $G-1$ elements of $\phi_{ij}$ may be specified at all for a given $i$.}
 Second, not all combinations of specified values will yield a valid solution,%
 \footnote{Even rank-deficient systems be inconsistent.}
 and it is unfortunately difficult to anticipate problematic combinations.
