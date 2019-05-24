@@ -55,11 +55,11 @@ def fname_fun(*args,**kwargs):
   return '-'.join(args)
 
 def fname_element(output,select,*args,**kwargs): # output,select,phi=None,tau=None
-  return os.path.join(config.path['data'],'surface','raw',output,select,
+  return os.path.join(config.path['data'],'sensitivity','raw',output,select,
     fname_fun(*args,**kwargs)+'.txt')
 
 def fname_array(*args,**kwargs): # output,select,norm=False,tau=None
-  return os.path.join(config.path['data'],'surface',
+  return os.path.join(config.path['data'],'sensitivity',
     fname_fun(*args,**kwargs)+'.csv')
 
 def fname_fig(*args,**kwargs):
