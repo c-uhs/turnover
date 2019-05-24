@@ -28,13 +28,13 @@
   },
   { "name": "dur",
     "desc": "duration spent in each group",
-    "accum": null,
+    "accum": "mean",
     "arr": { "idxs": ["ii"],
              "arr": [  5 , 15 , 25 ] }
   },
-  { "name": "zeta",
+  { "name": "phi",
     "desc": "rate of turnover between activity groups",
-    "accum": null,
+    "accum": "mean",
     "arr": { "idxs": ["ii","ip"],
              "arr": null }
   },
@@ -60,7 +60,7 @@
     },
     "fitted":       [   1   , 0 ,   1   ]
   },
-  { "name": "beta-i",
+  { "name": "ibeta",
     "desc": "probability of transmission per partnership (I -> S)",
     "arr": {
       "idxs": [],
@@ -69,6 +69,7 @@
   },
   { "name": "beta",
     "desc": "probability of transmission per partnership",
+    "accum": "mean",
     "arr": {
       "idxs": ["ii","ip","hp"],
       "arr":  null

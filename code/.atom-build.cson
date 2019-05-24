@@ -1,31 +1,22 @@
 {
   "targets": {
-    "debug": {
-      "cmd": "python3 main/main.py debug"
-    }
-    "newinf": {
-      "cmd": "python3 main/main.py newinf"
-    }
-    "surface-run": {
-      "cmd": "python3 main/main.py surface-run 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14"
-    }
-    "surface-plot": {
-      "cmd": "python3 main/main.py surface-plot"
-    }
-    "batch": {
-      "cmd": "python3 main/main.py batch"
-    }
-    "fit": {
-      "cmd": "python3 main/main.py batch fit"
+    "compare-hetero": {
+      "cmd": "python3 main/main.py compare-hetero"
     }
     "compare-growth": {
       "cmd": "python3 main/main.py compare-growth"
     }
-    "compare-hetero": {
-      "cmd": "python3 main/main.py compare-hetero"
-    }
     "compare-turnover": {
       "cmd": "python3 main/main.py compare-turnover prevalence incidence"
+    }
+    "sensitivity-plot": {
+      "cmd": "python3 main/main.py sensitivity-plot"
+    }
+    "flows": {
+      "cmd": "python3 main/flows.py"
+    }
+    "fit": {
+      "cmd": "python3 main/main.py batch fit"
     }
     "compare-tpaf": {
       "cmd": "python3 main/main.py compare-tpaf"

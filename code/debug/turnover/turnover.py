@@ -73,8 +73,8 @@ def turnover(nu,mu,px,pe=None,zeta=None,dur=None):
   # print('b    = {}'.format(np.around(b,3)))
   # print('A    = \n{}'.format(np.around(A,3)))
   # print('J    = {}'.format(np.around(err,6)))
-  print('dur  = {}'.format(np.around(dur,3)))
   print('pe   = {}'.format(np.around(pe,3)))
+  print('dur  = {}'.format(np.around(dur,3)))
   print('zeta = \n{}'.format(np.around(zeta,3)))
   print('len(t): {}, rank(A): {}'.format(len(theta),np.linalg.matrix_rank(A)))
   print('err  = {}'.format(np.around(err,9)))
@@ -126,19 +126,46 @@ if __name__ == '__main__':
 
   from numpy import nan
   # # one-off with G = 3
-  z1 =  (5**(-1) - 0.03)/2
-  z2 = (15**(-1) - 0.03)/2
-  z3 = (30**(-1) - 0.03)/2
+  x = nan
   turnover(
-    nu = 0.05,
-    mu = 0.03,
-    px = np.array([0.02,0.10,0.38]),
-    pe = np.array([nan,nan,nan]),
-    zeta = np.array([[0,z1,z1],[z2,0,z2],[z3,z3,0]]),
-    # zeta = np.array([[0,nan,nan],[nan,0,nan],[nan,nan,0]]),
-    # zeta = np.array([[nan,0.1,0.1],[0.01,nan,0.1],[0.01,0.01,nan]]),
-    dur = np.array([5.,15.,30]),
-    )
+    nu   = 0.05,
+    mu   = 0.03,
+    px   = np.array([0.02,0.10,0.38]),
+    pe   = np.array([0.02,0.10,0.38]),
+    dur  = np.array([  5, 15, 25.]),
+    zeta = np.array([[ x ,nan,0.1],[nan, x ,nan],[nan,nan, x ]]),
+  )
+
+# Different set of variants (using pe, not splitting evenly)
+
+# (6)
+# pe   = np.array([0.02,0.10,nan]),
+# dur  = np.array([  5, 15,25.]),
+# zeta = np.array([[ x ,nan,0.1],[nan, x ,nan],[nan,nan, x ]]),
+# (5)
+# pe   = np.array([nan,0.10,nan]),
+# dur  = np.array([  5, 15,25.]),
+# zeta = np.array([[ x ,nan,0.1],[  0, x ,nan],[nan,nan, x ]]),
+# (4)
+# pe   = np.array([nan,nan,nan]),
+# dur  = np.array([  5, 15,25.]),
+# zeta = np.array([[ x ,nan,0.1],[  0, x ,nan],[nan,  0, x ]]),
+# (3)
+# pe   = np.array([nan,nan,nan]),
+# dur  = np.array([  5, 15,nan]),
+# zeta = np.array([[ x ,nan,0.1],[  0, x ,nan],[  0,  0, x ]]),
+# (2)
+# pe   = np.array([nan,nan,nan]),
+# dur  = np.array([  5,nan,nan]),
+# zeta = np.array([[ x ,nan,0.1],[  0, x ,  0],[  0,  0, x ]]),
+# (1)
+# pe   = np.array([nan,nan,nan]),
+# dur  = np.array([nan,nan,nan]),
+# zeta = np.array([[ x ,  0,0.1],[  0, x ,  0],[  0,  0, x ]]),
+# (0)
+# pe   = np.array([nan,nan,nan]),
+# dur  = np.array([nan,nan,nan]),
+# zeta = np.array([[ x ,  0,  0],[  0, x ,  0],[  0,  0, x ]]),
 
   # # G = 4
   # turnover(

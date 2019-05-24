@@ -1,10 +1,10 @@
 [
-  { "name": "all",     "title": "All",             "select": {},                  "color": [0.0, 0.0, 0.0] },
-  { "name": "S",       "title": "Susceptible",     "select": { "hi": ["S"] },     "color": [  0, 0.8, 0.4] },
-  { "name": "I",       "title": "Infectious",      "select": { "hi": ["I"] },     "color": [0.8,   0, 0.2] },
-  { "name": "R",       "title": "Recovered",       "select": { "hi": ["R"] },     "color": [0.6, 0.2, 1.0] },
-  { "name": "infected","title": "Infected",        "select": { "hi": ["I","R"] }, "color": [0.8,   0, 0.2] },
-  { "name": "high",    "title": "High Activity",   "select": { "ii": ["H"] },     "color": [0.0, 0.0, 0.4] },
-  { "name": "med",     "title": "Medium Activity", "select": { "ii": ["M"] },     "color": [0.0, 0.0, 1.0] },
-  { "name": "low",     "title": "Low Activity",    "select": { "ii": ["L"] },     "color": [0.8, 0.8, 1.0] }
+  { "name": "all",     "label": "All",         "select": {},                  "color": [0.0, 0.0, 0.0] },
+  { "name": "S",       "label": "Susceptible", "select": { "hi": ["S"] },     "color": [0.0, 0.6, 1.0] },
+  { "name": "I",       "label": "Infectious",  "select": { "hi": ["I"] },     "color": [0.8, 0.2, 0.0] },
+  { "name": "R",       "label": "Recovered",   "select": { "hi": ["R"] },     "color": [0.8, 0.2, 0.6] },
+  { "name": "infected","label": "Infected",    "select": { "hi": ["I","R"] }, "color": [0.8,   0, 0.2] },
+  { "name": "high",    "label": "High Risk",   "select": { "ii": ["H"] },     "color": [0.0, 0.0, 0.4] },
+  { "name": "med",     "label": "Medium Risk", "select": { "ii": ["M"] },     "color": [0.0, 0.0, 1.0] },
+  { "name": "low",     "label": "Low Risk",    "select": { "ii": ["L"] },     "color": [0.8, 0.8, 1.0] }
 ]

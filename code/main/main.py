@@ -1,27 +1,25 @@
 import sys
-import surface
+import sensitivity
 import batch
-import compare
-import debug
-import newinf
+# import compare
+import variants
+# import debug
+# import newinf
 
 todo = sys.argv[1]
 if todo == 'compare-growth':
-  compare.growth()
+  variants.exp_growth(save=True)
 if todo == 'compare-hetero':
-  compare.hetero()
+  variants.exp_hetero(save=True)
 if todo == 'compare-turnover':
-  compare.turnover(*sys.argv[2:])
+  variants.exp_turnover(save=True)
 if todo == 'compare-tpaf':
-  compare.tpaf()
-if todo == 'surface-run':
-  surface.run_sims(sys.argv[2:])
-if todo == 'surface-plot':
-  surface.make_plots()
-if todo == 'batch':
-  batch.run_sims(sys.argv[2:])
-if todo == 'newinf':
-  newinf.main()
-if todo == 'debug':
-  debug.main(sys.argv[2:])
-print('done')
+  variants.exp_tpaf(save=True)
+if todo == 'sensitivity-run':
+  sensitivity.run_sims(sys.argv[2:])
+if todo == 'sensitivity-plot':
+  sensitivity.gen_plots()
+# if todo == 'newinf':
+#   newinf.main()
+# if todo == 'debug':
+#   debug.main(sys.argv[2:])
