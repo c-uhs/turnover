@@ -2,7 +2,6 @@
 % packages
 \usepackage{tikz}
 \usepackage{tikz-qtree}
-\usepackage{upgreek}\renewcommand{\zeta}{\upzeta}
 \usetikzlibrary{positioning,quotes,calc,arrows.meta}
 % tikz setup
 \tikzset{%
@@ -13,6 +12,9 @@
     rounded corners,
     fill = #1,
     draw = #1,
+  },
+  wide/.style = {
+    line width = #1,
   },
   tbox/.style = {
     thick,
@@ -31,8 +33,8 @@
     fill = #1!20!white,
     draw = #1!80!white,
     align = center,
-    minimum width = 1.2cm,
-    minimum height = 0.6cm,
+    minimum width = 3cm,
+    minimum height = 1cm,
     node distance = 1cm,
   },
   branch/.default = {gray},
@@ -50,18 +52,10 @@
   leaf/.default = {blue},
 }
 \definecolor{all}     {RGB}{  0,  0,  0}
-\definecolor{S}       {RGB}{  0,204,102}
-\definecolor{I}       {RGB}{204,  0, 51}
-\definecolor{R}       {RGB}{153, 51,255}
+\definecolor{S}       {RGB}{  0,153,255}
+\definecolor{I}       {RGB}{204, 51,  0}
+\definecolor{R}       {RGB}{204, 51,153}
 \definecolor{infected}{RGB}{204,  0, 51}
-\definecolor{W}       {RGB}{204,  0,  0}
-\definecolor{M}       {RGB}{  0,  0,204}
 \definecolor{High}    {RGB}{ 34, 34, 34}
 \definecolor{Med}     {RGB}{ 85, 85, 85}
 \definecolor{Low}     {RGB}{187,187,187}
-\definecolor{WH}      {RGB}{102,  0,  0}
-\definecolor{WM}      {RGB}{255,  0,  0}
-\definecolor{WL}      {RGB}{255,153,153}
-\definecolor{MH}      {RGB}{  0,  0,102}
-\definecolor{MM}      {RGB}{  0,  0,255}
-\definecolor{ML}      {RGB}{153,153,255}

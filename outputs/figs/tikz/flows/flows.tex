@@ -1,0 +1,24 @@
+\input{../config.tex}
+% colors
+\newcommand{\colorx}{gray}
+\newcommand{\colort}{\colorx!50!black}
+% dynamic inputs
+\input{config.tex}
+% document
+\begin{document}
+\begin{tikzpicture}
+% nodes ----------------------------------------------------------------------------------------
+\node(x1) [tbox=\colorx] at (0.0,0.0)          {$H$};
+\node(x3) [tbox=\colorx, below = 0.5cm of x1]  {$L$};
+\coordinate (x2) at ($(x1)!0.5!(x3)$);
+\coordinate[left  = 1cm of x2](x2a) ;
+\coordinate[right = 1cm of x2](x2b);
+% arrows ---------------------------------------------------------------------------------------
+\draw[arrow=\colort,wide=\turnover,fill=none] (x3) -| (x2a) |- (x1); 
+\draw[arrow=\colort,wide=\turnover,fill=none] (x1) -| (x2b) |- (x3);
+% pies -----------------------------------------------------------------------------------------
+\node(f13) [right = 0cm of x2b] {\includegraphics[width=1.25cm]{flow-high}};
+\node(f31) [left  = 0cm of x2a] {\includegraphics[width=1.25cm]{flow-low}};
+\end{tikzpicture}
+\end{document}
+% eof

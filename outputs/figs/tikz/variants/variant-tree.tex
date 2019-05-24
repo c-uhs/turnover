@@ -1,24 +1,24 @@
 \input{../config.tex}
 \begin{document}
 \begin{tikzpicture}[
-    level distance = 1.1cm,
-    sibling distance = 0.31cm,
+    level distance = 1.5cm,
+    sibling distance = 0.5cm,
     every path/.append style = { thick },
     edge from parent path = {
-      (\tikzparentnode) -- +(0.0,-0.51cm) -| (\tikzchildnode)
+      (\tikzparentnode) -- +(0.0,-0.65cm) -| (\tikzchildnode)
     },
-    frontier/.style = { distance from root = 4.4cm }
+    frontier/.style = { distance from root = 5.5cm }
   ]
   \Tree
     [.\node[branch=purple]{Base Model};
-      [.\node[branch]{$G=3$};
-        [.\node[branch]{$\nu>\mu$};
-          [.\node[branch]{$\zeta > 0$}; \node[leaf=purple]{V1}; ]
-          [.\node[branch]{$\zeta = 0$}; \node[leaf]{V2}; ]
+      [.\node[branch]{Heterogeneity \\ $G=3$};
+        [.\node[branch]{Pop.\ Growth \\ $\nu>\mu$};
+          [.\node[branch]{Turnover \\ $\zeta > 0$}; \node[leaf=purple]{B}; ]
+          [.\node[branch]{No Turnover \\ $\zeta = 0$}; \node[leaf]{V3}; ]
         ]
-        [.\node[branch]{$\nu=\mu$}; \node[leaf]{V3}; ]
+        [.\node[branch]{No Pop.\ Growth \\ $\nu=\mu$}; \node[leaf]{V2}; ]
       ]
-      [.\node[branch]{$G=1$}; \node[leaf]{V4}; ]
+      [.\node[branch]{No Heterogeneity \\ $G=1$}; \node[leaf]{V1}; ]
     ]
 \end{tikzpicture}
 \end{document}
