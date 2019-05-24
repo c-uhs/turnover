@@ -2,7 +2,7 @@
 .old/
 
 # data
-outputs/data/surface/raw/
+outputs/data/sensitivity/raw/
 
 # code
 *.pyc
