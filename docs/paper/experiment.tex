@@ -1,36 +1,46 @@
-In the previous section, we have described an approach to
-parameterizing models of risk group dynamics which highlights the
-\textit{feasibility} of including such model components based on available data.
-In this section, we explore the \textit{importance} of including these components.
-The aim of these experiments is to explore the influence of
-different risk group dynamics, and especially turnover, on epidemic model outputs.
-To do so, we compare prevalence and incidence at equilibrium, with and without:
+%% i don't think need to repeat what did in above section. 
+%% that is important for a thesis chapter, but for a peer-reviewed paper, suggest we try to keep it as sucint (tight) as possible
+%% a main comment throughout -- usually we use past tense when describing methods and results in most modeling papers. So would consider changing that here.
+% nb: I have not changed verb tense in my edits
+To examine the influence of turnover on epidemics, we first
+compare equilibrium prevalence and incidence using models with and without:
 population growth,
 heterogeneity in risk, and
 risk group turnover.
-We also explore the influence of different rates of turnover on
+We then examine the influence of different rates of turnover on
 overall and group-specific equilibrium prevalence and incidence.
-Finally, we highlight the importance of turnover for calibrated models,
-especially when estimating the transmission population attributable fraction (TPAF)
-of risk groups.
+Finally, we examine the influence of turnover on the contribution of the 
+highest risk group to the overall epidemic - as measured by the 
+transmission population attributable fraction (TPAF).
+%%  suggest framing these as objective questions using precise verbs (like examine, determine, test, etc.) 
+%%  rather than 'to highlight, etc' as that suggests description and not an experiment.
+%%  also, use one terminology consistently throughout - e.g. turnover - rather than several. 
+%%  In the intro, you can introduce the various ways people have conceptualized this, 
+%%  but in general, good to use consistent and single terminology throughout to help the reader
+%%  i.e. use either 'turnover' or 'risk group dynamics', etc. but not both after introduction. 
+%% i find turnover easier to conceptualize; less words; and also restricts the use of term 'dynamics' in
+%% reference to the epidemic dynamics, and not something else
+
 % ==================================================================================================
 \subsection{Model \& Simulations}\label{ss:model-sim}
-We start with a deterministic 1-sex SIR model of transmission
+We start with a deterministic 1-sex SIR model of transmission %% not sure if need to say 'start with'? is this not the "full model", so instead suggest = "we developed a deterministic..."
 in a population with heterogeneity in risk.
-The model is not representative of a specific infection but requires contact matching
-as per a sexually transmitted infection.
+The model is not representative of a specific infection but includes balancing contacts %% cite 'balancing contacts" 
+as per sexually transmitted infections.
 The model includes three health states:
-susceptible~$\mathcal{S}$, infected~$\mathcal{I}$, and recovered~$\mathcal{R}$
+susceptible~$\mathcal{S}$, infectious~$\mathcal{I}$, and recovered~$\mathcal{R}$
 (Figure~\ref{fig:health-states}),
 and $G = 3$ levels of risk:
 high~$H$, medium~$M$, and low~$L$.
-Risk levels are stratified by different rates of
-contact formation across groups, reflecting sexual mixing,
+Risk strata are defined by different number of contacts per unit time
 so that individuals in risk group $i$ are assumed to
 form contacts at a rate $C_{i}$.
 The probability $\rho$ of contact formation between individuals in group $i$
-with partners in risk group $k$ is assumed to
-be proportionate with the total number of available contacts:
+with individuals in risk group $k$ is
+be proportionate to the total number of available contacts within each group: 
+%% that we restricted our analyses to proportionate mixing is an important limitation
+%% to talk about in discussion (and reference work on assortative vs. proportionate mixing from Boily, Garnett, etc.)
+%% and in limitations, remember to hypothesize (and cite if available) how this assumption could influence the findings
 \begin{equation}
   \rho_{ik} = \frac 
     {C_k x_k}
@@ -47,43 +57,45 @@ be proportionate with the total number of available contacts:
   \label{fig:health-states}
 \end{figure}
 \par
-Transmission of the infection from infected $\mathcal{I}$ to susceptible $\mathcal{S}$ individuals
-is assumed to occur with probability $\beta$ per contact.
-The force of infection for susceptible individuals in risk group $i$
-is therefore modelled using the following equation:
+The biological probability of transmission is defined as $\beta$ per contact. 
+Individuals transition from the infectious $\mathcal{I}$ to susceptible $\mathcal{S}$ health-states  %% throughout - change 'infected' to 'infectious'.
+via a force of infection per susceptible in risk group $i$
+as shown:
 \begin{equation}
   \lambda_{i} =
   C_{i} \sum_k \rho_{ik} \thinspace  \beta \thinspace \frac{\mathcal{I}_k}{x_k}
   \label{eq:foi}
 \end{equation}
-Infected individuals $\mathcal{I}$ are assumed to
-be diagnosed, treated and recover at a rate $\tau$ (per year).
-Recovered individuals $\mathcal{R}$ are not considered infectious,
-but do not return to the susceptible state.
+
+Individuals transition from the $\mathcal{I}$ are assumed to $\mathcal{R}$ health-state 
+at a rate $\tau$ (per year), reflecting diagnosis and treatment.
+Individuals in the $\mathcal{R}$ health-state are not infectious and are 
+not susceptible. In this S-I-R system, individuals cannot become re-infected.
 \par
-As described in the previous section, individuals
+As described in the previous section, individuals %% specify the exact section when mentioning 'previous section', etc.
 enter the model at a rate $\nu$,
 exit the model at a rate $\mu$,
 and transition from risk group $i$ to group $j$ at a rate $\phi_{ij}$.
-The turnover rates $\phi$ and distribution of model entrants by risk group $\bm{\hat{e}}$
+The turnover rates $\phi$ and distribution of model entrants by risk group $\bm{\hat{e}}$  %% what are 'model entrants'? - simplify terminology - its ok to use more words if the sentences are more clear that way
 are resolved using the methods outlined in
-Section \ref{sss:params-turnover}. %~\nameref{sss:params-turnover}.
-To this end, the following three assumptions ensure that
-a unique set of $\phi$ and $\bm{\hat{e}}$ are determined
--- i.e. only one possible value for each element in $\phi$ and $\bm{\hat{e}}$
-can satisfy these assumptions simultaneously.
-First, the distribution of model entrants $\bm{\hat{e}}$ by risk group is assumed to equal
-the distribution of individuals in the model $\bm{\hat{x}}$.
-Second, it is assumed that
-the average duration spent in each risk group $\bm{\delta}$ is known.
-Finally, the absolute number of individuals
-moving between two groups in either direction is assumed to be balanced.
-The resulting system of equations which can be used to resolve $\phi$ and $\bm{\hat{e}}$
+Section \ref{sss:params-turnover}. %~\nameref{sss:params-turnover}.  %% why 'resolved' as a verb here? usually denotes there was a conflict? is there another verb we can use? 
+
+%% i edited to try to simplify - and also to check that I understood what we are trying to say. If some of these are not correct, lets discuss so we can come up with the easiest language for co-authors to also understand
+Our experiments were then carried out under the following pre-set conditions or assumptions.
+First, we assumed that the proportion of individuals entering each risk group $\bm{\hat{e}}$ 
+was equal to the proportion of individuals across risk groups in the $\bm{\hat{x}}$.
+Second, we assumed that the average duration spent in each risk group $\bm{\delta}$ is known.
+Third, the absolute number of individuals moving between two risk groups in either direction is balanced.
+To meet all three conditions, there is only one possible value 
+for each element in $\phi$ and $\bm{\hat{e}}$. In other words, by specifying these three conditions
+we are able to identify and ensure that					%% simplify this sentence. remove 'to this end', etc. 
+a unique set of $\phi$ and $\bm{\hat{e}}$ are determined.
+
+The system of equations used to resolve $\phi$ and $\bm{\hat{e}}$  %% resolve or identify?
 is given in \ref{aa:eqs-turnover}. %~\nameref{aa:eqs-turnover}.
 \par
-The above assumptions specify which parameters are defined,
-but not what specific value they take.
-Those parameter values are summarized for this base model in Table~\ref{tab:params-base}.
+The above three assumptions help us define which parameters to use. The values of the parameters are generated from the data.
+In this experiment, we use illustrative values as summarized in Table~\ref{tab:params-base}.
 After resolving the system of equations,
 $\bm{\hat{e}}$ is equal to $\bm{\hat{x}}$ (assumed),
 and $\phi$ is:
@@ -94,7 +106,7 @@ and $\phi$ is:
 0.0058 & 0.0042 & *      \\
 \end{array}\right]
 \end{equation}
-The full system of model equations is also given in \ref{aa:eqs-model}. %~\nameref{aa:eqs-model}.
+The full system of model equations is given in \ref{aa:eqs-model}. %~\nameref{aa:eqs-model}.
 \begin{table}
   \centering
   \caption{Base model parameters.
@@ -103,18 +115,21 @@ The full system of model equations is also given in \ref{aa:eqs-model}. %~\namer
   \input{floats/tab-params-base.tex}
 \end{table}
 \par
-Epidemics are then simulated using these parameters in this model
-(and variants, described below).
-Each epidemic is initialized at $t = 0$ with $N_0 = 1000$ individuals,
-and initial individuals distributed among risk groups according to $\bm{\hat{x}}$.
-All initial individuals are susceptible $\mathcal{S}$
-except for one infected person $\mathcal{I}$ in each risk group.
-Each epidemic is solved numerically in Python%
+
+We then simulate the base model, and the model variants, using these parameters.
+We seed the epidemic with one infectious individual $\mathcal{I}$ in each risk group
+at $t = 0$. The model starts with $N_0 = 1000$ individuals who are distributed across risk groups according to $\bm{\hat{x}}$.
+There are no $\mathcal{R}$ at the start of the epidemic, and so all individuals except the 3 infectious individuals are susceptible $\mathcal{S}$.
+We numerically solve the system of ordinary differential equations 
+in Python%
 \footnote{Code for all aspects of the project is available at:
   \href{https://github.com/c-uhs/turnover}{\texttt{https://github.com/c-uhs/turnover}}}
 using Euler's method with a time step of $dt = 0.1$ years.
+
 The model is assumed to be at equilibrium after $t = 500$ years,
-which was verified qualitatively. % JK: another way of saying this?
+which was verified qualitatively. % JK: another way of saying this?  %% SM: not sure what you want to say here?  Usually we say something like this:
+%% All comparative analyses are then conducted at equilibrium, defined as a steady state with <X% difference in incidence.
+
 % ==================================================================================================
 \subsection{Model Variants}\label{ss:exp-variants}
 Consider the risk group dynamics outlined in Box~\ref{box:assumptions}.
