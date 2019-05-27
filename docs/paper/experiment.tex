@@ -132,61 +132,47 @@ which was verified qualitatively. % JK: another way of saying this?  %% SM: not 
 
 % ==================================================================================================
 \subsection{Model Variants}\label{ss:exp-variants}
-Consider the risk group dynamics outlined in Box~\ref{box:assumptions}.
-The assumption b) in each case is taken to be generally more plausible:
-populations \textit{are} heterogeneous in risk;
-turnover among risk groups \textit{does} occur; and
-population growth \textit{does} occur.
-These assumptions are reflected in the base model, described above.
-However, many epidemic models do not make these assumptions.
-The following experiments aim the illustrate the potential influence
-of such assumptions on model outputs.
-In each case, a model variant is constructed
-which makes the alternate assumption a):
-1.1) populations \textit{are not} heterogeneous in risk;
-1.2) turnover among risk groups \textit{does not} occur; and
-1.3) population growth \textit{does not} occur.
-An epidemic is then simulated with fixed parameter values
-using both the base model and the variant.
-Overall projected incidence and prevalence are then compared between the models.
-The details of each model variant are summarized as follows.
+To examine the influence of population growth, heterogeneity, and turnover,
+we simplified the full model accordingly to include or remove each feature. 
+These simplified model variants and their parameters are shown in Figure~\ref{fig:variant-tree},
+and in Table~\ref{tab:params-variants}, respectively.
+% Consider using "full model" instead of base model since each variant essentially removes from a full model - i.e. and does not add to a base model?
+% Figure 3 starts with a base model at top and ends with a base model B. Suggest removing that first bit "Base Model"
 % --------------------------------------------------------------------------------------------------
-\paragraph{Experiment 1.1: Risk Heterogeneity}\label{p:exp-1-hetero}
-The first variant (V1) is defined
-to no longer consider heterogeneity in risk.
-The three risk groups are combined,
-and the new contact rate $C$ for all individuals is defined as
-the weighted average of previously risk-stratified $C_i$.
-It is also no longer possible to include turnover,
-as there is only one risk group.
-The number of individuals who are initially infected remains as three.
+\paragraph{Experiment 1.1: Influence of risk heterogeneity}\label{p:exp-1-hetero}
+V1 assumes no heterogeneity in risk and 
+the V1 contact rate $C$ for all individuals equals the weighted 
+average of the full model's risk-stratified $C_i$.						%suggest using V1, full model, etc. rather than 'previously' or 'new', etc. as that starts getting hard to follow
+V1 does not have turnover because there is only one risk group.
+All other conditions, including population growth rate, remain the same between
+the full model and V1 (Table 2).
+
 % No other parameters are changed as no other parameters
 % were originally stratified by risk.
 % --------------------------------------------------------------------------------------------------
-\paragraph{Experiment 1.2: Population Growth}\label{p:exp-1-growth}
-Another variant (V2) is defined which does not model population growth.
-In this case, the exit rate $\mu$ remains fixed
+\paragraph{Experiment 1.2: Influence of population growth}\label{p:exp-1-growth}
+V2 assumes no population growth. The exit rate $\mu$ remains fixed and the same as the full model
 but the entry rate $\nu$ is reduced to equal $\mu$.
-This ensures that the average duration of individuals in the model $\mu^{-1}$ remains unchanged.
+This ensures that the average time spent in the modeled population $\mu^{-1}$ remains the same between the full model and V2. % it will not be clear what 'unchanged' means if we don't say what the comparator is. At first I thought it meant unchanged compared with V1 (which is correct, but I think we mean full model when we say unchanged?)
 % --------------------------------------------------------------------------------------------------
-\paragraph{Experiment 1.3: Turnover}\label{p:exp-1-turnover}
-Finally, variant (V3) is defined with all turnover rates $\phi = 0$.
+\paragraph{Experiment 1.3: Influence of turnover}\label{p:exp-1-turnover}
+V3 assumes there is no turnover, such that 
+all turnover rates $\phi = 0$.
 Following Eq.~(\ref{eq:duration-group}),
-this is equivalent to assuming that the duration in each group is equal to
-the average duration of individuals in the model $\mu^{-1}$.
-Since the distribution of risk behaviour in the entering population $\bm{\hat{e}}$
+this means that in V3, the time spent within all risk groups is 
+equal to the average duration of individuals in the model $\mu^{-1}$.
+Since the distribution of risk behaviour in the entering population $\bm{\hat{e}}$		
+%% we use different terminology/wording in section 3.1; it will be easier for the reader if we are consistent so lets revise this 
+% E.g. The proportion of individuals who enter each risk group $\bm{\hat{e}}$ are equivalent to the distribution of the population by risk group $\bm{\hat{x}}$, no other modifications were needed. That is, the proportion of individuals in each risk group are the same across the full model, V2, and V3 (Table 2).
 was assumed to be equal to that in the model $\bm{\hat{x}}$,
 no other modifications are required.
-\par
-The model variants constructed for each experiment
-are summarized in Figure~\ref{fig:variant-tree},
-and the corresponding parameters are given in Table~\ref{tab:params-variants}.
+
 \begin{figure}
   \centering
   \includegraphics[width=0.7\linewidth]{variant-tree}
-  \caption{Summary of four model variants
-    with respect to simulated risk group dynamics.
-    Relative risk group size is the same in all variants.
+  \caption{Summary of the full model and three model variants
+    with respect to heterogeneity in risk, population growth (pop. growth), and turnover.
+    Relative population size of each risk group is the same in all variants.
     $G$:~number of risk groups,
     $\nu$:~rate of population entry,
     $\mu$:~rate of population exit,
@@ -201,14 +187,15 @@ and the corresponding parameters are given in Table~\ref{tab:params-variants}.
   \label{tab:params-variants}
   \input{floats/tab-params-variants.tex}
 \end{table}
+
+%% 'duration in the model' may not be clear to most people. change to 'duration or time spent in the modeled population'.
+%% in the table title - the 'all rates have units year-1 and durations are in years' could go into the footnote I think or provide a written description of each parameter so its
+%% easier to know if that parameter is a rate or a duration. i.e. just like Figure 3, without too many additional words - add a description of the parameter. Right now we have to go into the main text to figure it out :). 
 % ==================================================================================================
-\subsection{Influence of Turnover}\label{ss:exp-turnover}
-As noted above, the influence of turnover on equilibrium prevalence and incidence
-depends on several factors, including
-turnover magnitude and duration of infectiousness.
-To help understand trends in model outputs with respect to these factors,
-the base model is used to explore
-a range of turnover magnitudes and durations of infectiousness.
+\subsection{Influence of Turnover}\label{ss:exp-turnover}  %% frame the duration of infectiousness part as a sensitivity analysis
+To further examine the influence of turnover on equilibrium prevalence and incidence, 
+we varied the magnitude of turnover. We then conducted a sensitivity analysis   %% somewhere above, we say 'rates of turnover' - lets stick to one terminology throughout
+to examine the influence of turnover at different treatment rates (durations of infectiousness).
 % --------------------------------------------------------------------------------------------------
 \paragraph{Experiment 2.1: Turnover Magnitude}
 First, the magnitude of turnover is considered alone,
