@@ -48,9 +48,11 @@ def make_plot(sim,select,phi):
   make_legend(labels,colors)
 
 def make_legend(labels,colors):
+  # plt.figure(figsize=(2.2,0.5))
   plt.figure(figsize=(1.5,1))
   for color in colors:
     plt.fill([np.nan]*3,[np.nan]*3,color=color)
+  # plt.legend(['$\\mathcal{S}$','$\\mathcal{I}$','$\\mathcal{R}$'],loc='center',ncol=3)
   plt.legend(labels,loc='center')
   plt.gca().set_axis_off()
   plt.savefig(os.path.join(config.path['figs'],'tikz','flows','flows-legend.pdf'))
