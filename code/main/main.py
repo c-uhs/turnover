@@ -1,10 +1,6 @@
 import sys
 import sensitivity
-import batch
-# import compare
 import variants
-# import debug
-# import newinf
 
 todo = sys.argv[1]
 if todo == 'compare-growth':
@@ -19,7 +15,3 @@ if todo == 'sensitivity-run':
   sensitivity.run_sims(sys.argv[2:])
 if todo == 'sensitivity-plot':
   sensitivity.gen_plots()
-# if todo == 'newinf':
-#   newinf.main()
-# if todo == 'debug':
-#   debug.main(sys.argv[2:])
