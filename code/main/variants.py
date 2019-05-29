@@ -12,8 +12,11 @@ import utils
 import modelutils
 import system
 
+SAVE = True
+
 def fname_fig(compare,output,selector,**params):
   return os.path.join(
+    # config.path['root'],'docs','conferences','isstdr-2019','slides','figs',
     config.path['figs'],
     'plots',
     'compare',
@@ -74,6 +77,7 @@ def plot_iter(sims,output,selector,txt=False):
       txtsave(shortname(name),sim,output,selector,txt)
   plt.legend(
     legend,
+    # ['Turnover','No Turnover'] # TEMP: manual override
     # loc='lower right', # TEMP: manual override
   )
 
@@ -95,9 +99,9 @@ def exp_run_plot(compare,sims,outputs,selectors,save=False,txt=False,**params):
     run_sim(sim,outputs)
   for output in outputs:
     for selector in selectors:
-      plt.figure(figsize=(4.5,3.5))
+      plt.figure(figsize=(4,3))
       plot_iter(sims,output,selector,txt=txt)
-      if save:
+      if save and SAVE:
         plt.savefig(fname_fig(compare,output,selector,**params))
         plt.close()
       else:
