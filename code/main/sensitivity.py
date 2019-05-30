@@ -222,7 +222,7 @@ def gen_1d_plot(data,output,save=None,regions=False):
 
 def gen_plots():
   for output in OUTPUTS:
-    for select in ['low']:
+    for select in SELECTORS:
       gen_1d_plot(load_data(output,select,tau=[TAU1D]),output,fname_fig('1d',output,select,tau=TAU1D),regions=True)
       for norm in [False,True]:
         gen_2d_plot(load_2d_data(output,select,norm),fname_fig('surface',output,select,norm=norm))
