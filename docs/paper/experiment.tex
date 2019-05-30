@@ -192,26 +192,25 @@ no other modifications are required.
 %% in the table title - the 'all rates have units year-1 and durations are in years' could go into the footnote I think or provide a written description of each parameter so its
 %% easier to know if that parameter is a rate or a duration. i.e. just like Figure 3, without too many additional words - add a description of the parameter. Right now we have to go into the main text to figure it out :). 
 % ==================================================================================================
-\subsection{Influence of Turnover}\label{ss:exp-turnover}  %% frame the duration of infectiousness part as a sensitivity analysis
+\subsection{Influence of magnitude of turnover}\label{ss:exp-turnover}  %% frame the duration of infectiousness part as a sensitivity analysis
 To further examine the influence of turnover on equilibrium prevalence and incidence, 
 we varied the magnitude of turnover. We then conducted a sensitivity analysis   %% somewhere above, we say 'rates of turnover' - lets stick to one terminology throughout
 to examine the influence of turnover at different treatment rates (durations of infectiousness).
 % --------------------------------------------------------------------------------------------------
-\paragraph{Experiment 2.1: Turnover Magnitude}
-First, the magnitude of turnover is considered alone,
-for fixed duration of infectiousness.
+\paragraph{Experiment 2.1: Influence of the magnitude of turnover on equilibrium prevalence and incidence}
+In this experiment, magnitude of turnover in the modeled system refers 
+to the inverse of how long individuals remain in the highest risk group. %start by something like this to orient the reader and help with interpretation before results section
+That is, a shorter period of time spent engaged in highest risk means a higher magnitude of turnover.
+We first consider the influence of turnover at a fixed duration of infectiousness.   % more active voice in general
 As in similar experiments \citep{Zhang2012,Henry2015},
 the rates of turnover are scaled by a single parameter.
-However, since the model used here has $G = 3$ risk groups,
-it is not possible to simply multiply a set of base rates $\phi$ by a scalar factor;
-this would result in changes to the equilibrium risk group sizes,
-which is avoided throughout this work.
-Rather, the rates of turnover are controlled by
-the duration of individuals in the high risk group $\delta_H$ in the following way.
-The distribution of model entrants $\bm{\hat{e}}$ is again assumed to equal
-the distribution of individuals in the model $\bm{\hat{x}}$.
-The absolute number of individuals moving between two groups in either direction
-is also assumed to be balanced, as before.
+However, because the model used here has $G = 3$ risk groups,
+multiplying by a set of base rates $\phi$ by a scalar factor would result in changes to the relative population size of risk groups.
+Thus, we vary the magnitude of turnover by adjusting the
+the duration of individuals in the high risk group $\delta_H$.  %when reading 'following way' - anticipated bullet points or a ":", etc. so suggest removing that bit
+Under the condition that the distribution of model entrants $\bm{\hat{e}}$ remains equal  %see comment before about 'model entrants'
+to the relative size of risk groups in the model $\bm{\hat{x}}$, the absolute number of individuals moving between two groups in either direction
+is balanced.
 % Then, the duration of individuals in the high risk group $\delta_H$
 % is used as the controlling parameter.
 The duration of individuals in the medium risk group $\delta_M$
@@ -223,11 +222,9 @@ similarly scales with $\delta_H$,
 but the value is not required to resolve $\phi$;
 it can be determined from $\phi$ afterwards
 using Eq.~(\ref{eq:duration-group}).
-In this way, each value of $\delta_H$ can be used to compute a set of turnover rates $\phi$
-whose elements all scale inversely with the duration in the high risk group $\delta_H$.
-The value of $\delta_H$ is then varied from 3~to~33 years,
-and trends in the equilibrium incidence and prevalence are plotted
-for each group, as well as overall.
+In this way, each value of $\delta_H$ can be used to define a set of turnover rates $\phi$
+whose elements all scale inversely with the duration in the high risk group $\delta_H$.       %very nice. in the discussion - point out that duration in the highest risk group is the most common empiric estimate we would have available, vis a vis sex work for example and cite Watts et al
+The value of $\delta_H$ is then varied from 3~to~33 years to examine the influence of turnover.
 %The duration in a risk group is also perhaps easier to grasp
 %than individual transition rates.
 %\footnote{Throughout this work,
@@ -237,34 +234,36 @@ for each group, as well as overall.
 % but its difficult to give without grounding in any specific infections
 \par
 % --------------------------------------------------------------------------------------------------
-\paragraph{Experiment 2.2: Turnover and Treatment Rate}
-Next, the above experiment is repeated for a range of treatment rates.
+\paragraph{Experiment 2.2: Influence of the magnitude of turnover at various treatment rates} %suggest reframing this as a sensitivity analyses so the primary aims are about turnover
+Next, we conduct a 2-way sensitivity analyses to examine how the influence of turnover might vary at different treatment rates.
 The treatment rate controls the duration of infectiousness $\delta_{\mathcal{I}}$
 as in $\delta_{\mathcal{I}} = \tau^{-1}$.
 Treatment rate $\tau$ is varied from 1~to~0.05,
 implying a duration of infectiousness of 1~to~20 years.
-The duration in the high risk group $\delta_H$ is varied from 3~to~33 years as before,
-and trends equilibrium incidence and prevalence are again shown,
-this time using 2D surface plots.
+The duration of time spent in the high risk group $\delta_H$ is varied from 3~to~33 years as with Experiment 2.1. %avoid 'as before'; instead reference/bookmark the exact section
+We examine the influence of the magnitude of turnover on equilibrium prevalence and incidence across the
+range of treatment rates using 2D surface plots.
 % ==================================================================================================
-\subsection{Implications for Model Fitting}\label{ss:exp-turnover-fit}
-Finally, since almost all context-specific applications of epidemic models entail
-fitting uncertain model parameters to data-driven calibration targets,
-some potential implications of omitting turnover from a fitted model are explored.
-In particular, the influence of turnover on two model outputs are estimated,
-before and after model fitting:
-the inferred level of risk heterogeneity in the population;
-and the transmission population attributable fraction (TPAF)~\citep{Mishra2016}
-of the high risk group.
-TPAF estimates the proportion of cumulative new infections which are attributable to
-prevention gaps among a specific population.%
-\footnote{To estimate TPAF of the high risk group,
-  transmission ``from'' the high risk group is turned off, not ``to''.}
+\subsection{Influence of turnover on the contribution of highest risk group to overall transmission }\label{ss:exp-turnover-fit}
+Next we examine the influence of turnover when fitting models to observed data
+on disease prevalence across risk groups. We use two models: one with turnover (%refer to Figure to show which one)
+and one without turnover (%refer to Figure to show which one).
+Both models include population growth and 3 risk-groups.
+We then fit the following parameter in both models: relative contact rates between the highest and lowest risk group. %or what was varied/fit
+That is, we fit the models to equilibrium disease prevalence in the highest and and lowest risk groups  %does this get us the same overall (total population) prevalence? 
+and infer the degree of risk heterogeneity in the population. We then estimate the contribution of the highest risk group to overall transmission from both models.  %degree used below
+The contribution is estimated as the transmission population attributable fraction (TPAF)~\citep{Mishra2016}
+of the highest risk group.
+%% move this to discussion --> "TPAF estimates the proportion of cumulative new infections which are attributable to
+%% prevention gaps among a specific population.%
+%% this information should be in the methods ---> \footnote{To estimate TPAF of the high risk group,
+%%  transmission ``from'' the high risk group is turned off, not ``to''.}
 % --------------------------------------------------------------------------------------------------
-\paragraph{Experiment 3.1: Inferred Risk Heterogeneity}
-First, the Base model (turnover) and model variant V3 (no~turnover) are both calibrated to
+\paragraph{Experiment 3.1: Influence of turnover on inferred risk heterogeneity}  
+%the part about comparing non-fitted scenarios does not come through here or in Experiment 3.2. I wonder if that diagram we drew a long time ago on a whiteboard re: the comparisons could be helpful? 
+The Base model (turnover) and model variant V3 (no~turnover) are calibrated to
 25\% prevalence in the high risk group, and
-5\% prevalence in the low risk group at equilibrium.
+5\% prevalence in the low risk group at equilibrium.  %they should also reproduce overall prevalence too? what do you think?
 The fitted parameters are
 the contact rates of the high and low risk groups: $C_H$~and~$C_L$.%
 \footnote{The fitted parameters are estimated by minimizing
@@ -272,19 +271,15 @@ the contact rates of the high and low risk groups: $C_H$~and~$C_L$.%
   (assuming a sample size of 1000)
   using the Sequential Least SQuares Programming (SLSQP) method~\citep{Kraft1988}
   from the \texttt{scipy.optimize.minimize} Python package.}
-The ratio of fitted contact rates $C_H~/~C_L$
-represents the degree of risk heterogeneity in the population
-which must be present in order to observe the given prevalence ratio.
-Comparing the fitted contact rates with and without turnover,
-the influence of turnover on inferred risk heterogeneity is shown.
+The ratio of fitted (or posterior) contact rates $C_H~/~C_L$
+represents the degree of risk heterogeneity in the population, after fixing all other parameters,   
+which produce the group-specific observed disease prevalence.
 % --------------------------------------------------------------------------------------------------
-\paragraph{Experiment 3.2: TPAF of the High Risk Group}
-The level of risk heterogeneity has presumed implications
-for prioritization of risk groups for interventions.
-The TPAF of a risk group provides an estimate of
-the importance of prioritizing the group.
-Thus, differences in inferred risk heterogeneity due to turnover from Experiment 3.1
-are hypothesized to result in differences in the estimated TPAF of the high risk group.
-To test this hypothesis, the TPAF of the high risk group
-is calculated and compared across the model variants with and without turnover,
-before and after fitting to group-specific prevalence, as described above.
+\paragraph{Experiment 3.2: Influence of turnover on the predicted TPAF of the highest risk group}
+Using the fitted or inferred values of $C_H$~and~$C_L$, we then estimate the 
+%% Suggest we put hypotheses in introduction
+%% Thus, differences in inferred risk heterogeneity due to turnover from Experiment 3.1 
+%%are hypothesized to result in differences in the estimated TPAF of the high risk group. 
+TPAF of the highest risk group is calculated and compared across the model variants with and without turnover without model fitting, and with model fitting. 
+
+% before and after fitting to group-specific prevalence, as described above.  --- before and after suggests priors and posteriors in the context of model fitting
