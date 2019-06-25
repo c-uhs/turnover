@@ -1,12 +1,14 @@
 \input{../config.tex}
+\newcommand{\arrowlabel}[1]{{#1}}
+\newcommand{\nodelabel}[1]{{#1}}
 \begin{document}
 \begin{tikzpicture}
-\node(S) [tbox=S] at (0.0,0.0) {$\mathcal{S}$};
-\node(I) [tbox=I, right = of S]{$\mathcal{I}$};
-\node(R) [tbox=R, right = of I]{$\mathcal{R}$};
+\node(S) [tbox=S] at (0.0,0.0) {\nodelabel{$\mathcal{S}$}};
+\node(I) [tbox=I, right = of S]{\nodelabel{$\mathcal{I}$}};
+\node(R) [tbox=R, right = of I]{\nodelabel{$\mathcal{R}$}};
 
-\draw[arrow=black] (S) edge["$\lambda$"] (I);
-\draw[arrow=black] (I) edge["$\tau$"]  (R);
+\draw[arrow=black] (S) edge["\arrowlabel{$\lambda$}"] (I);
+\draw[arrow=black] (I) edge["\arrowlabel{$\tau$}"]    (R);
 %\draw[arrow=black] (R) edge["$\gamma$", bend right] (S);
 \end{tikzpicture}
 \end{document}
