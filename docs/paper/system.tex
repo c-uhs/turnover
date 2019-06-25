@@ -1,17 +1,19 @@
-This section introduces a system of risk groups, flows between them, and equations
+In this section we introduce a system of
+risk groups, flows between them, and equations
 which can be used to describe risk group dynamics
 in deterministic compartmental epidemic models.
 % ==================================================================================================
 \subsection{Notation}
 Consider a population divided into $G$ risk groups.
-The number of individuals in risk group $i \in [1, \dots, G]$ is denoted as $x_i$
-and the set of all risk groups is denoted as $\bm{x} = \{x_1, \dots, x_G\}$.
+We denote the number of individuals in risk group $i \in [1, \dots, G]$ as $x_i$
+and the set of all risk groups as $\bm{x} = \{x_1, \dots, x_G\}$.
 The total population size is $N = \sum_i {x_i}$,%
 \footnote{Here, as in many models, ``total population'' actually represents
-  a subset of the population with a consistent duration in the model --
+  a subset of the population with a given duration in the model --
   e.g. an age-constrained range.}
 and the proportion of the total population that each group represents
 is denoted as $\hat{x}_i = x_i / N$.
+We do not consider stratification of age groups.
 Individuals enter the model at a rate $\nu$ per year,
 and exit at a rate $\mu$ per year.
 However, the proportion of individuals entering into group $i$ from outside the model
@@ -19,25 +21,25 @@ may be different from
 the proportion of individuals currently in group $i$ in the model ($\hat{x}_i$).
 Therefore, we distinguish these proportions
 and denote the proportion entering into group $i$ as $\hat{e}_i$.
-For example, a higher proportion of youth (model entrants, $\hat{e}_i$)
+For example, a higher proportion of youth (individuals entering the model, $\hat{e}_i$)
 may engage in high-risk sexual behaviour,
 as compared to the population overall ($\hat{x}_i$).
 It will later be shown how rates of turnover can maintain such a system at equilibrium.
-%The number of entrants into group $i$ is therefore given by
-%$\nu N \hat{e}_i$.
-%This assumption then implies then implies the existence of
-%a ``source'' population $\bm{e} = \{e_1, \dots, e_G\}$,
-%from which model entrants originate.
-%The size of this population is then assumed to be the same as $\bm{x}$ ($\sum_i e_i = N$)
-%so that the entry rate $\nu$ can be used in the usual way,
-%as a proportion of $N$.
+% The number of entrants into group $i$ is therefore given by
+% $\nu N \hat{e}_i$.
+% This assumption then implies then implies the existence of
+% a ``source'' population $\bm{e} = \{e_1, \dots, e_G\}$,
+% from which model entrants originate.
+% The size of this population is then assumed to be the same as $\bm{x}$ ($\sum_i e_i = N$)
+% so that the entry rate $\nu$ can be used in the usual way,
+% as a proportion of $N$.
 \par
-Turnover transitions can occur between any two groups, in either direction;
-therefore the turnover rates are denoted as a $G \times G$ matrix $\phi$.
+Turnover transitions may occur between any two groups, in either direction;
+therefore we denote the turnover rates as a $G \times G$ matrix $\phi$.
 The element $\phi_{ij}$ corresponds to the proportion of individuals in group $x_i$
 who move from group $x_i$ to group $x_j$ each year.
 An example matrix is given in Eq.~(\ref{eq:phi}),
-where the diagonal elements are written $*$ since they represent
+where we write the diagonal elements as $*$ since they represent
 transitions from a group to itself, which are inconsequential.
 \begin{equation}\label{eq:phi}
 \phi = \left[\begin{array}{cccc}
@@ -57,78 +59,119 @@ are also shown for $G = 3$ in Figure~\ref{fig:system}.
 \end{figure}
 % ==================================================================================================
 \subsection{Parameterization}\label{ss:params}
-Next, consider the goal of constructing a system like the one described above,
-which reflects the risk group dynamics observed in a real-world context.
-It will be assumed that the number of risk groups to model is already determined,
-and also that the relative sizes of these groups ($\hat{x}_i$) should remain constant over time.
-Thus, what remains is to estimate the values of the following parameters:
-$\nu$, $\mu$, $\bm{\hat{x}}$, $\bm{\hat{e}}$, and $\phi$.
-Methods to do so, which leverage some commonly available sources of data,
-are presented next.
+Next, we consider the goal of constructing a system like the one introduced above
+which reflects the risk group dynamics observed in a specific context.
+We assume that the relative sizes of the risk groups in the model ($\bm{\hat{x}}$)
+are already known, and should remain constant over time.
+Thus, what remains is to estimate the values of the parameters:
+$\nu$, $\mu$, $\bm{\hat{e}}$, and $\phi$,
+using commonly available sources of data.
 % --------------------------------------------------------------------------------------------------
 \subsubsection{Total Population Size}\label{sss:params-nu-mu}
-The difference between the entry rate $\nu(t)$ and exit rate $\mu(t)$ for a population,
-gives a net growth rate $\mathcal{G}(t)$.
-The total population $N(t)$ is then defined by the exponential growth
-of the original population $N_0$ according to $\mathcal{G}(t)$,
-% TODO: this is not trivial!
-\begin{subequations}
-  \begin{align}
-  \mathcal{G}(t) &= \nu(t) - \mu(t)            \label{eq:growth-G}\\
-%  N(t) &= N_0 \prod_{\tau}^{t} \big(1+\mathcal{G}(\tau)\big) \label{eq:growth-N}
-  \end{align}
-\end{subequations}
-Note that the average duration of an individual in the model at time $t$ is given by:
+The total population size $N(t)$ is related to
+the rates of population entry $\nu(t)$ and exit $\mu(t)$.
+We consider variation in rate of entry across risk groups via $\bm{\hat{e}}$,
+and we do not stratify the rate of exit by activity group
+(disease-attributable death is assumed to be negligible for now).
+Therefore, we can assume that $\nu$ and $\mu$ do not vary across risk groups,
+allowing these rates to be estimated independent of
+the risk group distributions $\bm{\hat{x}}$ and $\bm{\hat{e}}$, and turnover $\phi$.
+\par
+The difference between entry and exit rates
+defines the rate of population growth:
+\begin{equation}\label{eq:growth-G}
+\mathcal{G}(t) = \nu(t) - \mu(t) 
+\end{equation}
+The total population may then be defined using an initial population size $N_0$ as:
+\begin{equation}\label{eq:growth-vary}
+  N(t) = N_0 \exp{\left(\int_{0}^{\,t}{\log\big(1+\mathcal{G}(\tau) \big)d\tau}\right)}
+\end{equation}
+which, for constant growth, simplifies to the familiar expression:
+\begin{equation} \label{eq:growth-const}
+  N(t) = N_0 {(1 + \mathcal{G})}^{t}
+\end{equation}
+In most cases, demographic data will be available
+on the total size of the population over time $N(t)$,
+allowing Eqs.~(\ref{eq:growth-vary})~and~(\ref{eq:growth-const})
+to be used to estimate $\mathcal{G}(t)$.
+\par
+If we assume that the population size is constant, then $\mathcal{G}(t) = 0$ and $\nu(t) = \mu(t)$.
+However, this is generally not a good assumption, 
+as it does not reflect the positive population growth observed in many contexts.
+We will also later show that this assumption may impact epidemic dynamics.
+Another approach is to fix $\mathcal{G}$ at a constant value.
+This value can be estimated via Eq.~(\ref{eq:growth-const})
+using any two values of $N(t)$, separated by a time interval $\tau$:
+\begin{equation}
+\mathcal{G}_{\tau} = {\frac{N(t+\tau)}{N(t)}}^{\frac{1}{\tau}} -1
+\end{equation}
+For contexts with variability in $\mathcal{G}$ over time,
+this process can be repeated for consecutive time intervals,
+and the complete function $\mathcal{G}(t)$ approximated piecewise by constant values.
+This approach is generally more feasible than exact solutions using Eq.~(\ref{eq:growth-vary}),
+and can reproduce $N(t)$ accurately for small enough intervals $\tau$,
+such as one year.
+\par
+Now, a given value of $\mathcal{G}(t)$ does not imply any particular
+values of $\nu(t)$ or $\mu(t)$,
+since any choice of $\mu(t)$ can be compensated by an appropriate choice of $\nu(t)$,
+and vice versa, as in Eq.~(\ref{eq:growth-G}).
+However, it is common to assume a constant duration of individuals in the model $\delta(t)$,
+which is related to the rate of exit by:
 \begin{equation} \label{eq:duration-model}
 \delta(t) = \mu^{-1}(t)
 \end{equation}
-Variation in rate of entry across risk groups is captured in $\bm{\hat{e}}$,
-and rate of exit is generally not stratified by activity group
-(besides disease-attributable death, which we do not consider here).
-Therefore, it can be assumed that $\nu$ and $\mu$ do not vary across risk groups,
-allowing these rates to be derived independent of
-the population proportions $\bm{\hat{x}}$, $\bm{\hat{e}}$, and turnover $\phi$.
-\par
-The simplest approach to obtaining $\nu$ and $\mu$ assumes
-a constant population size $N(t) = N_0$.
-This implies a growth rate of zero, yielding $\nu = \mu$.
-However, this does not reflect the positive population growth of most real contexts.
-%and may result in underestimated incidence,
-%due to the relative reduction in inflow of susceptible individuals.
-% verified in code, see:
-% https://github.com/c-uhs/turnover/blob/f029bd1/outputs/figs/debug/incidence-nu.gif
-% \cite{} ?
-Another approach is to fix $\mathcal{G}(t)$ as some constant.
-When using this approach, care should be taken to ensure
-the resulting $N(t)$ matches available population size estimates to a reasonable degree.
-\par
-Typically, data will be available for the total size of the population over time $N(t)$,
-so the growth rate for each time interval $t_i$
-can be derived by rearranging Eq.~(\ref{eq:growth-N}):
-\begin{equation}
-\mathcal{G}(t_i) = {\left(\frac{N(t_{i+1})}{N(t_{i})}\right)}^{-(t_{i+1}-t_i)} - 1
-\end{equation}
-All of these approaches help define $\mathcal{G}(t)$, but leave one degree of freedom,
-since many choices of $\mu(t)$ can be compensated by an appropriate choice of $\nu(t)$
-to yield the desired $\mathcal{G}(t)$.
-However, an assumed duration of individuals in the model $\delta(t)$
-can usually be leveraged to choose $\mu(t)$ as in Eq.~(\ref{eq:duration-model}).
-This duration can be assumed,
-or be chosen to reflect the age range in data sources for other model parameters.
-Then, $\nu(t)$ can be resolved using the growth rate in Eq.~(\ref{eq:growth-G}).
+Such a duration should reflect the demographic data used to define $N(t)$,
+as well as the epidemiological data used to inform other model parameters.
+For example, an age range of 15~to~50 years implies a duration in the model of $\delta = 35$ years.
+The duration may also vary with time to reflect contextual changes to all-cause mortality.
+In any case, $\mu(t)$ can then be defined as $\delta^{-t}(t)$
+following Eq.~(\ref{eq:duration-model}),
+and $\nu(t)$ defined as $\mathcal{G}(t) - \mu(t)$
+following Eq.~(\ref{eq:growth-G}).
 % --------------------------------------------------------------------------------------------------
 \subsubsection{Turnover}\label{sss:params-turnover}
-% TODO: discuss common approaches - especially turnover is constant, or zero.
-% TODO: discuss more the assumptions throughout.
-% TODO: add approach for balancing absolute flows between compartments
-Next, methods for resolving $\bm{\hat{e}}(t)$ and $\phi(t)$
-are presented, assuming that $\nu(t)$ and $\mu(t)$ are known.
-Similar to above, the problem is first formulated as a system of equations.
-then the data and assumptions which can be leveraged to solve the system will be considered.
+Next, we present methods for resolving
+the distribution of individuals entering the risk model $\bm{\hat{e}}(t)$ and
+the rates of turnover $\phi(t)$,
+assuming that entry and exit rates $\nu(t)$ and $\mu(t)$ are known.
+Similar to above, we first formulate the problem as a system of equations.
+Then, we explore the data and assumptions which can be leveraged
+to solve for the values of parameters in the system.
+The $(t)$ notation is omitted throughout this section for clarity,
+though time-varying parameters can be estimated by
+repeating the necessary calculations for each $t$.
 \par
-We begin by defining the ``conservation of mass'' equation for a given group $x_i$,
-where that the rate of change of the group
-is simply the sum of flows in~/~out of the group:
+Depending on the number of risk groups $G$,
+there are $G$ unknown elements in $\bm{\hat{e}}$ and $G(G-1)$ unknown elements in $\phi$.
+We collect these unknowns in the vector
+$\bm{\theta} = \left[\bm{\hat{e}}, \bm{y}\right]$,
+where $\bm{y} = \mathrm{vec}_{i \ne j}(\phi)$.
+For example, for $G = 3$, the vector $\bm{\theta}$ is defined as:
+\begin{equation}
+\bm{\theta} = \left[
+\begin{array}{ccccccccc}
+\hat{e}_1 & \hat{e}_2 & \hat{e}_3 & \phi_{12} & \phi_{13} & \phi_{21} & \phi_{23} & \phi_{31} & \phi_{32}
+\end{array}\right]
+\end{equation}
+The crux of this framework is then to define a linear system of equations
+which uniquely determine the elements of $\bm{\theta}$:
+\begin{equation}\label{eq:system-matrix}
+\bm{b} = A \thinspace \bm{\theta}
+\end{equation}  
+where $A$ is a $M \times G^2 $ matrix
+and $\bm{b}$ is a $M$-length vector.
+That is, each row in $A$ and $\bm{b}$ specifies
+an assumed relationship involving elements of
+$\bm{\hat{e}}$ and $\phi$.
+Given a sufficient number $M = G^2$ of unique constraints,
+the parameters can be calculated algebraically using $\bm{\theta} = A^{-1}\bm{b}$.
+Some examples of constraints are explored below.
+% --------------------------------------------------------------------------------------------------
+\paragraph{Constant Group Size}
+First, we define the ``conservation of mass'' equation for group $x_i$,
+wherein the rate of change of the group
+is defined as the sum of flows in\,/\,out of the group:
 \begin{equation}\label{eq:mass-balance}
 \frac{d}{dt}x_i
 = \nu \thinspace e_i + \sum_{j}{\phi_{ji} \thinspace x_j}
@@ -136,84 +179,122 @@ is simply the sum of flows in~/~out of the group:
 \end{equation}
 While Eq.~(\ref{eq:mass-balance}) is written in terms of
 absolute population sizes $\bm{x}$ and $\bm{e}$,
-it is equivalent to divide through by $N$, yielding a system in terms of
+it is equivalent to divide through by $N$,
+yielding a system in terms of
 proportions $\bm{\hat{x}}$ and $\bm{\hat{e}}$,
-which is often more useful, since $N$ need not be known.
-\par
-We further assume that the average proportions of each group $\hat{x}_i$ do not change over time.
-Therefore, the desired rate of change for risk group $i$
+which can be more useful, since $N$ need not be known.
+% not sure if there is additional normalization needed, actually
+If we assume that the average proportions of each group $\hat{x}_i$ is constant over time,
+then the desired rate of change for risk group $i$
 will be equal to the growth of the risk group, $\mathcal{G} x_i$.
 Substituting this into Eq.~(\ref{eq:mass-balance}),
-and simplifying, we have:
+and simplifying yields:
 \begin{equation}\label{eq:system}
 \nu \thinspace x_i
 = \nu \thinspace e_i + \sum_{j}{\phi_{ji} \thinspace x_j}
 - \sum_{j}{\phi_{ij} \thinspace x_i}
 \end{equation}
-Now, depending on the number of risk groups, we have
-$G$ and $G(G-1)$ unknowns in $\bm{e}$ and $\phi$, totalling $G^2$ variables to resolve.
-We denote these variables as the vector $\bm{\theta} = \left[\bm{e}, \bm{z}\right]$,
-where $\bm{z} = \mathrm{vec}_{i \ne j}(\phi)$;
-this allows us to define
-a system of linear equations of the form:
-\begin{equation}\label{eq:system-matrix}
-\bm{b} = A \thinspace \bm{\theta}
+Factoring the left and right hand sides in terms of $\bm{\hat{e}}$ and $\phi$,
+we obtain $G$ unique constraints.
+For $G = 3$, this yields the following 3 rows as the basis of $\bm{b}$ and $A$:
+\begin{equation}\label{eq:b-A-basis}
+\bm{b} = \left[\begin{array}{c}
+\nu x_1 \\ \nu x_2 \\ \nu x_3
+\end{array}\right];\qquad
+A = \left[\begin{array}{ccccccccc}
+ \nu  & \cdot & \cdot & -x_1  & -x_1  &  x_2  & \cdot &  x_3  & \cdot \\
+\cdot &  \nu  & \cdot &  x_1  & \cdot & -x_2  & -x_2  & \cdot &  x_3  \\
+\cdot & \cdot &  \nu  & \cdot &  x_1  & \cdot &  x_2  & -x_3  & -x_3  \\
+\end{array}\right] 
 \end{equation}
-where $A$ is a $G \times G^2 $ matrix
-and $\bm{b}$ is a $G$-length vector,
-representing the right-hand side and left-hand side of Eq.~(\ref{eq:system}), respectively.
-In this form, we can use $A^{-1}\bm{b} = \bm{\theta}$ to solve for $\bm{\theta}$.
-\par % TODO: underdetermined by this? What about sum{e} = 1?
-Unfortunately, for any $G > 1$, the system is underdetermined by a factor of $G(G-1)$,
-meaning there are many combinations of $\bm{e}$ and $\phi$ which satisfy Eq.~(\ref{eq:system}).
-Therefore, we now resume our task of leveraging data and assumptions
-to define a unique solution.
-\par
-Our first tool is another equation.
-We note that the duration of time spent in a particular group $\delta_i$
-is the inverse of all efferent flow rates:
+These $G$ constraints are necessary to ensure risk groups do not change size over time.
+However, to obtain a unique solution,
+we still need an additional $G(G-1)$ constraints.
+For $G = 3$, this corresponds to 6 additional constraints.
+% --------------------------------------------------------------------------------------------------
+\paragraph{Specified Elements}
+The simplest type of additional constraint is to
+directly specify individual elements in $\bm{\hat{e}}$ or $\phi$.
+This constraint may be appended to $\bm{b}$ and $A$ using indicator encoding:
+with $b_k$ as the specified value and $A_k = [0,\dots,1,\dots,0]$ as the indicator vector.
+For example, for $G = 3$, if it is known that 20\% of individuals
+enter directly into risk group $x_1$ upon entry into the model ($\hat{e}_1 = 0.20$),
+then $\bm{b}$ and $A$ can be augmented with:
+\begin{equation}
+\bm{b}' = \left[\begin{array}{c} 0.20 \end{array}\right];\qquad
+A' = \left[\begin{array}{ccccccccc}
+1 & \cdot & \cdot & \cdot & \cdot & \cdot & \cdot & \cdot & \cdot \\
+\end{array}\right] 
+\end{equation}
+If we do not want any turnover from group $i$ to group $j$,
+then this approach can also be used to set $\phi_{ij} = 0$.
+Note that the elements of $\bm{\hat{e}}$ must sum to one.
+Therefore, specifying all elements in $\bm{\hat{e}}$
+will only provide $G-1$ additional constraints,
+as the last element is redundant.
+This relationship is implicit in Eq.~(\ref{eq:b-A-basis}),
+so it is not necessary to supply a constraint $1 = \sum_{i} \hat{e}_i$.
+Similar redundancies or inconsistencies can emerge for constraints on $\phi$, as noted below.
+% --------------------------------------------------------------------------------------------------
+\paragraph{Group Duration}
+Another useful constraint can be derived from
+the average duration of individuals in a risk group.
+This duration $\delta_i$ is defined as the inverse of all efferent flow rates:
 \begin{equation}\label{eq:duration-group}
 \delta_i = {\bigg(\mu + \sum_{j}{\phi_{ij}}\bigg)}^{-1}
 \end{equation}
-These durations could be derived from survey data, including for key populations,
+Average durations could be derived from survey data, including for key populations,
 or they could be assumed.
-Rearranging Eq.~(\ref{eq:duration-group}), we obtain
-${\delta_i}^{-1} - \mu = \sum_{j}{\phi_{ij}}$,
-which yields an additional $G$ equations in our linear system -- i.e.\ rows of $A$ and $\bm{b}$.
-For $G = 2$, this provides enough constraints to fully determine the system, % TODO: does it though? as 2nd duration is redundant, no?
-as shown in \ref{aa:eqs-turnover} \nameref{aa:eqs-turnover},
-but for larger $G$, still more constraints are needed.
-\par
-The simplest additional constraints can be elements in $\bm{\theta}$ which are directly specified
--- i.e.\ elements of of $\bm{e}$ or $\phi$.
-For example, the proportion of individuals who
-move from one risk group to another each year ($\phi_{ij}$)
-may be assumed or derived from data.
-Similarly, the distribution of individuals
-across risk groups in the entering population $\bm{\hat{e}}$
-may be approximated using the proportions among
-the lowest age group for which data are available.
-In each case, the value specified is appended to $\bm{b}$,
-and a row appended to $A$ of the form: $[0,\dots,1,\dots,0]$,
-with $1$ in the position of the element in $\bm{\theta}$.
-\par
-There are, however, two notable caveats to this approach.
-First, not all combinations of specified elements will add an equal number of constraints.
-Specifying all elements of $\bm{e}$
-will only add $G-1$ (not $G$) constraints,
-since $\sum \bm{\hat{e}} = 1$, so the final element adds no new information.
-Similarly, specifying all elements of $\phi_{ij}$ for a given $i$
-as well as the duration for the group $\delta_i$
-will only add $G-1$ (not $G$) constraints,
-since Eq.~(\ref{eq:duration-group}) must hold.
-%\footnote{Recall that the diagonal elements of $\phi$ are inconsequential,
-%  so only $G-1$ elements of $\phi_{ij}$ may be specified at all for a given $i$.}
-Second, not all combinations of specified values will yield a valid solution,%
-\footnote{Even rank-deficient systems be inconsistent.}
-and it is unfortunately difficult to anticipate problematic combinations.
-\par
-Finally, we note that additional constraints may be avoided altogether if we pose the problem
-as an optimization problem, namely:
+These values can be used to define constraints on $\phi$ by
+rearranging Eq.~(\ref{eq:duration-group}) to yield:
+${\delta_{i}}^{-1} - \mu = \sum_{j}{\phi_{ij}}$.
+For example, if for $G = 3$,
+the average duration in group $x_1$ is known to be $\delta_1 = 5$ years,
+then $\bm{b}$ and $A$ can be augmented with:
+\begin{equation}
+\bm{b}' = \left[\begin{array}{c}
+{5}^{-1} - \mu
+\end{array}\right];\qquad
+A' = \left[\begin{array}{ccccccccc}
+\cdot & \cdot & \cdot & 1 & 1 & \cdot & \cdot & \cdot & \cdot \\
+\end{array}\right]
+\end{equation}
+As noted above, redundancies can emerge
+when constraining turnover rates $\phi$ via duration $\delta_i$.
+Namely, specifying all efferent flow rates $\phi_{ij}$ for one group $i$
+will fully determine the duration in the group $\delta_i$.
+In general, each constraint which is not redundant will increase the rank of $A$ by one,
+and $A$ must be full rank ($G^2$) to uniquely determine the parameters in $\bm{\theta}$.
+% --------------------------------------------------------------------------------------------------
+\paragraph{Turnover Balance}
+We present one final constraint here.
+We can assume that
+the absolute number of individuals moving between two risk groups is
+related by a ratio $\frac{r_i}{r_j}$ so that:
+$\phi_{ij} x_{i} r_{i} = \phi_{ji} x_{j} r_{j}$.
+This helps constrain $\phi_{ij}$ and $\phi_{ji}$.
+For example, for $G = 3$,
+if we assume that the number of individuals moving between groups $x_1$ and $x_2$
+is related by $\frac{3}{2}$,
+then $\bm{b}$ and $A$ can be augmented with:
+\begin{equation}
+\bm{b}' = \left[\begin{array}{c}
+0
+\end{array}\right];\qquad
+A' = \left[\begin{array}{ccccccccc}
+\cdot & \cdot & \cdot & 3 x_1 & \cdot & -2 x_2 & \cdot & \cdot & \cdot \\
+\end{array}\right] 
+\end{equation}
+If we assume that the absolute number of individuals moving between the groups is equal,
+then simply $\frac{r_i}{r_j} = 1$.
+Again, care should be taken to avoid redundancies and inconsistencies with other constraints.
+%% JK: I feel this should be elaborated on,
+%% but its honestly very difficult to summarize the situations where this occurs.
+% --------------------------------------------------------------------------------------------------
+\paragraph{Minimization}
+Lastly, we can avoid specifying a complete set of constraints on $\bm{\theta}$
+($A$ can be less than full rank)
+if the problem is posed as a minimization problem, namely:
 \begin{equation}\label{eq:system-optimize}
 \bm{\theta}^{*} = {\arg \min}
 \thinspace f(\bm{\theta}),
@@ -221,15 +302,37 @@ as an optimization problem, namely:
 \enspace\bm{b} = A\thinspace\bm{\theta};
 \enspace\bm{\theta} \ge 0
 \end{equation}
-where $f$ is a function such as ${\left|\left| \thinspace\cdot\thinspace \right|\right|}_2$.
-However, the choice of $f$ implies a prior on the values of $\bm{\theta}$,
-and so introduces bias in the solution.
+where $f$ is a function which globally constrains $\bm{\theta}$,
+such as: ${\left|\left| \,\cdot\, \right|\right|}_2$.
+That is, when a sufficient number of assumptions cannot be made about $\bm{\hat{e}}$ and $\phi$
+to yield a unique solution,
+this approach can be used to find the smallest values of $\bm{\hat{e}}$ and $\phi$
+which satisfy the given constraints.
+Numerical solutions to such problems are widely available,
+such as the Non-Negative Lease Squares solver \citep{Lawson1995}.%
+\footnote{The \textsc{nnls} solver is available in Python:
+   \href{https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.nnls.html}
+{\texttt{https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.nnls.html}}.}
+%% JK: may want to add a paragraph on inconsistent systems (no true solution):
+%% how to identify them and what to do about them.
 % ==================================================================================================
 \subsection{Previous Approaches}
-INP
+Under construction!
+\par
+\dots reference to Box~\ref{box:assumptions}.
+%% JK: this is still under construction, omitting for now!
+%% Sorry for no reference to Box~\ref{box:assumptions}.
+% For example, \citet{Stigum1994} use a parameter $\kappa$ to define
+% the rate of movement from core into the remaining population,
+% while \citet{Eaton2014} use a single parameter $\Psi$ to define
+% the rates of movement of individuals
+% from high to medium risk, high to low risk, and medium to low risk.
+%  In several works by \citeauthor{Koopman1997},
+% the rate of movement from high to low risk is balanced analytically
+% with the rate from low to high risk based on the sizes of the groups.
 \begin{floatbox}
   \caption{Common assumptions regarding the dynamics of risk groups}
   \label{box:assumptions}
   \input{floats/box-assumptions.tex}
 \end{floatbox}
-
+\clearpage
