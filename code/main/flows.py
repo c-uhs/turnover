@@ -64,12 +64,12 @@ def make_tikz(label,phi):
   # What is this 3x escape mess?
   configstr = \
     '\\\\graphicspath{{../../../../outputs/figs/plots/flows/'+phistr+'/}}'+\
-    '\\\\\\\\newcommand{\\\\\\\\turnover}{'+str(-2*np.log(0.5-phi))+'}'
+    '\\\\\\\\newcommand{\\\\\\\\turnover}{'+str(4*np.minimum(1,phi**(1/3)))+'}'
   os.system('cd {} && echo {} > config.tex && pdflatex -jobname=flows-{} flows.tex >/dev/null'.format(
     tikzdir, configstr, label ))
 
 phis = list(sensitivity.iter_phi(N))
-for phi,label in zip([phis[n],phis[N-n-1]],['low','high']):
+for phi,label in zip([phis[n],phis[int((N-1)/2)],phis[N-n-1],10],['low','med','high','extreme']):
   specs = system.get_specs()
   model = system.get_model()
   sim = sensitivity.get_sim(phi,0.1)
@@ -79,6 +79,8 @@ for phi,label in zip([phis[n],phis[N-n-1]],['low','high']):
     t = sim.t,
     names = [out]
   ))
+  if label == 'extreme':
+    sim.update_params(dict(ibeta=0.038))
   sim.solve()
   for name in ['high','low']:
     make_plot(sim,name,phi)

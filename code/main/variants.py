@@ -37,7 +37,7 @@ def load_fit(name,sim):
 def get_sim(variant=None,t=None):
   specs = system.get_specs()
   model = system.get_model()
-  if variant in [None,0,'base']:
+  if variant in [None,0,'full']:
     pass
   elif variant in [1,'no-hetero']:
     model.collapse(['ii'])
@@ -59,6 +59,7 @@ def txtsave(name,sim,output,selector,txt):
 
 def plot_iter(sims,output,selector,txt=False):
   legend = []
+  # colors = [[0.8,0.2,0.0],[1.0,0.8,0.6],[0.8,0.2,0.0],[1.0,0.8,0.6]]
   colors = [[0.8,0.0,0.0],[1.0,0.6,0.6],[0.8,0.0,0.0],[1.0,0.6,0.6]]
   linestyles = ['-','-','--','--']
   for (name,sim),color,ls in zip(sims.items(),colors,linestyles):
@@ -77,7 +78,7 @@ def plot_iter(sims,output,selector,txt=False):
       txtsave(shortname(name),sim,output,selector,txt)
   plt.legend(
     legend,
-    # ['Turnover','No Turnover'] # TEMP: manual override
+    # ['Turnover','No Turnover'], # TEMP: manual override
     # loc='lower right', # TEMP: manual override
   )
 
@@ -109,7 +110,7 @@ def exp_run_plot(compare,sims,outputs,selectors,save=False,txt=False,**params):
 
 def exp_hetero(save=False):
   sims = odict([
-    ('Base (Risk Heterogeneity)',  get_sim('base')),
+    ('Full (Risk Heterogeneity)',  get_sim('full')),
     ('V1 (No Risk Heterogeneity)', get_sim('no-hetero')),
   ])
   exp_run_plot('hetero',
@@ -121,7 +122,7 @@ def exp_hetero(save=False):
 
 def exp_growth(save=False):
   sims = odict([
-    ('Base (Population Growth)',  get_sim('base')),
+    ('Full (Population Growth)',  get_sim('full')),
     ('V2 (No Population Growth)', get_sim('no-growth')),
   ])
   for beta in [0.03]: # TEMP
@@ -135,7 +136,7 @@ def exp_growth(save=False):
 
 def exp_turnover(save=False):
   sims = odict([
-  ('Base (Turnover)',  get_sim('base')),
+  ('Full (Turnover)',  get_sim('full')),
   ('V3 (No Turnover)', get_sim('no-turnover')),
 ])
   for tau in [0.1, 0.2]:
@@ -151,7 +152,7 @@ def exp_turnover(save=False):
 def exp_tpaf(save=False):
   t = system.get_t(tmax=100)
   sims = odict([
-    ('Base (Turnover)',  get_sim('base',t=t)),
+    ('Full (Turnover)',  get_sim('full',t=t)),
     ('V3 (No Turnover)', get_sim('no-turnover',t=t)),
   ])
   names = list(sims.keys())

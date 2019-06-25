@@ -17,7 +17,7 @@ OUTPUTS = ['prevalence','incidence']
 SELECTORS = ['all','high','med','low']
 TAU1D = 0.1
 CA = 3 # HACK
-SAVE = False
+SAVE = True
 
 # iteration functions
 
@@ -161,7 +161,7 @@ def draw_regions(xp,yp,labels):
   xl = plt.xlim()
   x  = [xp[0]] + xp + [xp[-1], xl[1], xl[1]]
   y  = [yl[0]] + yp + [yl[ 1], yl[1], yl[0]]
-  plt.fill(x, y, color = 'r', alpha = 0.1)
+  plt.fill(x, y, color = [1.0,0.0,0.0], alpha = 0.1)
   lp = lambda lim,p: lim[0]+p*(lim[1]-lim[0])
   tprops = dict(va='top',bbox=dict(boxstyle='round',fc='w',ec='0.8',alpha=0.9))
   plt.text(lp(xl,0.05),lp(yl,0.95),labels[0],ha='left',**tprops)
@@ -169,7 +169,13 @@ def draw_regions(xp,yp,labels):
   plt.xlim(xl)
   plt.ylim(yl)
 
-def make_1d(data,output,regions=False):
+def draw_extrap(y,ne):
+  x  = np.arange(0,ne,1)
+  xe = np.arange(0, N,1)
+  ye = interpolate.interp1d(x,y[0,0:ne],kind='slinear',bounds_error=False,fill_value='extrapolate')(xe)
+  plt.plot(xe,ye,c=[0.8,0.2,0.0],linestyle='--')
+
+def make_1d(data,output,regions=False,extrap=False):
   def get_peaks(data,interp):
     x  = np.arange(0,N,1)
     xi = np.arange(0,N,interp)
@@ -178,7 +184,11 @@ def make_1d(data,output,regions=False):
     yp = [np.nanmax(fi(y)) for y in data]
     return xp,yp
   plt.gca().set_prop_cycle('color',plt.cm.Blues_r(np.linspace(0,1,data.shape[0])))
+  if extrap:
+    draw_extrap(data,extrap)
   plt.plot(range(0,N),data.transpose())
+  if extrap:
+    plt.legend(['Initial Trend','Observed'])
   if regions:
     xp,yp = get_peaks(data,0.01)
     if np.any(xp):
@@ -210,9 +220,9 @@ def gen_2d_plot(data,save=None):
     plt.show()
   plt.close()
 
-def gen_1d_plot(data,output,save=None,regions=False):
+def gen_1d_plot(data,output,save=None,regions=False,extrap=False):
   plt.figure(figsize=(4,3))
-  make_1d(data,output,regions=regions)
+  make_1d(data,output,regions=regions,extrap=extrap)
   plt.gca().set_position([0.16,0.14,0.82,0.84])
   if save and SAVE:
     plt.savefig(save)
@@ -224,8 +234,9 @@ def gen_plots():
   for output in OUTPUTS:
     for select in SELECTORS:
       gen_1d_plot(load_data(output,select,tau=[TAU1D]),output,fname_fig('1d',output,select,tau=TAU1D),regions=True)
+      # gen_1d_plot(load_data(output,select,tau=[TAU1D]),output,fname_fig('1d',output,select,tau=TAU1D,extrap=True),extrap=14)
       for norm in [False,True]:
-        gen_2d_plot(load_2d_data(output,select,norm),fname_fig('surface',output,select,norm=norm))
+        gen_2d_plot(load_data(output,select,norm),fname_fig('surface',output,select,norm=norm))
   data = {
     '1d': {output: load_data(output,'I',tau=[TAU1D]) for output in ['X','C'] },
     '2d': {output: load_data(output,'I')             for output in ['X','C'] },
