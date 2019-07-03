@@ -117,8 +117,8 @@ def get_outputs(spaces,select,t,names=None,**kwargs):
     'infections':    {'ss':'S'},
     'cum-infect':    {'ss':'S'},
     'tpaf-high':     {'beta':'beta','ss':'S','mode':'from'},
-    'inf-ratio':     {'ss':'S','si':'infected'},
-    'si-partnerships':{'ss':'S','si':'infected'},
+    'tip':           {'ss':'S','si':'infected'},
+    'sip':           {'ss':'S','si':'infected'},
     'C':             {},
   }
   return xdict([

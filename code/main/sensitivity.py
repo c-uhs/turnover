@@ -91,7 +91,7 @@ def get_sim(phi,tau,tmax=200):
     spaces = sim.model.spaces,
     select = sim.model.select,
     t = sim.t,
-    names = OUTPUTS+['C','X'],
+    names = OUTPUTS+['C','X','tip'],
   ))
   return sim
 
@@ -118,6 +118,8 @@ def run_sim(sim,phi,tau):
       save_element(sim.outputs[output],select,tmax,phi,tau)
   for output in ['C','X']:
     save_element(sim.outputs[output],sim.model.select['I'],tmax,phi,tau)
+  for select in iter_selectors(sim):
+    save_element(sim.outputs['tip'],select,tmax,phi,tau)
 
 def save_element(output,select,tmax,phi,tau):
   fname = fname_element(output.name,select.name,phi=phi,tau=tau)
@@ -144,17 +146,29 @@ def load_data(output,select,norm=False,phi=None,tau=None):
   array = np.array(array,dtype=np.float)
   return array
 
-def make_1d_pretty(output):
+def make_1d_pretty(output,select=None):
+  kwargs = {
+    # 'fontsize': 'x-large', # TEMP: manual override
+  }
   plt.xticks(*ticks(list(iter_phi(N)),5,2))
-  plt.xlabel('High-Risk Turnover $\\delta_H^{-1}$')
+  plt.xlabel('High-Risk Turnover $\\delta_H^{-1}$',**kwargs)
+  # plt.xlabel('Turnover',**kwargs)
   ylabel = {
     'prevalence': 'Prevalence',
-    'incidence':  'Incidence (per 1000 person-years)',
+    'incidence':  'Incidence (per 1000 PY)',
     'X':          'Proportion of population who are infectious',
     'C':          'Average contact rate of infectious individuals',
     'XC':         'Infectious partnerships proportion',
+    'tip':        'Proportion of new infections from turnover\\\\',
   }
-  plt.ylabel(ylabel[output])
+  yspec = {
+    'high': ' among High-Risk',
+    'med':  ' among Medium-Risk',
+    'low':  ' among Low-Risk',
+    'all':  ' Overall',
+    None: '',
+  }
+  plt.ylabel(ylabel[output]+yspec[select],**kwargs)
 
 def draw_regions(xp,yp,labels):
   yl = plt.ylim()
@@ -175,7 +189,7 @@ def draw_extrap(y,ne):
   ye = interpolate.interp1d(x,y[0,0:ne],kind='slinear',bounds_error=False,fill_value='extrapolate')(xe)
   plt.plot(xe,ye,c=[0.8,0.2,0.0],linestyle='--')
 
-def make_1d(data,output,regions=False,extrap=False):
+def make_1d(data,output,select,regions=False,extrap=False):
   def get_peaks(data,interp):
     x  = np.arange(0,N,1)
     xi = np.arange(0,N,interp)
@@ -183,7 +197,7 @@ def make_1d(data,output,regions=False,extrap=False):
     xp = [np.nanargmax(fi(y))*interp for y in data]
     yp = [np.nanmax(fi(y)) for y in data]
     return xp,yp
-  plt.gca().set_prop_cycle('color',plt.cm.Blues_r(np.linspace(0,1,data.shape[0])))
+  plt.gca().set_prop_cycle('color',plt.cm.Blues_r(np.linspace(0.1,0.9,data.shape[0])))
   if extrap:
     draw_extrap(data,extrap)
   plt.plot(range(0,N),data.transpose())
@@ -193,7 +207,7 @@ def make_1d(data,output,regions=False,extrap=False):
     xp,yp = get_peaks(data,0.01)
     if np.any(xp):
       draw_regions(xp,yp,['A','B'])
-  make_1d_pretty(output)
+  make_1d_pretty(output,select)
 
 def make_surface(data,labels=None):
   cmap = plt.get_cmap('inferno')
@@ -220,23 +234,33 @@ def gen_2d_plot(data,save=None):
     plt.show()
   plt.close()
 
-def gen_1d_plot(data,output,save=None,regions=False,extrap=False):
+def gen_1d_plot(data,output,select,save=None,regions=False,extrap=False,legend=None):
   plt.figure(figsize=(4,3))
-  make_1d(data,output,regions=regions,extrap=extrap)
+  make_1d(data,output,select,regions=regions,extrap=extrap)
   plt.gca().set_position([0.16,0.14,0.82,0.84])
+  if legend:
+    plt.legend(legend)
   if save and SAVE:
     plt.savefig(save)
   else:
     plt.show()
   plt.close()
 
+def gen_plots_isstdr():
+  for output,select,extrap in [('prevalence','high',None),('prevalence','low',14),('incidence','all',None)]:
+    data = load_data(output,select,tau=[TAU1D])
+    gen_1d_plot(data,output,select,fname_fig('isstdr',output,select,tau=TAU1D),extrap=extrap)
+
 def gen_plots():
+  # incidence and prevalence
   for output in OUTPUTS:
     for select in SELECTORS:
-      gen_1d_plot(load_data(output,select,tau=[TAU1D]),output,fname_fig('1d',output,select,tau=TAU1D),regions=True)
-      # gen_1d_plot(load_data(output,select,tau=[TAU1D]),output,fname_fig('1d',output,select,tau=TAU1D,extrap=True),extrap=14)
+      data = load_data(output,select,tau=[TAU1D])
+      gen_1d_plot(data,output,select,fname_fig('1d',output,select,tau=TAU1D),regions=True)
+      # gen_1d_plot(data,output,select,fname_fig('1d',output,select,tau=TAU1D,extrap=True),extrap=14)
       for norm in [False,True]:
         gen_2d_plot(load_data(output,select,norm),fname_fig('surface',output,select,norm=norm))
+  # incidence factors
   data = {
     '1d': {output: load_data(output,'I',tau=[TAU1D]) for output in ['X','C'] },
     '2d': {output: load_data(output,'I')             for output in ['X','C'] },
@@ -244,6 +268,11 @@ def gen_plots():
   data['1d']['XC'] = data['1d']['X'] * data['1d']['C'] / CA
   data['2d']['XC'] = data['2d']['X'] * data['2d']['C'] / CA
   for output in ['X','C','XC']:
-    gen_1d_plot(data['1d'][output],output,fname_fig('1d',output,'I',tau=TAU1D),regions=True)
-    gen_1d_plot(data['2d'][output],output,fname_fig('2d',output,'I'),regions=True)
-  gen_1d_plot(load_data('incidence','all'),'incidence',fname_fig('2d','incidence','all'),regions=True)
+    gen_1d_plot(data['1d'][output],output,None,fname_fig('1d',output,'I',tau=TAU1D),regions=True)
+    gen_1d_plot(data['2d'][output],output,None,fname_fig('2d',output,'I'),regions=True)
+  gen_1d_plot(load_data('incidence','all'),'incidence',None,fname_fig('2d','incidence','all'),regions=True)
+  # proportion of infections from turnover
+  legend = ['High-Risk','Medium-Risk','Low-Risk']
+  data = np.concatenate([load_data('tip',select,tau=[TAU1D]) for select in ['high','med','low']])
+  gen_1d_plot(data,'tip',None,fname_fig('2d','tip','all',tau=TAU1D),legend=legend)
+  

@@ -40,7 +40,7 @@ def make_plot(sim,select,phi):
   labels = [sim.model.select[name].label for name in names]
   reorder = lambda x: [x[0],x[2],x[1]]
   plt.pie(reorder(SIR), colors=reorder(colors), startangle=90, counterclock=True )
-  plt.tight_layout(pad=0.0)
+  plt.tight_layout(pad=-1.8)
   figdir = os.path.join(config.path['figs'],'plots','flows','phi={}'.format(phi))
   utils.makedir(figdir)
   plt.savefig(os.path.join(figdir,'{}-{}.pdf'.format('flow',select,phi)),transparent=True)

@@ -73,6 +73,7 @@ def plot_iter(sims,output,selector,txt=False):
       show = False,
       leg = False,
       linestyle = ls,
+      # ylim = [0.5, 1.0], # TEMP: manual override
     )
     if txt:
       txtsave(shortname(name),sim,output,selector,txt)
@@ -156,16 +157,17 @@ def exp_tpaf(save=False):
     ('V3 (No Turnover)', get_sim('no-turnover',t=t)),
   ])
   names = list(sims.keys())
-  for name in names: # TEMP: comment out to get 1st two
+  for name in names: # TEMP: comment out to get 1st two (raw)
     fsim = load_fit(name,sims[name])
     sims.update([(name+' [fit]', fsim )])
-    # sims.pop(name) # TEMP: uncomment to get last two
+    # sims.pop(name) # TEMP: uncomment to get last two (fit)
   exp_run_plot('tpaf',
     sims      = sims,
     outputs   = ['tpaf-high'],
     selectors = ['all'],
     save      = save,
   )
+  # equilibrium prevalence plot
   names = list(sims.keys())
   for name in names:
     sim_eq = sims[name].model.equilibriate(tmax=500,tol=1e-6)
