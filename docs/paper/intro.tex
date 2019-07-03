@@ -9,6 +9,10 @@ where risks of acquisition and onward transmission are the highest,
 such that the core's unmet STI prevention and treatment needs
 sustain local epidemics
 \citep{Yorke1978,Gesink2011}.
+Such cores often comprise so-called key populations, such as
+female sex workers,
+men who have sex with men,
+and transgender people.
 \par
 Mathematical models of STI transmission include heterogeneity in risk
 by stratifying the modelled population by features such as
@@ -26,7 +30,7 @@ $R_0$ and overall STI prevalence are further influenced by
 mixing between subgroups \citep{Stigum1994,Boily1997}.
 Models with two or more risk groups
 are increasingly relevant in applied epidemic modelling,
-such as to help prioritize specific interventions for particular risk groups
+to help prioritize specific interventions for particular risk groups
 \citep{Mishra2012}.
 \par
 Rarely discussed or included in STI transmission models
@@ -59,13 +63,13 @@ Yet, implementations of risk groups and turnover in recent models vary widely.
 % from no risk groups,
 % to several risk groups but no turnover,
 % to several risk groups with complicated systems of turnover \citep{Boily2015}.
-Some authors only model turnover in the direction of high to low risk,
-controlled by a single parameter \citep{Stigum1994,Eaton2014}.
 In works by \citeauthor{Koopman1997},
 rates of movement between two risk groups
 are balanced analytically based on the size of the groups,
 while \citet{Boily2015} use a 100-year burn-in period
 to equilibrate a complex system of turnover transitions.
+Some authors only model turnover in the direction of high to low risk,
+\citep{Stigum1994,Eaton2014}.
 These various approaches to turnover are contrasted with
 implementations of model features like assortative sexual mixing,
 which typically follow ``standard'' methods,
@@ -73,16 +77,15 @@ such as that proposed by \citet{Nold1980}.
 \par
 Perhaps widespread and consistent implementation of turnover dynamics in STI models
 is made difficult by the following two challenges.
-First, it is not obvious how epidemiological data can be used to
+First, it is not clear how epidemiological data can be used to
 inform rates of turnover among risk groups.
 Second, as shown by \citet{Boily2015},
 naive selection of turnover rates can result in imbalanced flows,
 causing risk groups to initially change size over time;
-it is not clear how to avoid this problem in all cases.
+it is not obvious how to avoid this problem in all cases.
 \par
-Therefore, we propose a unified framework for
-parameterizing risk group dynamics,
-including risk heterogeneity, population growth, and turnover.
+Therefore, in this work we introduce a unified framework for
+parameterizing risk group turnover, based on available data.
 We develop this framework in Section \ref{s:system}.
 Additionally, while some authors have shown the influence
 of turnover on overall incidence and prevalence

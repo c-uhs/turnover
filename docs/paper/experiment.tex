@@ -1,4 +1,4 @@
-To examine the influence of risk group dynamics on epidemics, we first
+To examine the influence of fundamental risk group dynamics on epidemics, we first
 compared equilibrium prevalence and incidence using models with and without:
 heterogeneity in risk,
 population growth, and
@@ -20,9 +20,14 @@ transmission population attributable fraction (TPAF).
 %% two factors we briefly explore: number of risk groups & population growth. Thoughts?
 % ==================================================================================================
 \subsection{Model \& Simulations}\label{ss:model-sim}
-We developed a deterministic 1-sex SIR model
+We developed a deterministic single-sex SIR model
 which simulates transmission in a population with heterogeneity in risk.
 The model is not representative of a specific infection
+%% SS: I think it might be easier to follow if it did.
+%% I think it could be used as an example to thread across
+%% and then in the discussion go into how this would be similar/different for another infection
+%% (which parameters would likely change,
+%% whether we would anticipate that the impact of turnover would be similar, different)
 but includes balancing contacts
 as per sexually transmitted infections \citep{Garnett1994}.
 The model includes three health states:
@@ -48,7 +53,9 @@ proportionate to the total number of available contacts within each group:
   \caption{Modelled health states.
   $\mathcal{S}$: susceptible;
   $\mathcal{I}$: infected;
-  $\mathcal{R}$: recovered.}
+  $\mathcal{R}$: recovered;
+  $\lambda$: force of infection;
+  $\tau$: treatment.}
   \label{fig:health-states}
 \end{figure}
 \par
@@ -64,8 +71,14 @@ via a force of infection $\lambda$ per year, per susceptible in risk group $i$:
 Individuals are assumed to transition from the
 infectious $\mathcal{I}$ to recovered $\mathcal{R}$ health-state
 at a rate $\tau$ per year, reflecting diagnosis and treatment.
-Individuals in the $\mathcal{R}$ health-state are not infectious and nor susceptible.
+Individuals in the $\mathcal{R}$ health-state are not infectious nor susceptible.
 That is, in this SIR model, individuals cannot become re-infected.
+%% SS: What seems confusing to me at this point is that
+%% given the lack of specificity of the infection of interest,
+%% the R assumptions seem potentially overly simplistic
+%% given that with most STIs there is unlikely to be immunity following recovery
+%% and in the case of HIV, treatment (if considered R) may be stopped/incomplete
+%% and then they may not be susceptible, but certainly transmittable.
 \par
 As described in Section~\ref{s:system}, individuals
 enter the model at a rate $\nu$,
@@ -89,12 +102,12 @@ is given in \ref{aa:eqs-turnover}.
 To meet all three conditions, there is only one possible value
 for each element in $\phi$ and $\bm{\hat{e}}$
 -- i.e.\ $A$ is full rank.
-In other words, by specifying these three conditions
-we ensure that a unique set of $\phi$ and $\bm{\hat{e}}$ are computed.
+In other words, by specifying these three conditions,
+we ensure that a unique set of $\phi$ and $\bm{\hat{e}}$ is computed.
 \par
 Using the above three assumptions,
-we need only specify the values of $\bm{\hat{x}}$, $\bm{\delta}$, $\nu$, and $\mu$.
-Such parameters could be derived from data;
+we need to specify the values of $\bm{\hat{x}}$, $\bm{\delta}$, $\nu$, and $\mu$.
+Such parameters could be derived from data as described in Section \ref{sss:params-turnover};
 however, in this experiment, we use the illustrative values summarized in
 Table~\ref{tab:params-base}.
 After resolving the system of equations,
@@ -113,6 +126,9 @@ The full system of model equations is given in \ref{aa:eqs-model}.
     All rates have units $\mathrm{year}^{-1}$ and durations are in $\mathrm{years}$.}
   \label{tab:params-base}
   \input{floats/tab-params-base.tex}
+  %% SS: All of this seems a little hard to follow in terms of the infection,
+  %% b/c it seems to indicate that there is an underlying infection of interest,
+  %% but it is not being stated.
 \end{table}
 \par
 We then simulated epidemics in the base model,
@@ -133,7 +149,7 @@ defined as a steady state with $<$1\% difference in incidence.
 % ==================================================================================================
 \subsection{Model Variants}\label{ss:exp-variants}
 To examine the influence of population growth, heterogeneity, and turnover,
-we simplified the full model accordingly to include or remove each feature.
+we simplified the Full model accordingly to include or remove each feature.
 These simplified model variants, and their parameters are shown in
 Figure~\ref{fig:variant-tree}, and
 Table~\ref{tab:params-variants}, respectively.
@@ -145,12 +161,12 @@ the V1 contact rate $C$ for all individuals was the weighted
 average of the Full model's risk-stratified $C_i$.
 V1 did not have turnover because there is only one risk group.
 All other conditions, including population growth rate, remained the same between
-the Full model and V1 (Table~\ref{tab:params-variants}).
+the Full model and V1.
 % --------------------------------------------------------------------------------------------------
 \paragraph{Experiment 1.2: Influence of population growth}
 \label{p:exp-1-growth}
 V2 assumed no population growth.
-The exit rate $\mu$ remained fixed and the same as in the Full model,
+The exit rate $\mu$ remained the same as in the Full model,
 but the entry rate $\nu$ was reduced to equal $\mu$.
 This ensured that the average time spent in the modeled population $\mu^{-1}$
 remained the same between the Full model and V2.
@@ -258,7 +274,6 @@ Specifically, we fit the models to equilibrium disease prevalence
 in the highest and and lowest risk groups.
 %% SM: does this get us the same overall (total population) prevalence?
 %% JK: I never verified specifically, but I think so. I can check next iteration.
-%
 %Then, we infer the degree of risk heterogeneity in the population, as in $C_H / C_L$.
 %% JK: re. commented out above: I think maybe this is too much repetition
 %% with description in experiment 3.1
@@ -274,8 +289,8 @@ of the highest risk group.
 %% the inferred risk heterogeneity, which is relevant to fitting, but not really to non-fitted models.
 %% What do you think?
 The Full model (turnover) and model variant V3 (no~turnover) are calibrated to
-25\% prevalence in the high risk group, and
-5\% prevalence in the low risk group at equilibrium.
+25\% infection prevalence in the high risk group, and % SS: prevalence of infection; JK: clarified.
+5\% in the low risk group at equilibrium.
 %% SM: they should also reproduce overall prevalence too? what do you think?
 %% JK: agree -- as above, I'll add this next iteration :) need to double check it is happening now.
 The fitted parameters are
