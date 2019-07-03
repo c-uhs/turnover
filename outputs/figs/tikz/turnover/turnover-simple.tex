@@ -19,13 +19,13 @@
 \node(x2) [tbox=\colorx, below = \dy of x1] {\nodelabel{Med}};
 \node(x3) [tbox=\colorx, below = \dy of x2] {\nodelabel{Low}};
 % input nodes (no tbox)
-\node(i1) [tbox=\colore, left = \dx of x1] {}; %{\nodelabel{$e_1$}};
-\node(i2) [tbox=\colore, left = \dx of x2] {}; %{\nodelabel{$e_2$}};
-\node(i3) [tbox=\colore, left = \dx of x3] {}; %{\nodelabel{$e_3$}};
+\node(i1) [left = \dx of x1, opacity=0] {}; %{\nodelabel{$e_1$}};
+\node(i2) [left = \dx of x2, opacity=0] {}; %{\nodelabel{$e_2$}};
+\node(i3) [left = \dx of x3, opacity=0] {}; %{\nodelabel{$e_3$}};
 % output nodes (no tbox)
-\node(o1) [tbox=\colore, right = \dx of x1] {}; %{\nodelabel{$o_3$}};
-\node(o2) [tbox=\colore, right = \dx of x2] {}; %{\nodelabel{$o_3$}};
-\node(o3) [tbox=\colore, right = \dx of x3] {}; %{\nodelabel{$o_3$}};
+\node(o1) [right = \dx of x1, opacity=0] {}; %{\nodelabel{$o_3$}};
+\node(o2) [right = \dx of x2, opacity=0] {}; %{\nodelabel{$o_3$}};
+\node(o3) [right = \dx of x3, opacity=0] {}; %{\nodelabel{$o_3$}};
 % arrows ---------------------------------------------------------------------------------------
 % entry
 \draw[arrow=\colori] (i1) edge["\arrowlabel{$\nu$}", near start] (x1);
