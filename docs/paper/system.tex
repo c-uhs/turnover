@@ -1,6 +1,6 @@
 In this section we introduce a system of
 risk groups, flows between them, and equations
-which can be used to describe risk group dynamics
+which can be used to describe turnover
 in deterministic compartmental epidemic models.
 % ==================================================================================================
 \subsection{Notation}
@@ -75,7 +75,7 @@ and we do not stratify the rate of exit by activity group
 (disease-attributable death is assumed to be negligible for now).
 Therefore, we can assume that $\nu$ and $\mu$ do not vary across risk groups,
 allowing these rates to be estimated independent of
-the risk group distributions $\bm{\hat{x}}$ and $\bm{\hat{e}}$, and turnover $\phi$.
+$\bm{\hat{x}}$, $\bm{\hat{e}}$, and $\phi$.
 \par
 The difference between entry and exit rates
 defines the rate of population growth:
@@ -317,22 +317,67 @@ such as the Non-Negative Lease Squares solver \citep{Lawson1995}.%
 %% how to identify them and what to do about them.
 % ==================================================================================================
 \subsection{Previous Approaches}
-Under construction!
-\par
-\dots reference to Box~\ref{box:assumptions}.
-%% JK: this is still under construction, omitting for now!
-%% Sorry for no reference to Box~\ref{box:assumptions}.
-% For example, \citet{Stigum1994} use a parameter $\kappa$ to define
-% the rate of movement from core into the remaining population,
-% while \citet{Eaton2014} use a single parameter $\Psi$ to define
-% the rates of movement of individuals
-% from high to medium risk, high to low risk, and medium to low risk.
-%  In several works by \citeauthor{Koopman1997},
-% the rate of movement from high to low risk is balanced analytically
-% with the rate from low to high risk based on the sizes of the groups.
+While most models have included population growth,
+many have not included risk heterogeneity within age-sex groups,
+and still fewer have simulated turnover among risk groups.
+These three major features about risk group dynamics and the associated assumptions
+are summarized in Box~\ref{box:assumptions}.
+In each case, option (b) typically represents the more plausible assumption.
+Experiment 1 in the next section
+aims to illustrate the potential implications of assuming option (a).
 \begin{floatbox}
   \caption{Common assumptions regarding the dynamics of risk groups}
   \label{box:assumptions}
   \input{floats/box-assumptions.tex}
 \end{floatbox}
-\clearpage
+\par
+Among those works which have considered risk groups and turnover among them,
+implementations have varied widely.
+In a $G = 2$ system,
+\citet{Stigum1994} use a parameter $\kappa$ to define
+the rate of movement of individuals from a core group into the remaining population,
+which is balanced by an equal number of individuals moving in the opposite direction.
+Considered through the proposed framework,
+this defines a unique system through assuming:
+a \emph{specified element} $\kappa = \phi_{12}$,
+\emph{constant group size}, and \emph{balanced turnover}.
+\citet{Henry2015} employ the same assumptions for another $G = 2$ system,
+but define a ``re-selection rate'' $\omega$ to control
+the relative rate of turnover, so that
+$\phi_{12} = \omega \hat{x}_{2}$ and $\phi_{21} = \omega \hat{x}_{1}$.
+In a $G = 3$ system,
+\citet{Eaton2014} use a parameter $\Psi$ to define the rate of movement from
+high-to-low, high-to-medium, and medium-to-low risk groups each year,
+but assume no transitions in the opposite direction.
+Thus, all six elements of $\phi$ are \emph{specified},
+while \emph{constant group sizes} are ensured by computing
+the required distribution of model entrants $\bm{\hat{e}}$
+via equation [S12] in the Supplemental Information.
+\par
+The $G = 7$ system used by
+\citet{Boily2015} is highly contextual, and
+includes four high-risk groups which transition to specific low-risk groups
+(e.g. from ``high-/low-volume sex work'' to ``formerly engaged in sex work'').
+The turnover matrix $\phi$ is then completely \emph{specified} (though notably sparse)
+using several assumptions about \emph{group durations}.
+The distribution of risk groups among individuals entering the model $\bm{\hat{e}}$
+is also \emph{specified},
+leaving the distribution of risk groups among individuals in the model $\bm{\hat{x}}$
+as the only free parameters.
+For this reason, a 100-year ``burn-in'' period is required
+to equilibrate risk-group sizes before introduction of HIV in the model.
+Note that this approach is not perfectly compatible with the framework presented here,
+since we assume \emph{constant group sizes}
+as the basis for the system in Eq.~(\ref{eq:b-A-basis}),
+and exclude $\bm{\hat{x}}$ from the vector of free parameters $\bm{\theta}$.
+However, by relaxing these constraints,
+it should be possible to formulate even the implementation by \citet{Boily2015}
+in terms of the proposed framework.
+\par
+In sum, the framework for modelling turnover presented here aims to generalize
+all previous implementations.
+In so doing, we hope to clarify the requisite assumptions,
+dependencies on epidemiological data,
+and relationships between previous approaches.
+In Experiments 2 and 3, we leverage this framework to explore
+the potential influences of turnover on epidemics.
