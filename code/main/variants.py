@@ -7,19 +7,21 @@ import numpy as np
 config.numpy()
 import matplotlib.pyplot as plt
 from collections import OrderedDict as odict
+from textwrap import wrap
 from copy import deepcopy
 import utils
 import modelutils
 import system
 
+CONTEXT = 'isstdr' # in ['paper','isstdr']
 SAVE = True
 
 def fname_fig(compare,output,selector,**params):
-  return os.path.join(
-    # config.path['root'],'docs','conferences','isstdr-2019','slides','figs',
-    config.path['figs'],
-    'plots',
-    'compare',
+  if CONTEXT == 'paper':
+    path = [config.path['figs'],'plots','compare']
+  if CONTEXT == 'isstdr':
+    path = [config.path['root'],'docs','conferences','isstdr-2019','slides','figs']
+  return os.path.join(*path,
     '-'.join(
       [compare,output,selector]+
       ['{}={}'.format(name,value) for name,value in params.items()])+'.pdf'
@@ -59,9 +61,9 @@ def txtsave(name,sim,output,selector,txt):
 
 def plot_iter(sims,output,selector,txt=False):
   legend = []
-  # colors = [[0.8,0.2,0.0],[1.0,0.8,0.6],[0.8,0.2,0.0],[1.0,0.8,0.6]]
   colors = [[0.8,0.0,0.0],[1.0,0.6,0.6],[0.8,0.0,0.0],[1.0,0.6,0.6]]
   linestyles = ['-','-','--','--']
+  ylim = {'paper': None, 'isstdr': [0.5, 1.0]}[CONTEXT]
   for (name,sim),color,ls in zip(sims.items(),colors,linestyles):
     legend.append(name)
     select = sim.model.select[selector]
@@ -71,17 +73,23 @@ def plot_iter(sims,output,selector,txt=False):
       selectors = [sim.model.select[selector]],
       xlabel = 'Time (years)',
       show = False,
-      leg = False,
+      legloc = False,
       linestyle = ls,
-      # ylim = [0.5, 1.0], # TEMP: manual override
+      ylim = ylim,
     )
     if txt:
       txtsave(shortname(name),sim,output,selector,txt)
-  plt.legend(
-    legend,
-    # ['Turnover','No Turnover'], # TEMP: manual override
-    # loc='lower right', # TEMP: manual override
-  )
+  if CONTEXT == 'paper':
+    plt.legend(legend)
+  if CONTEXT == 'isstdr':
+    plt.legend(['Turnover','No Turnover'], loc='lower right')
+    plt.xlabel(plt.gca().get_xlabel(),fontsize='x-large')
+    plt.ylabel('\n'.join(wrap(plt.gca().get_ylabel(),13,break_on_hyphens=False)),
+      fontsize='x-large',
+      labelpad=40,
+      rotation=0,
+      va='center',
+    )
 
 def run_sim(sim,outputs=None):
   outputs = outputs if outputs is not None else []
@@ -96,13 +104,17 @@ def run_sim(sim,outputs=None):
 def exp_run_plot(compare,sims,outputs,selectors,save=False,txt=False,**params):
   for sim in sims.values():
     for name,value in params.items():
-      sim.model.params[name].update(value)
+      if name in sim.model.params:
+        sim.model.params[name].update(value)
     sim.update_params(sim.model.params)
     run_sim(sim,outputs)
+  figsize = {'paper': (4,3), 'isstdr': (4.5,3)}[CONTEXT]
+  axespos = {'paper': [0.16,0.14,0.82,0.84], 'isstdr':[0.33,0.16,0.65,0.82]}[CONTEXT]
   for output in outputs:
     for selector in selectors:
-      plt.figure(figsize=(4,3))
+      plt.figure(figsize=figsize)
       plot_iter(sims,output,selector,txt=txt)
+      plt.gca().set_position(axespos)
       if save and SAVE:
         plt.savefig(fname_fig(compare,output,selector,**params))
         plt.close()
@@ -126,14 +138,12 @@ def exp_growth(save=False):
     ('Full (Population Growth)',  get_sim('full')),
     ('V2 (No Population Growth)', get_sim('no-growth')),
   ])
-  for beta in [0.03]: # TEMP
-    exp_run_plot('growth',
-      sims      = sims,
-      outputs   = ['prevalence','incidence'],
-      selectors = ['all','high','low'],
-      save      = save,
-      # ibeta     = beta, # TEMP
-    )
+  exp_run_plot('growth',
+    sims      = sims,
+    outputs   = ['prevalence','incidence'],
+    selectors = ['all','high','low'],
+    save      = save,
+  )
 
 def exp_turnover(save=False):
   sims = odict([
@@ -151,32 +161,39 @@ def exp_turnover(save=False):
     )
 
 def exp_tpaf(save=False):
-  t = system.get_t(tmax=100)
-  sims = odict([
-    ('Full (Turnover)',  get_sim('full',t=t)),
-    ('V3 (No Turnover)', get_sim('no-turnover',t=t)),
-  ])
-  names = list(sims.keys())
-  for name in names: # TEMP: comment out to get 1st two (raw)
-    fsim = load_fit(name,sims[name])
-    sims.update([(name+' [fit]', fsim )])
-    # sims.pop(name) # TEMP: uncomment to get last two (fit)
-  exp_run_plot('tpaf',
-    sims      = sims,
-    outputs   = ['tpaf-high'],
-    selectors = ['all'],
-    save      = save,
-  )
+  tmax = {'paper': 100, 'isstdr': 30}[CONTEXT]
+  t = system.get_t(tmax=tmax)
+  for case in ['raw','fit','both']:
+    print(case,flush=True)
+    sims = odict([
+      ('Full (Turnover)',  get_sim('full',t=t)),
+      ('V3 (No Turnover)', get_sim('no-turnover',t=t)),
+    ])
+    if case == 'raw':
+      pass
+    if case == 'fit':
+      for name in list(sims.keys()):
+        sims.update([(name, load_fit(name,sims[name]))])
+    if case == 'both':
+      for name in list(sims.keys()):
+        sims.update([(name+' [fit]', load_fit(name,sims[name]))])
+    exp_run_plot('tpaf',
+      sims      = sims,
+      outputs   = ['tpaf-high'],
+      selectors = ['all'],
+      save      = save,
+      vs        = case,
+    )
   # equilibrium prevalence plot
-  names = list(sims.keys())
-  for name in names:
-    sim_eq = sims[name].model.equilibriate(tmax=500,tol=1e-6)
-    sims[name]._model.X0 = sim_eq.X.islice(t=sim_eq.teq)
-    sims[name].model.params['infect'].update(0)
-  exp_run_plot('tpaf',
-    sims      = sims,
-    outputs   = ['prevalence'],
-    selectors = ['low','high'],
-    save      = save,
-    txt       = lambda x: '{:.0f}\%'.format(100*float(x)),
-  )
+  # names = list(sims.keys())
+  # for name in names:
+  #   sim_eq = sims[name].model.equilibriate(tmax=500,tol=1e-6)
+  #   sims[name]._model.X0 = sim_eq.X.islice(t=sim_eq.teq)
+  #   sims[name].model.params['infect'].update(0)
+  # exp_run_plot('tpaf',
+  #   sims      = sims,
+  #   outputs   = ['prevalence'],
+  #   selectors = ['low','high'],
+  #   save      = save,
+  #   txt       = lambda x: '{:.0f}\%'.format(100*float(x)),
+  # )

@@ -55,6 +55,10 @@ def dxfun(X,t,P,dxout={}):
   treat = X.iselect(hi=['I']) * P['tau']
   dXi.update(treat, hi=['R'], accum=np.add)
   dXo.update(treat, hi=['I'], accum=np.add)
+  # loss of immunity: T -> S
+  loss = X.iselect(hi=['R']) * P['gamma']
+  dXi.update(loss, hi=['S'], accum=np.add)
+  dXo.update(loss, hi=['R'], accum=np.add)
   # dxout
   if dxout: # TODO: this should be a decorator
     lvars = locals()

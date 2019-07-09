@@ -20,6 +20,7 @@ import system
 import sensitivity
 
 names = ['S','I','R']
+# names = ['S','infected']
 lights = [0.6,0.0,0.3]
 out = 'X'
 N = 31
@@ -39,6 +40,7 @@ def make_plot(sim,select,phi):
   colors = [selector.color.lighten(light) for selector,light in zip(selectors,lights)]
   labels = [sim.model.select[name].label for name in names]
   reorder = lambda x: [x[0],x[2],x[1]]
+  # reorder = lambda x: [x[0],x[1]]
   plt.pie(reorder(SIR), colors=reorder(colors), startangle=90, counterclock=True )
   plt.tight_layout(pad=-1.8)
   figdir = os.path.join(config.path['figs'],'plots','flows','phi={}'.format(phi))

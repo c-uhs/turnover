@@ -7,6 +7,7 @@ config.plot(tex=True)
 import matplotlib.pyplot as plt
 from scipy import interpolate
 from collections import OrderedDict as odict
+from textwrap import wrap
 import modelutils
 import elements
 import system
@@ -17,6 +18,7 @@ OUTPUTS = ['prevalence','incidence']
 SELECTORS = ['all','high','med','low']
 TAU1D = 0.1
 CA = 3 # HACK
+CONTEXT = 'isstdr' # in ['paper','isstdr']
 SAVE = True
 
 # iteration functions
@@ -54,11 +56,11 @@ def fname_fun(*args,**kwargs):
       args.append('{}={}'.format(key,value))
   return '-'.join(args)
 
-def fname_element(output,select,*args,**kwargs): # output,select,phi=None,tau=None
+def fname_element(output,select,*args,**kwargs):
   return os.path.join(config.path['data'],'sensitivity','raw',output,select,
     fname_fun(*args,**kwargs)+'.txt')
 
-def fname_array(*args,**kwargs): # output,select,norm=False,tau=None
+def fname_array(*args,**kwargs):
   return os.path.join(config.path['data'],'sensitivity',
     fname_fun(*args,**kwargs)+'.csv')
 
@@ -69,7 +71,8 @@ def fname_fig(*args,**kwargs):
 # utils
 
 def ticks(values,incr,dec):
-  return list(range(len(values)))[::incr], [np.around(v,dec) for v in values][::incr]
+  vfun = lambda v: float(v) if dec else int(v)
+  return list(range(len(values)))[::incr], [np.around(vfun(v),dec) for v in values][::incr]
 
 # define the simulation parameters
 
@@ -104,7 +107,7 @@ def run_sims(idx=[]):
       print('phi = {:6.3f} | tau = {:6.3f}'.format(phi,tau),flush=True)
       sim = get_sim(phi,tau)
       run_sim(sim,phi,tau)
-  # HACK: run tau = 0.1 results
+  # HACK: run tau = 0.1 results # TODO: whats going on here?
   # tau = 0.1
   # for phi in iter_phi(N):
   #   sim = get_sim(phi,tau)
@@ -138,7 +141,7 @@ def load_data(output,select,norm=False,phi=None,tau=None):
   phi = phi if phi is not None else list(iter_phi(N))
   tau = tau if tau is not None else list(iter_tau(N))
   dname = fname_array(output,select,norm=norm)
-  if True: # not os.path.exists(dname):
+  if True: # not os.path.exists(dname): # TODO: whats going on here?
     array = [[ load_element(output,select,p,t,norm) for p in phi] for t in tau]
     utils.savecsv(dname,array,append=False)
   else:
@@ -147,19 +150,13 @@ def load_data(output,select,norm=False,phi=None,tau=None):
   return array
 
 def make_1d_pretty(output,select=None):
-  kwargs = {
-    # 'fontsize': 'x-large', # TEMP: manual override
-  }
-  plt.xticks(*ticks(list(iter_phi(N)),5,2))
-  plt.xlabel('High-Risk Turnover $\\delta_H^{-1}$',**kwargs)
-  # plt.xlabel('Turnover',**kwargs)
-  ylabel = {
+  ytitle = {
     'prevalence': 'Prevalence',
     'incidence':  'Incidence (per 1000 PY)',
     'X':          'Proportion of population who are infectious',
     'C':          'Average contact rate of infectious individuals',
     'XC':         'Infectious partnerships proportion',
-    'tip':        'Proportion of new infections from turnover\\\\',
+    'tip':        'Proportion of new infections from turnover\n',
   }
   yspec = {
     'high': ' among High-Risk',
@@ -168,7 +165,23 @@ def make_1d_pretty(output,select=None):
     'all':  ' Overall',
     None: '',
   }
-  plt.ylabel(ylabel[output]+yspec[select],**kwargs)
+  ylabel = ytitle[output]+yspec[select]
+  if CONTEXT == 'paper':
+    plt.xticks(*ticks(list(iter_phi(N)),5,2))
+    plt.xlabel('High-Risk Turnover $\\delta_H^{-1}$',**kwargs)
+    plt.ylabel(ylabel)
+  if CONTEXT == 'isstdr':
+    plt.xticks(*ticks([1/phi for phi in iter_phi(N)],5,0))
+    plt.xlabel('Duration in High-Risk Group',
+      fontsize='x-large',
+      labelpad=5,
+    )
+    plt.ylabel('\n'.join(wrap(ylabel,13,break_on_hyphens=False)),
+      fontsize='x-large',
+      labelpad=35,
+      rotation=0,
+      va='center',
+    )
 
 def draw_regions(xp,yp,labels):
   yl = plt.ylim()
@@ -235,9 +248,11 @@ def gen_2d_plot(data,save=None):
   plt.close()
 
 def gen_1d_plot(data,output,select,save=None,regions=False,extrap=False,legend=None):
-  plt.figure(figsize=(4,3))
+  figsize = {'paper': (4,3),                 'isstdr':(4.5,3)}[CONTEXT]
+  axespos = {'paper': [0.16,0.14,0.82,0.84], 'isstdr':[0.3,0.16,0.68,0.82]}[CONTEXT]
+  plt.figure(figsize=figsize)
   make_1d(data,output,select,regions=regions,extrap=extrap)
-  plt.gca().set_position([0.16,0.14,0.82,0.84])
+  plt.gca().set_position(axespos)
   if legend:
     plt.legend(legend)
   if save and SAVE:
@@ -246,12 +261,18 @@ def gen_1d_plot(data,output,select,save=None,regions=False,extrap=False,legend=N
     plt.show()
   plt.close()
 
-def gen_plots_isstdr():
-  for output,select,extrap in [('prevalence','high',None),('prevalence','low',14),('incidence','all',None)]:
-    data = load_data(output,select,tau=[TAU1D])
-    gen_1d_plot(data,output,select,fname_fig('isstdr',output,select,tau=TAU1D),extrap=extrap)
-
 def gen_plots():
+  if CONTEXT == 'paper':
+    gen_plots_paper()
+  if CONTEXT == 'isstdr':
+    gen_plots_isstdr()
+
+def gen_plots_isstdr():
+  for output,select in [('prevalence','high'),('prevalence','low')]:
+    data = load_data(output,select,tau=[TAU1D])
+    gen_1d_plot(data,output,select,fname_fig('isstdr',output,select,tau=TAU1D))
+
+def gen_plots_paper():
   # incidence and prevalence
   for output in OUTPUTS:
     for select in SELECTORS:
