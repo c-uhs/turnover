@@ -18,7 +18,7 @@ OUTPUTS = ['prevalence','incidence']
 SELECTORS = ['all','high','med','low']
 TAU1D = 0.1
 CA = 3 # HACK
-CONTEXT = 'isstdr' # in ['paper','isstdr']
+CONTEXT = 'paper' # in ['paper','isstdr']
 SAVE = True
 
 # iteration functions
@@ -110,6 +110,7 @@ def run_sims(idx=[]):
   # HACK: run tau = 0.1 results # TODO: whats going on here?
   # tau = 0.1
   # for phi in iter_phi(N):
+  #   print('phi = {:6.3f} | tau = {:6.3f}'.format(phi,tau),flush=True)
   #   sim = get_sim(phi,tau)
   #   run_sim(sim,phi,tau)
 
@@ -156,7 +157,7 @@ def make_1d_pretty(output,select=None):
     'X':          'Proportion of population who are infectious',
     'C':          'Average contact rate of infectious individuals',
     'XC':         'Infectious partnerships proportion',
-    'tip':        'Proportion of new infections from turnover\n',
+    'tip':        'Proportion of new infections from turnover',
   }
   yspec = {
     'high': ' among High-Risk',
@@ -168,7 +169,7 @@ def make_1d_pretty(output,select=None):
   ylabel = ytitle[output]+yspec[select]
   if CONTEXT == 'paper':
     plt.xticks(*ticks(list(iter_phi(N)),5,2))
-    plt.xlabel('High-Risk Turnover $\\delta_H^{-1}$',**kwargs)
+    plt.xlabel('High-Risk Turnover $\\delta_H^{-1}$')
     plt.ylabel(ylabel)
   if CONTEXT == 'isstdr':
     plt.xticks(*ticks([1/phi for phi in iter_phi(N)],5,0))
