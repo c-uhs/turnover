@@ -23,10 +23,9 @@ names = ['S','I','R']
 # names = ['S','infected']
 lights = [0.6,0.0,0.3]
 out = 'X'
-N = 31
 n = 1
 
-def make_plot(sim,select,phi):
+def make_pie(sim,select,phi):
   plt.figure(figsize=(2,2))
   selectors = [
     sim.model.select[name].union(sim.model.select[select])
@@ -43,9 +42,12 @@ def make_plot(sim,select,phi):
   # reorder = lambda x: [x[0],x[1]]
   plt.pie(reorder(SIR), colors=reorder(colors), startangle=90, counterclock=True )
   plt.tight_layout(pad=-1.8)
-  figdir = os.path.join(config.path['figs'],'plots','flows','phi={}'.format(phi))
+  figdir = os.path.join(config.path['figs'],'flows','phi={}'.format(phi))
   utils.makedir(figdir)
-  plt.savefig(os.path.join(figdir,'{}-{}.pdf'.format('flow',select,phi)),transparent=True)
+  if config.save:
+    plt.savefig(os.path.join(figdir,'{}-{}.pdf'.format('flow',select,phi)),transparent=True)
+  else:
+    plt.show()
   plt.close()
   make_legend(labels,colors)
 
@@ -57,33 +59,43 @@ def make_legend(labels,colors):
   # plt.legend(['$\\mathcal{S}$','$\\mathcal{I}$','$\\mathcal{R}$'],loc='center',ncol=3)
   plt.legend(labels,loc='center')
   plt.gca().set_axis_off()
-  plt.savefig(os.path.join(config.path['figs'],'tikz','flows','flows-legend.pdf'))
+  if config.save:
+    plt.savefig(os.path.join(config.path['figs'],'flows','flows-legend.pdf'))
+  else:
+    plt.show()
   plt.close()
 
 def make_tikz(label,phi):
-  tikzdir = os.path.join(config.path['figs'],'tikz','flows');
+  tikzdir = os.path.join(config.path['tikz'],'flows');
   phistr  = 'phi={}'.format(phi)
+  flowdir = os.path.join(config.path['figs'],'flows')
   # What is this 3x escape mess?
   configstr = \
-    '\\\\graphicspath{{../../../../outputs/figs/plots/flows/'+phistr+'/}}'+\
+    '\\\\graphicspath{{'+os.path.join(flowdir,phistr)+'/}}'+\
     '\\\\\\\\newcommand{\\\\\\\\turnover}{'+str(4*np.minimum(1,phi**(1/3)))+'}'
-  os.system('cd {} && echo {} > config.tex && pdflatex -jobname=flows-{} flows.tex >/dev/null'.format(
-    tikzdir, configstr, label ))
+  os.system('cd {} && echo {} > config.tex && pdflatex flows.tex >/dev/null && cp flows.pdf {}/{}'.format(
+    tikzdir, configstr, flowdir, 'flow-{}.pdf'.format(label) ))
 
-phis = list(sensitivity.iter_phi(N))
-for phi,label in zip([phis[n],phis[int((N-1)/2)],phis[N-n-1],10],['low','med','high','extreme']):
-  specs = system.get_specs()
-  model = system.get_model()
-  sim = sensitivity.get_sim(phi,0.1)
-  sim.init_outputs(system.get_outputs(
-    spaces = sim.model.spaces,
-    select = sim.model.select,
-    t = sim.t,
-    names = [out]
-  ))
-  if label == 'extreme':
-    sim.update_params(dict(ibeta=0.038))
-  sim.solve()
-  for name in ['high','low']:
-    make_plot(sim,name,phi)
-  make_tikz(label,phi)
+def make_figs():
+  phis = list(sensitivity.iter_phi())
+  for label,phi in [
+      ('low',    phis[n]),
+      ('med',    phis[int((config.N-1)/2)]),
+      ('high',   phis[config.N-n-1]),
+      ('extreme',10),
+    ]:
+    specs = system.get_specs()
+    model = system.get_model()
+    sim = sensitivity.get_sim(phi,0.1)
+    sim.init_outputs(system.get_outputs(
+      spaces = sim.model.spaces,
+      select = sim.model.select,
+      t = sim.t,
+      names = [out]
+    ))
+    if label == 'extreme':
+      sim.update_params(dict(ibeta=0.038))
+    sim.solve()
+    for name in ['high','low']:
+      make_pie(sim,name,phi)
+    make_tikz(label,phi)

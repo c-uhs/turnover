@@ -14,17 +14,11 @@ import modelutils
 import system
 import calibration
 
-CONTEXT = 'paper' # in ['paper','isstdr']
-SAVE = True
-
 def fname_fig(compare,output,selector,**params):
-  if CONTEXT == 'paper':
-    path = [config.path['figs'],'plots','compare']
-  if CONTEXT == 'isstdr':
-    path = [config.path['root'],'docs','conferences','isstdr-2019','slides','figs']
+  path = [config.path['figs'],'compare']
   return os.path.join(*path,
     '-'.join(
-      [compare,output,selector]+
+      [config.model,compare,output,selector]+
       ['{}={}'.format(name,value) for name,value in params.items()])+'.pdf'
   )
 
@@ -61,7 +55,7 @@ def txtsave(sims,output):
   def vfun(sim,output,selector):
     return modelutils.taccum(sim.outputs[output],**sim.model.select[selector]).islice(t=sim.t[-1])
   def fname(name,output,selector):
-    return os.path.join(config.path['data'],'fit','-'.join([shortname(name),output,selector])+'.txt')
+    return os.path.join(config.path['data'],'values','-'.join([shortname(name),output,selector])+'.txt')
   fmts = {
     'prevalence': lambda x: '{:.0f}\%'.format(100*float(x)),
     'C':          lambda x: '{:.1f}'.format(float(x)),
@@ -76,7 +70,7 @@ def plot_iter(sims,output,selector):
   legend = []
   colors = [[0.8,0.0,0.0],[1.0,0.6,0.6],[0.8,0.0,0.0],[1.0,0.6,0.6]]
   linestyles = ['-','-','--','--']
-  ylim = {'paper': None, 'isstdr': [0.5, 1.0]}[CONTEXT]
+  ylim = {'paper': None, 'isstdr': [0.5, 1.0]}[config.context]
   for (name,sim),color,ls in zip(sims.items(),colors,linestyles):
     legend.append(name)
     select = sim.model.select[selector]
@@ -90,9 +84,9 @@ def plot_iter(sims,output,selector):
       linestyle = ls,
       ylim = ylim,
     )
-  if CONTEXT == 'paper':
+  if config.context == 'paper':
     plt.legend(legend)
-  if CONTEXT == 'isstdr':
+  if config.context == 'isstdr':
     plt.legend(['Turnover','No Turnover'], loc='lower right')
     plt.xlabel(plt.gca().get_xlabel(),fontsize='x-large')
     plt.ylabel('\n'.join(wrap(plt.gca().get_ylabel(),13,break_on_hyphens=False)),
@@ -112,29 +106,29 @@ def run_sim(sim,outputs=None):
   ))
   return sim.solve()
 
-def exp_run_plot(compare,sims,outputs,selectors,save=False,txt=False,**params):
+def exp_run_plot(compare,sims,outputs,selectors,txt=False,**params):
   for sim in sims.values():
     for name,value in params.items():
       if name in sim.model.params:
         sim.model.params[name].update(value)
     sim.update_params(sim.model.params)
     run_sim(sim,outputs)
-  figsize = {'paper': (4,3), 'isstdr': (4.5,3)}[CONTEXT]
-  axespos = {'paper': [0.16,0.14,0.82,0.84], 'isstdr':[0.33,0.16,0.65,0.82]}[CONTEXT]
+  figsize = {'paper': (4,3), 'isstdr': (4.5,3)}[config.context]
+  axespos = {'paper': [0.16,0.14,0.82,0.84], 'isstdr':[0.33,0.16,0.65,0.82]}[config.context]
   for output in outputs:
     for selector in selectors:
       plt.figure(figsize=figsize)
       plot_iter(sims,output,selector)
       plt.gca().set_position(axespos)
-      if save and SAVE:
+      if config.save:
         plt.savefig(fname_fig(compare,output,selector,**params))
         plt.close()
       else:
         plt.show()
-    if txt and save and SAVE:
+    if txt and config.save:
       txtsave(sims,output)
 
-def run_fit(save=False):
+def run_fit():
   t = system.get_t(tmax=500)
   sims = odict([
     ('Full (Turnover)',  get_sim('full',t=t)),
@@ -161,10 +155,10 @@ def run_fit(save=False):
       verbose = True,
     )
     calsim.optimize(ftol=1e-3)
-    if save and SAVE:
+    if config.save:
       utils.savejson(fname_fit(name),calsim.fitted_params().todict())
 
-def exp_hetero(save=False):
+def exp_hetero():
   sims = odict([
     ('Full (Risk Heterogeneity)',  get_sim('full')),
     ('V1 (No Risk Heterogeneity)', get_sim('no-hetero')),
@@ -173,10 +167,9 @@ def exp_hetero(save=False):
     sims      = sims,
     outputs   = ['prevalence','incidence'],
     selectors = ['all'],
-    save      = save,
   )
 
-def exp_growth(save=False):
+def exp_growth():
   sims = odict([
     ('Full (Population Growth)',  get_sim('full')),
     ('V2 (No Population Growth)', get_sim('no-growth')),
@@ -185,26 +178,24 @@ def exp_growth(save=False):
     sims      = sims,
     outputs   = ['prevalence','incidence'],
     selectors = ['all','high','low'],
-    save      = save,
   )
 
-def exp_turnover(save=False):
+def exp_turnover():
   sims = odict([
-  ('Full (Turnover)',  get_sim('full')),
-  ('V3 (No Turnover)', get_sim('no-turnover')),
-])
+    ('Full (Turnover)',  get_sim('full')),
+    ('V3 (No Turnover)', get_sim('no-turnover')),
+  ])
   for tau in [0.1, 0.2]:
     exp_run_plot('turnover',
       sims      = sims,
       outputs   = ['prevalence','incidence'],
       selectors = ['all','high','med','low'],
-      save      = save,
       tau       = tau,
       # infect    = [[0.5/3],[2.0/3],[7.5/3]], # TEMP
     )
 
-def exp_tpaf(save=False):
-  tmax = {'paper': 100, 'isstdr': 30}[CONTEXT]
+def exp_tpaf():
+  tmax = {'paper': 100, 'isstdr': 30}[config.context]
   t = system.get_t(tmax=tmax)
   for case in ['raw','fit','both']:
     print(case,flush=True)
@@ -224,7 +215,6 @@ def exp_tpaf(save=False):
       sims      = sims,
       outputs   = ['tpaf-high'],
       selectors = ['all'],
-      save      = save,
       vs        = case,
     )
   # equilibrium prevalence plot
@@ -237,6 +227,5 @@ def exp_tpaf(save=False):
     sims      = sims,
     outputs   = ['prevalence','C'],
     selectors = ['low','high'],
-    save      = save,
     txt       = True,
   )

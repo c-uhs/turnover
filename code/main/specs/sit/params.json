@@ -1,0 +1,17 @@
+[
+  { "name": "tau",
+    "desc": "rate of treatment",
+    "arr": { "idxs": [],
+             "arr": 0.1 }
+  },
+  { "name": "gamma",
+    "desc": "rate of loss of immunity",
+    "arr": { "idxs": [],
+             "arr": 0.0 }
+  },
+  { "name": "ibeta",
+    "desc": "probability of transmission per partnership (I -> S)",
+    "arr": { "idxs": [],
+             "arr":  0.03 } 
+  }
+]

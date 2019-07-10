@@ -13,29 +13,26 @@ import elements
 import system
 import utils
 
-N = 31
 OUTPUTS = ['prevalence','incidence']
 SELECTORS = ['all','high','med','low']
 TAU1D = 0.1
 CA = 3 # HACK
-CONTEXT = 'paper' # in ['paper','isstdr']
-SAVE = True
 
 # iteration functions
 
-def iter_phi(N,plims=None):
+def iter_phi(plims=None):
   plims = plims if plims is not None else [1/3,0.03]
-  for phi in 1/np.logspace(*np.log10(1/np.array(plims)),N)[::-1]:
+  for phi in 1/np.logspace(*np.log10(1/np.array(plims)),config.N)[::-1]:
     yield np.around(phi,3)
 
-def iter_tau(N,tlims=None):
+def iter_tau(tlims=None):
   tlims = tlims if tlims is not None else [0.05,1]
-  for tau in 1/np.linspace(*1/np.array(tlims),N)[::-1]:
+  for tau in 1/np.linspace(*1/np.array(tlims),config.N)[::-1]:
     yield np.around(tau,3)
 
-def iter_both(N,plims=None,tlims=None):
-  for it,tau in enumerate(iter_tau(N,tlims)):
-    for ip,phi in enumerate(iter_phi(N,plims)):
+def iter_both(plims=None,tlims=None):
+  for it,tau in enumerate(iter_tau(tlims)):
+    for ip,phi in enumerate(iter_phi(plims)):
       yield ip,it,phi,tau
 
 def iter_selectors(sim):
@@ -65,7 +62,7 @@ def fname_array(*args,**kwargs):
     fname_fun(*args,**kwargs)+'.csv')
 
 def fname_fig(*args,**kwargs):
-  return os.path.join(config.path['figs'],'plots','sensitivity',
+  return os.path.join(config.path['figs'],'sensitivity',
     fname_fun(*args,**kwargs)+'.pdf')
 
 # utils
@@ -100,21 +97,18 @@ def get_sim(phi,tau,tmax=200):
 
 # run sims and save the equilibrium outputs
 
-def run_sims(idx=[]):
-  idx = [int(i) for i in idx]
-  for ip,it,phi,tau in iter_both(N):
-    if it in idx:
-      print('phi = {:6.3f} | tau = {:6.3f}'.format(phi,tau),flush=True)
-      sim = get_sim(phi,tau)
-      run_sim(sim,phi,tau)
-  # HACK: run tau = 0.1 results # TODO: whats going on here?
-  # tau = 0.1
-  # for phi in iter_phi(N):
-  #   print('phi = {:6.3f} | tau = {:6.3f}'.format(phi,tau),flush=True)
-  #   sim = get_sim(phi,tau)
-  #   run_sim(sim,phi,tau)
+def run_sims(idx=-1):
+  if int(idx) == -1:
+    for phi in iter_phi():
+      run_sim(phi=phi,tau=TAU1D)
+  else:
+    for ip,it,phi,tau in iter_both():
+      if it == int(idx):
+        run_sim(phi=phi,tau=tau)
 
-def run_sim(sim,phi,tau):
+def run_sim(phi,tau):
+  print('phi = {:6.3f} | tau = {:6.3f}'.format(phi,tau),flush=True)
+  sim = get_sim(phi,tau)
   sim.solve()
   tmax = sim.t[-1]
   for output in OUTPUTS:
@@ -133,14 +127,14 @@ def save_element(output,select,tmax,phi,tau):
 # make surface plots of the result
 
 def load_element(output,select,phi,tau,norm):
-  phin = list(iter_phi(N))[0]
+  phin = list(iter_phi())[0]
   x = np.float(utils.loadtxt(fname_element(output,select,phi=phi,tau=tau)))
   n = np.float(utils.loadtxt(fname_element(output,select,phi=phin,tau=tau))) if norm else 1
   return (x / n) if x > 1e-5 else 0
 
 def load_data(output,select,norm=False,phi=None,tau=None):
-  phi = phi if phi is not None else list(iter_phi(N))
-  tau = tau if tau is not None else list(iter_tau(N))
+  phi = phi if phi is not None else list(iter_phi())
+  tau = tau if tau is not None else list(iter_tau())
   dname = fname_array(output,select,norm=norm)
   if True: # not os.path.exists(dname): # TODO: whats going on here?
     array = [[ load_element(output,select,p,t,norm) for p in phi] for t in tau]
@@ -167,12 +161,12 @@ def make_1d_pretty(output,select=None):
     None: '',
   }
   ylabel = ytitle[output]+yspec[select]
-  if CONTEXT == 'paper':
-    plt.xticks(*ticks(list(iter_phi(N)),5,2))
+  if config.context == 'paper':
+    plt.xticks(*ticks(list(iter_phi()),5,2))
     plt.xlabel('High-Risk Turnover $\\delta_H^{-1}$')
     plt.ylabel(ylabel)
-  if CONTEXT == 'isstdr':
-    plt.xticks(*ticks([1/phi for phi in iter_phi(N)],5,0))
+  if config.context == 'isstdr':
+    plt.xticks(*ticks([1/phi for phi in iter_phi()],5,0))
     plt.xlabel('Duration in High-Risk Group',
       fontsize='x-large',
       labelpad=5,
@@ -197,26 +191,16 @@ def draw_regions(xp,yp,labels):
   plt.xlim(xl)
   plt.ylim(yl)
 
-def draw_extrap(y,ne):
-  x  = np.arange(0,ne,1)
-  xe = np.arange(0, N,1)
-  ye = interpolate.interp1d(x,y[0,0:ne],kind='slinear',bounds_error=False,fill_value='extrapolate')(xe)
-  plt.plot(xe,ye,c=[0.8,0.2,0.0],linestyle='--')
-
-def make_1d(data,output,select,regions=False,extrap=False):
+def make_1d(data,output,select,regions=False):
   def get_peaks(data,interp):
-    x  = np.arange(0,N,1)
-    xi = np.arange(0,N,interp)
+    x  = np.arange(0,config.N,1)
+    xi = np.arange(0,config.N,interp)
     fi = lambda y: interpolate.interp1d(x,y,kind='cubic',bounds_error=False)(xi)
     xp = [np.nanargmax(fi(y))*interp for y in data]
     yp = [np.nanmax(fi(y)) for y in data]
     return xp,yp
   plt.gca().set_prop_cycle('color',plt.cm.Blues_r(np.linspace(0.1,0.9,data.shape[0])))
-  if extrap:
-    draw_extrap(data,extrap)
-  plt.plot(range(0,N),data.transpose())
-  if extrap:
-    plt.legend(['Initial Trend','Observed'])
+  plt.plot(range(0,config.N),data.transpose())
   if regions:
     xp,yp = get_peaks(data,0.01)
     if np.any(xp):
@@ -227,8 +211,8 @@ def make_surface(data,labels=None):
   cmap = plt.get_cmap('inferno')
   plt.imshow(data,cmap=cmap,interpolation='none')
   plt.colorbar()
-  plt.yticks(*ticks(list(iter_tau(N)),5,2))
-  plt.xticks(*ticks(list(iter_phi(N)),5,2))
+  plt.yticks(*ticks(list(iter_tau()),5,2))
+  plt.xticks(*ticks(list(iter_phi()),5,2))
   if labels in [None,'long']:
     plt.ylabel('Rate of Treatment $\\tau$')
     plt.xlabel('High-Risk Turnover $\\delta_H^{-1}$')
@@ -241,31 +225,31 @@ def gen_2d_plot(data,save=None):
   plt.figure(figsize=(4,3))
   make_surface(data)
   plt.tight_layout(pad=0.2)
-  plt.text(N-1,1,'$R_0 < 1$',fontsize=14,color='w',va='top',ha='right')
-  if save and SAVE:
+  plt.text(config.N-1,1,'$R_0 < 1$',fontsize=14,color='w',va='top',ha='right')
+  if save and config.save:
     plt.savefig(save)
   else:
     plt.show()
   plt.close()
 
-def gen_1d_plot(data,output,select,save=None,regions=False,extrap=False,legend=None):
-  figsize = {'paper': (4,3),                 'isstdr':(4.5,3)}[CONTEXT]
-  axespos = {'paper': [0.16,0.14,0.82,0.84], 'isstdr':[0.3,0.16,0.68,0.82]}[CONTEXT]
+def gen_1d_plot(data,output,select,save=None,regions=False,legend=None):
+  figsize = {'paper': (4,3),                 'isstdr':(4.5,3)}[config.context]
+  axespos = {'paper': [0.16,0.14,0.82,0.84], 'isstdr':[0.3,0.16,0.68,0.82]}[config.context]
   plt.figure(figsize=figsize)
-  make_1d(data,output,select,regions=regions,extrap=extrap)
+  make_1d(data,output,select,regions=regions)
   plt.gca().set_position(axespos)
   if legend:
     plt.legend(legend)
-  if save and SAVE:
+  if save and config.save:
     plt.savefig(save)
   else:
     plt.show()
   plt.close()
 
-def gen_plots():
-  if CONTEXT == 'paper':
+def gen_plots(save=False):
+  if config.context == 'paper':
     gen_plots_paper()
-  if CONTEXT == 'isstdr':
+  if config.context == 'isstdr':
     gen_plots_isstdr()
 
 def gen_plots_isstdr():
@@ -279,7 +263,6 @@ def gen_plots_paper():
     for select in SELECTORS:
       data = load_data(output,select,tau=[TAU1D])
       gen_1d_plot(data,output,select,fname_fig('1d',output,select,tau=TAU1D),regions=True)
-      # gen_1d_plot(data,output,select,fname_fig('1d',output,select,tau=TAU1D,extrap=True),extrap=14)
       for norm in [False,True]:
         gen_2d_plot(load_data(output,select,norm),fname_fig('surface',output,select,norm=norm))
   # incidence factors

@@ -38,16 +38,6 @@
     "arr": { "idxs": ["ii","ip"],
              "arr": null }
   },
-  { "name": "tau",
-    "desc": "rate of treatment",
-    "arr": { "idxs": [],
-             "arr": 0.1 }
-  },
-  { "name": "gamma",
-    "desc": "rate of loss of immunity",
-    "arr": { "idxs": [],
-             "arr": 0.0 }
-  },
   { "name": "infect",
     "desc": "number of infected individuals at the simulation start",
     "accum": "sum",
@@ -64,13 +54,6 @@
             "max":  [ 250   , 5 ,  10   ]
     },
     "fitted":       [   1   , 0 ,   1   ]
-  },
-  { "name": "ibeta",
-    "desc": "probability of transmission per partnership (I -> S)",
-    "arr": {
-      "idxs": [],
-      "arr":  0.03
-    } 
   },
   { "name": "beta",
     "desc": "probability of transmission per partnership",

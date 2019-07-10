@@ -134,8 +134,14 @@ def get_specs():
   specdir = os.path.join(config.path['root'],'code','main','specs')
   dims   = initutils.objs_from_json(Dimension,            os.path.join(specdir,'dimensions.json'))
   spaces = initutils.objs_from_json(initutils.make_space, os.path.join(specdir,'spaces.json'),dims=dims.values())
-  params = initutils.objs_from_json(initutils.make_param, os.path.join(specdir,'params.json'),space=spaces['super'])
-  select = initutils.objs_from_json(Selector,             os.path.join(specdir,'selectors.json'))
+  select = initutils.objs_from_json(Selector, [
+      os.path.join(specdir,'selectors.json'),
+      os.path.join(specdir,config.model,'selectors.json'),
+    ])
+  params = initutils.objs_from_json(initutils.make_param, [
+      os.path.join(specdir,'params.json'),
+      os.path.join(specdir,config.model,'params.json'),
+    ], space=spaces['super'])
   return {
     'dims':   dims,
     'spaces': spaces,
