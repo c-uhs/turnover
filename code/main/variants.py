@@ -12,8 +12,9 @@ from copy import deepcopy
 import utils
 import modelutils
 import system
+import calibration
 
-CONTEXT = 'isstdr' # in ['paper','isstdr']
+CONTEXT = 'paper' # in ['paper','isstdr']
 SAVE = True
 
 def fname_fig(compare,output,selector,**params):
@@ -27,11 +28,13 @@ def fname_fig(compare,output,selector,**params):
       ['{}={}'.format(name,value) for name,value in params.items()])+'.pdf'
   )
 
+def fname_fit(name):
+  return os.path.join(config.path['data'],'fit',shortname(name)+'.json')
+
 def load_fit(name,sim):
   sim = deepcopy(sim)
   model = sim.model
-  fname = os.path.join(config.path['data'],'fit',shortname(name)+'.json')
-  model.params.fromdict(utils.loadjson(fname))
+  model.params.fromdict(utils.loadjson(fname_fit(name)))
   sim.init_model(model)
   sim.init_params()
   return sim
@@ -54,12 +57,22 @@ def shortname(name):
   short = name.split(' ')[0]
   return short if 'fit' not in name else short+'-fit'
 
-def txtsave(name,sim,output,selector,txt):
-  fname = os.path.join(config.path['data'],'fit','-'.join([name,output,selector])+'.txt')
-  value = modelutils.taccum(sim.outputs[output],**sim.model.select[selector]).islice(t=sim.t[-1])
-  utils.savetxt(fname,txt(value) if callable(txt) else str(value))
+def txtsave(sims,output):
+  def vfun(sim,output,selector):
+    return modelutils.taccum(sim.outputs[output],**sim.model.select[selector]).islice(t=sim.t[-1])
+  def fname(name,output,selector):
+    return os.path.join(config.path['data'],'fit','-'.join([shortname(name),output,selector])+'.txt')
+  fmts = {
+    'prevalence': lambda x: '{:.0f}\%'.format(100*float(x)),
+    'C':          lambda x: '{:.1f}'.format(float(x)),
+    'ratio':      lambda x: '{:.1f}'.format(float(x)),
+  }
+  for name,sim in sims.items():
+    utils.savetxt(fname(name,output,'high'),  fmts[output] (vfun(sim,output,'high')))
+    utils.savetxt(fname(name,output,'low'),   fmts[output] (vfun(sim,output,'low')))
+    utils.savetxt(fname(name,output,'ratio'), fmts['ratio'](vfun(sim,output,'high') / vfun(sim,output,'low')))
 
-def plot_iter(sims,output,selector,txt=False):
+def plot_iter(sims,output,selector):
   legend = []
   colors = [[0.8,0.0,0.0],[1.0,0.6,0.6],[0.8,0.0,0.0],[1.0,0.6,0.6]]
   linestyles = ['-','-','--','--']
@@ -77,8 +90,6 @@ def plot_iter(sims,output,selector,txt=False):
       linestyle = ls,
       ylim = ylim,
     )
-    if txt:
-      txtsave(shortname(name),sim,output,selector,txt)
   if CONTEXT == 'paper':
     plt.legend(legend)
   if CONTEXT == 'isstdr':
@@ -113,13 +124,45 @@ def exp_run_plot(compare,sims,outputs,selectors,save=False,txt=False,**params):
   for output in outputs:
     for selector in selectors:
       plt.figure(figsize=figsize)
-      plot_iter(sims,output,selector,txt=txt)
+      plot_iter(sims,output,selector)
       plt.gca().set_position(axespos)
       if save and SAVE:
         plt.savefig(fname_fig(compare,output,selector,**params))
         plt.close()
       else:
         plt.show()
+    if txt and save and SAVE:
+      txtsave(sims,output)
+
+def run_fit(save=False):
+  t = system.get_t(tmax=500)
+  sims = odict([
+    ('Full (Turnover)',  get_sim('full',t=t)),
+    ('V3 (No Turnover)', get_sim('no-turnover',t=t)),
+  ])
+  for name,sim in sims.items():
+    sim.init_outputs(system.get_outputs(
+      spaces = sim.model.spaces,
+      select = sim.model.select,
+      t = sim.t,
+      names = ['prevalence'])
+    )
+    sim.solve()
+    targets = system.get_targets(
+      sim.model.spaces,
+      sim.model.select,
+      sim.outputs,
+      t = sim.t,
+    )
+    calsim = calibration.CalibrationSim(
+      name,
+      sim = sim,
+      targets = targets,
+      verbose = True,
+    )
+    calsim.optimize(ftol=1e-3)
+    if save and SAVE:
+      utils.savejson(fname_fit(name),calsim.fitted_params().todict())
 
 def exp_hetero(save=False):
   sims = odict([
@@ -185,15 +228,15 @@ def exp_tpaf(save=False):
       vs        = case,
     )
   # equilibrium prevalence plot
-  # names = list(sims.keys())
-  # for name in names:
-  #   sim_eq = sims[name].model.equilibriate(tmax=500,tol=1e-6)
-  #   sims[name]._model.X0 = sim_eq.X.islice(t=sim_eq.teq)
-  #   sims[name].model.params['infect'].update(0)
-  # exp_run_plot('tpaf',
-  #   sims      = sims,
-  #   outputs   = ['prevalence'],
-  #   selectors = ['low','high'],
-  #   save      = save,
-  #   txt       = lambda x: '{:.0f}\%'.format(100*float(x)),
-  # )
+  names = list(sims.keys())
+  for name in names:
+    sim_eq = sims[name].model.equilibriate(tmax=500,tol=1e-6)
+    sims[name]._model.X0 = sim_eq.X.islice(t=sim_eq.teq)
+    sims[name].model.params['infect'].update(0)
+  exp_run_plot('tpaf',
+    sims      = sims,
+    outputs   = ['prevalence','C'],
+    selectors = ['low','high'],
+    save      = save,
+    txt       = True,
+  )

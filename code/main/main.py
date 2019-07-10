@@ -9,6 +9,8 @@ if todo == 'compare-hetero':
   variants.exp_hetero(save=True)
 if todo == 'compare-turnover':
   variants.exp_turnover(save=True)
+if todo == 'fit':
+  variants.run_fit(save=True)
 if todo == 'compare-tpaf':
   variants.exp_tpaf(save=True)
 if todo == 'sensitivity-run':

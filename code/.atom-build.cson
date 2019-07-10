@@ -9,6 +9,9 @@
     "compare-turnover": {
       "cmd": "python3 main/main.py compare-turnover prevalence incidence"
     }
+    "compare-tpaf": {
+      "cmd": "python3 main/main.py compare-tpaf"
+    }
     "sensitivity-plot": {
       "cmd": "python3 main/main.py sensitivity-plot"
     }
@@ -16,10 +19,7 @@
       "cmd": "python3 main/flows.py"
     }
     "fit": {
-      "cmd": "python3 main/main.py batch fit"
-    }
-    "compare-tpaf": {
-      "cmd": "python3 main/main.py compare-tpaf"
+      "cmd": "python3 main/main.py fit"
     }
   }
 }
