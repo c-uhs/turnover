@@ -24,6 +24,10 @@ def dxfun(X,t,P,dxout={}):
     rho = XC / XC.isum(['ip'])
     rho[np.isnan(rho)] = 1
     rho = rho.expand(beta.space.subspace(['hp'],keep=False))
+    # < TEMP >: assortative
+    # eps = 0.5
+    # rho = rho * (eps) + np.eye(3) * (1-eps) 
+    # </ TEMP >
     if dxout: # TODO: this should be a decorator
       lvars = locals()
       for v in dxout:
@@ -59,6 +63,10 @@ def dxfun(X,t,P,dxout={}):
   loss = X.iselect(hi=['R']) * P['gamma']
   dXi.update(loss, hi=['S'], accum=np.add)
   dXo.update(loss, hi=['R'], accum=np.add)
+  # < TEMP >: mortality
+  # mort = X.iselect(hi=['I','R']) * 0.1
+  # dXo.update(mort, hi=['I','R'], accum=np.add)
+  # </ TEMP >
   # dxout
   if dxout: # TODO: this should be a decorator
     lvars = locals()

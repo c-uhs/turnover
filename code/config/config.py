@@ -10,6 +10,8 @@ N       = 31
 path = {
   'root': root,
   'epi-model': os.path.join(root,'code','epi-model','src'),
+  # 'figs':      os.path.join(root,'outputs',context,'explore',model+'-x','figs'), # < TEMP >
+  # 'data':      os.path.join(root,'outputs',context,'explore',model+'-x','data'), # < TEMP >
   'figs':      os.path.join(root,'outputs',context,model,'figs'),
   'data':      os.path.join(root,'outputs',context,model,'data'),
   'tikz':      os.path.join(root,'outputs','tikz'),
