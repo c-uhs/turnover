@@ -154,9 +154,11 @@ def run_fit():
       targets = targets,
       verbose = True,
     )
-    calsim.optimize(ftol=1e-3)
+    calsim.optimize(ftol=1e-3,plot='tmp.png')
     if config.save:
       utils.savejson(fname_fit(name),calsim.fitted_params().todict())
+    else:
+      print(dict(calsim.fitted_params().todict()))
 
 def exp_hetero():
   sims = odict([
@@ -195,7 +197,7 @@ def exp_turnover():
     )
 
 def exp_tpaf():
-  tmax = {'paper': 100, 'isstdr': 30}[config.context]
+  tmax = {'paper': 50, 'isstdr': 30}[config.context]
   t = system.get_t(tmax=tmax)
   for case in ['raw','fit','both']:
     print(case,flush=True)

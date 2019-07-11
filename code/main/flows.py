@@ -74,7 +74,7 @@ def make_tikz(label,phi):
     '\\\\graphicspath{{'+os.path.join(flowdir,phistr)+'/}}'+\
     '\\\\\\\\newcommand{\\\\\\\\turnover}{'+str(4*np.minimum(1,phi**(1/3)))+'}'
   os.system('cd {} && echo {} > config.tex && pdflatex flows.tex >/dev/null && cp flows.pdf {}/{}'.format(
-    tikzdir, configstr, flowdir, 'flow-{}.pdf'.format(label) ))
+    tikzdir, configstr, flowdir, 'flows-{}.pdf'.format(label) ))
 
 def make_figs():
   phis = list(sensitivity.iter_phi())
