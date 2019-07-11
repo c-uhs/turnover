@@ -2,11 +2,17 @@ import os
 
 root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+save    = True
+model   = 'sit'
+context = 'paper'
+N       = 31
+
 path = {
   'root': root,
   'epi-model': os.path.join(root,'code','epi-model','src'),
-  'figs':      os.path.join(root,'outputs','figs'),
-  'data':      os.path.join(root,'outputs','data'),
+  'figs':      os.path.join(root,'outputs',context,model,'figs'),
+  'data':      os.path.join(root,'outputs',context,model,'data'),
+  'tikz':      os.path.join(root,'outputs','tikz'),
   'specs':     os.path.join(root,'code','main','specs'),
   'model':     os.path.join(root,'code','main'),
 }
