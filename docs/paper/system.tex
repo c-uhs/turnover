@@ -1,28 +1,37 @@
-This section introduces a system of risk groups, flows between them, and equations
-which can be used to describe risk group dynamics
-in deterministic compartmental epidemic models.
+% Be more explicit about outlining what this section will do/show and guide the reader so they know what to expect.
+In this section, we introduce a unified system of equations 
+to describe risk group dynamics %make sure 'risk group dynamics' is clearly defined in the introduction
+in deterministic epidemic models with heterogeneity in risk.
+We then describe how the unified approach can be used in practical terms based on 
+different assumptions and different data available for parameterizing risk group dynamics or turnover in risk. % use one or the other terminology as much as possible
+We conclude by framing our approach in the context of approaches used in previous models of HIV/STI transmission. % if STI transmission models included in the prior literature part
 % ==================================================================================================
 \subsection{Notation}
 Consider a population divided into $G$ risk groups.
 The number of individuals in risk group $i \in [1, \dots, G]$ is denoted as $x_i$
 and the set of all risk groups is denoted as $\bm{x} = \{x_1, \dots, x_G\}$.
 The total population size is $N = \sum_i {x_i}$,%
-\footnote{Here, as in many models, ``total population'' actually represents
+\footnote{Here, as in many models, ``total population'' actually represents  %suggest removing this footnote. Not relevant here and distracts from discussion of subsets in the context of the modeled population subgroups
   a subset of the population with a consistent duration in the model --
   e.g. an age-constrained range.}
-and the proportion of the total population that each group represents
+  
+and the relative population size of each group 
 is denoted as $\hat{x}_i = x_i / N$.
-Individuals enter the model at a rate $\nu$ per year,
-and exit at a rate $\mu$ per year.
-However, the proportion of individuals entering into group $i$ from outside the model
+Individuals enter the modeled system at a rate $\nu$ per year,  %in the system section, suggest calling it a 'system' or 'modeled system' rather than the model since the model in the later section refers to the SIR system?  The term 'exogenous' can refer to entering from outside; vs. endogenous entry which refers to turnover. As you know I do not like new terms but we may need these two terms which are commonly used in science - as long as we define them.
+
+and exit at a rate $\mu$ per year. We refer to this as exogenous entry/exit as it refers to how individuals enter and leave the modeled population.
+The proportion of all individuals who exogenously enter group $i$ 
 may be different from
-the proportion of individuals currently in group $i$ in the model ($\hat{x}_i$).
-Therefore, we distinguish these proportions
+the proportion of individuals currently in group $i$ in the model ($\hat{x}_i$). % say why they may be different? currently reads as though the reader will already know why
+
+Therefore, we distinguish these proportions %suggest avoiding saying 'these' and best to repeat what you mean by 'these proportions' - e.g. we distinguish between the proportion who enter and the proportion currently in group $i$, and denote the former as ...
 and denote the proportion entering into group $i$ as $\hat{e}_i$.
-For example, a higher proportion of youth (model entrants, $\hat{e}_i$)
+For example, a higher proportion of youth (model entrants, $\hat{e}_i$)    %i could not follow this sentence - needs to be rephrased for clarity
 may engage in high-risk sexual behaviour,
 as compared to the population overall ($\hat{x}_i$).
-It will later be shown how rates of turnover can maintain such a system at equilibrium.
+In section XXX we demonstrate 
+how rates of turnover can maintain such a system at equilibrium.  % (1) where will it be shown? if saying later or 'above', etc. -- give a bookmark to guide the reader. (2) Why do we need to keep the system at equilibrium? The concept of maintaining the system at equilibrium has not been introduced in intro I think...; (3) also ensure that the term 'turnover' has already been introduced and defined earlier.
+
 %The number of entrants into group $i$ is therefore given by
 %$\nu N \hat{e}_i$.
 %This assumption then implies then implies the existence of
@@ -32,13 +41,13 @@ It will later be shown how rates of turnover can maintain such a system at equil
 %so that the entry rate $\nu$ can be used in the usual way,
 %as a proportion of $N$.
 \par
-Turnover transitions can occur between any two groups, in either direction;
-therefore the turnover rates are denoted as a $G \times G$ matrix $\phi$.
+Turnover transitions can occur between any two groups and in either direction such %beware overuse of semi-colons
+that turnover rates can be denoted as a $G \times G$ matrix $\phi$.
 The element $\phi_{ij}$ corresponds to the proportion of individuals in group $x_i$
 who move from group $x_i$ to group $x_j$ each year.
 An example matrix is given in Eq.~(\ref{eq:phi}),
 where the diagonal elements are written $*$ since they represent
-transitions from a group to itself, which are inconsequential.
+transitions from a group to itself and thus, are not relevant. % inconsequently suggests they can still occur? 
 \begin{equation}\label{eq:phi}
 \phi = \left[\begin{array}{cccc}
 	         *          & x_1  \rightarrow x_2 & \cdots & x_1 \rightarrow x_G \\[0.5em]
@@ -47,8 +56,8 @@ transitions from a group to itself, which are inconsequential.
 	x_G \rightarrow x_1 & x_G \rightarrow x_2  & \cdots &          *
 \end{array}\right]
 \end{equation}
-These transition flows and the associated rates
-are also shown for $G = 3$ in Figure~\ref{fig:system}.
+These transitions and their associated rates		%transitions and flows say the same thing, so I think ok to use one term
+are shown for $G = 3$ in Figure~\ref{fig:system}.
 \begin{figure}
   \centering
   \includegraphics[width=0.5\linewidth]{turnover-system}
@@ -57,14 +66,14 @@ are also shown for $G = 3$ in Figure~\ref{fig:system}.
 \end{figure}
 % ==================================================================================================
 \subsection{Parameterization}\label{ss:params}
-Next, consider the goal of constructing a system like the one described above,
-which reflects the risk group dynamics observed in a real-world context.
-It will be assumed that the number of risk groups to model is already determined,
-and also that the relative sizes of these groups ($\hat{x}_i$) should remain constant over time.
-Thus, what remains is to estimate the values of the following parameters:
+We now construct a system 
+to reflect the risk group dynamics observed in a real-world context.  %later make sure to do a consistency check for terminology
+% do you mean using real-world data? that might be preferred here instead of real-world context since talking about specific parameters and not 'everything'?
+We begin with the assumption 
+that the number of risk groups included in the model has already been defined,
+and that the relative population sizes of these groups ($\hat{x}_i$) should remain constant over time. %important to discuss re: generalizability in the Discussion section; and esp when highlighting the limitation of use with HIV which has important disease-attributable mortality.
+Thus, the following parameters must be estimated using available data:
 $\nu$, $\mu$, $\bm{\hat{x}}$, $\bm{\hat{e}}$, and $\phi$.
-Methods to do so, which leverage some commonly available sources of data,
-are presented next.
 % --------------------------------------------------------------------------------------------------
 \subsubsection{Total Population Size}\label{sss:params-nu-mu}
 The difference between the entry rate $\nu(t)$ and exit rate $\mu(t)$ for a population,
