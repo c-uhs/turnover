@@ -10,11 +10,11 @@
     frontier/.style = { distance from root = 5.5cm }
   ]
   \Tree
-    [.\node[branch=purple]{Base Model};
+    [.\node[]{\vphantom{1em}};
       [.\node[branch]{Heterogeneity \\ $G=3$};
         [.\node[branch]{Pop.\ Growth \\ $\nu>\mu$};
-          [.\node[branch]{Turnover \\ $\zeta > 0$}; \node[leaf=purple]{B}; ]
-          [.\node[branch]{No Turnover \\ $\zeta = 0$}; \node[leaf]{V3}; ]
+          [.\node[branch]{Turnover \\ $\phi > 0$}; \node[leaf=purple]{F}; ]
+          [.\node[branch]{No Turnover \\ $\phi = 0$}; \node[leaf]{V3}; ]
         ]
         [.\node[branch]{No Pop.\ Growth \\ $\nu=\mu$}; \node[leaf]{V2}; ]
       ]

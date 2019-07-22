@@ -1,24 +1,40 @@
 \input{../config.tex}
-% colors
-\newcommand{\colorx}{gray}
-\newcommand{\colort}{\colorx!50!black}
-% dynamic inputs
 \input{config.tex}
+% colors
+\newcommand{\colorx}{C1}
+\newcommand{\colort}{\colorx}
+\newcommand{\colorw}{\colorx}
 % document
 \begin{document}
-\begin{tikzpicture}
+\begin{tikzpicture}[
+  pie/.style = {
+    anchor=center,
+    shorten <= -1cm,
+  },
+  wisp/.style = {
+    draw = \colorw,
+    fill = \colorw,
+    thick,
+  },
+  tarrow/.style = {
+    wide=\turnover,
+    fill=none,
+    -{Latex[length=4mm]},
+  }
+]
 % nodes ----------------------------------------------------------------------------------------
-\node(x1) [tbox=\colorx] at (0.0,0.0)          {$H$};
-\node(x3) [tbox=\colorx, below = 0.5cm of x1]  {$L$};
-\coordinate (x2) at ($(x1)!0.5!(x3)$);
-\coordinate[left  = 1cm of x2](x2a) ;
-\coordinate[right = 1cm of x2](x2b);
+\node(x1) [pie] at (0,0)           {\includegraphics[width=1.25cm]{flow-high}};
+\node(x3) [pie, below = 0cm of x1] {\includegraphics[width=1.25cm]{flow-low}};
+\node(c13)[draw=\colorw,thick,circle,minimum width=1.25cm] at (x1) {};
+\node(c31)[draw=\colorw,thick,circle,minimum width=1.25cm] at (x3) {};
+\node(l1) [tbox=\colorx!50!white, above right = -0.4cm and 0cm of x1] {High Risk};
+\node(l1) [tbox=\colorx!50!white, below left  = -0.4cm and 0cm of x3] {Low Risk};
 % arrows ---------------------------------------------------------------------------------------
-\draw[arrow=\colort,wide=\turnover,fill=none] (x3) -| (x2a) |- (x1); 
-\draw[arrow=\colort,wide=\turnover,fill=none] (x1) -| (x2b) |- (x3);
-% pies -----------------------------------------------------------------------------------------
-\node(f13) [right = 0cm of x2b] {\includegraphics[width=1.25cm]{flow-high}};
-\node(f31) [left  = 0cm of x2a] {\includegraphics[width=1.25cm]{flow-low}};
+\coordinate (x2) at ($(x1)!0.5!(x3)$);
+\coordinate[left  = 1.5cm of x2](x2a);
+\coordinate[right = 1.5cm of x2](x2b);
+\draw[arrow=\colort,tarrow] (x3) -| (x2a) |- (x1);
+\draw[arrow=\colort,tarrow] (x1) -| (x2b) |- (x3);
 \end{tikzpicture}
 \end{document}
 % eof

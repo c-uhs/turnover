@@ -34,12 +34,12 @@
 \draw[arrow=\coloro] (x2) edge["\arrowlabel{$\mu$}", near end]   (o2);
 \draw[arrow=\coloro] (x3) edge["\arrowlabel{$\mu$}", near end]   (o3);
 % turnover
-\draw[arrow=\colort] (x1) edge["\arrowlabel{$\phi_{12}$}", swap, bend right=20] (x2); 
-\draw[arrow=\colort] (x2) edge["\arrowlabel{$\phi_{21}$}", swap, bend right=20] (x1);
-\draw[arrow=\colort] (x3) edge["\arrowlabel{$\phi_{32}$}", swap, bend right=20] (x2); 
-\draw[arrow=\colort] (x2) edge["\arrowlabel{$\phi_{23}$}", swap, bend right=20] (x3);
-\draw[arrow=\colort] (x1) edge["\arrowlabel{$\phi_{13}$}", swap, bend right=60, near end] (x3); 
-\draw[arrow=\colort] (x3) edge["\arrowlabel{$\phi_{31}$}", swap, bend right=60, near end] (x1);
+\draw[arrow=\colort] (x1) edge["\arrowlabel{$\phi_{12}$}", bend left=20] (x2); 
+\draw[arrow=\colort] (x2) edge["\arrowlabel{$\phi_{21}$}", bend left=20] (x1);
+\draw[arrow=\colort] (x3) edge["\arrowlabel{$\phi_{32}$}", bend left=20] (x2); 
+\draw[arrow=\colort] (x2) edge["\arrowlabel{$\phi_{23}$}", bend left=20] (x3);
+\draw[arrow=\colort] (x1) edge["\arrowlabel{$\phi_{13}$}", bend left=60, near end] (x3); 
+\draw[arrow=\colort] (x3) edge["\arrowlabel{$\phi_{31}$}", bend left=60, near end] (x1);
 \end{tikzpicture}
 \end{document}
 % eof

@@ -1,5 +1,5 @@
 % TODO: what to put here?
-In this section we summarize the results of the experiments described above.
+In this section we summarize the results of the experiments described in Section~\ref{s:exp}.
 % In this section we summarize the results of the experiments examining
 % the influence of risk group dynamics on simulated epidemics.
 % The aim of the experiments was to explore the impact of
@@ -15,20 +15,20 @@ key features of risk group dynamics are presented.
 % --------------------------------------------------------------------------------------------------
 \paragraph{Experiment 1.1: Heterogeneity in Risk}\label{p:res-1-hetero}
 Figure~\ref{fig:compare-hetero-prevalence} shows the modelled prevalence
-with and without heterogeneity in risk (Base~vs~V1).
+with and without heterogeneity in risk (Full~vs~V1).
 As previously noted in discussions of core group theory~\citep{Yorke1978,Stigum1994},
 epidemic dynamics and endemic equilibrium are influenced by the presence of
 heterogeneity in risk within a population.
 For this model and parameters (Table~\ref{tab:params-base}),
 failure to model heterogeneity in risk (V1) results in
 a basic reproduction number $R_0 < 1$, and no epidemic,
-while the model with heterogeneity (Base) predicts a nonzero endemic equilibrium.
-% JK: this result is not always the case,
-% but is it worth dwelling on here, as it is not the focus of the paper?
+while the model with heterogeneity (Full) predicts a nonzero endemic equilibrium.
+%% JK: this result is not always the case,
+%% but is it worth dwelling on here, as it is not the focus of the paper?
 % --------------------------------------------------------------------------------------------------
 \paragraph{Experiment 1.2: Population Growth}\label{p:res-1-growth}
 Figure~\ref{fig:compare-growth-prevalence} shows the modelled prevalence
-with and without population growth (Base~vs~V2).
+with and without population growth (Full~vs~V2).
 Inclusion of population growth in the model
 results in lower equilibrium prevalence.
 This result can be explained following the results of \citet{Hadeler1990},
@@ -41,18 +41,20 @@ relative to a model with constant population size.
 For a simplified version of the model used here,
 the relationship between equilibrium prevalence and model entry rate $\nu$
 is also given in \ref{aa:eqs-growth}.
+%% JK: I'm not confident in this derivation, but again, not the focus of the paper.
+%% can we omit, and simply cite Hadeler1990?
 \begin{figure}
   \centering
   \begin{subfigure}{0.45\linewidth}
     \centering
     \includegraphics[width=\linewidth]{hetero-prevalence-all}
-    \caption{Risk heterogeneity (Base~vs~V1)}
+    \caption{Risk heterogeneity (Full~vs~V1)}
     \label{fig:compare-hetero-prevalence}
   \end{subfigure}
   \begin{subfigure}{0.45\linewidth}
     \centering
     \includegraphics[width=\linewidth]{growth-prevalence-all}
-    \caption{Population growth (Base~vs~V2)}
+    \caption{Population growth (Full~vs~V2)}
     \label{fig:compare-growth-prevalence}
   \end{subfigure}
   \caption{Comparison of model projections
@@ -91,14 +93,14 @@ under different rates of turnover $\phi$ and treatment $\tau$.
     \label{fig:compare-turnover-prevalence-all-tau=0.2}
   \end{subfigure}
   \caption{Comparison of overall projected prevalence with and without risk group turnover
-    (Base~vs~V3 model variants),
+    (Full~vs~V3 model variants),
     under two different treatment rates $\tau$.}
   \label{fig:compare-turnover-prevalence}
 \end{figure}
 % ==================================================================================================
 \subsection{Influence of Turnover}\label{ss:res-turnover}
 This section presents trends in the influence turnover
-on incidence and prevalence, with focus on systems at equilibrium.
+on incidence and prevalence for epidemic systems at equilibrium.
 % --------------------------------------------------------------------------------------------------
 \paragraph{Experiment 2.1: Turnover Magnitude}
 Figure~\ref{fig:1d-prevalence} illustrates trends in equilibrium prevalence versus turnover
@@ -124,7 +126,7 @@ However, at high rates of turnover,
 turnover decreases the prevalence among the lowest risk group and overall
 (Figure~\ref{fig:1d-prevalence-low}~and~\ref{fig:1d-prevalence-all}, region~B),
 This peak and decline is due to the influence of turnover on incidence,
-which has not yet been considered.
+which we have not yet discussed.
 \begin{figure}
   \centering
   \begin{subfigure}{0.45\linewidth}
@@ -169,7 +171,7 @@ which has not yet been considered.
     \includegraphics[width=\linewidth]{flows-legend.pdf}
   \end{subfigure}
   \caption{Illustrative schematic showing average health states of individuals
-    moving between high $H$ and low $L$ risk groups due to different rates of turnover.
+    moving between high and low risk groups due to different rates of turnover.
     Turnover acts to homogenize the distribution of health states across risk groups.}
   \label{fig:flows}
 \end{figure}
@@ -222,7 +224,7 @@ the rates of turnover which maximize incidence
 (Figure~\ref{fig:1d-incidence-all}) are lower than
 the rates of turnover which maximize prevalence
 among the lowest risk group, as well as prevalence overall
-(Figure~\ref{fig:1d-prevalence-low}~and~\ref{fig:1d-prevalence-all})
+(Figure~\ref{fig:1d-prevalence-low}~and~\ref{fig:1d-prevalence-all}).
 That is, incidence ``peaks'' first with respect to turnover.
 This is because, after peak incidence,
 increasing turnover may reduce the total number of infections,
@@ -270,8 +272,8 @@ First, the factors of incidence are considered in Figure~\ref{fig:2d-incidence-f
 Increasing the treatment rate $\tau$ actually increases
 the average contact rate of infectious individuals $\hat{C}_{\mathcal{I}}$
 (Figure~\ref{fig:2d-C-I}).
-This is because increasing treatment concentrates infections in the highest risk group
-[\textit{JK: need to find citation!}],
+This is because increasing treatment concentrates infections in the highest risk group,
+%[\textit{JK: need to find citation!}],
 so that $\hat{C}_{\mathcal{I}}$, on average, increases.
 However, increasing treatment reduces
 the proportion of the population who are infectious $\hat{\mathcal{I}}$
@@ -283,7 +285,7 @@ Thus, incidence declines with treatment
 (Figure~\ref{fig:2d-incidence-all}).
 \par
 Figure~\ref{fig:2d-incidence-all} also shows that
-the rate of turnover which maximizes incidence decreases with increasing treatment.
+the rate of turnover which maximizes incidence decreases with treatment.
 That is, as treatment rates increase,
 turnover is more likely to decrease incidence than it is to increase incidence
 (region B grows).
@@ -299,7 +301,7 @@ In Figure~\ref{fig:2d-C-I},
 this is shown as the larger downward slope of $\hat{C}_{\mathcal{I}}$ versus turnover
 at higher treatment rates (darker blue).
 Therefore, at higher treatment rates,
-turnover is more likely to decrease incidence than increase incidence
+turnover is more likely to decrease incidence
 because movement of infectious individuals from high to low risk
 has a larger impact on the average contact rate of infectious individuals.
 \begin{figure}[h]
@@ -365,7 +367,7 @@ is too low to sustain the epidemic.
 That is, the basic reproductive number $R_0$ declines to less than one,
 and no epidemic is observed.%
 \footnote{In fact, it can be shown that for extreme rates of turnover,
-  a heterogeneous system (e.g. Base model) will converge on
+  a heterogeneous system (e.g. Full model) will converge on
   a homogeneous system (e.g. model V1).
   This result is shown in Figure~\ref{fig:hetero-converge}.}
 \begin{figure}
@@ -405,7 +407,7 @@ Finally, the influence of turnover on fitted models is explored.
 For reference, the pre-calibration equilibrium prevalence predicted
 among the and low high risk groups are shown in Figure~\ref{fig:tpaf-prevalence}.
 The prevalence ratios are
-$\input{\datapath/fit/Base-prevalence-ratio.txt}$ with turnover, and 
+$\input{\datapath/fit/Full-prevalence-ratio.txt}$ with turnover, and 
 $\input{\datapath/fit/V3-prevalence-ratio.txt}$ without.
 % --------------------------------------------------------------------------------------------------
 \paragraph{Experiment 3.1: Inferred Risk Heterogeneity}
@@ -414,7 +416,7 @@ both models predict an equilibrium prevalence 25\% and 5\%, as desired.
 However, the fitted contact rates required to yield these outputs
 are different with and without turnover (Table~\ref{tab:fitting});
 the ratio of $C_H~/~C_L$ with turnover
-($\input{\datapath/fit/Base-fit-C-ratio.txt}$)
+($\input{\datapath/fit/Full-fit-C-ratio.txt}$)
 is much higher than the ratio without turnover
 ($\input{\datapath/fit/V3-fit-C-ratio.txt}$).
 Thus, for the model and conditions explored here,
@@ -428,7 +430,7 @@ greater heterogeneity in risk, as compared to a system without turnover.
   \centering
   \caption{Equilibrium contact rates $C$ and prevalence $P$
     among the high $H$ and low $L$ risk groups
-    predicted by the Base model (turnover) and V3 (no~turnover)
+    predicted by the Full model (turnover) and V3 (no~turnover)
     before and after model fitting.}
   \label{tab:fitting}
   \input{floats/tab-fitting.tex}
@@ -449,6 +451,9 @@ than the model with turnover.
 This can be attributed to the larger equilibrium prevalence ratio before model fitting
 (Table~\ref{tab:fitting}, Figure~\ref{fig:tpaf-prevalence}),
 which results in more onward transmission from the high prevalence high risk group.
+In other words, the importance of reaching the high risk group
+in a context without turnover is higher than in a context with turnover.
+\par
 However, after fitting contact rates $C_H$~and~$C_L$ to
 high and low risk prevalence targets as described above,
 the model with turnover estimates a higher TPAF of the high risk group
@@ -474,6 +479,12 @@ to achieve epidemic control may be similarly underestimated by such models.
   \includegraphics[width=0.6\linewidth]{tpaf-tpaf-high-all}
   \caption{Transmission population attributable fraction (TPAF-from)
     of the high risk group with and without turnover,
-    and with and without fitted $C_i$ to group-specific prevalence.}
+    and with and without fitted contact rates to group-specific prevalence.}
   \label{fig:tpaf}
 \end{figure}
+%% SS: This section perhaps could be a bit clearer as clearly very important
+%% Is there a way to more explicitly talk about new infections
+%% in the low / medium risks coming from prevalent infections
+%% entering into these states from high risk groups and that
+%% subsequent infections emanating from these individuals are thus still
+%% linked back to prior history in the high risk group? 

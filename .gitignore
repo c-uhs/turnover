@@ -1,5 +1,6 @@
-# old files
+# old & comment files
 .old/
+.comments/
 
 # data
 outputs/data/sensitivity/raw/

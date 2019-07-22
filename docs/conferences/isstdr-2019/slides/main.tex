@@ -2,7 +2,7 @@
 \documentclass[11pt,aspectratio=169]{beamer}
 % metadata
 \input{meta.tex}
-\date{2019 July 17}
+\date{2019 July 17\\[1em]\scriptsize\theconference\\[-2em]}
 \input{config.tex}
 %\logo{\includegraphics[width=2cm]{isstdr-full.jpg}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -22,70 +22,114 @@
   \vfill
   \centering\scalebox{1}{\logos}
 \end{frame}
-%---------------------------------------------------------------------------------------------------
-%\begin{frame}[label=overview]{Overview}
-%  \tableofcontents
-%\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[noframenumbering]{}{}
+\tableofcontents
+\end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Background}
-%---------------------------------------------------------------------------------------------------
-\begin{frame}{Heterogeneity \& Turnover in Risk}
-  \begin{itemize}
-    \item \textbf{Core Group Theory (Risk Heterogeneity):}
+% --------------------------------------------------------------------------------------------------
+\begin{frame}{SIR Models \& Heterogeneity in Risk}
+  \begin{minipage}{0.65\linewidth}
+    \centering
+    \includegraphics[width=0.4\linewidth]{health-states}
     \begin{itemize}
-      \item Core group is sometimes necessary\,/\,sufficient to sustain an epidemic
-      \item Increase $R_0$
-      \item Decrease endemic prevalence
+      \item SIR Model:
+      \begin{itemize}
+        \item $\S$ = susceptible, $\I$ = infectious, $\R$ = recovered
+        \item e.g.\ HIV
+      \end{itemize}
+      \uncover<2->{
+      \item 3 Risk Groups:}
+      \begin{itemize}
+        \uncover<2->{
+        \item e.g.\ female sex workers, multiple partners, monogamous
+        \item fundamentally changes epidemic dynamics~\cite{Stigum1994,Boily1997}}
+        \uncover<5->{
+        \item \parbox{2cm}{what about: }``retirement'' from sex work\\
+              \hspace{2cm}``recruitment'' into sex work}
+              \uncover<6->{\smash{\raisebox{0.7em}{$\Big\}$ \emph{Turnover}}}}
+      \end{itemize}
     \end{itemize}
-    \pause
-    \item \textbf{Turnover:}
-    \begin{itemize}
-      \item Movement of individuals between risk groups (in\,/\,out of the core)
-      \item \textsc{aka:} ``episodic risk'', ``migration''
-      \item Rarely modelled
-    \end{itemize}
-  \end{itemize}
+  \end{minipage}%
+  \begin{minipage}{0.35\linewidth}
+    \centering
+    \uncover<2->{\scalebox{0.8}{%
+      \begin{tikzpicture}
+        \uncover<1->{\drawnodes}
+        \uncover<3->{\drawentry}
+        \uncover<4->{\drawexit}
+        \uncover<6->{\drawturnover}
+      \end{tikzpicture}}%
+    \pseudocap{Risk groups}
+    }
+  \end{minipage}
 \end{frame}
 % --------------------------------------------------------------------------------------------------
 \begin{frame}{Influence of Turnover in STI Epidemic Models}
-  \begin{minipage}{0.62\linewidth}
+  \begin{minipage}{0.65\linewidth}
     \uncover<2->{
     \textbf{Research Questions:}\\[1em]
     Influence of turnover on:}
     \begin{itemize}
       \uncover<3->{\item Equilibrium incidence \& prevalence by risk group}
-      \uncover<4->{\item TPAF\,* of core group}
+      \uncover<4->{\item TPAF\,* of high risk group}
     \end{itemize}
     \vspace*{3em}\footnotesize
     \uncover<5->{
-    *\,TPAF: ``transmission population attributable fraction'':\\
+    *\,TPAF:~~\parbox[t]{\linewidth}{``Transmission Population Attributable Fraction''~\cite{Mishra2016}
+    \\[0.5em]
     Proportion of cumulative new infections averted\\
-    if transmission from that group is stopped}
+    if transmission to\,/\,from that group is stopped.\\[0.5em]
+    e.g.\ impact of perfect TasP in one group}}
   \end{minipage}%
-  \begin{minipage}{0.38\linewidth}
-    \includegraphics[width=0.9\linewidth]{turnover-simple}
-    \pseudocap{Turnover among 3 risk groups}
+  \begin{minipage}{0.35\linewidth}
+    \centering
+    \scalebox{0.8}{%
+      \begin{tikzpicture}
+        \drawnodes
+        \drawentry
+        \drawexit
+        \drawturnover
+      \end{tikzpicture}}%
+    \pseudocap{Risk groups}
   \end{minipage}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Methods}
 %---------------------------------------------------------------------------------------------------
 \begin{frame}{Illustrative Model of STI Transmission}
-  \begin{minipage}{0.62\linewidth}
+  \begin{minipage}{0.65\linewidth}
+    \centering
+    \includegraphics[width=0.4\linewidth]{health-states}
     \begin{itemize}
-      \item 1-sex SIR model
-      \item 3 risk groups
-      \item proportional mixing
-      \item turnover rates ensure group sizes don't change
-      \item no disease-attributable mortality
+      \uncover<1->{
+      \item SIR model:
+      \begin{itemize}
+        \item 1-sex
+        \item proportional mixing
+        \item same mortality across risk groups
+      \end{itemize}}
+      \uncover<2->{
+      \item Risk group turnover:
+      \begin{itemize}
+        \item Rates ensure group sizes don't change:\\
+        {\scriptsize 5\%~High Risk, 20\%~Medium Risk, 75\%~Low Risk}
+        \item All rates equal among:   $\S,~\I,~\R$
+        \item All rates scaled proportionally when varied
+      \end{itemize}}
     \end{itemize}
-    \vspace{1em}
-    \includegraphics[width=0.5\linewidth]{health-states}
-    \pseudocap{Model health states}
   \end{minipage}%
-  \begin{minipage}{0.38\linewidth}
-    \includegraphics[width=0.9\linewidth]{turnover-simple}
-    \pseudocap{Turnover among 3 risk groups}
+  \begin{minipage}{0.35\linewidth}
+    \centering
+    \scalebox{0.8}{%
+      \begin{tikzpicture}
+        \drawnodes
+        \drawentry
+        \drawexit
+        \drawturnover
+      \end{tikzpicture}}%
+    \pseudocap{Risk groups}
   \end{minipage}
 \end{frame}
 %---------------------------------------------------------------------------------------------------
@@ -99,11 +143,12 @@
     \end{itemize}}
     \vspace{1em}
     \uncover<2,4>{
-    \item Fitted TPAF:
+    \item TPAF after model fitting:
     \begin{itemize}
-      \item \parbox{2cm}{\textbf{Fit:}}     Contact rates, to prevalence: 25\% in core, 5\% in low-risk
+      \item \parbox{2cm}{\textbf{Fit:}}     Contact rates: High Risk; and Low Risk
+      \item \parbox{2cm}{\textbf{Targets:}} Prevalence: 25\% in High Risk; and 5\% in Low Risk
       \item \parbox{2cm}{\textbf{Vary:}}    No-turnover vs Turnover
-      \item \parbox{2cm}{\textbf{Compare:}} a) Fitted contact rates, b) TPAF of core group
+      \item \parbox{2cm}{\textbf{Compare:}} a) Fitted contact rates, b) TPAF of high risk group
     \end{itemize}}
   \end{enumerate}
 \end{frame}
@@ -112,107 +157,130 @@
 % --------------------------------------------------------------------------------------------------
 \againframe<3>[noframenumbering]{experiment}
 %---------------------------------------------------------------------------------------------------
-\begin{frame}{Turnover decreases core group equilibrium prevalence}
-  \visible<2->{
-  \begin{minipage}{0.28\linewidth}
+\begin{frame}{Turnover decreases high risk group equilibrium prevalence}
+  \begin{minipage}{0.45\linewidth}
     \centering
-    \includegraphics[width=\linewidth]{flows-low}
-    \includegraphics[width=\linewidth]{flows-legend}
-    \pseudocap{Low turnover}
-    \pseudocap{Risk concentration}
-  \end{minipage}}%
-  \begin{minipage}{0.44\linewidth}
-    \centering
-    \includegraphics[width=0.9\linewidth]{{1d-prevalence-high-tau=0.1}.pdf}\\[-0.5em]
-    \pseudocap{Core group prevalence vs turnover}
+    \begin{tikzpicture}
+      \node[anchor=south west] at (0,0) {\includegraphics[width=0.9\linewidth]{{1d-prevalence-high-tau=0.1}.pdf}};
+      \only<3-4>{\draw[arrow=C2,<-] (1.75,4.35) -- ++(0,-1);}
+      \only<5- >{\draw[arrow=C2,<-] (5.60,1.40) -- ++(0,+1);}
+    \end{tikzpicture}
+    \vspace{-1em}
+    \pseudocap{High risk prevalence vs turnover}
   \end{minipage}%
-  \visible<3->{%
-  \begin{minipage}{0.28\linewidth}
-    \centering
-    \includegraphics[width=\linewidth]{flows-high}
-    \includegraphics[width=\linewidth]{flows-legend}
-    \pseudocap{High turnover}
-    \pseudocap{Risk homogenization}
-  \end{minipage}}
+  \begin{minipage}{0.55\linewidth}
+    \raggedright
+    \begin{tikzpicture}
+      \only<2- >{\drawflownodes}
+      \only<3- >{\node[right = 2.5 cm of m] {\includegraphics[width=0.4\linewidth]{flows-legend}};}
+      \only<3-4>{\drawflowhigh{1}\drawflowpiehigh{low}}
+      \only<4  >{\drawflowlow {1}\drawflowpielow {low}}
+      \only<5- >{\drawflowhigh{3}\drawflowpiehigh{high}\drawflowlow{3}\drawflowpielow{high}}
+    \end{tikzpicture}
+  \end{minipage}
   \\[1em]
-  \uncover<4->{\emph{Turnover causes a net movement of infected: high $\rightarrow$ low risk}}
+  \uncover<6->{\emph{Turnover causes a net movement of infected: high $\bm{\rightarrow}$ low risk}} 
+\end{frame}
+%---------------------------------------------------------------------------------------------------
+\begin{frame}{Turnover increases low-risk equilibrium prevalence \uncover<3->{\color{C2}\dots at first}}
+  \begin{minipage}{0.45\linewidth}
+    \centering
+    \begin{tikzpicture}
+    \only<1-2>{\node[anchor=south west] at (0,0) {\includegraphics[width=0.9\linewidth]{{1d-prevalence-low-tau=0.1-trend}.pdf}};}
+    \only<3- >{\node[anchor=south west] at (0,0) {\includegraphics[width=0.9\linewidth]{{1d-prevalence-low-tau=0.1-both}.pdf}};}
+    \only<2  >{\draw[arrow=C2,<-] (1.75,1.4) -- ++(0,+1);}
+    \only<3- >{\draw[arrow=C2,<-] (5.60,2.85) -- ++(0,+1);}
+    \end{tikzpicture}
+    \vspace{-1em}
+    \pseudocap{Low risk prevalence vs turnover}
+  \end{minipage}%
+  \begin{minipage}{0.55\linewidth}
+    \raggedright
+    \begin{tikzpicture}
+    \drawflownodes
+    \node[right = 2.5 cm of m] {\includegraphics[width=0.4\linewidth]{flows-legend}};
+    \only<2  >{\drawflowhigh{1}\drawflowpiehigh{low}\drawflowlow{1}\drawflowpielow{low}}
+    \only<3- >{\drawflowhigh{3}\drawflowpiehigh{high}\drawflowlow{3}\drawflowpielow{high}}
+    \end{tikzpicture}
+  \end{minipage}
+  \\[1em]
+  \uncover<4->{\emph{High turnover reduces prevalence in all groups}}
+  \uncover<5->{\emph{\dots but why?}}
 \end{frame}
 % --------------------------------------------------------------------------------------------------
-\begin{frame}[t]{Turnover increases low-risk equilibrium prevalence \uncover<2->{\color{C2}\dots at first}}
-  \centering
-  \begin{minipage}{0.35\linewidth}
+\begin{frame}{Two competing effects of turnover on incidence}
+  \begin{minipage}{0.45\linewidth}
     \centering
-    \includegraphics[width=\linewidth]{{1d-prevalence-low-extrap-tau=0.1}.pdf}\\[-0.5em]
-    \pseudocap{Low-risk prevalence vs turnover}
-  \end{minipage}%
-  \visible<3->{%
-  \begin{minipage}{0.35\linewidth}
-    \centering
-    \includegraphics[width=\linewidth]{{1d-incidence-all-tau=0.1}.pdf}\\[-0.5em]
+    \begin{tikzpicture}
+      \node[anchor=south west] at (0,0) {\includegraphics[width=0.9\linewidth]{{1d-incidence-all-tau=0.1}.pdf}};
+    \end{tikzpicture}
+    \vspace{-1em}
     \pseudocap{Overall incidence vs turnover}
-  \end{minipage}}%
-  \hspace{0.04\linewidth}%
-  \visible<4->{%
-  \begin{minipage}{0.26\linewidth}
-    2 factors of incidence:
-    \vspace{0.5em}
+  \end{minipage}%
+  \begin{minipage}{0.55\linewidth}
     \begin{itemize}
-      \item[$\uparrow$] proportion of $\mathcal{I}$
-      \item[$\downarrow$] average $C$ among $\mathcal{I}$
+      \item<2-> Turnover $\bm\uparrow$ proportion who are infectious
+      \begin{itemize}
+        \item<4-> Dominates at low turnover (A)
+        \item<5-> Incidence $\bm\uparrow$
+      \end{itemize}
+      \vspace{1em}
+      \item<3-> Turnover $\bm\downarrow$ contact rate among infectious
+      \begin{itemize}
+        \item<6-> Dominates at high turnover (B)
+        \item<7-> Incidence $\bm\downarrow$
+      \end{itemize}
     \end{itemize}
-    \vspace{3em}
-  \end{minipage}}
-  \\[1em]\raggedright
-  \uncover<5->{\emph{Low turnover: increased exposure
-      $\rightarrow$ incidence \& prevalence increase}\\[0.5em]}
-  \uncover<6->{\emph{High turnover: homogenization of risk
-      $\rightarrow$ incidence \& prevalence decrease}}
+    \vspace{1em}
+    \footnotesize
+    \uncover<8->{(explains low risk prevalence decline with high turnover)}
+  \end{minipage}
+  \\[1em]
+  \uncover<9->{\parbox{0.5\linewidth}{\emph{Low turnover: $\bm\uparrow$ incidence}}}%
+  \uncover<10->{\parbox{0.5\linewidth}{\emph{High turnover: $\bm\downarrow$ incidence}}}%
 \end{frame}
 %---------------------------------------------------------------------------------------------------
 \againframe<4>[noframenumbering]{experiment}
 %---------------------------------------------------------------------------------------------------
-\begin{frame}[t]{Turnover makes it harder to observe a high prevalence ratio}
+\begin{frame}[t]{Turnover makes it ``harder'' to observe a high prevalence ratio}
 \newcommand{\uin}[2]{\uncover<####1->{\input{data/####2}}}
-  \begin{tabular}{llcccccc}
-    &&& \multicolumn{2}{c}{\textbf{Before Fitting}} & & \multicolumn{2}{c}{\textbf{After Fitting}}\\
-    \cmidrule{4-5}\cmidrule{7-8}
-    &&& No turnover & Turnover & & No turnover & Turnover\\[0.5em]
-    Contact rate
-    & Core     &&       \uin{2}{notu-C-H.txt}    &       \uin{2}{turn-C-H.txt}
-               &&       \uin{5}{notu-f-C-H.txt}  &       \uin{5}{turn-f-C-H.txt}  \\
-    & Low risk &&       \uin{2}{notu-C-L.txt}    &       \uin{2}{turn-C-L.txt}
-               &&       \uin{5}{notu-f-C-L.txt}  &       \uin{5}{turn-f-C-L.txt}  \\
-    & Ratio    &&       \uin{2}{notu-C-R.txt}    &       \uin{2}{turn-C-R.txt}
-               && \emph{\uin{5}{notu-f-C-R.txt}} & \emph{\uin{5}{turn-f-C-R.txt}} \\[0.5em]
-    Prevalence
-    & Core     &&       \uin{3}{notu-P-H.txt}    &       \uin{3}{turn-P-H.txt}
-               &&       \uin{4}{notu-f-P-H.txt}  &       \uin{4}{turn-f-P-H.txt} \\
-    & Low risk &&       \uin{3}{notu-P-L.txt}    &       \uin{3}{turn-P-L.txt}
-               &&       \uin{4}{notu-f-P-L.txt}  &       \uin{4}{turn-f-P-L.txt} \\
-    & Ratio    && \emph{\uin{3}{notu-P-R.txt}}   & \emph{\uin{3}{turn-P-R.txt}}
-               &&       \uin{4}{notu-f-P-R.txt}  &       \uin{4}{turn-f-P-R.txt} \\[0.5em]
+  \centering
+  \begin{tabular}{llcc}
+    \toprule
+                 &           &          No turnover           &            Turnover            \\
+    \midrule
+    Prevalence   & High risk &       \uin{2}{notu-f-P-H.txt}  &       \uin{2}{turn-f-P-H.txt}  \\
+                 & Low risk  &       \uin{2}{notu-f-P-L.txt}  &       \uin{2}{turn-f-P-L.txt}  \\
+                 & Ratio     &       \uin{2}{notu-f-P-R.txt}  &       \uin{2}{turn-f-P-R.txt}  \\
+    \midrule
+    Contact rate & High risk &       \uin{3}{notu-f-C-H.txt}  &       \uin{4}{turn-f-C-H.txt}  \\
+                 & Low risk  &       \uin{3}{notu-f-C-L.txt}  &       \uin{4}{turn-f-C-L.txt}  \\
+                 & Ratio     & \emph{\uin{3}{notu-f-C-R.txt}} & \emph{\uin{4}{turn-f-C-R.txt}} \\
+    \bottomrule
   \end{tabular}
-  \\
-  \uncover<6->{\emph{To observe the same prevalence ratio:\\
+  \\[1em]\raggedright
+  \uncover<5->{\emph{To observe the same prevalence ratio:\\
       \hspace{1em}Risk heterogeneity must be higher with turnover than without}}\\
-  \uncover<7->{\emph{\hspace{1em}(overcome ``homogenizing'' effect of turnover)}}
+  \uncover<6->{\emph{\hspace{1em}(overcome ``homogenizing'' effect of turnover)}}
 \end{frame}
 % --------------------------------------------------------------------------------------------------
-\begin{frame}[t]{After fitting, core group TPAF is higher with turnover than without}
-  \begin{minipage}{0.5\linewidth}
-    \centering\textbf{Before Fitting}
-    \visible<2->{\includegraphics[width=0.7\linewidth]{tpaf-tpaf-high-all-raw}}\\[-0.5em]
-    \uncover<3->{\pseudocap{No turnover $\uparrow$ core prevalence}}
-    \uncover<4->{\pseudocap{Risk heterogeneity equal ($C$ ratio)}}
+\begin{frame}[t]{TPAF of high risk group is higher with turnover than without}
+  \begin{minipage}{0.45\linewidth}
+    \centering
+    \visible<1->{\includegraphics[width=0.9\linewidth]{tpaf-tpaf-high-all-fit}}\\[-0.5em]
   \end{minipage}%
-  \begin{minipage}{0.5\linewidth}
-    \centering\textbf{After Fitting}
-    \visible<5->{\includegraphics[width=0.7\linewidth]{tpaf-tpaf-high-all-fit}}\\[-0.5em]
-    \uncover<6->{\pseudocap{Core prevalence equal}}
-    \uncover<7->{\pseudocap{Turnover $\uparrow$ risk heterogeneity ($C$ ratio)}}
+  \begin{minipage}{0.55\linewidth}
+    \footnotesize
+    TPAF $\approx$ impact of perfect TasP in one group\\[1em]
+    \normalsize
+    \begin{itemize}
+      \item<2-> Risk heterogeneity (contact rate ratio)\\is higher with turnover
+      \item<3-> Impact of reaching high risk group\\is higher with turnover
+    \end{itemize}
+    \vspace{1em}
   \end{minipage}
   \\[1em]
-  \uncover<8->{\emph{TPAF of core group may be underestimated if turnover is not modelled}}
+  \uncover<4->{\emph{TPAF of high risk group may be underestimated if turnover is not modelled}}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Conclusion}
@@ -234,9 +302,9 @@
     \end{itemize}}
     \vspace{0.5em}
     \uncover<4->{
-    \item[\cnum{2}] \color{C2} TPAF of core group may be underestimated if turnover is not modelled
+    \item[\cnum{2}] \color{C2} TPAF of high risk group may be underestimated if turnover is not modelled
     \begin{itemize}
-      \item Prevalence ratios we observe may be \textit{in spite of} homogenizing effect of turnover
+      \item Prevalence ratios we observe are likely \textit{in spite of} homogenizing effect of turnover
     \end{itemize}}
   \end{enumerate}
 \end{frame}
@@ -244,9 +312,9 @@
 \begin{frame}[noframenumbering]{Thank you}
   \begin{minipage}{0.45\linewidth}
     \raggedleft
-    \includegraphics[width=0.6\linewidth]{flows-low}
-    \includegraphics[width=0.6\linewidth]{flows-high}
-    \includegraphics[width=0.6\linewidth]{flows-legend}
+    \begin{tikzpicture}
+      \drawflownodes\drawflowhigh{2}\drawflowlow{2}\drawflowpiehigh{low}\drawflowpielow{low}
+    \end{tikzpicture}
   \end{minipage}%
   \hspace{0.1\linewidth}%
   \begin{minipage}{0.45\linewidth}
@@ -257,6 +325,7 @@
 \end{frame}
 % --------------------------------------------------------------------------------------------------
 \begin{frame}[noframenumbering]{References}
+  \nocite{Zhang2012,Alam2013,Henry2015}
   \printbibliography
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -1,13 +1,13 @@
-\usepackage{graphicx,tikz,array,subcaption,caption}
+\usepackage{graphicx,tikz,tikz-qtree,array,subcaption,caption}
 \usepackage{bm,amsmath}
 \usepackage{hyperref,xpatch,listings}
 \usepackage{multirow,booktabs}
 \usepackage[export]{adjustbox}
-\usepackage[backend=biber,style=numeric,maxcitenames=1,sorting=none,
+\usepackage[backend=bibtex,style=numeric,maxcitenames=1,sorting=none,
             isbn=false,url=true,doi=false,eprint=false]{biblatex}
 % package configuration
 \graphicspath{{figs/}{figs/logos/}}
-\bibliography{../loi/refs.bib}
+\bibliography{../../../../refs/refs.bib}
 \lstset{
   language=[LaTeX]TeX,
   breaklines=true,
@@ -17,6 +17,8 @@
 }
 % styling
 \input{style.tex}
+\input{figs/risk-turnover.tex}
+\input{figs/flows.tex}
 % tex commands
 \newcommand{\colortext}[2]{{\color{#1}{#2}}}
 \renewcommand{\ss}[1]{\textsuperscript{#1}}
@@ -29,3 +31,7 @@
   \draw[->,>=Latex,line width=1mm,rounded corners,draw=#1](0,0)--(#2);
   \end{tikzpicture}
 }
+\renewcommand{\S}{\mathcal{S}}
+\newcommand{\I}{\mathcal{I}}
+\newcommand{\R}{\mathcal{R}}
+

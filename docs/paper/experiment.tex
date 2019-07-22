@@ -1,32 +1,35 @@
-%% i don't think need to repeat what did in above section. 
-%% that is important for a thesis chapter, but for a peer-reviewed paper, suggest we try to keep it as sucint (tight) as possible
-%% a main comment throughout -- usually we use past tense when describing methods and results in most modeling papers. So would consider changing that here.
-% nb: I have not changed verb tense in my edits
-To examine the influence of turnover on epidemics, we first
-compare equilibrium prevalence and incidence using models with and without:
-population growth,
-heterogeneity in risk, and
+To examine the influence of fundamental risk group dynamics on epidemics, we first
+compared equilibrium prevalence and incidence using models with and without:
+heterogeneity in risk,
+population growth, and
 risk group turnover.
-We then examine the influence of different rates of turnover on
+We then examined the influence of different rates of turnover on
 overall and group-specific equilibrium prevalence and incidence.
-Finally, we examine the influence of turnover on the contribution of the 
-highest risk group to the overall epidemic - as measured by the 
+Finally, we examine the influence of turnover on the contribution of the
+highest risk group to the overall epidemic -- as measured by the
 transmission population attributable fraction (TPAF).
-%%  suggest framing these as objective questions using precise verbs (like examine, determine, test, etc.) 
+%% SM: suggest framing these as objective questions using precise verbs (like examine, determine, test, etc.)
 %%  rather than 'to highlight, etc' as that suggests description and not an experiment.
-%%  also, use one terminology consistently throughout - e.g. turnover - rather than several. 
-%%  In the intro, you can introduce the various ways people have conceptualized this, 
+%%  also, use one terminology consistently throughout - e.g. turnover - rather than several.
+%%  In the intro, you can introduce the various ways people have conceptualized this,
 %%  but in general, good to use consistent and single terminology throughout to help the reader
-%%  i.e. use either 'turnover' or 'risk group dynamics', etc. but not both after introduction. 
+%%  i.e. use either 'turnover' or 'risk group dynamics', etc. but not both after introduction.
 %% i find turnover easier to conceptualize; less words; and also restricts the use of term 'dynamics' in
 %% reference to the epidemic dynamics, and not something else
-
+%% JK: Agreed -- I was just using risk group dynamics to include both turnover and the other
+%% two factors we briefly explore: number of risk groups & population growth. Thoughts?
 % ==================================================================================================
 \subsection{Model \& Simulations}\label{ss:model-sim}
-We start with a deterministic 1-sex SIR model of transmission %% not sure if need to say 'start with'? is this not the "full model", so instead suggest = "we developed a deterministic..."
-in a population with heterogeneity in risk.
-The model is not representative of a specific infection but includes balancing contacts %% cite 'balancing contacts" 
-as per sexually transmitted infections.
+We developed a deterministic single-sex SIR model
+which simulates transmission in a population with heterogeneity in risk.
+The model is not representative of a specific infection
+%% SS: I think it might be easier to follow if it did.
+%% I think it could be used as an example to thread across
+%% and then in the discussion go into how this would be similar/different for another infection
+%% (which parameters would likely change,
+%% whether we would anticipate that the impact of turnover would be similar, different)
+but includes balancing contacts
+as per sexually transmitted infections \citep{Garnett1994}.
 The model includes three health states:
 susceptible~$\mathcal{S}$, infectious~$\mathcal{I}$, and recovered~$\mathcal{R}$
 (Figure~\ref{fig:health-states}),
@@ -35,14 +38,11 @@ high~$H$, medium~$M$, and low~$L$.
 Risk strata are defined by different number of contacts per unit time
 so that individuals in risk group $i$ are assumed to
 form contacts at a rate $C_{i}$.
-The probability $\rho$ of contact formation between individuals in group $i$
-with individuals in risk group $k$ is
-be proportionate to the total number of available contacts within each group: 
-%% that we restricted our analyses to proportionate mixing is an important limitation
-%% to talk about in discussion (and reference work on assortative vs. proportionate mixing from Boily, Garnett, etc.)
-%% and in limitations, remember to hypothesize (and cite if available) how this assumption could influence the findings
+The probability $\rho_{ik}$ of contact formation between individuals in group $i$
+with individuals in risk group $k$ is assumed to be
+proportionate to the total number of available contacts within each group:
 \begin{equation}
-  \rho_{ik} = \frac 
+  \rho_{ik} = \frac
     {C_k x_k}
     {\sum_{\mathrm{k}}C_{\mathrm{k}} x_{\mathrm{k}}}
     \label{eq:rho}
@@ -53,124 +53,139 @@ be proportionate to the total number of available contacts within each group:
   \caption{Modelled health states.
   $\mathcal{S}$: susceptible;
   $\mathcal{I}$: infected;
-  $\mathcal{R}$: recovered.}
+  $\mathcal{R}$: recovered;
+  $\lambda$: force of infection;
+  $\tau$: treatment.}
   \label{fig:health-states}
 \end{figure}
 \par
-The biological probability of transmission is defined as $\beta$ per contact. 
-Individuals transition from the infectious $\mathcal{I}$ to susceptible $\mathcal{S}$ health-states  %% throughout - change 'infected' to 'infectious'.
-via a force of infection per susceptible in risk group $i$
-as shown:
+The biological probability of transmission is defined as $\beta$ per contact.
+Individuals transition from the
+infectious $\mathcal{I}$ to susceptible $\mathcal{S}$ health-state
+via a force of infection $\lambda$ per year, per susceptible in risk group $i$:
 \begin{equation}
   \lambda_{i} =
   C_{i} \sum_k \rho_{ik} \thinspace  \beta \thinspace \frac{\mathcal{I}_k}{x_k}
   \label{eq:foi}
 \end{equation}
-
-Individuals transition from the $\mathcal{I}$ are assumed to $\mathcal{R}$ health-state 
-at a rate $\tau$ (per year), reflecting diagnosis and treatment.
-Individuals in the $\mathcal{R}$ health-state are not infectious and are 
-not susceptible. In this S-I-R system, individuals cannot become re-infected.
+Individuals are assumed to transition from the
+infectious $\mathcal{I}$ to recovered $\mathcal{R}$ health-state
+at a rate $\tau$ per year, reflecting diagnosis and treatment.
+Individuals in the $\mathcal{R}$ health-state are not infectious nor susceptible.
+That is, in this SIR model, individuals cannot become re-infected.
+%% SS: What seems confusing to me at this point is that
+%% given the lack of specificity of the infection of interest,
+%% the R assumptions seem potentially overly simplistic
+%% given that with most STIs there is unlikely to be immunity following recovery
+%% and in the case of HIV, treatment (if considered R) may be stopped/incomplete
+%% and then they may not be susceptible, but certainly transmittable.
 \par
-As described in the previous section, individuals %% specify the exact section when mentioning 'previous section', etc.
+As described in Section~\ref{s:system}, individuals
 enter the model at a rate $\nu$,
 exit the model at a rate $\mu$,
 and transition from risk group $i$ to group $j$ at a rate $\phi_{ij}$.
-The turnover rates $\phi$ and distribution of model entrants by risk group $\bm{\hat{e}}$  %% what are 'model entrants'? - simplify terminology - its ok to use more words if the sentences are more clear that way
-are resolved using the methods outlined in
-Section \ref{sss:params-turnover}. %~\nameref{sss:params-turnover}.  %% why 'resolved' as a verb here? usually denotes there was a conflict? is there another verb we can use? 
-
-%% i edited to try to simplify - and also to check that I understood what we are trying to say. If some of these are not correct, lets discuss so we can come up with the easiest language for co-authors to also understand
-Our experiments were then carried out under the following pre-set conditions or assumptions.
-First, we assumed that the proportion of individuals entering each risk group $\bm{\hat{e}}$ 
-was equal to the proportion of individuals across risk groups in the $\bm{\hat{x}}$.
-Second, we assumed that the average duration spent in each risk group $\bm{\delta}$ is known.
-Third, the absolute number of individuals moving between two risk groups in either direction is balanced.
-To meet all three conditions, there is only one possible value 
-for each element in $\phi$ and $\bm{\hat{e}}$. In other words, by specifying these three conditions
-we are able to identify and ensure that					%% simplify this sentence. remove 'to this end', etc. 
-a unique set of $\phi$ and $\bm{\hat{e}}$ are determined.
-
-The system of equations used to resolve $\phi$ and $\bm{\hat{e}}$  %% resolve or identify?
-is given in \ref{aa:eqs-turnover}. %~\nameref{aa:eqs-turnover}.
+The turnover rates $\phi$ and
+distribution of individuals entering the model by risk group $\bm{\hat{e}}$
+are computed using the methods outlined in
+Section \ref{sss:params-turnover}.
 \par
-The above three assumptions help us define which parameters to use. The values of the parameters are generated from the data.
-In this experiment, we use illustrative values as summarized in Table~\ref{tab:params-base}.
+Our experiments were then carried out under the following assumptions.
+First, we assumed that
+the proportion of individuals entering each risk group $\bm{\hat{e}}$
+was equal to the proportion of individuals across risk groups in the model $\bm{\hat{x}}$.
+Second, we assumed that
+the average duration spent in each risk group $\bm{\delta}$ is known.
+Third, we assumed that
+the absolute number of individuals moving between two risk groups in either direction is balanced.
+The system of equations which results from these assumptions
+is given in \ref{aa:eqs-turnover}.
+To meet all three conditions, there is only one possible value
+for each element in $\phi$ and $\bm{\hat{e}}$
+-- i.e.\ $A$ is full rank.
+In other words, by specifying these three conditions,
+we ensure that a unique set of $\phi$ and $\bm{\hat{e}}$ is computed.
+\par
+Using the above three assumptions,
+we need to specify the values of $\bm{\hat{x}}$, $\bm{\delta}$, $\nu$, and $\mu$.
+Such parameters could be derived from data as described in Section \ref{sss:params-turnover};
+however, in this experiment, we use the illustrative values summarized in
+Table~\ref{tab:params-base}.
 After resolving the system of equations,
-$\bm{\hat{e}}$ is equal to $\bm{\hat{x}}$ (assumed),
-and $\phi$ is:
-\begin{equation}
+$\bm{\hat{e}}$ is equal to $\bm{\hat{x}}$ (assumed), and $\phi$ is:
+\begin{equation} % TODO: automate this output
 \phi = \left[\begin{array}{ccc}
 *      & 0.0833 & 0.0867 \\
 0.0208 & *      & 0.0158 \\
 0.0058 & 0.0042 & *      \\
 \end{array}\right]
 \end{equation}
-The full system of model equations is given in \ref{aa:eqs-model}. %~\nameref{aa:eqs-model}.
+The full system of model equations is given in \ref{aa:eqs-model}.
 \begin{table}
   \centering
-  \caption{Base model parameters.
+  \caption{Full model parameters.
     All rates have units $\mathrm{year}^{-1}$ and durations are in $\mathrm{years}$.}
   \label{tab:params-base}
   \input{floats/tab-params-base.tex}
+  %% SS: All of this seems a little hard to follow in terms of the infection,
+  %% b/c it seems to indicate that there is an underlying infection of interest,
+  %% but it is not being stated.
 \end{table}
 \par
-
-We then simulate the base model, and the model variants, using these parameters.
-We seed the epidemic with one infectious individual $\mathcal{I}$ in each risk group
-at $t = 0$. The model starts with $N_0 = 1000$ individuals who are distributed across risk groups according to $\bm{\hat{x}}$.
-There are no $\mathcal{R}$ at the start of the epidemic, and so all individuals except the 3 infectious individuals are susceptible $\mathcal{S}$.
-We numerically solve the system of ordinary differential equations 
+We then simulated epidemics in the base model,
+and model variants (described below), using these parameters.
+The model was initialized with $N_0 = 1000$ individuals
+who are distributed across risk groups according to $\bm{\hat{x}}$.
+We seeded the epidemic with
+one infectious individual in each risk group at $t = 0$.
+There were no recovered individuals at the start of the epidemic,
+and so all individuals except the 3 infectious individuals were susceptible.
+We numerically solved the system of ordinary differential equations
 in Python%
 \footnote{Code for all aspects of the project is available at:
   \href{https://github.com/c-uhs/turnover}{\texttt{https://github.com/c-uhs/turnover}}}
 using Euler's method with a time step of $dt = 0.1$ years.
-
-The model is assumed to be at equilibrium after $t = 500$ years,
-which was verified qualitatively. % JK: another way of saying this?  %% SM: not sure what you want to say here?  Usually we say something like this:
-%% All comparative analyses are then conducted at equilibrium, defined as a steady state with <X% difference in incidence.
-
+All comparative analyses are then conducted at equilibrium,
+defined as a steady state with $<$1\% difference in incidence.
 % ==================================================================================================
 \subsection{Model Variants}\label{ss:exp-variants}
 To examine the influence of population growth, heterogeneity, and turnover,
-we simplified the full model accordingly to include or remove each feature. 
-These simplified model variants and their parameters are shown in Figure~\ref{fig:variant-tree},
-and in Table~\ref{tab:params-variants}, respectively.
-% Consider using "full model" instead of base model since each variant essentially removes from a full model - i.e. and does not add to a base model?
-% Figure 3 starts with a base model at top and ends with a base model B. Suggest removing that first bit "Base Model"
+we simplified the Full model accordingly to include or remove each feature.
+These simplified model variants, and their parameters are shown in
+Figure~\ref{fig:variant-tree}, and
+Table~\ref{tab:params-variants}, respectively.
 % --------------------------------------------------------------------------------------------------
-\paragraph{Experiment 1.1: Influence of risk heterogeneity}\label{p:exp-1-hetero}
-V1 assumes no heterogeneity in risk and 
-the V1 contact rate $C$ for all individuals equals the weighted 
-average of the full model's risk-stratified $C_i$.						%suggest using V1, full model, etc. rather than 'previously' or 'new', etc. as that starts getting hard to follow
-V1 does not have turnover because there is only one risk group.
-All other conditions, including population growth rate, remain the same between
-the full model and V1 (Table 2).
-
-% No other parameters are changed as no other parameters
-% were originally stratified by risk.
+\paragraph{Experiment 1.1: Influence of risk heterogeneity}
+\label{p:exp-1-hetero}
+V1 assumed no heterogeneity in risk and
+the V1 contact rate $C$ for all individuals was the weighted
+average of the Full model's risk-stratified $C_i$.
+V1 did not have turnover because there is only one risk group.
+All other conditions, including population growth rate, remained the same between
+the Full model and V1.
 % --------------------------------------------------------------------------------------------------
-\paragraph{Experiment 1.2: Influence of population growth}\label{p:exp-1-growth}
-V2 assumes no population growth. The exit rate $\mu$ remains fixed and the same as the full model
-but the entry rate $\nu$ is reduced to equal $\mu$.
-This ensures that the average time spent in the modeled population $\mu^{-1}$ remains the same between the full model and V2. % it will not be clear what 'unchanged' means if we don't say what the comparator is. At first I thought it meant unchanged compared with V1 (which is correct, but I think we mean full model when we say unchanged?)
+\paragraph{Experiment 1.2: Influence of population growth}
+\label{p:exp-1-growth}
+V2 assumed no population growth.
+The exit rate $\mu$ remained the same as in the Full model,
+but the entry rate $\nu$ was reduced to equal $\mu$.
+This ensured that the average time spent in the modeled population $\mu^{-1}$
+remained the same between the Full model and V2.
 % --------------------------------------------------------------------------------------------------
-\paragraph{Experiment 1.3: Influence of turnover}\label{p:exp-1-turnover}
-V3 assumes there is no turnover, such that 
-all turnover rates $\phi = 0$.
+\paragraph{Experiment 1.3: Influence of turnover}
+\label{p:exp-1-turnover}
+V3 assumed there is no turnover, with all turnover rates $\phi = 0$.
 Following Eq.~(\ref{eq:duration-group}),
-this means that in V3, the time spent within all risk groups is 
-equal to the average duration of individuals in the model $\mu^{-1}$.
-Since the distribution of risk behaviour in the entering population $\bm{\hat{e}}$		
-%% we use different terminology/wording in section 3.1; it will be easier for the reader if we are consistent so lets revise this 
-% E.g. The proportion of individuals who enter each risk group $\bm{\hat{e}}$ are equivalent to the distribution of the population by risk group $\bm{\hat{x}}$, no other modifications were needed. That is, the proportion of individuals in each risk group are the same across the full model, V2, and V3 (Table 2).
-was assumed to be equal to that in the model $\bm{\hat{x}}$,
+this means that in V3, the time spent within all risk groups was equal to
+the average duration in the modelled population $\mu^{-1}$.
+Since the proportion of individuals who enter each risk group $\bm{\hat{e}}$
+is assumed to be equal to
+the proportion of individuals across risk groups in the model $\bm{\hat{x}}$,
+as in the Full model,
 no other modifications are required.
-
 \begin{figure}
   \centering
   \includegraphics[width=0.7\linewidth]{variant-tree}
-  \caption{Summary of the full model and three model variants
+  \caption{Summary of the Full model (F) and three model variants (V)
     with respect to heterogeneity in risk, population growth (pop. growth), and turnover.
     Relative population size of each risk group is the same in all variants.
     $G$:~number of risk groups,
@@ -181,89 +196,103 @@ no other modifications are required.
 \end{figure}
 \begin{table}
   \centering
-  \caption{Parameters for model variants.
-    All rates have units $\mathrm{year}^{-1}$ and durations are in $\mathrm{years}$.
-    Vectors correspond to parameters stratified by high, medium, and low risk groups.}
+  \caption{Parameters for model variants.}
   \label{tab:params-variants}
   \input{floats/tab-params-variants.tex}
 \end{table}
-
-%% 'duration in the model' may not be clear to most people. change to 'duration or time spent in the modeled population'.
-%% in the table title - the 'all rates have units year-1 and durations are in years' could go into the footnote I think or provide a written description of each parameter so its
-%% easier to know if that parameter is a rate or a duration. i.e. just like Figure 3, without too many additional words - add a description of the parameter. Right now we have to go into the main text to figure it out :). 
 % ==================================================================================================
-\subsection{Influence of magnitude of turnover}\label{ss:exp-turnover}  %% frame the duration of infectiousness part as a sensitivity analysis
-To further examine the influence of turnover on equilibrium prevalence and incidence, 
-we varied the magnitude of turnover. We then conducted a sensitivity analysis   %% somewhere above, we say 'rates of turnover' - lets stick to one terminology throughout
-to examine the influence of turnover at different treatment rates (durations of infectiousness).
+\subsection{Influence of Rates of Turnover}\label{ss:exp-turnover}
+To further examine the influence of turnover on
+equilibrium prevalence and incidence,
+we varied the rates of turnover in the Full model across a range of values.
+We then conducted a sensitivity analysis
+to examine the influence of turnover
+at different treatment rates (durations of infectiousness).
 % --------------------------------------------------------------------------------------------------
-\paragraph{Experiment 2.1: Influence of the magnitude of turnover on equilibrium prevalence and incidence}
-In this experiment, magnitude of turnover in the modeled system refers 
-to the inverse of how long individuals remain in the highest risk group. %start by something like this to orient the reader and help with interpretation before results section
-That is, a shorter period of time spent engaged in highest risk means a higher magnitude of turnover.
-We first consider the influence of turnover at a fixed duration of infectiousness.   % more active voice in general
+\paragraph{Experiment 2.1: Influence of the rates of turnover on equilibrium prevalence and incidence}
+\label{p:exp-2-turnover-1}
+%% SM: start by something like this to orient the reader and help with interpretation before results section
+%% JK: I agree this could be useful, but then we go back-and forth between
+%% implementation ("controlled by a single parameter") and
+%% an overview of the experiment ("influence of turnover on ...")
+%% I'd rather introduce how turnover is controlled via duration in high risk group
+%% after noting why we cannot simply scale the rates proportionally with a single parameter.
+In this experiment, we first considered the influence of turnover
+at a fixed duration of infectiousness (treatment rate).
 As in similar experiments \citep{Zhang2012,Henry2015},
-the rates of turnover are scaled by a single parameter.
+the rates of turnover were scaled by a single parameter.
 However, because the model used here has $G = 3$ risk groups,
-multiplying by a set of base rates $\phi$ by a scalar factor would result in changes to the relative population size of risk groups.
-Thus, we vary the magnitude of turnover by adjusting the
-the duration of individuals in the high risk group $\delta_H$.  %when reading 'following way' - anticipated bullet points or a ":", etc. so suggest removing that bit
-Under the condition that the distribution of model entrants $\bm{\hat{e}}$ remains equal  %see comment before about 'model entrants'
-to the relative size of risk groups in the model $\bm{\hat{x}}$, the absolute number of individuals moving between two groups in either direction
-is balanced.
-% Then, the duration of individuals in the high risk group $\delta_H$
-% is used as the controlling parameter.
+multiplying by a set of base rates $\phi$ by a scalar factor
+would have resulted in changes to the relative population size of risk groups $\bm{\hat{x}}$.
+Thus, we controlled the rates of turnover by adjusting
+the duration of individuals in the high risk group $\delta_H$,
+such that a shorter period of time spent engaged in highest risk
+corresponded to higher rates of turnover among all groups.
+As in Experiment 1, we assumed that:
+the proportion of individuals who enter each risk group $\bm{\hat{e}}$
+is equal to
+the proportion of individuals across risk groups in the model $\bm{\hat{x}}$;
+and that the absolute number of individuals
+moving between two groups in either direction is balanced.
 The duration of individuals in the medium risk group $\delta_M$
-is then defined as a value between $\delta_H$ and the maximum duration $\mu^{-1}$
+was then defined as a value between $\delta_H$ and the maximum duration $\mu^{-1}$
 which scales with $\delta_H$ following the equation:
 $\delta_M = \delta_H + \kappa \left(\mu^{-1} - \delta_H\right)$, with $\kappa = 0.3$.
 Finally, the duration of individuals in the low risk group $\delta_L$
-similarly scales with $\delta_H$,
-but the value is not required to resolve $\phi$;
+similarly scaled with $\delta_H$,
+but the value was not required to calculate $\phi$;
 it can be determined from $\phi$ afterwards
 using Eq.~(\ref{eq:duration-group}).
-In this way, each value of $\delta_H$ can be used to define a set of turnover rates $\phi$
-whose elements all scale inversely with the duration in the high risk group $\delta_H$.       %very nice. in the discussion - point out that duration in the highest risk group is the most common empiric estimate we would have available, vis a vis sex work for example and cite Watts et al
+In this way, each value of $\delta_H$ was used to define a set of turnover rates $\phi$
+whose elements all scaled inversely with the duration in the high risk group $\delta_H$.
 The value of $\delta_H$ is then varied from 3~to~33 years to examine the influence of turnover.
-%The duration in a risk group is also perhaps easier to grasp
-%than individual transition rates.
-%\footnote{Throughout this work,
-%  we define duration $\delta_i$ as a ``single average pass through the group''
-%  which does not consider reentrance after exiting to another group.}
-% JK: I feel like these limits need justification,
-% but its difficult to give without grounding in any specific infections
-\par
 % --------------------------------------------------------------------------------------------------
-\paragraph{Experiment 2.2: Influence of the magnitude of turnover at various treatment rates} %suggest reframing this as a sensitivity analyses so the primary aims are about turnover
-Next, we conduct a 2-way sensitivity analyses to examine how the influence of turnover might vary at different treatment rates.
+\paragraph{Experiment 2.2: Influence of the rates of turnover at various treatment rates}
+\label{p:exp-2-turnover-2}
+Next, we conducted a 2-way sensitivity analyses to examine how
+the influence of turnover might vary at different treatment rates.
 The treatment rate controls the duration of infectiousness $\delta_{\mathcal{I}}$
 as in $\delta_{\mathcal{I}} = \tau^{-1}$.
-Treatment rate $\tau$ is varied from 1~to~0.05,
+Treatment rate $\tau$ was varied from 1~to~0.05,
 implying a duration of infectiousness of 1~to~20 years.
-The duration of time spent in the high risk group $\delta_H$ is varied from 3~to~33 years as with Experiment 2.1. %avoid 'as before'; instead reference/bookmark the exact section
-We examine the influence of the magnitude of turnover on equilibrium prevalence and incidence across the
-range of treatment rates using 2D surface plots.
+The duration of time spent in the high risk group $\delta_H$
+was varied from 3~to~33 years as in Experiment 2.1.
+We examine the influence of the rates of turnover on
+equilibrium prevalence and incidence across the
+range of treatment rates using multiple 1D plots and 2D surface plots.
 % ==================================================================================================
-\subsection{Influence of turnover on the contribution of highest risk group to overall transmission }\label{ss:exp-turnover-fit}
-Next we examine the influence of turnover when fitting models to observed data
-on disease prevalence across risk groups. We use two models: one with turnover (%refer to Figure to show which one)
-and one without turnover (%refer to Figure to show which one).
-Both models include population growth and 3 risk-groups.
-We then fit the following parameter in both models: relative contact rates between the highest and lowest risk group. %or what was varied/fit
-That is, we fit the models to equilibrium disease prevalence in the highest and and lowest risk groups  %does this get us the same overall (total population) prevalence? 
-and infer the degree of risk heterogeneity in the population. We then estimate the contribution of the highest risk group to overall transmission from both models.  %degree used below
-The contribution is estimated as the transmission population attributable fraction (TPAF)~\citep{Mishra2016}
+\subsection{Influence of turnover on the contribution of highest risk group to overall transmission}
+\label{ss:exp-turnover-fit}
+Finally, we examined the influence of turnover when fitting models to observed data
+on disease prevalence across risk groups.
+We use two models: the Full model with turnover, and model variant V3 without turnover
+(Figure~\ref{fig:variant-tree}: F and V3).
+Both models include population growth and 3 risk groups.
+We then fit the following parameter in both models:
+the contact rates among the highest and lowest risk groups, $C_H$ and $C_L$.
+Specifically, we fit the models to equilibrium disease prevalence
+in the highest and and lowest risk groups.
+%% SM: does this get us the same overall (total population) prevalence?
+%% JK: I never verified specifically, but I think so. I can check next iteration.
+%Then, we infer the degree of risk heterogeneity in the population, as in $C_H / C_L$.
+%% JK: re. commented out above: I think maybe this is too much repetition
+%% with description in experiment 3.1
+We then estimate the contribution of the highest risk group to overall transmission from both models.
+The contribution is estimated as
+the transmission population attributable fraction (TPAF)~\citep{Mishra2016}
 of the highest risk group.
-%% move this to discussion --> "TPAF estimates the proportion of cumulative new infections which are attributable to
-%% prevention gaps among a specific population.%
-%% this information should be in the methods ---> \footnote{To estimate TPAF of the high risk group,
-%%  transmission ``from'' the high risk group is turned off, not ``to''.}
 % --------------------------------------------------------------------------------------------------
-\paragraph{Experiment 3.1: Influence of turnover on inferred risk heterogeneity}  
-%the part about comparing non-fitted scenarios does not come through here or in Experiment 3.2. I wonder if that diagram we drew a long time ago on a whiteboard re: the comparisons could be helpful? 
-The Base model (turnover) and model variant V3 (no~turnover) are calibrated to
-25\% prevalence in the high risk group, and
-5\% prevalence in the low risk group at equilibrium.  %they should also reproduce overall prevalence too? what do you think?
+\paragraph{Experiment 3.1: Influence of turnover on inferred risk heterogeneity}
+%% SM: the part about comparing non-fitted scenarios does not come through here or in Experiment 3.2.
+%% I wonder if that diagram we drew a long time ago on a whiteboard re: the comparisons could be helpful?
+%% JK: I think mainly that is important for 3.2, as 3.1 is really only exploring
+%% the inferred risk heterogeneity, which is relevant to fitting, but not really to non-fitted models.
+%% What do you think?
+The Full model (turnover) and model variant V3 (no~turnover) are calibrated to
+25\% infection prevalence in the high risk group, and % SS: prevalence of infection; JK: clarified.
+5\% in the low risk group at equilibrium.
+%% SM: they should also reproduce overall prevalence too? what do you think?
+%% JK: agree -- as above, I'll add this next iteration :) need to double check it is happening now.
 The fitted parameters are
 the contact rates of the high and low risk groups: $C_H$~and~$C_L$.%
 \footnote{The fitted parameters are estimated by minimizing
@@ -272,14 +301,16 @@ the contact rates of the high and low risk groups: $C_H$~and~$C_L$.%
   using the Sequential Least SQuares Programming (SLSQP) method~\citep{Kraft1988}
   from the \texttt{scipy.optimize.minimize} Python package.}
 The ratio of fitted (or posterior) contact rates $C_H~/~C_L$
-represents the degree of risk heterogeneity in the population, after fixing all other parameters,   
+represents the degree of risk heterogeneity in the population, after fixing all other parameters,
 which produce the group-specific observed disease prevalence.
 % --------------------------------------------------------------------------------------------------
 \paragraph{Experiment 3.2: Influence of turnover on the predicted TPAF of the highest risk group}
-Using the fitted or inferred values of $C_H$~and~$C_L$, we then estimate the 
-%% Suggest we put hypotheses in introduction
-%% Thus, differences in inferred risk heterogeneity due to turnover from Experiment 3.1 
-%%are hypothesized to result in differences in the estimated TPAF of the high risk group. 
-TPAF of the highest risk group is calculated and compared across the model variants with and without turnover without model fitting, and with model fitting. 
-
-% before and after fitting to group-specific prevalence, as described above.  --- before and after suggests priors and posteriors in the context of model fitting
+We then calculate and compare the TPAF of the highest risk group
+across the model variants with and without turnover.
+We repeat this analysis using the default model parameters (before model fitting),
+and again using the inferred values of $C_H$~and~$C_L$ (after model fitting).
+%% SM: Suggest we put hypotheses in introduction
+%% Thus, differences in inferred risk heterogeneity due to turnover from Experiment 3.1
+%% are hypothesized to result in differences in the estimated TPAF of the high risk group.
+%% JK: do you mean introduction to the paper, or introduction to this experiment (3)?
+%% Leaving it out for now.

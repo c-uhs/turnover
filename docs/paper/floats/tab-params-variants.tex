@@ -1,7 +1,7 @@
 \begin{threeparttable}
 \begin{tabularx}{0.95\linewidth}{c *{4}{Y}}
 	\toprule
-	  Parameter    & Base                     & V1                           & V2                       & V3                                         \\
+	  Parameter    & Full                     & V1                           & V2                       & V3                                         \\
 	\midrule
 	$\bm{\hat{x}}$ & $[ 0.05\es0.20\es0.75 ]$ & ---                          & $[ 0.05\es0.20\es0.75 ]$ & $[ 0.05\es0.20\es0.75 ]$                   \\
 	$\bm{\hat{e}}$ & $[ 0.05\es0.20\es0.75 ]$ & ---                          & $[ 0.05\es0.20\es0.75 ]$ & $[ 0.05\es0.20\es0.75 ]$                   \\
@@ -13,6 +13,13 @@
 \end{tabularx}
 \footnotesize
 \begin{tablenotes}
+  \item
+  $\bm{\hat{x}}$: proportion of individuals in the model by risk group (high, medium, low);
+  $\bm{\hat{e}}$: proportion of individuals entering the model by risk group;
+  $C$: rate of contact formation by risk group (per year);
+  $\delta$: average duration in each risk group (years);
+  $\nu$: rate of population entry (per year);
+  $\mu$: rate of exit (per year).
   \item[a] Weighted average of risk-stratified $C$
   \item[b] Without turnover, duration in all groups must be equal to the inverse of the exit rate, $\mu^{-1}$
   \item[c] Adjusting the entry rate, versus exit rate, does not affect average duration in the model

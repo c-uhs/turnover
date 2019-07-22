@@ -18,7 +18,7 @@
 \beamertemplatetransparentcoveredhigh
 % colors
 \let\oldcite=\cite
-\renewcommand{\cite}[1]{\textcolor{purple}{\oldcite{#1}}}
+\renewcommand{\cite}[1]{{\scriptsize\textcolor{purple}{\oldcite{#1}}}}
 \setbeamercolor{emph}{fg=C2}
 \renewcommand<>{\emph}[1]{{\usebeamercolor[fg]{emph}\only#2{\bfseries}#1}}
 % misc
@@ -27,13 +27,42 @@
 \setlength{\tabcolsep}{6pt}
 \setlength{\belowcaptionskip}{-8pt}
 % pseudo captions
-\newcommand{\pseudocap}[1]{\centering{\par\footnotesize{#1}}}
+\newcommand{\pseudocap}[1]{\begin{center}\footnotesize{#1}\end{center}}
 % tikz
-\tikzset{
-  dazzle/.style = {
-    color = C1!#1!white,
-    line width = 0.1cm,
-  }
+\usetikzlibrary{positioning,quotes,calc,arrows.meta}
+\tikzset{%
+  arrow/.style = {
+    ->,
+    > = latex,
+    very thick,
+    rounded corners,
+    fill = #1,
+    draw = #1,
+  },
+  tbox/.style = {
+    thick,
+    rounded corners,
+    fill = #1!20!white,
+    draw = #1!80!white,
+    align = center,
+    minimum width = 0.8cm,
+    minimum height = 0.6cm,
+    node distance = 1.5cm,
+  },
+  legend/.style = {
+    text width = 1.4cm,
+    align=left,
+  },
+  pie/.style = {
+    anchor=center,
+    node distance=0.8cm,
+  },
+  callout/.style = {
+    draw = \colorf,
+    thick,
+    circle,
+    minimum width = 1cm,
+  },
 }
 % footer & frame number
 \expandafter\def\expandafter\insertshorttitle\expandafter{%

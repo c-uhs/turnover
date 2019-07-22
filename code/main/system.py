@@ -24,6 +24,10 @@ def dxfun(X,t,P,dxout={}):
     rho = XC / XC.isum(['ip'])
     rho[np.isnan(rho)] = 1
     rho = rho.expand(beta.space.subspace(['hp'],keep=False))
+    # < TEMP >: assortative
+    # eps = 0.5
+    # rho = rho * (eps) + np.eye(3) * (1-eps) 
+    # </ TEMP >
     if dxout: # TODO: this should be a decorator
       lvars = locals()
       for v in dxout:
@@ -55,6 +59,14 @@ def dxfun(X,t,P,dxout={}):
   treat = X.iselect(hi=['I']) * P['tau']
   dXi.update(treat, hi=['R'], accum=np.add)
   dXo.update(treat, hi=['I'], accum=np.add)
+  # loss of immunity: T -> S
+  loss = X.iselect(hi=['R']) * P['gamma']
+  dXi.update(loss, hi=['S'], accum=np.add)
+  dXo.update(loss, hi=['R'], accum=np.add)
+  # < TEMP >: mortality
+  # mort = X.iselect(hi=['I','R']) * 0.1
+  # dXo.update(mort, hi=['I','R'], accum=np.add)
+  # </ TEMP >
   # dxout
   if dxout: # TODO: this should be a decorator
     lvars = locals()
@@ -117,8 +129,8 @@ def get_outputs(spaces,select,t,names=None,**kwargs):
     'infections':    {'ss':'S'},
     'cum-infect':    {'ss':'S'},
     'tpaf-high':     {'beta':'beta','ss':'S','mode':'from'},
-    'inf-ratio':     {'ss':'S','si':'infected'},
-    'si-partnerships':{'ss':'S','si':'infected'},
+    'tip':           {'ss':'S','si':'infected'},
+    'sip':           {'ss':'S','si':'infected'},
     'C':             {},
   }
   return xdict([
@@ -130,8 +142,14 @@ def get_specs():
   specdir = os.path.join(config.path['root'],'code','main','specs')
   dims   = initutils.objs_from_json(Dimension,            os.path.join(specdir,'dimensions.json'))
   spaces = initutils.objs_from_json(initutils.make_space, os.path.join(specdir,'spaces.json'),dims=dims.values())
-  params = initutils.objs_from_json(initutils.make_param, os.path.join(specdir,'params.json'),space=spaces['super'])
-  select = initutils.objs_from_json(Selector,             os.path.join(specdir,'selectors.json'))
+  select = initutils.objs_from_json(Selector, [
+      os.path.join(specdir,'selectors.json'),
+      os.path.join(specdir,config.model,'selectors.json'),
+    ])
+  params = initutils.objs_from_json(initutils.make_param, [
+      os.path.join(specdir,'params.json'),
+      os.path.join(specdir,config.model,'params.json'),
+    ], space=spaces['super'])
   return {
     'dims':   dims,
     'spaces': spaces,
