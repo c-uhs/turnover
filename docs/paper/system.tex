@@ -172,7 +172,7 @@ Given a sufficient number $M = G^2$ of unique constraints, % the sentence is not
 the parameters can be calculated algebraically using $\bm{\theta} = A^{-1}\bm{b}$.
 Some examples of constraints are explored below: constant group size;....  % list these here for the reader --> is each of the following sections describing a constraint? - make that really clear in the opening what the constraint is
 % --------------------------------------------------------------------------------------------------
-\paragraph{Constraint 1: Constant Group Size}			%number the example constraints. Similar to Box 1 --> a box or flow diagram to show the various approaches to constraints will be useful - e.g. either constant group size or constant turnover rates....or as subsets of the third element in Box 1 (under Turnover) --> leads nicely into decisions based on data and assumptions. Can discuss at next PM if not clear from my written comments.
+\paragraph{Constraint 1: Constant Group Size}			%number the example constraints. Similar to Box 1 --> a box or flow diagram to show the various approaches to constraints will be useful - e.g. modeler can either ensure constant group size or duration spent in each risk group. alternatively present the options as a subset of the third point in Box 1 (under Turnover) --> would lead nicely into decisions based on data and assumptions. Can discuss at next PM if suggestion not clear from my written comments.
 One epidemiological feature that epidemic models consider
 is whether or not the relative population size of risk groups are constant over time. %citation = modeling papers where they want to keep constant vs. where the relative pop. size changes over time (e.g. in models with behaviour change over time)
 Enabling constant group size assumes a stable level of heterogeneity over time.   %can mention this with respect to sex work population size in the discussion section
@@ -222,9 +222,9 @@ For $G = 3$, 6 additional constraints are required: [...list them/examples here.
 % --------------------------------------------------------------------------------------------------
 \paragraph{Specified Elements}
 The simplest type of additional constraint is to
-directly specify individual elements in $\bm{\hat{e}}$ or $\phi$.
-This constraint may be appended to $\bm{b}$ and $A$ using indicator encoding:
-with $b_k$ as the specified value and $A_k = [0,\dots,1,\dots,0]$ as the indicator vector.
+directly specify elements in $\bm{\hat{e}}$ or $\phi$.								%by specifying, do you mean provide input values directly from the data? and to every element as independent values?
+This constraint may be appended to $\bm{b}$ and $A$ using indicator encoding:		%suggest defining "indicator encoding" with a citation for the rest of us...; suggest precision re: what 'this' refers to (i.e. a value for every element)?
+with $b_k$ as the specified value and $A_k = [0,\dots,1,\dots,0]$ as the indicator vector.	%what does subscript k refer to? the value of an element in $\bm{\hat{e}}$ ?
 For example, for $G = 3$, if it is known that 20\% of individuals
 enter directly into risk group $x_1$ upon entry into the model ($\hat{e}_1 = 0.20$),
 then $\bm{b}$ and $A$ can be augmented with:
@@ -233,16 +233,16 @@ then $\bm{b}$ and $A$ can be augmented with:
 A' = \left[\begin{array}{ccccccccc}
 1 & \cdot & \cdot & \cdot & \cdot & \cdot & \cdot & \cdot & \cdot \\
 \end{array}\right] 
-\end{equation}
-If we do not want any turnover from group $i$ to group $j$,
-then this approach can also be used to set $\phi_{ij} = 0$.
-Note that the elements of $\bm{\hat{e}}$ must sum to one.
+\end{equation}																% nice! I like when you provide examples - really helps re: making it concrete & increasing and clarity 
+If the data suggest zero turnover from group $i$ to group $j$,
+then the above approach can also be used to set $\phi_{ij} = 0$.						%if 'above approach' refers to equation 12, then say that otherwise - just be careful when using terms like 'this approach' - etc. as there are >10 times in one large section when approaches are discussed. 
+Note that the elements of $\bm{\hat{e}}$ must sum to 1.
 Therefore, specifying all elements in $\bm{\hat{e}}$
-will only provide $G-1$ additional constraints,
-as the last element is redundant.
-This relationship is implicit in Eq.~(\ref{eq:b-A-basis}),
-so it is not necessary to supply a constraint $1 = \sum_{i} \hat{e}_i$.
-Similar redundancies or inconsistencies can emerge for constraints on $\phi$, as noted below.
+will only provide $G-1$ constraints (in addition to constraint 1 defined in section XXX),		%when talking about 'additional' constraints, try to refer back to what it is in addition to
+as the last element is redundant.												%redundant? or is it because it sums to 1 and therefore is a 'known' value?... not sure redundant is the correct term?
+This relationship is implicit in Eq.~(\ref{eq:b-A-basis}),								%which relationship? lots of 'this', etc. and reader is losing track...
+so it is not necessary to supply a constraint $1 = \sum_{i} \hat{e}_i$.						%am not sure I follow why it is not necessary to supply the summation constraint? - is it a check? 
+Similar redundancies or inconsistencies can emerge for constraints on $\phi$, as noted below.	%similar re: sentence above? specify which sections 'below'-- but only mention redundancies in sentence above, where are the inconsitencies? rephrase sentence for clarity and precision
 % --------------------------------------------------------------------------------------------------
 \paragraph{Group Duration}
 Another useful constraint can be derived from
