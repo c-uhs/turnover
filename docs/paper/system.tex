@@ -172,7 +172,10 @@ Given a sufficient number $M = G^2$ of unique constraints, % the sentence is not
 the parameters can be calculated algebraically using $\bm{\theta} = A^{-1}\bm{b}$.
 Some examples of constraints are explored below: constant group size;....  % list these here for the reader --> is each of the following sections describing a constraint? - make that really clear in the opening what the constraint is
 % --------------------------------------------------------------------------------------------------
-\paragraph{Constraint 1: Constant Group Size}			%number the example constraints
+\paragraph{Constraint 1: Constant Group Size}			%number the example constraints. Similar to Box 1 --> a box or flow diagram to show the various approaches to constraints will be useful - e.g. either constant group size or constant turnover rates....or as subsets of the third element in Box 1 (under Turnover) --> leads nicely into decisions based on data and assumptions. Can discuss at next PM if not clear from my written comments.
+One epidemiological feature that epidemic models consider
+is whether or not the relative population size of risk groups are constant over time. %citation = modeling papers where they want to keep constant vs. where the relative pop. size changes over time (e.g. in models with behaviour change over time)
+Enabling constant group size assumes a stable level of heterogeneity over time.   %can mention this with respect to sex work population size in the discussion section
 First, we define the ``conservation of mass'' equation for group $x_i$,
 wherein the rate of change of the group
 is defined as the sum of flows in\,/\,out of the group:
@@ -181,17 +184,18 @@ is defined as the sum of flows in\,/\,out of the group:
 = \nu \thinspace e_i + \sum_{j}{\phi_{ji} \thinspace x_j}
 - \mu \thinspace x_i - \sum_{j}{\phi_{ij} \thinspace x_i}
 \end{equation}
-While Eq.~(\ref{eq:mass-balance}) is written in terms of
-absolute population sizes $\bm{x}$ and $\bm{e}$,
-it is equivalent to divide through by $N$,
-yielding a system in terms of
-proportions $\bm{\hat{x}}$ and $\bm{\hat{e}}$,
-which can be more useful, since $N$ need not be known.
-% not sure if there is additional normalization needed, actually
-If we assume that the average proportions of each group $\hat{x}_i$ is constant over time,
+
+Eq.~(\ref{eq:mass-balance}) is written in terms of
+absolute population sizes $\bm{x}$ and $\bm{e}$, 
+but can be written 
+as proportions $\bm{\hat{x}}$ and $\bm{\hat{e}}$ 
+when dividing by $N$. Working with proportions are
+useful as $N$ need not be known.			
+% not sure if there is additional normalization needed, actually  % SM: explain this to me?
+If we assume that the average proportions of each group $\hat{x}_i$ is constant over time,  %why average? we are dealing with a deterministic set of equations noh? or do you mean at steady state?
 then the desired rate of change for risk group $i$
-will be equal to the growth of the risk group, $\mathcal{G} x_i$.
-Substituting this into Eq.~(\ref{eq:mass-balance}),
+will be equal to the rate of population growth of risk group, $\mathcal{G} x_i$.
+Substituting this into Eq.~(\ref{eq:mass-balance}),  %specify 'this'? - its ok to be repetitive to avoid any possible misunderstandings among those of us with short attention spans! (yup - i've been schooled in limiting use of 'this' and 'these'! 
 and simplifying yields:
 \begin{equation}\label{eq:system}
 \nu \thinspace x_i
@@ -211,10 +215,10 @@ A = \left[\begin{array}{ccccccccc}
 \cdot & \cdot &  \nu  & \cdot &  x_1  & \cdot &  x_2  & -x_3  & -x_3  \\
 \end{array}\right] 
 \end{equation}
-These $G$ constraints are necessary to ensure risk groups do not change size over time.
-However, to obtain a unique solution,
-we still need an additional $G(G-1)$ constraints.
-For $G = 3$, this corresponds to 6 additional constraints.
+The $G$ constraints ensure risk groups do not change size over time.
+However, an unique solution requires
+an additional $G(G-1)$ constraints.
+For $G = 3$, 6 additional constraints are required: [...list them/examples here...].  % what are these constraints? the specified elements? its not clear until after reading the next section - suggest introducing/listing things before moving to subsequent paragraph/section...
 % --------------------------------------------------------------------------------------------------
 \paragraph{Specified Elements}
 The simplest type of additional constraint is to
