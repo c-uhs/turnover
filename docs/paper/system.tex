@@ -139,26 +139,26 @@ Next, we present methods for resolving
 the distribution of individuals entering the risk model $\bm{\hat{e}}(t)$ and
 the rates of turnover $\phi(t)$,
 assuming that entry and exit rates $\nu(t)$ and $\mu(t)$ are known.
-Similar to above, we first formulate the problem as a system of equations.
-Then, we explore the data and assumptions which can be leveraged
+First we formulate the problem as a system of equations.
+Then we explore the data and assumptions required			%suggest precise language/terminology especially in the methods/results of papers
 to solve for the values of parameters in the system.
 The $(t)$ notation is omitted throughout this section for clarity,
 though time-varying parameters can be estimated by
 repeating the necessary calculations for each $t$.
 \par
-Depending on the number of risk groups $G$,
-there are $G$ unknown elements in $\bm{\hat{e}}$ and $G(G-1)$ unknown elements in $\phi$.
+The number of risk groups $G$ specifies the number of 
+$G$ unknown elements in $\bm{\hat{e}}$ and $G(G-1)$ unknown elements in $\phi$.
 We collect these unknowns in the vector
 $\bm{\theta} = \left[\bm{\hat{e}}, \bm{y}\right]$,
 where $\bm{y} = \mathrm{vec}_{i \ne j}(\phi)$.
-For example, for $G = 3$, the vector $\bm{\theta}$ is defined as:
+For example, for $G = 3$, the vector $\bm{\theta}$ is defined as:  %nice! i like how you provide a clear example
 \begin{equation}
 \bm{\theta} = \left[
 \begin{array}{ccccccccc}
 \hat{e}_1 & \hat{e}_2 & \hat{e}_3 & \phi_{12} & \phi_{13} & \phi_{21} & \phi_{23} & \phi_{31} & \phi_{32}
 \end{array}\right]
 \end{equation}
-The crux of this framework is then to define a linear system of equations
+We then define a linear system of equations		%can use nice phrasing like 'crux of this framework' in the discussion section or in the opening of a section, but suggest "we-do-this-do-that" language here
 which uniquely determine the elements of $\bm{\theta}$:
 \begin{equation}\label{eq:system-matrix}
 \bm{b} = A \thinspace \bm{\theta}
@@ -167,12 +167,12 @@ where $A$ is a $M \times G^2 $ matrix
 and $\bm{b}$ is a $M$-length vector.
 That is, each row in $A$ and $\bm{b}$ specifies
 an assumed relationship involving elements of
-$\bm{\hat{e}}$ and $\phi$.
-Given a sufficient number $M = G^2$ of unique constraints,
+$\bm{\hat{e}}$ and $\phi$.							%suggest rephrase the sentence for clarity ("species and assumed relationship" --> simpler words)
+Given a sufficient number $M = G^2$ of unique constraints, % the sentence is not clear. Give examples of unique constraints in words here an then go into it in the next section
 the parameters can be calculated algebraically using $\bm{\theta} = A^{-1}\bm{b}$.
-Some examples of constraints are explored below.
+Some examples of constraints are explored below: constant group size;....  % list these here for the reader --> is each of the following sections describing a constraint? - make that really clear in the opening what the constraint is
 % --------------------------------------------------------------------------------------------------
-\paragraph{Constant Group Size}
+\paragraph{Constraint 1: Constant Group Size}			%number the example constraints
 First, we define the ``conservation of mass'' equation for group $x_i$,
 wherein the rate of change of the group
 is defined as the sum of flows in\,/\,out of the group:
