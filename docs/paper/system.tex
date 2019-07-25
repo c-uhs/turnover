@@ -66,15 +66,16 @@ are already known, and should remain constant over time.
 Thus, what remains is to estimate the values of the parameters:
 $\nu$, $\mu$, $\bm{\hat{e}}$, and $\phi$,
 using commonly available sources of data.
-% --------------------------------------------------------------------------------------------------
+% -------------------------------------------------------------------------------------------------- %% please see the system.tex edited document I sent via email for comments before the Total Population Size subsection
+
 \subsubsection{Total Population Size}\label{sss:params-nu-mu}
 The total population size $N(t)$ is related to
-the rates of population entry $\nu(t)$ and exit $\mu(t)$.
-We consider variation in rate of entry across risk groups via $\bm{\hat{e}}$,
-and we do not stratify the rate of exit by activity group
-(disease-attributable death is assumed to be negligible for now).
-Therefore, we can assume that $\nu$ and $\mu$ do not vary across risk groups,
-allowing these rates to be estimated independent of
+the rates of exogenous population entry $\nu(t)$ and exit $\mu(t)$.  % suggest clarifying what is meant here (be more precise) - how is it related? does one define the other? or does the value of N(t) change based on whether nu and mu have the same value vs. different values?
+We allow the proportion entering the modeled system to vary by risk group via $\bm{\hat{e}}$,
+while the exogenous exit rate has the same value for each group. % risk vs. activity group? ensure a consistency check for terminology
+We assume that there is no disease-attributable death.
+Because the values of $\nu$ and $\mu$ are the same for each risk group, 
+they can be estimated independent of
 $\bm{\hat{x}}$, $\bm{\hat{e}}$, and $\phi$.
 \par
 The difference between entry and exit rates
@@ -86,49 +87,52 @@ The total population may then be defined using an initial population size $N_0$ 
 \begin{equation}\label{eq:growth-vary}
   N(t) = N_0 \exp{\left(\int_{0}^{\,t}{\log\big(1+\mathcal{G}(\tau) \big)d\tau}\right)}
 \end{equation}
-which, for constant growth, simplifies to the familiar expression:
+which, for constant growth, simplifies to:   %when you say 'familiar' do you mean it can be cited? suggest including citation for equation (3) and (4) as they have been shown/used before from demography
 \begin{equation} \label{eq:growth-const}
   N(t) = N_0 {(1 + \mathcal{G})}^{t}
 \end{equation}
-In most cases, demographic data will be available
-on the total size of the population over time $N(t)$,
-allowing Eqs.~(\ref{eq:growth-vary})~and~(\ref{eq:growth-const})
+Census data can be used to source the total population size in a given geographic setting over time $N(t)$,  %can cite an census source - eg. World Bank Population Size data
+thus allowing Eqs.~(\ref{eq:growth-vary})~and~(\ref{eq:growth-const})
 to be used to estimate $\mathcal{G}(t)$.
 \par
-If we assume that the population size is constant, then $\mathcal{G}(t) = 0$ and $\nu(t) = \mu(t)$.
-However, this is generally not a good assumption, 
-as it does not reflect the positive population growth observed in many contexts.
-We will also later show that this assumption may impact epidemic dynamics.
-Another approach is to fix $\mathcal{G}$ at a constant value.
-This value can be estimated via Eq.~(\ref{eq:growth-const})
+If the total population size is assumed to be constant, then $\mathcal{G}(t) = 0$ and $\nu(t) = \mu(t)$.
+If population growth occurs at a stable rate, then 
+$\mathcal{G}$ is fixed at a constant value
+which can be estimated via Eq.~(\ref{eq:growth-const})
 using any two values of $N(t)$, separated by a time interval $\tau$:
 \begin{equation}
 \mathcal{G}_{\tau} = {\frac{N(t+\tau)}{N(t)}}^{\frac{1}{\tau}} -1
 \end{equation}
-For contexts with variability in $\mathcal{G}$ over time,
-this process can be repeated for consecutive time intervals,
+
+If the rate of population growth $\mathcal{G}$ varies over time,
+this % which process? - refer to the relevant equation...in general, try to limit use of 'this', 'these', etc. and instead use the specific bookmark 
+process can be repeated for consecutive time intervals,
 and the complete function $\mathcal{G}(t)$ approximated piecewise by constant values.
-This approach is generally more feasible than exact solutions using Eq.~(\ref{eq:growth-vary}),
+The piecewise approximation is generally more feasible than exact solutions using Eq.~(\ref{eq:growth-vary}),
 and can reproduce $N(t)$ accurately for small enough intervals $\tau$,
-such as one year.
+such as one year.  %the above sentence would benefit from a citation for 'feasibility' and 'reproducing accurately' otherwise it may be considered editorializing
 \par
-Now, a given value of $\mathcal{G}(t)$ does not imply any particular
+
+The value of $\mathcal{G}(t)$ does not imply any particular
 values of $\nu(t)$ or $\mu(t)$,
 since any choice of $\mu(t)$ can be compensated by an appropriate choice of $\nu(t)$,
-and vice versa, as in Eq.~(\ref{eq:growth-G}).
-However, it is common to assume a constant duration of individuals in the model $\delta(t)$,
-which is related to the rate of exit by:
+and vice versa, as in Eq.~(\ref{eq:growth-G}).										%hard to follow this sentence, suggest rephrasing for clarity
+
+Most modeled systems assume a constant duration of time that individuals spend in the model $\delta(t)$,  %should be cited (Anderson & May textbook, etc.)
+which is related to the exit rate by:
 \begin{equation} \label{eq:duration-model}
 \delta(t) = \mu^{-1}(t)
 \end{equation}
-Such a duration should reflect the demographic data used to define $N(t)$,
-as well as the epidemiological data used to inform other model parameters.
-For example, an age range of 15~to~50 years implies a duration in the model of $\delta = 35$ years.
-The duration may also vary with time to reflect contextual changes to all-cause mortality.
-In any case, $\mu(t)$ can then be defined as $\delta^{-t}(t)$
+
+in the context of sexually transmitted infections, the duration of time usually reflects
+the average sexual life-course of individuals from age 15~to~50 years such that
+$\delta = 35$ years. 
+The duration $\delta may also vary with time to reflect changes in life expectancy.
+$\mu(t)$ can then be defined as $\delta^{-t}(t)$
 following Eq.~(\ref{eq:duration-model}),
 and $\nu(t)$ defined as $\mathcal{G}(t) - \mu(t)$
 following Eq.~(\ref{eq:growth-G}).
+
 % --------------------------------------------------------------------------------------------------
 \subsubsection{Turnover}\label{sss:params-turnover}
 Next, we present methods for resolving
