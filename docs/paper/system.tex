@@ -244,20 +244,31 @@ This relationship is implicit in Eq.~(\ref{eq:b-A-basis}),								%which relatio
 so it is not necessary to supply a constraint $1 = \sum_{i} \hat{e}_i$.						%am not sure I follow why it is not necessary to supply the summation constraint? - is it a check? 
 Similar redundancies or inconsistencies can emerge for constraints on $\phi$, as noted below.	%similar re: sentence above? specify which sections 'below'-- but only mention redundancies in sentence above, where are the inconsitencies? rephrase sentence for clarity and precision
 % --------------------------------------------------------------------------------------------------
-\paragraph{Group Duration}
-Another useful constraint can be derived from
-the average duration of individuals in a risk group.
-This duration $\delta_i$ is defined as the inverse of all efferent flow rates:
+\paragraph{Constraint 3: Duration in each Risk Group}						% can discuss at next PM, but a brief table of what type of data and assumptions for each constraint would be useful for epidemiology audience (thinking about readers like Sheree, etc.)
+Constraint 1 assumes that the relative population size of each group remains constant.
+Another epidemiological feature that epidemic models consider
+is whether or not the duration of time spent within a given risk group remains constant. 
+For example, in STI transmission models that include formal sex work, 
+one may assume that the duration of formal sex work remains stable over time.  %citation = modeling paper(s) where they want to keep duration of sex work constant?
+Thus, another practical constraint may be derived from
+the average duration of time individuals spend in a risk group.
+The duration $\delta_i$ is defined as the inverse of all efferent flow rates:		%define efferent in brackets (like exogenous, etc. - we will want to define all of these early and use consistently)
 \begin{equation}\label{eq:duration-group}
 \delta_i = {\bigg(\mu + \sum_{j}{\phi_{ij}}\bigg)}^{-1}
 \end{equation}
-Average durations could be derived from survey data, including for key populations, % SS: define KP
-or they could be assumed.
-These values can be used to define constraints on $\phi$ by
+Estimates of the duration in a given risk group can be 
+sourced from cross-sectional survey data where participants are asked about 
+how long they have engaged in a particular practice - such as sex in exchange for money. % citation
+Data on duration may also be sourced from longitudinal data where repeated measures of self-reported sexual behaviour or 
+proxy measures of sexual risk data are collected. %citation
+
+% would not introduce key populations here (i.e. limit # of new terms that need to be defined). if talking about key populations, reasonable to do so in Discussion +/- Introduction.
+
+Data on duration in each risk group can be used to define constraints on $\phi$ by
 rearranging Eq.~(\ref{eq:duration-group}) to yield:
 ${\delta_{i}}^{-1} - \mu = \sum_{j}{\phi_{ij}}$.
 For example, if for $G = 3$,
-the average duration in group $x_1$ is known to be $\delta_1 = 5$ years,
+and the average duration in group $x_1$ is known to be $\delta_1 = 5$ years,
 then $\bm{b}$ and $A$ can be augmented with:
 \begin{equation}
 \bm{b}' = \left[\begin{array}{c}
@@ -267,11 +278,11 @@ A' = \left[\begin{array}{ccccccccc}
 \cdot & \cdot & \cdot & 1 & 1 & \cdot & \cdot & \cdot & \cdot \\
 \end{array}\right]
 \end{equation}
-As noted above, redundancies can emerge
-when constraining turnover rates $\phi$ via duration $\delta_i$.
+As noted above, redundancies can emerge							%pretty but flowery sentence alert. simplify for clarity. what is meant by redundancy? as per above comment - is 'redunancy' the most accurate and precise term? and why do they emerge? do they not simply exist? the term 'emerge' has some specific scientific meaning from the literature on emergent properties of complex systems. I worry we are using a lot of different words and losing precision and clarity so lets keep the language really direct and simple as we can
+when constraining turnover rates $\phi$ via duration $\delta_i$.				%rephrase sentences here for clarity
 Namely, specifying all efferent flow rates $\phi_{ij}$ for one group $i$
-will fully determine the duration in the group $\delta_i$.
-In general, each constraint which is not redundant will increase the rank of $A$ by one,
+will fully determine the duration in the group $\delta_i$.					%define what is meant by 'fully determine' and include a citation
+In general, each constraint which is not redundant will increase the rank of $A$ by one,		%rephrase for clarity
 and $A$ must be full rank ($G^2$) to uniquely determine the parameters in $\bm{\theta}$.
 % --------------------------------------------------------------------------------------------------
 \paragraph{Turnover Balance}
