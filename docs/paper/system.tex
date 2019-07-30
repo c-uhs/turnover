@@ -312,7 +312,7 @@ Again, care should be taken to avoid redundancies and inconsistencies with other
 %% but its honestly very difficult to summarize the situations where this occurs.			%I found this section hard to follow re: "why"/"rationale" for the constraint. Suggest getting input from HM and LW about how to talk about the constraint and what it could 'mean' as we do in the above section on constraints. That is, for every constraint - why is it a constraint? what does it mean?
 % --------------------------------------------------------------------------------------------------
 \paragraph{Minimization}
-Lastly, we can avoid specifying a complete set of constraints on $\bm{\theta}$
+Lastly, we can avoid specifying a complete set of constraints on $\bm{\theta}$		%give an example rationale of why / under what conditions one may want to do this
 ($A$ can be less than full rank)
 if the problem is posed as a minimization problem, namely:
 \begin{equation}\label{eq:system-optimize}
@@ -324,17 +324,17 @@ if the problem is posed as a minimization problem, namely:
 \end{equation}
 where $f$ is a function which globally constrains $\bm{\theta}$,
 such as: ${\left|\left| \,\cdot\, \right|\right|}_2$.
-That is, when a sufficient number of assumptions cannot be made about $\bm{\hat{e}}$ and $\phi$
+That is, when a sufficient number of assumptions cannot be made about $\bm{\hat{e}}$ and $\phi$		%what is meant by 'sufficient' - perhaps we can be more explicit/precise here?
 to yield a unique solution,
-this approach can be used to find the smallest values of $\bm{\hat{e}}$ and $\phi$
-which satisfy the given constraints.
-Numerical solutions to such problems are widely available,
+the minimization approach can be used to find the smallest values of $\bm{\hat{e}}$ and $\phi$
+which satisfy the given constraints.														%as you had done nicely above, suggest including an example scenario. this sentence i had to re-read a few times to try and understand...perhaps it can be broken up a bit (or increase precision re: terminology)?
+Numerical solutions to minimization problems are widely available,
 such as the Non-Negative Lease Squares solver \citep{Lawson1995}.%
 \footnote{The \textsc{nnls} solver is available in Python:
    \href{https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.nnls.html}
 {\texttt{https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.nnls.html}}.}
-%% JK: may want to add a paragraph on inconsistent systems (no true solution):
-%% how to identify them and what to do about them.
+%% JK: may want to add a paragraph on inconsistent systems (no true solution):					%suggest framing as 'conditions' under which there may be no true solution, and what this means - practically - for including turnover in epidemic models.
+%% how to identify them and what to do about them.											%agree - and see above comment re: framing
 % ==================================================================================================
 \subsection{Previous Approaches}
 While most models have included population growth,
