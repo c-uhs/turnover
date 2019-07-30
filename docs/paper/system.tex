@@ -218,7 +218,7 @@ A = \left[\begin{array}{ccccccccc}
 The $G$ constraints ensure risk groups do not change size over time.
 However, an unique solution requires
 an additional $G(G-1)$ constraints.
-For $G = 3$, 6 additional constraints are required: [...list them/examples here...].  % what are these constraints? the specified elements? its not clear until after reading the next section - suggest introducing/listing things before moving to subsequent paragraph/section...
+For $G = 3$, 6 additional constraints are required: [...list them/examples here...].  % what are these constraints? the specified elements? its not clear until after reading the next section - suggest introducing/listing things before moving to subsequent paragraph/section. Also - suggest including the 'rationale' or epidemiological 'reason' for each constraint. I put some edits to that effect, but may need to discuss at PM if not clear what I meant by this...
 % --------------------------------------------------------------------------------------------------
 \paragraph{Specified Elements}
 The simplest type of additional constraint is to
@@ -278,20 +278,21 @@ A' = \left[\begin{array}{ccccccccc}
 \cdot & \cdot & \cdot & 1 & 1 & \cdot & \cdot & \cdot & \cdot \\
 \end{array}\right]
 \end{equation}
-As noted above, redundancies can emerge							%pretty but flowery sentence alert. simplify for clarity. what is meant by redundancy? as per above comment - is 'redunancy' the most accurate and precise term? and why do they emerge? do they not simply exist? the term 'emerge' has some specific scientific meaning from the literature on emergent properties of complex systems. I worry we are using a lot of different words and losing precision and clarity so lets keep the language really direct and simple as we can
+As noted above, redundancies can emerge							%flowery sentence alert. simplify for clarity. what is meant by redundancy? as per above comment - is 'redunancy' the most accurate and precise term? and why do they emerge? do they not simply exist? the term 'emerge' has some specific scientific meaning from the literature on emergent properties of complex systems. I worry we are using a lot of different words and losing precision and clarity so lets keep the language really direct and simple as we can
 when constraining turnover rates $\phi$ via duration $\delta_i$.				%rephrase sentences here for clarity
 Namely, specifying all efferent flow rates $\phi_{ij}$ for one group $i$
 will fully determine the duration in the group $\delta_i$.					%define what is meant by 'fully determine' and include a citation
 In general, each constraint which is not redundant will increase the rank of $A$ by one,		%rephrase for clarity
 and $A$ must be full rank ($G^2$) to uniquely determine the parameters in $\bm{\theta}$.
 % --------------------------------------------------------------------------------------------------
-\paragraph{Turnover Balance}
-We present one final constraint here.
-We can assume that
+\paragraph{Turnover Balance} 	%define what is meant by turnover balance? found this section difficult to follow/understand re: rationale for the constraint...
+A final constraint is.... %fill in with an explicit link to epidemiology or mechanism (what is the 'real world' link here?) - see above sections.
+
+If we assume that
 the absolute number of individuals moving between two risk groups is
 related by a ratio $\frac{r_i}{r_j}$ so that:
-$\phi_{ij} x_{i} r_{i} = \phi_{ji} x_{j} r_{j}$.
-This helps constrain $\phi_{ij}$ and $\phi_{ji}$.
+$\phi_{ij} x_{i} r_{i} = \phi_{ji} x_{j} r_{j}$. we can
+constrain $\phi_{ij}$ and $\phi_{ji}$.				%is constrain the right word or do we mean constrain the values of...? or is "fixed" a better phrasing here? 
 For example, for $G = 3$,
 if we assume that the number of individuals moving between groups $x_1$ and $x_2$
 is related by $\frac{3}{2}$,
@@ -304,11 +305,11 @@ A' = \left[\begin{array}{ccccccccc}
 \cdot & \cdot & \cdot & 3 x_1 & \cdot & -2 x_2 & \cdot & \cdot & \cdot \\
 \end{array}\right] 
 \end{equation}
-If we assume that the absolute number of individuals moving between the groups is equal,
-then simply $\frac{r_i}{r_j} = 1$.
-Again, care should be taken to avoid redundancies and inconsistencies with other constraints.
-%% JK: I feel this should be elaborated on,
-%% but its honestly very difficult to summarize the situations where this occurs.
+If we assume that the absolute number of individuals moving between the groups is equal,		
+then $\frac{r_i}{r_j} = 1$.		%it is recommended to avoid adjectives as much as possible in most scientific writing
+Again, care should be taken to avoid redundancies and inconsistencies with other constraints. %found this sentence to read like a textbook instead of a scientific paper. and kind of condescending in tone? should be rephrased.
+%% JK: I feel this should be elaborated on,			
+%% but its honestly very difficult to summarize the situations where this occurs.			%I found this section hard to follow re: "why"/"rationale" for the constraint. Suggest getting input from HM and LW about how to talk about the constraint and what it could 'mean' as we do in the above section on constraints. That is, for every constraint - why is it a constraint? what does it mean?
 % --------------------------------------------------------------------------------------------------
 \paragraph{Minimization}
 Lastly, we can avoid specifying a complete set of constraints on $\bm{\theta}$
