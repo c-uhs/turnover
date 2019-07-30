@@ -336,24 +336,20 @@ such as the Non-Negative Lease Squares solver \citep{Lawson1995}.%
 %% JK: may want to add a paragraph on inconsistent systems (no true solution):					%suggest framing as 'conditions' under which there may be no true solution, and what this means - practically - for including turnover in epidemic models.
 %% how to identify them and what to do about them.											%agree - and see above comment re: framing
 % ==================================================================================================
-\subsection{Previous Approaches}
-While most models have included population growth,
-many have not included risk heterogeneity within age-sex groups,
-and still fewer have simulated turnover among risk groups.
-These three major features about risk group dynamics and the associated assumptions
-are summarized in Box~\ref{box:assumptions}.
-In each case, option (b) typically represents the more plausible assumption.
-Experiment 1 in the next section
-aims to illustrate the potential implications of assuming option (a).
-\begin{floatbox}
-  \caption{Common assumptions regarding the dynamics of risk groups}
-  \label{box:assumptions}
-  \input{floats/box-assumptions.tex}
-\end{floatbox}
-\par
-Among those works which have considered risk groups and turnover among them,
-implementations have varied widely.
-In a $G = 2$ system,
+\subsection{Previous Approaches}														%this section can be strengthened a lot more by more directly showing how it may be subsumed into the proposed unified approach. 	and more importantly - rather than being 'subsumed' ---> can the goals of the implementation used in prior studies be replicated with the unified approach we propose? -- the goals/objectives/constraints are what matter. 
+
+The three major features pertaining to risk group dynamics and the associated assumptions			%terminology consistency check
+are summarized in Box~\ref{box:assumptions}. They include: population growth; heterogeneity in risk; and turnover in risk.
+
+Few epidemic models of sexually transmitted infections with 
+heterogeneity in risk 
+have simulated turnover among risk groups.												%could benefit from a citation is possible without actually doing a systematic review specifically for this. are there any systematic review or comprehensive reviews you can cite? e.g. Watts paper? 
+And they have implemented turnover in various ways. In this section, we review
+X prior implementation of turnover and each study's objectives for turnover (e.g. constant relative population size of risk groups over time)
+; and highlight how the unified approach
+proposed in Section X could be used to achieve the same objectives.			%for each paper/model --> define their objectives/constraints for turnover, and then talk about who they went about; then link to your unified approach explicitly and clearly.
+																	
+In a $G = 2$ system,								
 \citet{Stigum1994} use a parameter $\kappa$ to define
 the rate of movement of individuals from a core group into the remaining population,
 which is balanced by an equal number of individuals moving in the opposite direction.
@@ -375,7 +371,7 @@ the required distribution of model entrants $\bm{\hat{e}}$
 via equation [S12] in the Supplemental Information.
 \par
 The $G = 7$ system used by
-\citet{Boily2015} is highly contextual, and
+\citet{Boily2015} is contextual, and							%what is meant by contextual?
 includes four high-risk groups which transition to specific low-risk groups
 (e.g. from ``high-/low-volume sex work'' to ``formerly engaged in sex work'').
 The turnover matrix $\phi$ is then completely \emph{specified} (though notably sparse)
@@ -386,18 +382,13 @@ leaving the distribution of risk groups among individuals in the model $\bm{\hat
 as the only free parameters.
 For this reason, a 100-year ``burn-in'' period is required
 to equilibrate risk-group sizes before introduction of HIV in the model.
-Note that this approach is not perfectly compatible with the framework presented here,
+Note that this approach is not perfectly compatible with the framework presented here,			%not clear what this means
 since we assume \emph{constant group sizes}
 as the basis for the system in Eq.~(\ref{eq:b-A-basis}),
 and exclude $\bm{\hat{x}}$ from the vector of free parameters $\bm{\theta}$.
 However, by relaxing these constraints,
-it should be possible to formulate even the implementation by \citet{Boily2015}
-in terms of the proposed framework.
+it should be possible to formulate even the implementation by \citet{Boily2015}					%'should be' is unclear and vague. Also is the goal to formulate the implementation of other approaches, or is it to reproduce the goals of the other approaches -- for each paper, what was the goal? link to the constraints you outlined above. is it to keep group sizes constant or duration in risk constant based on data? 
+in terms of the proposed framework.													%but what about HIV-attributable mortality? I think across all models discussed above except for Stigum, need to discuss inclusion of HIV-attributable mortality
 \par
-In sum, the framework for modelling turnover presented here aims to generalize
+In sum, the framework for modelling turnover presented here aims to generalize				%where is 'here'? the paragraph above?
 all previous implementations.
-In so doing, we hope to clarify the requisite assumptions,
-dependencies on epidemiological data,
-and relationships between previous approaches.
-In Experiments 2 and 3, we leverage this framework to explore
-the potential influences of turnover on epidemics.
