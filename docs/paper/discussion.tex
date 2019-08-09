@@ -1,61 +1,163 @@
-Under construction!
-% % JK: from \ref{ss:res-turnover}
-% These trends echo previous observations \citep{Zhang2012,Henry2015}
-% but highlight the dependence of the threshold effect on the duration of infectiousness.
-% Furthermore, this implies that the rate of treatment required to achieve epidemic control
-% is affected by turnover.
-% Namely, since turnover acts to erode the core-group effect,
-% the rate of treatment required to achieve epidemic control will be
-% lower with turnover than without.
-% Models which fail to capture turnover dynamics might therefore be liable to
-% overestimate the treatment rate required to achieve epidemic control.
-% % repetitive wording here ...
-
-% Comparisons with Zhang2012 and Henry2015
-% - incidence is related to R0, but only for prevalence ~ 0
-%   - also: contributions here help explain by sub-group analysis
-% - speak to early infections
-%   - 
-
-% noting results w.r.t. fitted models: should probably fit rates of turnover
-% in conjunction with other parameters
-% methods here help ensure group sizes remain fixed despite changes in turnover rates
-
-% hard to capture turnover parameters from cross-sectional surveys
-% suggestions on how to do this?
-
-% Henry2015 note that major qualitative results regarding effect of turnover
-% were not changed by assumed proportionate vs assortative patterns of sexual mixing.
-
-% re. exp:1.3
-%It is worth comparing these results with the findings of \cite{Henry2015},
-%who observed that increasing turnover consistently decreased $R_0$ in a model of HIV.%
-%\footnote{\cite{Henry2015} use a parameter called the ``re-selection rate'' $\omega$
-%  to control the magnitude of turnover;
-%  this rate is functionally equivalent to
-%  a uniform scaling factor of the turnover rates $\phi$ used here.}
-%\citeauthor{Henry2015} highlight the reduction of
-%contact rates among infected individuals via turnover in their explanation of
-%the effect of turnover on $R_0$.
-%However, they also assume that acute infections are more infectious than chronic,
-%complicating the relationship between turnover and $R_0$.
-%Such an assumption is clearly plausible for many infections,
-%but it's not clear whether their conclusions regarding the effect of turnover on $R_0$
-%hold without this assumption.
-
-% LIMITATIONS:
-% - proportional mixing only
-% - 
-
-% Conduction vs convection: parallels from other fields
-
-%% SM (from exp): that we restricted our analyses to proportionate mixing is an important limitation
-%% to talk about in discussion (and reference work on assortative vs. proportionate mixing from Boily, Garnett, etc.)
-%% and in limitations, remember to hypothesize (and cite if available) how this assumption could influence the findings
-
-%% SM: in the discussion - point out that duration in the highest risk group is the most common empiric estimate we would have available, vis a vis sex work for example and cite Watts et al
-
-%% SM: move this to discussion --> "TPAF estimates the proportion of cumulative new infections which are attributable to
-%% prevention gaps among a specific population.%
-%% this information should be in the methods ---> \footnote{To estimate TPAF of the high risk group,
-%%  transmission ``from'' the high risk group is turned off, not ``to''.}
+Epidemic models have rarely considered turnover of individuals among risk groups.
+%Perhaps this is because it is seen as either infeasible or inconsequential to do so.
+%In this work, we have hopefully shown that it is neither.
+%\par
+In this work we have presented a new framework for modelling such turnover.
+This framework subsumes and generalizes previous approaches to this task,
+and clarifies requisite data and assumptions.
+We then used this framework to simulate turnover in
+an illustrative model of an STI epidemic,
+and explored how and why turnover influences the following model outputs:
+group-specific equilibrium prevalence and incidence;
+inferred heterogeneity during model fitting; and
+projected TPAF of a high-risk group.
+% --------------------------------------------------------------------------------------------------
+\paragraph{Turnover framework}
+Our framework uses a flexible system of linear equations to resolve
+the rates of turnover $\phi$ and
+the proportions of individuals entering into each risk group upon entry into the model $\bm{\hat{e}}$.
+This approach has several advantages.
+First, as shown in Section~\ref{ss:prev-approach},
+this formulation subsumes previous implementations of turnover,
+and thereby hopefully clarifies relationships among them.
+Second, it facilitates parameterization of turnover among any number of risk groups
+in a scalable, flexible way.
+Finally, the framework makes the parameterization of turnover systems more transparent,
+through explicit incorporation of constraints as rows in the linear system.
+We have also summarized the major constraints which could be used,
+so that future modellers may choose among these
+based on available data and epidemic context.
+It is our hope that this framework will facilitate
+inclusion of turnover in future epidemic models.
+\par
+The major data needs implicated by this approach are then as follows.
+First, the proportion of total individuals in each risk group $\bm{\hat{x}}$ is required.
+This can generally be obtained from representative surveys of the modelled population,
+and from key populations surveys for under-represented risk groups.
+Similarly, the risk behaviours of individuals immediately after entering the model
+can be used to specify elements in $\bm{\hat{e}}$.
+Such behaviours could be approximated using data from the youngest age group
+in the above surveys,
+or using surveys among young people specifically.
+Third, it is useful to know the average duration of individuals within each risk group $\bm{\delta}$.
+Among key populations, survey questions like
+``For how many years have you been a sex worker?''
+can be used to obtain estimates of duration in sex work \citep{Watts2010}.
+Among the general population,
+longitudinal data on individual-level changes in risk behaviour
+can be used to estimate duration in each risk group,
+although cross-sectional surveys unfortunately rarely capture such information.
+Finally, similar data, if available, can also be used to estimate
+the rates of transition between specific risk groups ($\phi$).
+% --------------------------------------------------------------------------------------------------
+\paragraph{Influence of turnover on incidence \& prevalence}
+In Experiment 1, we showed that turnover can have a large influence on
+the equilibrium STI incidence and prevalence
+projected among different risk groups, as well as overall.
+In general, turnover yields a net movement of infectious individuals
+from high to low risk.
+In an analogy with heat transfer mechanics,
+incidence represents infection ``conduction'',
+whereas turnover represents infection ``convection'',
+and both processes represent important mechanisms of infection spread.
+As such, it would be important to simulate turnover in epidemic models
+if such dynamics are known or assumed to be present in reality.
+\par
+Turnover also acts to homogenize the risk experienced by individuals in the model.
+Recall from core group theory that
+risk heterogeneity is sometimes necessary for persistence of an STI epidemic.
+Therefore, homogenization of risk through turnover
+could make epidemic control easier to achieve,
+compared to a setting with less or no turnover,
+as demonstrated by \citet{Henry2015}.
+We corroborate this hypothesis in Figure~\ref{fig:surface-prevalence-all},
+where we see that increasing turnover reduces
+the universal treatment rate $\tau$ required to achieve zero prevalence ($R_0 < 1$).
+% --------------------------------------------------------------------------------------------------
+\paragraph{Implications for interventions}
+Mathematical models are often used to quantify
+the contribution of high-risk groups to overall transmission,
+in order to help prioritize interventions.
+For example, the transmission population attributable fraction (TPAF)
+represents the maximum proportion of infections which could be averted
+with a perfect intervention in one risk group.
+In Experiment 3.1, we showed that the TPAF of a high risk group
+was lower in a setting with turnover than in a setting without.
+This was attributable to a higher prevalence ratio
+in the absence of the homogenizing effects of turnover,
+resulting in more transmissions from the high risk group.
+Thus, reaching the high risk group with interventions
+would be more important in a setting without turnover.
+\par
+However, in many epidemic models,
+the values of uncertain parameters are inferred
+by fitting to group-specific prevalence data
+before analysis of interventions.
+In Experiment 2, we showed that
+the heterogeneity in risk-associated parameters inferred via model fitting
+was higher in a model with turnover than in a model without.
+As a result, the TPAF of the high risk group
+was higher in the model with turnover than in the model without (Experiment 3.2).
+Therefore, if turnover dynamics present in reality
+are not simulated in the associated transmission model,
+the TPAF of high risk groups may be underestimated.
+That is, if risk group turnover is not simulated in fitted models,
+the impact of interventions prioritizing high risk groups
+may be systematically underestimated.
+% --------------------------------------------------------------------------------------------------
+\paragraph{Limitations}
+There are several limitations to this work,
+and the results shown here
+are specific to the model structure and assumptions employed.
+For example,
+we assumed proportional contact formation across risk groups,
+whereas a degree of so-called ``assortative mixing''
+by risk group is often assumed.
+We briefly explored the potential influence of assortative mixing
+on the results of Experiment 3 in Appendix~\ref{aaa:what-if-asso}.
+We found that the TPAF of the high risk group
+would likely be further underestimated under assortative mixing
+if turnover is omitted from fitted models.
+We also did not consider disease-attributable mortality,%
+\footnote{Since disease-attributable mortality
+  disproportionately affects higher risk groups,
+  risk groups may change size after including this dynamic in the model.
+  The proposed turnover framework does not yet include mechanisms to
+  re-balance such changes to group sizes.
+  In fact, such re-balancing would imply the existence of ``market'' forces
+  to maintain specific risk group sizes,
+  and it's not clear if such forces exist,
+  or if they dominate individual-level factors
+  driving movement between risk groups.}
+or reinfection.
+However, following similar analyses in
+Appendices~\ref{aaa:what-if-mort}~and~\ref{aaa:what-if-sirs}, respectively,
+we found that inclusion of disease-attributable mortality or reinfection would
+also result in greater underestimation of high risk group TPAF
+by models without turnover.
+That is, when
+assortative mixing, disease-attributable mortality, or reinfection are considered,
+fitted models without turnover would likely underestimate
+the importance of reaching high risk groups with interventions
+even more than shown in the original Experiment~3 results.
+\par
+We have also not explored:
+more complex or infection-specific natural disease history,
+which may include periods of reduced or increased infectivity;
+interactions between risk group turnover and age stratifications,
+which are likely important;
+or sensitivity of the results shown to other model parameters,
+such as the number and sizes of risk groups $\bm{\hat{x}}$,
+the probability of transmission $\beta$,
+and population entry and exit rates $\nu$~and~$\mu$.
+Finally, in examining the influence of turnover on STI prevalence and incidence,
+we have focused on systems at equilibrium,
+motivated by our analysis of TPAF.
+Turnover likely also has an important influence on
+temporal dynamics of infection transmission.
+For example, \citet{Henry2015} derived
+the analytical relationship between turnover
+and the basic reproduction number $R_0$,
+and showed that $R_0$ decreases monotonically with turnover.
+These limitations and gaps in our analysis thus represent
+interesting opportunities for future work.
