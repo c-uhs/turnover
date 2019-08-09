@@ -17,17 +17,15 @@ import numpy as np
 
 def dxfun(X,t,P,dxout={}):
   # TODO: validate this!
-  def foifun(Xi,Ci,beta,dxout={}):
+  def foifun(Xi,Ci,beta,eps,dxout={}):
     Xp  = modelutils.partner(X)
     Cp  = modelutils.partner(Ci)
     XC  = Xp.isum(['hp']) * Cp
     rho = XC / XC.isum(['ip'])
     rho[np.isnan(rho)] = 1
     rho = rho.expand(beta.space.subspace(['hp'],keep=False))
-    # < TEMP >: assortative
-    # eps = 0.5
-    # rho = rho * (eps) + np.eye(3) * (1-eps) 
-    # </ TEMP >
+    if eps > 0:
+      rho = rho * (eps) + np.eye(3) * (1-eps)
     if dxout: # TODO: this should be a decorator
       lvars = locals()
       for v in dxout:
@@ -44,29 +42,30 @@ def dxfun(X,t,P,dxout={}):
   dXi.update(P['nu']*P['pe']*X.sum(), hi=['S'], accum=np.add)
   dXo.update(P['mu']*X, accum=np.add)
   # turnover: ii -> ip ("from" group is index, not "to")
-  if X.space.dim('ii').n > 1:
-    Xi = X.expand(Space(X.space.dims+[modelutils.partner(X.space.dim('ii'))]),norm=False)
-    XZ = Xi * atleast(P['phi'],3,end=+1,cp=True)
-    dXi.update(XZ.isum(['ii']),accum=np.add)
-    dXo.update(XZ.isum(['ip']),accum=np.add)
+  Xi = X.expand(Space(X.space.dims+[modelutils.partner(X.space.dim('ii'))]),norm=False)
+  XZ = Xi * atleast(P['phi'],3,end=+1,cp=True)
+  dXi.update(XZ.isum(['ii']),accum=np.add)
+  dXo.update(XZ.isum(['ip']),accum=np.add)
   # force of infection: S -> I
-  lami = foifun(X,P['C'],P['beta'],dxout)
+  lami = foifun(X,P['C'],P['beta'],P['eps'],dxout)
   lam  = lami.isum(['ip'])
   xlam = lam.iselect(hi=['S'])*X.iselect(hi=['S'])
   dXi.update(xlam, hi=['I'], accum=np.add)
   dXo.update(xlam, hi=['S'], accum=np.add)
   # treatment: I -> T
-  treat = X.iselect(hi=['I']) * P['tau']
-  dXi.update(treat, hi=['R'], accum=np.add)
-  dXo.update(treat, hi=['I'], accum=np.add)
+  if P['tau'] > 0:
+    treat = X.iselect(hi=['I']) * P['tau']
+    dXi.update(treat, hi=['T'], accum=np.add)
+    dXo.update(treat, hi=['I'], accum=np.add)
   # loss of immunity: T -> S
-  loss = X.iselect(hi=['R']) * P['gamma']
-  dXi.update(loss, hi=['S'], accum=np.add)
-  dXo.update(loss, hi=['R'], accum=np.add)
-  # < TEMP >: mortality
-  # mort = X.iselect(hi=['I','R']) * 0.1
-  # dXo.update(mort, hi=['I','R'], accum=np.add)
-  # </ TEMP >
+  if P['gamma'] > 0:
+    loss = X.iselect(hi=['T']) * P['gamma']
+    dXi.update(loss, hi=['S'], accum=np.add)
+    dXo.update(loss, hi=['T'], accum=np.add)
+  # mortality: I ->
+  if P['mort'] > 0:
+    mort = X.iselect(hi=['I']) * P['mort']
+    dXo.update(mort, hi=['I'], accum=np.add)
   # dxout
   if dxout: # TODO: this should be a decorator
     lvars = locals()
@@ -142,10 +141,7 @@ def get_specs():
   specdir = os.path.join(config.path['root'],'code','main','specs')
   dims   = initutils.objs_from_json(Dimension,            os.path.join(specdir,'dimensions.json'))
   spaces = initutils.objs_from_json(initutils.make_space, os.path.join(specdir,'spaces.json'),dims=dims.values())
-  select = initutils.objs_from_json(Selector, [
-      os.path.join(specdir,'selectors.json'),
-      os.path.join(specdir,config.model,'selectors.json'),
-    ])
+  select = initutils.objs_from_json(Selector,             os.path.join(specdir,'selectors.json'))
   params = initutils.objs_from_json(initutils.make_param, [
       os.path.join(specdir,'params.json'),
       os.path.join(specdir,config.model,'params.json'),

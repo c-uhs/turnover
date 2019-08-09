@@ -13,10 +13,12 @@ import elements
 import system
 import utils
 
-OUTPUTS = ['prevalence','incidence']
+OUTPUTS   = ['prevalence','incidence']
 SELECTORS = ['all','high','med','low']
+HEALTH    = ['S','I','T']
 TAU1D = 0.1
 CA = 3 # HACK
+# config.save = True
 
 # iteration functions
 
@@ -39,6 +41,10 @@ def iter_selectors(sim):
   for name in SELECTORS:
     yield sim.model.select[name]
 
+def iter_phi_mat(plims=None):
+  for phi in iter_phi(plims=plims):
+    yield get_sim(phi,tau=TAU1D,tmax=1).params['phi']
+
 # filenames for saving (data, figures)
 
 def fname_fun(*args,**kwargs):
@@ -46,7 +52,9 @@ def fname_fun(*args,**kwargs):
   keys = sorted(list(kwargs.keys()))
   for key in keys:
     value = kwargs[key]
-    if isinstance(value,bool):
+    if value is None:
+      pass
+    elif isinstance(value,bool):
       if value:
         args.append(key)
     else:
@@ -62,8 +70,9 @@ def fname_array(*args,**kwargs):
     fname_fun(*args,**kwargs)+'.csv')
 
 def fname_fig(*args,**kwargs):
-  return os.path.join(config.path['figs'],'sensitivity',
-    fname_fun(*args,**kwargs)+'.pdf')
+  path = os.path.join(config.path['figs'],'sensitivity')
+  utils.makedir(path)
+  return os.path.join(path,fname_fun(*args,**kwargs)+'.pdf')
 
 # utils
 
@@ -80,9 +89,9 @@ def get_sim(phi,tau,tmax=200):
   model.params['dur'].update(dh,               ii=['H'])
   model.params['dur'].update(dh+0.30*(dmax-dh),ii=['M'])
   model.params['dur'].update(np.nan,           ii=['L'])
-  z1 = (1/model.params['dur'].iselect(ii=['H'],ki=['M']) - model.params['mu'])/2
-  model.params['phi'].update(z1,ii=['H'],ip=['M'])
-  model.params['phi'].update(z1,ii=['H'],ip=['L'])
+  p1 = (1/model.params['dur'].iselect(ii=['H'],ki=['M']) - model.params['mu'])/2
+  model.params['phi'].update(p1,ii=['H'],ip=['M'])
+  model.params['phi'].update(p1,ii=['H'],ip=['L'])
   model.params['tau'].update(tau)
   dt = min(dh*0.8,0.5)
   t = system.get_t(dt=dt,tmin=0,tmax=tmax)
@@ -98,7 +107,13 @@ def get_sim(phi,tau,tmax=200):
 # run sims and save the equilibrium outputs
 
 def run_sims(idx=-1):
-  if int(idx) == -1:
+  if idx == 'debug':
+    sim = run_sim(phi=0.03,tau=TAU1D)
+    sim.plot(
+        output = 'prevalence',
+        selectors = [sim.model.select[s] for s in SELECTORS],
+      )
+  elif int(idx) == -1:
     for phi in iter_phi():
       run_sim(phi=phi,tau=TAU1D)
   else:
@@ -111,56 +126,71 @@ def run_sim(phi,tau):
   sim = get_sim(phi,tau)
   sim.solve()
   tmax = sim.t[-1]
-  for output in OUTPUTS:
-    for select in iter_selectors(sim):
-      save_element(sim.outputs[output],select,tmax,phi,tau)
-  for output in ['C','X']:
-    save_element(sim.outputs[output],sim.model.select['I'],tmax,phi,tau)
   for select in iter_selectors(sim):
+    for output in OUTPUTS:
+      save_element(sim.outputs[output],select,tmax,phi,tau)
+    for health in HEALTH:
+      save_element(sim.outputs['X'],sim.model.select[health].union(select),tmax,phi,tau)
     save_element(sim.outputs['tip'],select,tmax,phi,tau)
+  save_element(sim.outputs['C'],sim.model.select['I'],tmax,phi,tau)
+  return sim
 
 def save_element(output,select,tmax,phi,tau):
-  fname = fname_element(output.name,select.name,phi=phi,tau=tau)
-  value = modelutils.taccum(output,**select).islice(t=tmax)
-  utils.savetxt(fname,float(value))
+  if config.save:
+    fname = fname_element(output.name,select.name,phi=phi,tau=tau)
+    value = modelutils.taccum(output,**select).islice(t=tmax)
+    utils.savetxt(fname,float(value))
 
 # make surface plots of the result
 
-def load_element(output,select,phi,tau,norm):
+def load_element(output,select,phi,tau,norm,tol=1e-5):
   phin = list(iter_phi())[0]
   x = np.float(utils.loadtxt(fname_element(output,select,phi=phi,tau=tau)))
   n = np.float(utils.loadtxt(fname_element(output,select,phi=phin,tau=tau))) if norm else 1
-  return (x / n) if x > 1e-5 else 0
+  return (x / n) if x > tol else 0
 
-def load_data(output,select,norm=False,phi=None,tau=None):
+def load_data(output,select,norm=False,phi=None,tau=None,tol=1e-5):
   phi = phi if phi is not None else list(iter_phi())
   tau = tau if tau is not None else list(iter_tau())
   dname = fname_array(output,select,norm=norm)
   if True: # not os.path.exists(dname): # TODO: whats going on here?
-    array = [[ load_element(output,select,p,t,norm) for p in phi] for t in tau]
+    array = [[ load_element(output,select,p,t,norm,tol=tol) for p in phi] for t in tau]
     utils.savecsv(dname,array,append=False)
   else:
     array = utils.loadcsv(dname,asdict=False)
   array = np.array(array,dtype=np.float)
   return array
 
-def make_1d_pretty(output,select=None):
+def make_1d_pretty(output,select=None,health=None):
   ytitle = {
-    'prevalence': 'Prevalence',
-    'incidence':  'Incidence (per 1000 PY)',
-    'X':          'Proportion of population who are infectious',
-    'C':          'Average contact rate of infectious individuals',
-    'XC':         'Infectious partnerships proportion',
-    'tip':        'Proportion of new infections from turnover',
-  }
-  yspec = {
-    'high': ' among High-Risk',
-    'med':  ' among Medium-Risk',
-    'low':  ' among Low-Risk',
-    'all':  ' Overall',
+    'prevalence':       'Prevalence',
+    'incidence':        'Incidence (per 1000 PY)',
+    'X':                'Proportion (\%)',
+    'C':                'Average contact rate of infectious',
+    'XC':               'Infectious partnerships proportion',
+    'tip':              'Proportion of new infections from turnover',
+    'dX':               'Rate of change (\%)\n',
+    'prevalence-ratio': 'Prevalence ratio:',
+    'incidence-ratio':  'Incidence ratio:',
     None: '',
   }
-  ylabel = ytitle[output]+yspec[select]
+  yspec = {
+    'high':     ' among High-Risk',
+    'med':      ' among Medium-Risk',
+    'low':      ' among Low-Risk',
+    'all':      ' Overall',
+    'high-low': ' High vs Low Risk',
+    'high-med': ' High vs Medium Risk',
+    'med-low':  ' Medium vs Low Risk',
+    None: '',
+  }
+  yhspec = {
+    'S': ' Susceptible',
+    'I': ' Infectious',
+    'T': ' Treated',
+    None: '',
+  }
+  ylabel = ytitle[output]+yspec[select]+yhspec[health]
   if config.context == 'paper':
     plt.xticks(*ticks(list(iter_phi()),5,2))
     plt.xlabel('High-Risk Turnover $\\delta_H^{-1}$')
@@ -191,7 +221,7 @@ def draw_regions(xp,yp,labels):
   plt.xlim(xl)
   plt.ylim(yl)
 
-def make_1d(data,output,select,regions=False):
+def make_1d(data,output,select,health=None,regions=False,cmap=None):
   def get_peaks(data,interp):
     x  = np.arange(0,config.N,1)
     xi = np.arange(0,config.N,interp)
@@ -199,13 +229,15 @@ def make_1d(data,output,select,regions=False):
     xp = [np.nanargmax(fi(y))*interp for y in data]
     yp = [np.nanmax(fi(y)) for y in data]
     return xp,yp
-  plt.gca().set_prop_cycle('color',plt.cm.Blues_r(np.linspace(0.1,0.9,data.shape[0])))
+  if cmap is None:
+    cmap = plt.cm.Blues_r(np.linspace(0,0.8,data.shape[0]))
+  plt.gca().set_prop_cycle('color',cmap)
   plt.plot(range(0,config.N),data.transpose())
   if regions:
     xp,yp = get_peaks(data,0.01)
     if np.any(xp):
       draw_regions(xp,yp,['A','B'])
-  make_1d_pretty(output,select)
+  make_1d_pretty(output,select,health)
 
 def make_surface(data,labels=None):
   cmap = plt.get_cmap('inferno')
@@ -232,11 +264,11 @@ def gen_2d_plot(data,save=None):
     plt.show()
   plt.close()
 
-def gen_1d_plot(data,output,select,save=None,regions=False,legend=None):
+def gen_1d_plot(data,output,select,health=None,save=None,regions=False,legend=None,cmap=None):
   figsize = {'paper': (4,3),                 'isstdr':(4.5,3)}[config.context]
-  axespos = {'paper': [0.16,0.14,0.82,0.84], 'isstdr':[0.3,0.16,0.68,0.82]}[config.context]
+  axespos = {'paper': [0.17,0.14,0.81,0.84], 'isstdr':[0.3,0.16,0.68,0.82]}[config.context]
   plt.figure(figsize=figsize)
-  make_1d(data,output,select,regions=regions)
+  make_1d(data,output,select,health=health,regions=regions,cmap=cmap)
   plt.gca().set_position(axespos)
   if legend:
     plt.legend(legend)
@@ -245,6 +277,51 @@ def gen_1d_plot(data,output,select,save=None,regions=False,legend=None):
   else:
     plt.show()
   plt.close()
+
+def gen_flows_plot(health,select):
+  sim = get_sim(phi=0.1,tau=TAU1D,tmax=1)
+  params = sim.params
+  phix = np.stack(iter_phi_mat())
+  sall = ['high','med','low']
+  # health state flows
+  px  = params['px'].iselect(**sim.model.select[select])
+  pxh   = load_data('X',health+' '+select,tau=[TAU1D])
+  inc   = load_data('X','S '+select,tau=[TAU1D]) * load_data('incidence',select,tau=[TAU1D]) / 1000
+  treat = load_data('X','I '+select,tau=[TAU1D]) * TAU1D
+  death = pxh * params['mu']
+  birth = px  * params['nu'] * np.ones(death.shape)
+  # turnover flows
+  ii = sall.index(select)
+  io = [i for i in [0,1,2] if i is not ii]
+  eff = load_data('X',health+' '+select,tau=[TAU1D]) * np.sum(phix[:,ii,:],axis=1)
+  aff = np.sum([
+      load_data('X',health+' '+sall[i],tau=[TAU1D]) * phix[:,i,ii]
+      for i in io ], axis=0)
+  specs = [
+      ('Birth',         birth, [0.0,0.6,1.0]),
+      ('Incidence',     inc,   [0.8,0.2,0.0]),
+      ('Treatment',     treat, [0.8,0.2,0.6]),
+      ('Death',         death, [0.4,0.4,0.4]),
+      ('Turnover into', aff,   [1.0,0.6,0.0]),
+      ('Turnover from', eff,   [1.0,0.8,0.0]),
+    ]
+  if health == 'S':
+    specs.pop(2)
+    signs = [+1,-1,-1,+1,-1]
+  if health == 'I':
+    specs.pop(0)
+    signs = [+1,-1,-1,+1,-1]
+  if health == 'T':
+    specs.pop(0)
+    specs.pop(0)
+    signs = [+1,-1,+1,-1]
+  data = np.concatenate(tuple(spec[1]*sign for spec,sign in zip(specs,signs))) / pxh * 100
+  # data = np.concatenate((data,np.sum(data,axis=0,keepdims=True)))
+  gen_1d_plot(data,'dX',select,health,
+      save   = fname_fig('dX',select,health),
+      legend = [spec[0] for spec in specs],
+      cmap   = [spec[2] for spec in specs],
+    )
 
 def gen_plots(save=False):
   if config.context == 'paper':
@@ -255,29 +332,50 @@ def gen_plots(save=False):
 def gen_plots_isstdr():
   for output,select in [('prevalence','high'),('prevalence','low')]:
     data = load_data(output,select,tau=[TAU1D])
-    gen_1d_plot(data,output,select,fname_fig('isstdr',output,select,tau=TAU1D))
+    gen_1d_plot(data,output,select,save=fname_fig('isstdr',output,select,tau=TAU1D))
 
 def gen_plots_paper():
+  pass
   # incidence and prevalence
-  for output in OUTPUTS:
-    for select in SELECTORS:
-      data = load_data(output,select,tau=[TAU1D])
-      gen_1d_plot(data,output,select,fname_fig('1d',output,select,tau=TAU1D),regions=True)
-      for norm in [False,True]:
-        gen_2d_plot(load_data(output,select,norm),fname_fig('surface',output,select,norm=norm))
-  # incidence factors
-  data = {
-    '1d': {output: load_data(output,'I',tau=[TAU1D]) for output in ['X','C'] },
-    '2d': {output: load_data(output,'I')             for output in ['X','C'] },
-  }
-  data['1d']['XC'] = data['1d']['X'] * data['1d']['C'] / CA
-  data['2d']['XC'] = data['2d']['X'] * data['2d']['C'] / CA
-  for output in ['X','C','XC']:
-    gen_1d_plot(data['1d'][output],output,None,fname_fig('1d',output,'I',tau=TAU1D),regions=True)
-    gen_1d_plot(data['2d'][output],output,None,fname_fig('2d',output,'I'),regions=True)
-  gen_1d_plot(load_data('incidence','all'),'incidence',None,fname_fig('2d','incidence','all'),regions=True)
-  # proportion of infections from turnover
-  legend = ['High-Risk','Medium-Risk','Low-Risk']
-  data = np.concatenate([load_data('tip',select,tau=[TAU1D]) for select in ['high','med','low']])
-  gen_1d_plot(data,'tip',None,fname_fig('2d','tip','all',tau=TAU1D),legend=legend)
+  # for output in OUTPUTS:
+  #   for select in SELECTORS:
+  #     data = load_data(output,select,tau=[TAU1D])
+  #     gen_1d_plot(data,output,select,save=fname_fig('1d',output,select,tau=TAU1D),regions=True)
+  #     for norm in [False,True]:
+  #       gen_2d_plot(load_data(output,select,norm),save=fname_fig('surface',output,select,norm=norm))
+  #   for pair in [('high','med'),('high','low'),('med','low')]:
+  #     select = '-'.join(pair)
+  #     data = load_data(output,pair[0],tau=[TAU1D],tol=0) / load_data(output,pair[1],tau=[TAU1D],tol=0)
+  #     gen_1d_plot(data,output+'-ratio',select,save=fname_fig('1d','ratio',output,select,tau=TAU1D))
+  #     data = load_data(output,pair[0],tol=0) / load_data(output,pair[1],tol=0)
+  #     gen_1d_plot(data,output+'-ratio',select,save=fname_fig('2d','ratio',output,select))
+  # # health states
+  # cmap = [[0.0,0.6,1.0],[0.8,0.2,0.0],[0.8,0.2,0.6]]
+  # legend = ['Susceptible','Infectious','Treated']
+  # for select in ['all']:#SELECTORS:
+  #   data = np.concatenate([
+  #       load_data('X',health+' '+select,tau=[TAU1D])
+  #       for health in HEALTH
+  #     ])
+  #   # data /= np.sum(data,axis=0)
+  #   data -= np.mean(data,axis=1).reshape((3,1))
+  #   gen_1d_plot(100*data,'X',select,None,save=fname_fig('1d','X','health',select,tau=TAU1D),cmap=cmap,legend=legend)
+  # # incidence factors
+  # ositer = [('C','I'),('prevalence','all'),('incidence','all')]
+  # dtiter = [('1d',[TAU1D]),('2d',None)]
+  # for dim,tau in dtiter:
+  #   data = { output: load_data(output,select,tau=tau) for output,select in ositer }
+  #   data['XC'] = data['prevalence'] * data['C'] / CA
+  #   for output,select in ositer+[('XC','I')]:
+  #     gen_1d_plot(data[output],output,None,save=fname_fig(dim,output,select,tau=tau),regions=True)
+  # # overall incidence
+  # gen_1d_plot(load_data('incidence','all'),'incidence',None,save=fname_fig('2d','incidence','all'),regions=True)
+  # equilibrium flows
+  # for health in HEALTH:
+  #   for select in ['high','med','low']:
+  #     gen_flows_plot(health,select)
+  # # proportion of infections from turnover
+  # legend = ['High-Risk','Medium-Risk','Low-Risk']
+  # data = np.concatenate([load_data('tip',select,tau=[TAU1D]) for select in ['high','med','low']])
+  # gen_1d_plot(data,'tip',None,fname_fig('2d','tip','all',tau=TAU1D),legend=legend)
   

@@ -7,7 +7,7 @@
   { "name": "gamma",
     "desc": "rate of loss of immunity",
     "arr": { "idxs": [],
-             "arr": 0.2 }
+             "arr": 0.0 }
   },
   { "name": "ibeta",
     "desc": "probability of transmission per partnership (I -> S)",
@@ -17,7 +17,7 @@
   { "name": "eps",
     "desc": "proportional mixing parameter",
     "arr": { "idxs": [],
-             "arr":  0.0 } 
+             "arr":  0.5 } 
   },
   { "name": "mort",
     "desc": "rate of mortality among I",

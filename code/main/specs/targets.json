@@ -3,15 +3,27 @@
   "arr": {
     "idxs": ["t"],
     "t":    [ 500 ],
-    "arr":  [ 0.25 ]
+    "arr":  [ 0.20 ]
   },
   "dist": {
     "name": "binom",
     "N": 1000,
-    "p": 0.25
+    "p": 0.20
   }
 },
 { "name": "prevalence-low", "output": "prevalence", "selector": "low",
+  "arr": {
+    "idxs": ["t"],
+    "t":    [ 500 ],
+    "arr":  [ 0.03 ]
+  },
+  "dist": {
+    "name": "binom",
+    "N": 1000,
+    "p": 0.03
+  }
+},
+{ "name": "prevalence-all", "output": "prevalence", "selector": "all",
   "arr": {
     "idxs": ["t"],
     "t":    [ 500 ],

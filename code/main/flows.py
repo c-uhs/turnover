@@ -19,7 +19,7 @@ from elements import Color
 import system
 import sensitivity
 
-names = ['S','I','R']
+names = ['S','I','T']
 # names = ['S','infected']
 lights = [0.6,0.0,0.3]
 out = 'X'
@@ -52,12 +52,12 @@ def make_pie(sim,select,phi):
   make_legend(labels,colors)
 
 def make_legend(labels,colors):
-  # plt.figure(figsize=(2.2,0.5))
-  plt.figure(figsize=(1.5,1))
+  plt.figure(figsize=(4.5,0.5))
+  # plt.figure(figsize=(1.5,1))
   for color in colors:
     plt.fill([np.nan]*3,[np.nan]*3,color=color)
   # plt.legend(['$\\mathcal{S}$','$\\mathcal{I}$','$\\mathcal{R}$'],loc='center',ncol=3)
-  plt.legend(labels,loc='center')
+  plt.legend(labels,loc='center',mode='expand',ncol=3 )
   plt.gca().set_axis_off()
   if config.save:
     plt.savefig(os.path.join(config.path['figs'],'flows','flows-legend.pdf'))

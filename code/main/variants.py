@@ -15,8 +15,9 @@ import system
 import calibration
 
 def fname_fig(compare,output,selector,**params):
-  path = [config.path['figs'],'compare']
-  return os.path.join(*path,
+  path = os.path.join(config.path['figs'],'compare')
+  utils.makedir(path)
+  return os.path.join(path,
     '-'.join(
       [config.model,compare,output,selector]+
       ['{}={}'.format(name,value) for name,value in params.items()])+'.pdf'
@@ -33,23 +34,8 @@ def load_fit(name,sim):
   sim.init_params()
   return sim
 
-def get_sim(variant=None,t=None):
-  specs = system.get_specs()
-  model = system.get_model()
-  if variant in [None,0,'full']:
-    pass
-  elif variant in [1,'no-hetero']:
-    model.collapse(['ii'])
-  elif variant in [2,'no-growth']:
-    model.params['nu'].update(model.params['mu'])
-  elif variant in [3,'no-turnover']:
-    model.params['dur'].update(np.nan)
-    model.params['phi'].update(np.nan)
-  return system.get_simulation(model,t=t)
-
 def shortname(name):
-  short = name.split(' ')[0]
-  return short if 'fit' not in name else short+'-fit'
+  return name.lower().replace(' ','-')
 
 def txtsave(sims,output):
   def vfun(sim,output,selector):
@@ -65,6 +51,16 @@ def txtsave(sims,output):
     utils.savetxt(fname(name,output,'high'),  fmts[output] (vfun(sim,output,'high')))
     utils.savetxt(fname(name,output,'low'),   fmts[output] (vfun(sim,output,'low')))
     utils.savetxt(fname(name,output,'ratio'), fmts['ratio'](vfun(sim,output,'high') / vfun(sim,output,'low')))
+
+def get_sim(variant=None,t=None):
+  specs = system.get_specs()
+  model = system.get_model()
+  if variant in [None,'full']:
+    pass
+  elif variant in ['no-turnover']:
+    model.params['dur'].update(np.nan)
+    model.params['phi'].update(np.nan)
+  return system.get_simulation(model,t=t)
 
 def plot_iter(sims,output,selector):
   legend = []
@@ -131,8 +127,8 @@ def exp_run_plot(compare,sims,outputs,selectors,txt=False,**params):
 def run_fit():
   t = system.get_t(tmax=500)
   sims = odict([
-    ('Full (Turnover)',  get_sim('full',t=t)),
-    ('V3 (No Turnover)', get_sim('no-turnover',t=t)),
+    ('Turnover',  get_sim('full',t=t)),
+    ('No Turnover', get_sim('no-turnover',t=t)),
   ])
   for name,sim in sims.items():
     sim.init_outputs(system.get_outputs(
@@ -148,6 +144,8 @@ def run_fit():
       sim.outputs,
       t = sim.t,
     )
+    if config.model == 'mort':
+      sim.model.params['C'].update([25,10,5]) # HACK to get low prev > 0
     calsim = calibration.CalibrationSim(
       name,
       sim = sim,
@@ -160,32 +158,10 @@ def run_fit():
     else:
       print(dict(calsim.fitted_params().todict()))
 
-def exp_hetero():
+def simple_turnover():
   sims = odict([
-    ('Full (Risk Heterogeneity)',  get_sim('full')),
-    ('V1 (No Risk Heterogeneity)', get_sim('no-hetero')),
-  ])
-  exp_run_plot('hetero',
-    sims      = sims,
-    outputs   = ['prevalence','incidence'],
-    selectors = ['all'],
-  )
-
-def exp_growth():
-  sims = odict([
-    ('Full (Population Growth)',  get_sim('full')),
-    ('V2 (No Population Growth)', get_sim('no-growth')),
-  ])
-  exp_run_plot('growth',
-    sims      = sims,
-    outputs   = ['prevalence','incidence'],
-    selectors = ['all','high','low'],
-  )
-
-def exp_turnover():
-  sims = odict([
-    ('Full (Turnover)',  get_sim('full')),
-    ('V3 (No Turnover)', get_sim('no-turnover')),
+    ('Turnover',    get_sim('full')),
+    ('No Turnover', get_sim('no-turnover')),
   ])
   for tau in [0.1, 0.2]:
     exp_run_plot('turnover',
@@ -202,8 +178,8 @@ def exp_tpaf():
   for case in ['raw','fit','both']:
     print(case,flush=True)
     sims = odict([
-      ('Full (Turnover)',  get_sim('full',t=t)),
-      ('V3 (No Turnover)', get_sim('no-turnover',t=t)),
+      ('Turnover',    get_sim('full',t=t)),
+      ('No Turnover', get_sim('no-turnover',t=t)),
     ])
     if case == 'raw':
       pass
@@ -228,6 +204,6 @@ def exp_tpaf():
   exp_run_plot('tpaf',
     sims      = sims,
     outputs   = ['prevalence','C'],
-    selectors = ['low','high'],
+    selectors = ['low','high','all'],
     txt       = True,
   )

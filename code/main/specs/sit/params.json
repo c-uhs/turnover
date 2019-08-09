@@ -13,5 +13,15 @@
     "desc": "probability of transmission per partnership (I -> S)",
     "arr": { "idxs": [],
              "arr":  0.03 } 
+  },
+  { "name": "eps",
+    "desc": "proportional mixing parameter",
+    "arr": { "idxs": [],
+             "arr":  0.0 } 
+  },
+  { "name": "mort",
+    "desc": "rate of mortality among I",
+    "arr": { "idxs": [],
+             "arr":  0.0 } 
   }
 ]

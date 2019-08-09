@@ -1,0 +1,13 @@
+targets:
+  compare-turnover:
+    cmd: python3 main/main.py compare-turnover
+  compare-tpaf:
+    cmd: python3 main/main.py compare-tpaf
+  sensitivity-plot:
+    cmd: python3 main/main.py sensitivity-plot
+  flows:
+    cmd: python3 main/main.py flows
+  fit:
+    cmd: python3 main/main.py fit
+  debug:
+    cmd: python3 main/main.py debug

@@ -9,6 +9,7 @@ outputs/data/sensitivity/raw/
 *.pyc
 .tags
 .prof/
+jobs/
 
 # tex
 *.aux

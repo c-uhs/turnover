@@ -5,8 +5,6 @@
 ./main/sensitivity-run.sh
 for todo in \
   fit              \
-  compare-hetero   \
-  compare-growth   \
   compare-turnover \
   compare-tpaf     \
   sensitivity-plot \
