@@ -1,0 +1,37 @@
+% colors
+\newcommand{\colorf}{black!40!white}
+\newcommand{\colory}{C2!100!white}
+\newcommand{\colorn}{C2!60!white}
+\newcommand{\colora}{\colorf!50!black}
+% styles
+\tikzset{
+  tpaf/.style = {
+    text centered,
+    node distance = 2.5cm,
+    thick,
+    inner sep = 0cm,
+  },
+  fixed/.style = {
+    fill = \colorf!50!white,
+    draw = \colorf,
+  },
+  yt/.style = {
+    fill = \colory!50!white,
+    draw = \colory,
+  },
+  nt/.style = {
+    fill = \colorn!50!white,
+    draw = \colorn,
+  },
+  model/.style = {
+    minimum height = 1.4cm,
+    text width = 1.4cm,
+    shape = regular polygon,
+    regular polygon sides = 8,
+  },
+  setting/.style = {
+    text width = 1.9cm,
+    minimum height = 1.9cm,
+    circle,
+  },
+}

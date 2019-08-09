@@ -1,0 +1,1 @@
+{"seed": null, "C": {"name": "C", "arr": {"idxs": ["ii"], "arr": [24.330274339818217, 4.262896406835073, 1.0233526306443235]}, "ci": {"min": [2.5, 0.5, 0.1], "max": [250.0, 50.0, 10.0]}, "fitted": [1, 1, 1], "description": "number of partnerships formed per year by each individual"}}

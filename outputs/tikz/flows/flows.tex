@@ -1,0 +1,43 @@
+\input{../config.tex}
+\input{config.tex}
+% colors
+\newcommand{\colorx}{C1}
+\newcommand{\colort}{\colorx}
+\newcommand{\colorw}{\colorx}
+% document
+\begin{document}
+\begin{tikzpicture}[
+  pie/.style = {
+    anchor=center,
+    shorten <= -1cm,
+  },
+  wisp/.style = {
+    draw = \colorw,
+    fill = \colorw,
+    thick,
+  },
+  tarrow/.style = {
+    wide=\turnover,
+    fill=none,
+    -{Latex[length=4mm]},
+  },
+  label/.style = {
+    text width = 0.8cm,
+  }
+]
+% nodes ----------------------------------------------------------------------------------------
+\node(x1) [pie] at (0,0)           {\includegraphics[width=1.25cm]{flow-high}};
+\node(x3) [pie, below = 0cm of x1] {\includegraphics[width=1.25cm]{flow-low}};
+\node(c13)[draw=\colorw,thick,circle,minimum width=1.25cm] at (x1) {};
+\node(c31)[draw=\colorw,thick,circle,minimum width=1.25cm] at (x3) {};
+\node(l1) [tbox=\colorx!50!white, above right = -0.4cm and 0cm of x1,label] {High Risk};
+\node(l1) [tbox=\colorx!50!white, below left  = -0.4cm and 0cm of x3,label] {Low Risk};
+% arrows ---------------------------------------------------------------------------------------
+\coordinate (x2) at ($(x1)!0.5!(x3)$);
+\coordinate[left  = 1.5cm of x2](x2a);
+\coordinate[right = 1.5cm of x2](x2b);
+\draw[arrow=\colort,tarrow] (x3) -| (x2a) |- (x1);
+\draw[arrow=\colort,tarrow] (x1) -| (x2b) |- (x3);
+\end{tikzpicture}
+\end{document}
+% eof
