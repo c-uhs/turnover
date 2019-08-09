@@ -1,6 +1,8 @@
 % temporary paths
-\newcommand{\figpath}{../../outputs/figs}
-\newcommand{\datapath}{../../outputs/data}
+\newcommand{\outpath}{../../outputs}
+\newcommand{\figpath}{\outpath/paper/sit/figs/}
+\newcommand{\tikzpath}{\outpath/tikz/}
+\newcommand{\datapath}{\outpath/paper/sit/data/}
 % front matter
 \makeatletter
 \def\abbrfootnote{\gdef\@thefnmark{}\@footnotetext}
@@ -29,18 +31,22 @@
 % figures
 \usepackage{graphicx,subcaption}
 \graphicspath{
-  {\figpath/tikz/turnover/}
-  {\figpath/tikz/health/}
-  {\figpath/tikz/variants/}
-  {\figpath/tikz/flows/}
-  {\figpath/plots/compare/}
-  {\figpath/plots/sensitivity/}
-  {\figpath/} % TEMP
+  {\tikzpath/turnover/}
+  {\tikzpath/health/}
+  {\tikzpath/tpaf-contexts/}
+%  {\tikzpath/variants/}
+%  {\tikzpath/flows/}
+  {\figpath/compare/}
+  {\figpath/sensitivity/}
+  {\figpath/flows/}
+  {\outpath/paper/whatif/asso/figs/compare/}
+  {\outpath/paper/whatif/mort/figs/compare/}
+  {\outpath/paper/whatif/sirs/figs/compare/}
 }
 \captionsetup[sub]{size=footnotesize}
 % float box environment
 \usepackage{tcolorbox,newfloat,float}
-\newtcolorbox{fboxed}{sharp corners=all,colback=white!97!black,boxrule=1pt}
+\newtcolorbox{fboxed}{sharp corners=all,colback=white!97!black,boxrule=\heavyrulewidth}
 \DeclareFloatingEnvironment[name=Box]{floatbox}
 % footnotes
 \usepackage[hang]{footmisc}
@@ -50,4 +56,10 @@
 \usepackage[colorlinks,linkcolor=blue]{hyperref}
 % temp formatting
 \renewcommand{\floatpagefraction}{0.8}
-\usepackage{tikz}
+\interfootnotelinepenalty=10000
+% appendix
+\newcommand{\initappendix}{
+  \setcounter{figure}{0}
+  \setcounter{table}{0}
+  \renewcommand*{\thesection}{\Alph{section}}
+}

@@ -1,4 +1,3 @@
-For each risk group $i$:
 \begin{alignat}{9}
 \frac{d}{dt}\mathcal{S}_i(t) &=
         \sum_j \phi_{ji} \mathcal{S}_j(t)
@@ -14,9 +13,10 @@ For each risk group $i$:
 &&&&  + \lambda_i(t) \mathcal{S}_i(t)
 &&    - \tau \mathcal{I}_i(t)
 \\
-\frac{d}{dt}\mathcal{R}_i(t) &=
-        \sum_j \phi_{ji} \mathcal{R}_j(t)
-&&    - \sum_j \phi_{ij} \mathcal{R}_i(t)
-&&    - \mu \mathcal{R}_i(t)
+\frac{d}{dt}\mathcal{T}_i(t) &=
+        \sum_j \phi_{ji} \mathcal{T}_j(t)
+&&    - \sum_j \phi_{ij} \mathcal{T}_i(t)
+&&    - \mu \mathcal{T}_i(t)
 &&&&&&+ \tau \mathcal{I}_i(t)
 \end{alignat}
+\\
