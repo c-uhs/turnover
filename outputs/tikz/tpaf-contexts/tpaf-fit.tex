@@ -1,0 +1,15 @@
+\input{../config.tex}
+\input{config.tex}
+% document -------------------------------------------------------------------------------------
+\begin{document}
+\begin{tikzpicture}
+% nodes
+\node(S) [tpaf, setting, fixed]                  {Setting};
+\node(MA)[tpaf, model, nt, below left  of = S]   {Model A\\No\\Turnover};
+\node(MB)[tpaf, model, yt, below right of = S]   {Model B\\[1em]Turnover};
+% arrows
+\draw[arrow=\colora,->] (MA) -- (S);
+\draw[arrow=\colora,->] (MB) -- (S);
+\end{tikzpicture}
+\end{document}
+% eof

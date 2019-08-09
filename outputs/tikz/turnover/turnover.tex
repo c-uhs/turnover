@@ -1,0 +1,59 @@
+\input{../config.tex}
+% colors
+\newcommand{\colorx}{C1}
+\newcommand{\colore}{\colorx!20!white}
+\newcommand{\colori}{\colorx!40!white}
+\newcommand{\coloro}{\colorx!40!black}
+\newcommand{\colort}{C2}
+% spacing
+\newlength{\dy}\setlength{\dy}{1.5cm}
+\newlength{\dx}\setlength{\dx}{2cm}
+% global turn labels on/off
+\newcommand{\nodelabel}[1]{\small{#1}}
+% isstdr:
+%\newcommand{\xh}{High}\newcommand{\xm}{Med}\newcommand{\xl}{Low}\newcommand{\arrowlabel}[1]{}\newcommand{\opa}{0}
+% paper:
+\newcommand{\xh}{$x_1$}\newcommand{\xm}{$x_2$}\newcommand{\xl}{$x_3$}\newcommand{\arrowlabel}[1]{\small{#1}}\newcommand{\opa}{1}
+
+% document -------------------------------------------------------------------------------------
+\begin{document}
+\begin{tikzpicture}
+% nodes ----------------------------------------------------------------------------------------
+% main 3 nodes
+\node(x1) [tbox=\colorx] at (0.0,0.0)       {\nodelabel{\xh}};
+\node(x2) [tbox=\colorx, below = \dy of x1] {\nodelabel{\xm}};
+\node(x3) [tbox=\colorx, below = \dy of x2] {\nodelabel{\xl}};
+% input nodes (no tbox)
+\node(i1) [tbox=\colore, left = \dx of x1, opacity=\opa] {\nodelabel{$e_1$}};
+\node(i2) [tbox=\colore, left = \dx of x2, opacity=\opa] {\nodelabel{$e_2$}};
+\node(i3) [tbox=\colore, left = \dx of x3, opacity=\opa] {\nodelabel{$e_3$}};
+% output nodes (no tbox)
+\node(o1) [tbox=\colore, right = \dx of x1, opacity=0] {}; %{\nodelabel{$o_3$}};
+\node(o2) [tbox=\colore, right = \dx of x2, opacity=0] {}; %{\nodelabel{$o_3$}};
+\node(o3) [tbox=\colore, right = \dx of x3, opacity=0] {}; %{\nodelabel{$o_3$}};
+% arrows ---------------------------------------------------------------------------------------
+% entry
+\draw[arrow=\colori] (i1) edge["\arrowlabel{$\nu$}", near start] (x1);
+\draw[arrow=\colori] (i2) edge["\arrowlabel{$\nu$}", near start] (x2);
+\draw[arrow=\colori] (i3) edge["\arrowlabel{$\nu$}", near start] (x3);
+% exit
+\draw[arrow=\coloro] (x1) edge["\arrowlabel{$\mu$}", near end]   (o1);
+\draw[arrow=\coloro] (x2) edge["\arrowlabel{$\mu$}", near end]   (o2);
+\draw[arrow=\coloro] (x3) edge["\arrowlabel{$\mu$}", near end]   (o3);
+% turnover
+\draw[arrow=\colort] (x1) edge["\arrowlabel{$\phi_{12}$}", bend left=25] (x2); 
+\draw[arrow=\colort] (x2) edge["\arrowlabel{$\phi_{21}$}", bend left=25] (x1);
+\draw[arrow=\colort] (x3) edge["\arrowlabel{$\phi_{32}$}", bend left=25] (x2); 
+\draw[arrow=\colort] (x2) edge["\arrowlabel{$\phi_{23}$}", bend left=25] (x3);
+\draw[arrow=\colort] (x1) edge["\arrowlabel{$\phi_{13}$}", bend left=60, near end] (x3); 
+\draw[arrow=\colort] (x3) edge["\arrowlabel{$\phi_{31}$}", bend left=60, near end] (x1);
+% legend ---------------------------------------------------------------------------------------
+\node(l1) [text width = 1.5cm, align=left] at (-1.6cm,-1cm-2.8\dy)  {\footnotesize Births};
+\node(l2) [text width = 1.5cm, align=left, right = 0.2 of l1]       {\footnotesize Deaths};
+\node(l3) [text width = 1.5cm, align=left, right = 0.2 of l2]       {\footnotesize Turnover};
+\draw[arrow=\colori,-] (l1) -- ++ (-1.3cm,0);
+\draw[arrow=\coloro,-] (l2) -- ++ (-1.3cm,0);
+\draw[arrow=\colort,-] (l3) -- ++ (-1.3cm,0);
+\end{tikzpicture}
+\end{document}
+% eof

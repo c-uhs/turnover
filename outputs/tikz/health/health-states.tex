@@ -1,0 +1,19 @@
+\input{../config.tex}
+\newcommand{\arrowlabel}[1]{{#1}}
+\newcommand{\nodelabel}[1]{{#1}}
+\begin{document}
+\begin{tikzpicture}
+
+\node(S) [tbox=S] at (0.0,0.0) {\nodelabel{$\mathcal{S}$}};
+\node(I) [tbox=I, right = of S]{\nodelabel{$\mathcal{I}$}};
+\node(T) [tbox=T, right = of I]{\nodelabel{$\mathcal{T}$}};
+
+\draw[arrow=black] (S) edge["\arrowlabel{$\lambda$}"] (I);
+\draw[arrow=black] (I) edge["\arrowlabel{$\tau$}"]    (T);
+
+%\coordinate[below = 0.5 of I](x);
+%\node[above = 0 of x]{\arrowlabel{$\gamma$}};
+%\draw[arrow=black] (T) |- (x) -| (S);
+
+\end{tikzpicture}
+\end{document}
