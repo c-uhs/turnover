@@ -10,6 +10,7 @@ outputs/data/sensitivity/raw/
 .tags
 .prof/
 jobs/
+__pycache__/
 
 # tex
 *.aux
@@ -32,3 +33,6 @@ jobs/
 *.brf
 *.dvi
 *-converted-to.pdf
+
+# misc
+.DS_Store
