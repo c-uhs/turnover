@@ -16,7 +16,7 @@ Our framework %try to avoid writing 'this', 'these', etc. = generally considered
 provided a flexible way to establish constraints based on the available data and
 key assumptions about the population size and duration of time spent in each risk group. 
 The approach has XX advantages.	%if listing <5, give number
-First, the formulation subsumed several of the previous implementations of turnover [REFS],		%formulation of framework. consistency check with terminology; also - again, please be careful how you present the work - we did not check that it can capture all implementations, since we did not review the full iiterature. More humility in scientiific writing please :).  Science is by definition cautious and self-critical.
+First, the formulation subsumed several of the previous implementations of turnover [REFS],		%formulation of framework. consistency check with terminology; also - again, please be careful how you present the work - we did not check that it can capture all implementations, since we did not review the full iiterature. we should put more humility in scientiific writing for papers please :) [reserve our "sell" for grants!].  Science is by definition cautious and self-critical so we should be careful not to over-sell findings in papers.
 and thereby hopefully clarifies relationships among them.  % I do not understand this sentence. clarifies relationship among the various implementations? I don't think this is the first point you should start with. Order them the way they are presented in the system. First is parameterization and constraints. Last should be that it subsumes some of the prior implementations --> but why this is an advantage is not clear from the sentence.
 Second, it facilitates parameterization of turnover among any number of risk groups
 in a scalable, flexible way.									%how? this is really important and should be explained why you think (a) it is flexible; and (b) why it can be scalable. We are leaving too much for the reader to read between the lines. Be more precise and concrete.
@@ -26,8 +26,14 @@ through explicit incorporation of constraints as rows in the linear system.	% Gi
 \par % what do you mean by epidemic context? and how does epidemic context change the constraints? not clear
 The major data needs of this approach include the following.			% i don't know what 'implicated by' means...
 First, the proportion of total individuals in each risk group $\bm{\hat{x}}$ is required.	%the System section would benefit from a table/flow-diagram of the constraints and their epidemiological meaning + data needs.
-This can generally be obtained from representative surveys of the modelled population,
-and from key populations surveys for under-represented risk groups.
+In the context of STIs, risk group size estimates may be 
+obtained from representative surveys of the modelled population
+such as demographic health surveys [ref] which collect data on self-reported behaviours or engagement in % Demographic Health Survey https://www.dhsprogram.com/
+networks associated with variable risk. For marginalized populations, estimates of population size
+are generated using various mapping and enumeration methods. %PMID: 24393694
+%  try to give examples and citations as the edits above --> remember how tough it was to do this for the 'medium' risk for the ESwatini work? Not so simple so be careful with choice of verbs. Also that is not actually how we get size estimates for KP - we do mapping then surveys. we do not obtain the size from surveys.
+
+%% rest still to review by SM
 Similarly, the risk behaviours of individuals immediately after entering the model
 can be used to specify elements in $\bm{\hat{e}}$.
 Such behaviours could be approximated using data from the youngest age group
