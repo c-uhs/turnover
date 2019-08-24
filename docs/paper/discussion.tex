@@ -48,29 +48,28 @@ estimates of duration within variable periods of risk.					%PMID: 31371449 (not 
 Finally, similar data, if available, can also be used to estimate
 the rates of transition between specific risk groups ($\phi$).			%very vague. what kind of data? Cannot understand/follow this sentence. Also - is this "Fourth"?
 % --------------------------------------------------------------------------------------------------
-\paragraph{Influence of turnover on incidence \& prevalence}
-In Experiment 1, we showed that turnover can have a large influence on
-the equilibrium STI incidence and prevalence
-projected among different risk groups, as well as overall.
-In general, turnover yields a net movement of infectious individuals
-from high to low risk.
-In an analogy with heat transfer mechanics,
-incidence represents infection ``conduction'',
-whereas turnover represents infection ``convection'',
-and both processes represent important mechanisms of infection spread.
-As such, it would be important to simulate turnover in epidemic models
-if such dynamics are known or assumed to be present in reality.
-\par
-Turnover also acts to homogenize the risk experienced by individuals in the model.
-Recall from core group theory that
-risk heterogeneity is sometimes necessary for persistence of an STI epidemic.
-Therefore, homogenization of risk through turnover
-could make epidemic control easier to achieve,
-compared to a setting with less or no turnover,
-as demonstrated by \citet{Henry2015}.
-We corroborate this hypothesis in Figure~\ref{fig:surface-prevalence-all},
-where we see that increasing turnover reduces
-the universal treatment rate $\tau$ required to achieve zero prevalence ($R_0 < 1$).
+\paragraph{Influence of turnover on incidence \& prevalence}			%check journal style if subheadings are common/used in Discussion section. usually not in most journals in the health-field, but might be ok for Epidemics & ID Modeling. I personally would remove the subheadings.
+We found that, as expected and shown in XXX[refs],			% do not repeat the findings (already described in lots of detail in the results) but keep Discussion succint with 'so what' and 'how does it compare to other literature'. In modeling and other experimental papers, the 'why' is already explained in the results. In observational epidemiology, unless we are actually trying to make causal inference, the 'why' can only be postulated/hypothesized (not shown in results) and thus goes into the Discussion section.
+turnover will change equilibrium STI incidence and prevalence 
+Our findings are not new and indeed, are analogous to heat transfer mechanics [REF].				%please cite (even the foundational textbook, but ideally a paper that explains the mechanisms and terms conduction/convection. A note that PhD examiners are particularly picky about citations (i have seen students get major corrections for under-citing in the last few exams I have chaired). 
+For example, incidence can be thought of as infection ``conduction'',		%if putting anything in quotation marks in Intro or Discussion, must be cited, unless you are using that term specifically for the study (e.g. turnover). Is there a reason for quotation marks? What other meaning could those terms in quotation marks have?
+whereas turnover would represent infection ``convection'',
+and both processes represent important mechanisms of infection spread.	%this is good, but I am worried that if people do not know heat transfer or fluid mechanics, then the 'so what' will go missing. I tried to edit to convey the more 'cross-disciplinary' nature of your work here by trying to frame it within the wider literature.
+
+%As such, it would be important to simulate turnover in epidemic models	
+%if such dynamics are known or assumed to be present in reality.		% this is not a clear conclusion that can be drawn from the findings discussed in the paragraph. What is defined as 'important'? Also - a more careful version of a sentence like this is better suited for after you discuss the TPAF stuff.
+We also found that increasing turnover - by rapidly shifting individuals from one
+risk group to another - essentially 'homogenizes'					%use quotation marks here b/c this term has many meanings, and you use it in a new way here
+the variability in risk between individuals.							%will be glad to never read 'recall' from you again in an original research paper :) - only in your future lecture notes and if you write a seminar teaching paper or textbook! 
+The result would be less heterogeneity as shown by							%did we show this in the result (less heterogeneity)? If not, then edit to reflect that we did not do this ourselvses..
+ \citet{Henry2015} who demonstrated that 
+such 'homogenization' of risk through turnover
+decreases the basic reproductive number and thus, means an 
+epidemic control could be easier to achieve. 
+Our findings on the mechanisms by which increasing turnover			%we cannot say we corroborated their hypothesis if we did not say in your objectives will do that.
+reduces the STI treatment rate to achieve zero prevalence 
+furthers support the insights from \citet{Henry2015}.
+
 % --------------------------------------------------------------------------------------------------
 \paragraph{Implications for interventions}
 Mathematical models are often used to quantify
