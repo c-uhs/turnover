@@ -211,7 +211,9 @@
 % TODO: update this figure
 \begin{figure}[H]
   \centering
+  \vspace{5em}
   \frame{TODO}: update
+  \vspace{5em}
 %  \includegraphics[width=0.6\linewidth]{hetero-converge}
   \caption{Overall prevalence predicted by a heterogeneous system
     for a range of high turnover rates.
@@ -223,67 +225,15 @@
   \label{fig:hetero-converge}
 \end{figure}
 % ==================================================================================================
-\subsection{``What if'' analysis}\label{aa:what-if}
-This section presents hypotheses and preliminary analysis regarding the potential impacts of
-alternative model assumptions on the results of Experiment 3.
+\subsection{Experiment 3 under Assortative Mixing}\label{aa:what-if-asso}
+This section presents preliminary analysis regarding
+the potential impacts of assortative mixing
+(individuals are more likely to form partnerships with
+other individuals in their risk group),
+on the results of Experiment 3.
 For reference, Figures~\ref{fig:tpaf-raw-app}~and~\ref{fig:tpaf-fit-app}
 show the original results of Experiment 3 (copied from the main text).
-\begin{figure}[!tbp]
-  \centering
-  \begin{subfigure}{0.35\linewidth}
-    \centering\includegraphics[width=\linewidth]{sit-tpaf-tpaf-high-all-vs=raw}
-    \caption{No fitting, original results}
-    \label{fig:tpaf-raw-app}
-  \end{subfigure}
-  \begin{subfigure}{0.35\linewidth}
-    \centering\includegraphics[width=\linewidth]{sit-tpaf-tpaf-high-all-vs=fit}
-    \caption{Fitted, original results}
-    \label{fig:tpaf-fit-app}
-  \end{subfigure}\\
-  \begin{subfigure}{0.35\linewidth}
-    \centering\includegraphics[width=\linewidth]{asso-tpaf-tpaf-high-all-vs=raw}
-    \caption{No fitting, assortative mixing}
-    \label{fig:tpaf-asso-raw}
-  \end{subfigure}
-  \begin{subfigure}{0.35\linewidth}
-    \centering\includegraphics[width=\linewidth]{asso-tpaf-tpaf-high-all-vs=fit}
-    \caption{Fitted, assortative mixing}
-    \label{fig:tpaf-asso-fit}
-  \end{subfigure}\\
-  \begin{subfigure}{0.35\linewidth}
-    \centering\includegraphics[width=\linewidth]{mort-tpaf-tpaf-high-all-vs=raw}
-    \caption{No fitting, disease-attributable mortality}
-    \label{fig:tpaf-mort-raw}
-  \end{subfigure}
-  \begin{subfigure}{0.35\linewidth}
-    \centering\includegraphics[width=\linewidth]{mort-tpaf-tpaf-high-all-vs=fit}
-    \caption{Fitted, disease-attributable mortality}
-    \label{fig:tpaf-mort-fit}
-  \end{subfigure}\\
-  \begin{subfigure}{0.35\linewidth}
-    \centering\includegraphics[width=\linewidth]{sirs-tpaf-tpaf-high-all-vs=raw}
-    \caption{No fitting, reinfection}
-    \label{fig:tpaf-sirs-raw}
-  \end{subfigure}
-  \begin{subfigure}{0.35\linewidth}
-    \centering\includegraphics[width=\linewidth]{sirs-tpaf-tpaf-high-all-vs=fit}
-    \caption{Fitted, reinfection}
-    \label{fig:tpaf-sirs-fit}
-  \end{subfigure}
-  \caption{TPAF of the high risk group with and without turnover,
-    and with and without fitted contact rates to group-specific prevalence.
-    Comparison of original results,
-    under proportionate mixing,
-    with no disease-attributable mortality,
-    and without reinfection (a,~b),
-    with models considering:
-    assortative mixing (c,~d),
-    disease-attributable mortality (e,~f),
-    and reinfection (g,~h).}
-  \label{fig:tpaf-app}
-\end{figure}
-% --------------------------------------------------------------------------------------------------
-\subsubsection{Assortative mixing}\label{aaa:what-if-asso}
+\par
 Assortative mixing increases the concentration of transmission within the high risk group,
 decreasing the TPAF, regardless of turnover.
 However, turnover counteracts this effect by
@@ -314,40 +264,35 @@ as compared to proportional mixing
 (Figure~\ref{fig:tpaf-fit-app}).
 Both of these results support our hypothesis above,
 though more comprehensive experiments are needed.
-% --------------------------------------------------------------------------------------------------
-\subsubsection{Infection-attributable mortality}\label{aaa:what-if-mort}
-Disease-attributable mortality disproportionately affects the highest risk group
-due to higher infection prevalence.
-As a result, the size of the group decreases,%
-\footnote{In this case, we assume that no ``market'' forces maintain risk group proportions
-  against changes due to unequal death.}
-which reduces the TPAF of the group.
-Similar to assortative mixing, this reduction in TPAF is again counteracted by turnover,
-through re-supply of individuals from lower-risk groups.
-Thus, we hypothesize that
-while disease-attributable mortality would
-decrease the TPAF of the high risk group,
-this effect is reduced by turnover,
-both before and after model fitting. 
-\par
-To explore this assertion, we again re-ran Experiment 3,
-this time assuming a disease-attributable mortality rate of 0.2 per year
-among untreated infected individuals $\mathcal{I}$.
-Since establishment of the epidemic was more difficult under these conditions,
-we also doubled the probability of transmission per contact $\beta$
-from 0.03 to 0.06.
-As with assortative mixing,
-before model fitting and when disease-attributable mortality is included
-(Figure~\ref{fig:tpaf-mort-raw}),
-the TPAFs with and without turnover are more similar
-than when no disease-attributable mortality is considered
-(Figure~\ref{fig:tpaf-raw-app}).
-Similarly, after model fitting and when disease attributable mortality is included
-(Figure~\ref{fig:tpaf-mort-fit}),
-the TPAF of the high risk group is even higher with turnover than without turnover,
-as compared to when no disease-attributable mortality is considered
-(Figure~\ref{fig:tpaf-fit-app}).
-Again, these results support our hypothesis.
-% --------------------------------------------------------------------------------------------------
-\subsubsection{Reinfection}\label{aaa:what-if-sirs}
-\frame{TODO}: update; Figures OK
+\begin{figure}[!tbp]
+  \centering
+  \begin{subfigure}{0.35\linewidth}
+    \centering\includegraphics[width=\linewidth]{sit-tpaf-tpaf-high-all-vs=raw}
+    \caption{No fitting, original results}
+    \label{fig:tpaf-raw-app}
+  \end{subfigure}
+  \begin{subfigure}{0.35\linewidth}
+    \centering\includegraphics[width=\linewidth]{sit-tpaf-tpaf-high-all-vs=fit}
+    \caption{Fitted, original results}
+    \label{fig:tpaf-fit-app}
+  \end{subfigure}\\
+  \begin{subfigure}{0.35\linewidth}
+    \centering\includegraphics[width=\linewidth]{asso-tpaf-tpaf-high-all-vs=raw}
+    \caption{No fitting, assortative mixing}
+    \label{fig:tpaf-asso-raw}
+  \end{subfigure}
+  \begin{subfigure}{0.35\linewidth}
+    \centering\includegraphics[width=\linewidth]{asso-tpaf-tpaf-high-all-vs=fit}
+    \caption{Fitted, assortative mixing}
+    \label{fig:tpaf-asso-fit}
+  \end{subfigure}
+  \caption{TPAF of the high risk group with and without turnover,
+    and with and without fitted contact rates to group-specific prevalence.
+    Comparison of original results,
+    under proportionate mixing,
+    with no disease-attributable mortality,
+    and without reinfection (a,~b),
+    with a model considering
+    assortative mixing (c,~d).}
+  \label{fig:tpaf-app}
+\end{figure}
