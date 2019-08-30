@@ -3,7 +3,7 @@
 .comments/
 
 # data
-outputs/data/sensitivity/raw/
+.raw/
 
 # code
 *.pyc
