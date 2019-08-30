@@ -1,0 +1,20 @@
+\documentclass[border=1pt,varwidth]{standalone}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{graphicx,tikz}
+\usetikzlibrary{arrows.meta}
+\graphicspath{{../../paper/sit/figs/flows/}}
+\definecolor{C1}{HTML}{224466}
+\begin{document}
+  \centering
+  \includegraphics[width=1.00\linewidth]{flows-legend.pdf}\\
+  \includegraphics[width=0.25\linewidth]{flows-low.pdf}%
+  \includegraphics[width=0.25\linewidth]{flows-med.pdf}%
+  \includegraphics[width=0.25\linewidth]{flows-high.pdf}%
+  \includegraphics[width=0.25\linewidth]{flows-extreme.pdf}\\[6pt]
+  \resizebox{\linewidth}{!}{
+  \begin{tikzpicture}
+    \node(low) at (0,0) {Low Turnover};
+    \node(high) at (8,0) {High Turnover};
+    \draw[<->, thick, > = latex, draw=C1!50!white] (low) -- (high);
+  \end{tikzpicture}}
+\end{document}
