@@ -1,4 +1,7 @@
+% LW: I would suggest putting the system and previous approach section into appendix
+%     as we discussed at the meeting.
 In this section we introduce a unified system of equations
+% LW: What do u mean by unified system of equations?
 to describe risk group turnover
 in deterministic epidemic models with heterogeneity in risk.
 % JK: this "with heterogeneity in risk" feels a little redundant?
@@ -34,6 +37,18 @@ That way, the total number of individuals
 entering into population $\bm{x}$ per year is given by $\nu N$,
 and the number of individuals
 entering into group $x_i$ specifically is given by $\hat{e}_i \nu N$.
+% LW: I think the logic of this paragraph should be modified a bit.
+%     When we say entry rate, we usually define it
+%     from the perspective of the current population size (N).
+%     So with an entry rate of v, and current population size of
+%     N, the total number of individuals entering into population x per year is vN.
+%     As u mentioned, we vN comes from e, which may have different risk group distribution,
+%     and the number of individuals entering into group x_i can thus be given by ê_i ν N.
+%     Up till here, it is all independent of our assumption that e has size of N.
+%     Risk groups, transitions, and the associated rates are also shown for G = 3 in Figure 1.
+%     We assume that population e also has size N given the rational u described here.
+%     That way, the number of individuals entering into group
+%     x_i specifically is given by e_i ν.
 \par
 Turnover transitions may then occur between any two groups, in either direction.
 Therefore we denote the turnover rates as a $G \times G$ matrix $\phi$.
@@ -217,10 +232,6 @@ but can be written
 as proportions $\bm{\hat{x}}$ and $\bm{\hat{e}}$
 when dividing by $N$.
 Working with proportions is useful, as $N$ need not be known.
-% JK: not sure if there is additional normalization needed, actually
-% SM: explain this to me?
-% JK: nevermind - I was concerned that dividing the derivative by N is somehow improper,
-%     but derivatives are linear operators, so all good :)
 If we assume that the proportion of each group $\hat{x}_i$ is constant over time,
 then the desired rate of change for risk group $i$
 will be equal to the rate of population growth of the risk group, $\mathcal{G} x_i$.
@@ -249,26 +260,17 @@ These $G$ constraints ensure risk groups do not change size over time.
 However, a unique solution requires
 an additional $G(G-1)$ constraints.
 For $G = 3$, this corresponds to 6 additional constraints.
-% SM: what are these constraints? the specified elements?
-%     its not clear until after reading the next section
-%     suggest introducing/listing things before moving to subsequent paragraph/section.
-% JK: hopefully with the new preamble at the end of \ref{sss:params-turnover}
-%     (just before Constraint Type 1), this should be clear now? Let me know if not...
 % --------------------------------------------------------------------------------------------------
 \paragraph{Constraint Type 2: Specified elements}
 \label{con:spec-element}
 The simplest type of additional constraint is to
 directly specify the values of individual elements in $\bm{\hat{e}}$ or $\phi$.
-% SM: by specifying, do you mean provide input values directly from the data?
-%     and to every element as independent values?
-% JK: yes, should I be more clear?
 Such constraints may be appended to $\bm{b}$ and $A$
 as an additional row $k$ using indicator notation.%
 \footnote{Indicator notation, also known as ``one-hot notation'' is used to
   select one element from another vector, based on its position.
   An indicator vector is 1 in the same location as the element of interest,
   and 0 everywhere else.}
-% JK: given the clarification in text (below), is this footnote also necessary?
 That is, with $b_k$ as the specified value $v$,
 and $A_k$ as the indicator vector,
 with $1$ in the same position as the desired element in $\bm{\theta}$:
@@ -285,7 +287,6 @@ A_k = \left[\begin{array}{ccccccccc}
 \cdot & 1 & \cdot & \cdot & \cdot & \cdot & \cdot & \cdot & \cdot \\
 \end{array}\right] 
 \end{equation}
-% JK: is this also redundant?
 since $\hat{e}_2$ is the second element in $\bm{\theta}$.
 If the data suggest zero turnover from group $i$ to group $j$,
 then Eq.~(\ref{eq:eg-spec}) can also be used to set $\phi_{ij} = 0$.
@@ -294,29 +295,12 @@ Note that the elements of $\bm{\hat{e}}$ must sum to one.
 Therefore, specifying all elements in $\bm{\hat{e}}$
 will only provide $G-1$ constraints,
 as the last element will be either redundant or violate the sum-to-one rule.
-% SM: when talking about 'additional' constraints, try to refer back to what it is in addition to
-% JK: I think easier to just remove 'additional' here.
-% SM: redundant? or is it because it sums to 1 and therefore is a 'known' value?...
-%     not sure redundant is the correct term?
-% JK: you're right, I wasn't sure how to describe it.
-%     I changed to "be either redundant or violate the sum-to-one rule" - is that better?
 As shown in Appendix~\ref{aa:eqs-e-redundant},
 the sum-to-one rule is actually implicit in Eq.~(\ref{eq:eg-basis}),
 so it is not necessary to supply a constraint like $1 = \sum_{i} \hat{e}_i$.
-% SM: am not sure I follow why it is not necessary to supply the summation constraint?
-%     is it a check?
-% JK: hopefully the new Appendix~\ref{aa:eqs-e-redundant} clarifies!
-% SM: similar re: sentence above? specify which sections 'below'
-%     but only mention redundancies in sentence above, where are the inconsitencies?
-%     rephrase sentence for clarity and precision
-% JK: I think easiest to just take this reference to "other redundancies and inconsistencies"
-%     and introduce redundancies and inconsistencies as they come up in Constraints 3 and 4.
 % --------------------------------------------------------------------------------------------------
 \paragraph{Constraint Type 3: Group duration}
 \label{con:group-dur}
-% SM: can discuss at next PM, but a brief table of what type of data and assumptions
-%     for each constraint would be useful for epidemiology audience
-%     (thinking about readers like Sheree, etc.)
 Type 1 Constraints assume that the relative population size of each group remains constant.
 Another epidemiologic feature that epidemic models considered
 is whether or not the duration of time spent within a given risk group remains constant.
@@ -469,9 +453,6 @@ four prior implementations of turnover and each study's objectives for the imple
 -- e.g. constant relative group sizes over time.
 We then highlight how the approach proposed in Section~\ref{ss:params}
 could be used to achieve the same objectives.
-% SM: for each paper/model --> define their objectives/constraints for turnover,
-%     and then talk about how they went about;
-%     then link to your unified approach explicitly and clearly.
 % --------------------------------------------------------------------------------------------------
 \par
 \citet{Stigum1994} simulated turnover among $G = 2$ risk groups
