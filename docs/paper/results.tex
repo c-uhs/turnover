@@ -1,5 +1,5 @@
 % TODO: what to put here?
-%In this section we summarize the results of the experiments described in Section~\ref{s:exp}.
+% In this section we summarize the results of the experiments described in Section~\ref{s:exp}.
 % In this section we summarize the results of the experiments examining
 % the influence of risk group dynamics on simulated epidemics.
 % The aim of the experiments was to explore the impact of
@@ -8,6 +8,10 @@
 % We compare the projected incidence and prevalence across
 % four model variants and range of turnover magnitudes,
 % as well as the estimated TPAF of the high risk group, with and without turnover.
+% LW: I believe all the experiments were done with 3 risk groups- -but all results were shown just
+%     for high and low --- what happened to the middle group?
+%     It is mentioned so less at the end – the reader may almost interpret as if
+%     there were just two risk groups in ur whole experiment.
 % ==================================================================================================
 \subsection{Experiment 1: Influence of turnover on equilibrium incidence and prevalence}
 \label{ss:res-1}
@@ -15,6 +19,19 @@ First, we present general trends in equilibrium prevalence and incidence
 with respect to turnover.
 % --------------------------------------------------------------------------------------------------
 \paragraph{Experiment 1.1: Overall prevalence with vs without turnover}\label{p:res-turnover-simple}
+% LW: I think there is a lot of contents packed here for the readers to consume.
+%     To increase readability, I may suggest trying to separate out:
+%     1) face "Results" u want to show the readers (e.g., patterns/messages u want them to take
+%     home even if they are not 100% clear about the underlying reasons);
+%     2) underlying "explanations" u want to provide
+%     For example,
+%     1) can include 1 figure, which has 6 panels:
+%     Panel 1-3 shows under low treatment rate, what is the relationship between turnover rate
+%     with overall prevalence, high risk prevalence and low risk prevalence.
+%     Panel 4-6 shows under low treatment rate, what is the relationship between turnover rate
+%     with overall prevalence, high risk prevalence and low risk prevalence.
+%     2) can include things u investigated to explain the patterns u find (such as
+%     influence on incidence, etc. ) some figures of 2) can be included in the Appendix only.
 Figure~\ref{fig:compare-turnover-prevalence} shows
 the influence of turnover on overall prevalence at two different treatment rates.
 In both scenarios, turnover appeared to slow
@@ -28,6 +45,7 @@ while it was higher without turnover for $\tau = 0.2$
 Experiments 1.2 and 1.3 aimed to clarify and explain this influence
 through exploration of group-specific incidence and prevalence at equilibrium
 under different rates of turnover $\phi$ and treatment $\tau$.
+% LW: Language like this sounds like method rather than results.
 \begin{figure}[!tbp]
   \centering
   \begin{subfigure}{0.45\linewidth}
@@ -51,6 +69,7 @@ under different rates of turnover $\phi$ and treatment $\tau$.
 \label{p:res-turnover-1D}
 Figure~\ref{fig:1d-prevalence} illustrates trends in equilibrium prevalence versus turnover
 among the high and low risk groups for fixed treatment rate ($\tau = 0.1$).
+% LW: U should also notethe treatment rate in Figure 5 legend.
 For both groups, the same profile was observed:
 at low turnover, increasing turnover increased prevalence, up to a maximum value (region~A),
 and increasing turnover beyond this point (region~B) then decreased prevalence.
@@ -79,9 +98,13 @@ the movement of individuals between risk groups and incidence.
     Turnover shown in log scale.}
   \label{fig:1d-prevalence}
 \end{figure}
+% LW: This figure can be dropped – or specify turnover rate here.
+%     I think figure 5 by including x axis=0 u will have similar information.
+%     The time-trajectory here is of less importance.
 \par
 The movement of individuals between risk groups is depicted in Figure~\ref{fig:flows}
 for four rates of turnover and a simplified system (two risk groups).
+% SB: Isnt it always just two states — ie, is this more of a simplified system than the others?
 Recall that, by our assumptions,
 the distribution of health states among individuals leaving a risk group
 was equal to the distribution of health states within the group.
@@ -160,7 +183,7 @@ denoted as $\bm{C}_{\mathcal{I}}$.
 This component can be further broken down into the following two sub-factors:
 $\hat{C}_{\mathcal{I}}$ the average contact rate among infectious individuals, and
 $\hat{\mathcal{I}}$ overall prevalence.
-Thus the influence of turnover on incidence
+Thus, the influence of turnover on incidence
 can be understood through the influence of turnover on these two sub-factors.%
 \footnote{Since we assumed proportionate mixing among risk groups,
   and only consider heterogeneity in contact rate $C_i$,
@@ -223,6 +246,12 @@ It therefore follows that the peak in incidence, and
 the transition between regions~A~and~B in Figure~\ref{fig:1d-XC-I}
 occurred when the dominating sub-factor
 between $\hat{\mathcal{I}}$ and $\hat{C}_{\mathcal{I}}$ reversed.
+% SB: It may be common to write like this in the modeling world,
+%     but less so in traditional scientific writing.
+%     Ie, normally results would be laid out in an agnostic way
+%     and then discussions really provides the interpretation of
+%     why this was or was not expected.
+%     And the editorializing “therefore” would not be there as much...
 That is, the transition occurred when
 the average contact rate of infectious people $\hat{C}_{\mathcal{I}}$
 decreased with turnover faster than prevalence $\hat{\mathcal{I}}$
@@ -230,6 +259,7 @@ increased with turnover.
 Then, as rates of turnover continued to increase,
 declining incidence also reversed the upward trend in prevalence,
 and incidence and prevalence decreased across all groups in a snowball effect.
+% SB: Why is this a snowball effect?
 This mechanism then explains the observations shown in region~B throughout.
 \par
 Finally, we note that the rates of turnover which maximized incidence
@@ -238,6 +268,7 @@ were lower than those which maximized overall prevalence
 (Figure~\ref{fig:1d-prevalence-all}).
 This is because incidence represents
 the number of new infections per susceptible, not per individual;
+% SB: Does that mean this implies a curative STI? That can have repeat episodes?
 so a system at slightly higher prevalence
 can be maintained by a slightly lower incidence,
 provided the proportion of susceptibles has decreased more than
@@ -257,6 +288,8 @@ even as incidence decreases.
 So far, the influence of turnover on equilibrium incidence and prevalence
 was explored for a single treatment rate.
 Experiment 1.3 explored additional treatment rates $\tau$.
+% LW: If u were to explain everything under one treatment rate- then don’t bring up two
+%     scenairos (high vs low treatment rate) at the beginning.
 \par
 First, the sub-factors of incidence are again shown
 in Figure~\ref{fig:2d-incidence-factors}.
@@ -330,6 +363,7 @@ had a larger impact on the average contact rate of infectious individuals.
     and (d) overall incidence.}
   \label{fig:2d-incidence-factors}
 \end{figure}
+% LW: I found this figure hard to interpret
 \par
 Finally, Figure~\ref{fig:surface} summarizes trends in
 overall equilibrium incidence and group-specific prevalence
@@ -337,6 +371,11 @@ with respect to both turnover $\phi$ and treatment rate $\tau$.%
 \footnote{Figures~\ref{fig:surface-prevalence-all}~and~\ref{fig:surface-incidence-all}
   are the surface projections of the profiles shown in
   Figures~\ref{fig:2d-prevalence-all}~and~\ref{fig:2d-incidence-all}, respectively.}
+% LW: As mentioned in my comments above:
+%     Choose one as the main result – for example, prevalence.
+%     And incidence as a tool to assist in interpretation/explanation.
+%     U have a lot of information – and have to strategically simply things for the reader...
+%     Otherwise -- way too much information to grasp and readers will be lost.
 Treatment consistently decreased equilibrium incidence (as noted above),
 as well as prevalence, at all rates of turnover.
 As suggested in Experiment 1.2, infection prevalence increased with turnover
@@ -388,6 +427,9 @@ and no epidemic was  observed.%
 \end{figure}
 % ==================================================================================================
 \subsection{Experiment 2: Inferred risk heterogeneity with vs without turnover}
+% SB: I really feel like a separate paper... just a lot of info here!!
+% LW: Refresh the readers on under what values of treatment rate and turnover rate did u
+%     conduct these experiments.
 \label{ss:res-infer}
 Before model fitting, the predicted prevalence ratio
 between high and low risk groups was lower with turnover than without:
@@ -396,6 +438,7 @@ $\input{\datapath/values/no-turnover-prevalence-ratio.txt}$.
 This reflects the ``homogenizing'' effect of turnover on
 the average risk experienced by individuals in the model.
 As shown in Figure~\ref{fig:2d-ratio-prevalence-high-low},
+% SS: ???
 the high-to-low prevalence ratio consistently declined with turnover
 for all turnover and treatment rates explored.
 Thus, when fitting the model to target prevalence values,
@@ -428,13 +471,23 @@ These results are also summarized in Table~\ref{tab:fitting}.
 % ==================================================================================================
 \subsection{Experiment 3: Influence of turnover on the TPAF of the high risk group}
 \label{ss:res-tpaf}
+% SB: Isnt it normally noted tPAF not TPAF?
 Finally, we compared the predicted TPAF of the high risk group with and without turnover in:
 two settings (same parameters, different prevalence); and
 two models (same prevalence, different parameters).
+% LW: I would suggest dropping the TPAF under two settings section as whole.
+%     Not a very relevant question on its own. Realistically speaking,
+%     1) How can u identify two settings with exact same behavioral parameters,
+%     but one with and another without turn-over?
+%     2)Even if there is, comparing the tPAF of high risk group in setting A (no turnover) to
+%     high risk group insetting B(turnover) is not a really fair comparison, as
+%     high risk group in setting A has a prevalence ratio of 9.2 wheares
+%     high risk group in setting B has a prevalence ratio of 6.7.
 These results are shown in Figure~\ref{fig:tpaf}.
 The TPAF approaches 1 for all models over the 50 year period,
 indicating that unmet treatment needs of the high risk group
 are central to epidemic persistence in all scenarios.
+% SB: Crucial.
 Additionally, no TPAFs intersect during this period,
 so relative differences between TPAFs can be described irrespective of time horizon.
 \begin{figure}[!tbp]
@@ -464,6 +517,7 @@ in two different settings -- with and without turnover.
 In this case, the estimated TPAF is lower
 in Setting B with turnover versus
 in Setting A without turnover.
+% SS: I find it a little confusing that Setting B is with Turnover but in the legend that comes first
 This can be attributed to
 the larger equilibrium prevalence ratio without model fitting
 (Experiment 2, Table~\ref{tab:fitting}),
@@ -481,6 +535,7 @@ Now the estimated TPAF is higher
 in Model B with turnover versus
 in Model A without turnover.
 This result, opposite to Experiment 3.1, can be explained by two factors.
+% LW: I would avoid further comparing experiment 3.1 and 3.2. there is no need to compare them.
 First, the equilibrium prevalence ratios predicted by the models with and without turnover
 are equalized through model fitting to the same targets.
 As a result, differences in prevalence in the high risk group
@@ -493,8 +548,11 @@ in Model B with turnover, and thus an increased TPAF.
 This result then implies that
 models which fail to capture turnover dynamics which are present in reality
 may underestimate the TPAF of high risk groups.
+% LW: I think this is the key message and valid.
 Consequently, the importance of prioritizing high risk groups
 to achieve epidemic control may be similarly underestimated by such models.
+% SB: While I agree—this is really interpretation. To me, assumed this would be more in
+%     the discussion but could also be more about the style of paper.
 % SS: This section perhaps could be a bit clearer as clearly very important
 %     Is there a way to more explicitly talk about new infections
 %     in the low / medium risks coming from prevalent infections
