@@ -4,6 +4,7 @@ as measured by the transmission population attributable fraction (TPAF).
 However, to understand the underlying mechanism,
 we first examined the influence of turnover on
 the equilibrium incidence and prevalence projected among risk groups, as well as overall.
+% SB: Is this STI incidence and prevalence? I would keep specifying so all are clear here.
 Since the influence may depend on the duration of infectiousness,
 we also explored the sensitivity of these results to different treatment rates.
 Next, we examined how turnover may influence
@@ -11,6 +12,8 @@ inferred model parameters through model fitting.
 Finally, we compared the TPAF of the highest risk group with and without turnover,
 before and after model fitting.
 Our experiments can be summarized as in Table~\ref{tab:exp}.
+% LW: This paragraph is essentially ur objective statement,
+%     which can be merged with the last paragraph of the Intro.
 \begin{table}
   \centering
   \caption{Summary of experiments}
@@ -21,15 +24,22 @@ Our experiments can be summarized as in Table~\ref{tab:exp}.
 \subsection{Model \& Simulations}\label{ss:model-sim}
 To run our experiments,
 we developed a deterministic single-sex SIT model
+% SB: I think first time need to say susceptible, infected,
+%     treated given we are also talking about STI here.
 which simulates transmission in a population with heterogeneity in risk.
 The model is not representative of a specific infection
-%% SS: I think it might be easier to follow if it did.
-%% I think it could be used as an example to thread across
-%% and then in the discussion go into how this would be similar/different for another infection
-%% (which parameters would likely change,
-%% whether we would anticipate that the impact of turnover would be similar, different)
+% SS: I think it might be easier to follow if it did.
+%     I think it could be used as an example to thread across
+%     and then in the discussion go into how this would be similar/different for another infection
+%     (which parameters would likely change,
+%     whether we would anticipate that the impact of turnover would be similar, different)
+% SB: I get saying any STI—but some are curative and some aren’t. ie, you can treat some
+%     folks but the infection may be sustained and in others it is totally gone.
+%     So just ask the question as whether we want to specify more about which type of STI
+%     might be included in a model like this.
 but includes balancing contacts
 as per sexually transmitted infections \citep{Garnett1994}.
+% SB: Not sure what this means.
 The model includes three health states:
 susceptible~$\mathcal{S}$, infectious~$\mathcal{I}$, and treated~$\mathcal{T}$
 (Figure~\ref{fig:health-states}),
@@ -62,6 +72,7 @@ proportionate to the total number of available contacts within each group:
 The biological probability of transmission is defined as $\beta$ per contact.
 Individuals transition from the
 infectious $\mathcal{I}$ to susceptible $\mathcal{S}$ health-state
+% SS: Check: Not from the susceptible to the infectious?
 via a force of infection $\lambda$ per year, per susceptible in risk group $i$:
 \begin{equation}
   \lambda_{i} =
@@ -74,13 +85,15 @@ at a rate $\tau$ per year, reflecting diagnosis and treatment.
 The treatment rate is not stratified by risk group.
 Individuals in the treated $\mathcal{T}$ health-state are not infectious nor susceptible,
 and individuals cannot become re-infected.
-%% SS: What seems confusing to me at this point is that
-%% given the lack of specificity of the infection of interest,
-%% the R assumptions seem potentially overly simplistic
-%% given that with most STIs there is unlikely to be immunity following recovery
-%% and in the case of HIV, treatment (if considered R) may be stopped/incomplete
-%% and then they may not be susceptible, but certainly transmittable.
+% SS: What seems confusing to me at this point is that
+%     given the lack of specificity of the infection of interest,
+%     the R assumptions seem potentially overly simplistic
+%     given that with most STIs there is unlikely to be immunity following recovery
+%     and in the case of HIV, treatment (if considered R) may be stopped/incomplete
+%     and then they may not be susceptible, but certainly transmittable.
 \par
+% LW: For this paragraph and the next, have a sub-heading such as:
+%     "implement turn-over in in SIT model."
 As described in Section~\ref{s:system}, individuals
 enter the model at a rate $\nu$,
 exit the model at a rate $\mu$,
@@ -90,13 +103,24 @@ distribution of individuals entering the model by risk group $\bm{\hat{e}}$
 were computed using the methods outlined in
 Section \ref{sss:params-turnover}
 and the following assumptions.
+% SB: Do we need to explain why we made these assumptions? Or provide refs?
 First, we assumed that
 the proportion of individuals entering each risk group $\bm{\hat{e}}$
 was equal to the proportion of individuals across risk groups in the model $\bm{\hat{x}}$.
+% LW: And another strong assumption which was implicit here is that u assume
+%     the rate of turn over to be the same irrespective of disease status.
+%     And I think it is critical to make it explicit.
+%     So S, I, T all have the same turn over rate,
 Second, we assumed that
 the average duration spent in each risk group $\bm{\delta}$ is known.
 Third, we assumed that
 the absolute number of individuals moving between two risk groups in either direction is balanced.
+% LW: I would think this is a very strong assumption.
+%     It is essentially saying the turn-over system consistently
+%     *swap* individuals in two risk groups.
+% HM: Not fully understand how does this assumption work?
+%     If high risk group has 10 individuals move to medium group,
+%     medium group will move 10 individuals to high risk? This is independent from population entry?
 The system of equations which results from these assumptions
 is given in Appendix~\ref{aa:eqs-turnover}.
 To meet all three conditions, there is only one possible value
@@ -110,6 +134,14 @@ we need to specify the values of $\bm{\hat{x}}$, $\bm{\delta}$, $\nu$, and $\mu$
 Such parameters could be derived from data as described in Section \ref{sss:params-turnover};
 however, in this experiment, we use the illustrative values summarized in
 Table~\ref{tab:params}.
+% LW: After read the whole results section,
+%     I think experiment 2 and 3.2 followed values specified in Table 3.
+%     But experiment 1 and 3.1 explored a wide range of
+%     turn-over and treatment rates.
+%     it is unclear what do u refer to when u said “this experiment”.
+%     Given the organization and length – by the time I reached results of Experiemnt 2,
+%     I almost forgot under which values they were done – as the section preceed it
+%     explored a range of values of turn-over rate and treatment rate.
 After resolving the system of equations,
 $\bm{\hat{e}}$ is equal to $\bm{\hat{x}}$ (assumed), and $\phi$ is:
 \begin{equation} % TODO: automate this output
@@ -297,56 +329,3 @@ As a result, prevalence was the same in both models,
 but the group-specific contact rates inferred via fitting were different.
 As before, the TPAF of the high risk group was then estimated
 in each model after equilibration.
-%Finally, we examined the influence of turnover when fitting models to observed data
-%on disease prevalence across risk groups.
-%We use two models: the Full model with turnover, and model variant V3 without turnover
-%(Figure~\ref{fig:variant-tree}: F and V3).
-%Both models include population growth and 3 risk groups.
-%We then fit the following parameter in both models:
-%the contact rates among the highest and lowest risk groups, $C_H$ and $C_L$.
-%Specifically, we fit the models to equilibrium disease prevalence
-%in the highest and and lowest risk groups.
-%%% SM: does this get us the same overall (total population) prevalence?
-%%% JK: I never verified specifically, but I think so. I can check next iteration.
-%%Then, we infer the degree of risk heterogeneity in the population, as in $C_H / C_L$.
-%%% JK: re. commented out above: I think maybe this is too much repetition
-%%% with description in experiment 3.1
-%We then estimate the contribution of the highest risk group to overall transmission from both models.
-%The contribution is estimated as
-%the transmission population attributable fraction (TPAF)~\citep{Mishra2016}
-%of the highest risk group.
-%% --------------------------------------------------------------------------------------------------
-%\paragraph{Experiment 3.1: Influence of turnover on inferred risk heterogeneity}
-%\label{exp:phi-infer-risk}
-%%% SM: the part about comparing non-fitted scenarios does not come through here or in Experiment 3.2.
-%%% I wonder if that diagram we drew a long time ago on a whiteboard re: the comparisons could be helpful?
-%%% JK: I think mainly that is important for 3.2, as 3.1 is really only exploring
-%%% the inferred risk heterogeneity, which is relevant to fitting, but not really to non-fitted models.
-%%% What do you think?
-%The Full model (turnover) and model variant V3 (no~turnover) are calibrated to
-%25\% infection prevalence in the high risk group, and % SS: prevalence of infection; JK: clarified.
-%5\% in the low risk group at equilibrium.
-%%% SM: they should also reproduce overall prevalence too? what do you think?
-%%% JK: agree -- as above, I'll add this next iteration :) need to double check it is happening now.
-%The fitted parameters are
-%the contact rates of the high and low risk groups: $C_H$~and~$C_L$.%
-%\footnote{The fitted parameters are estimated by minimizing
-%  the negative log-likelihood of each predicted prevalence versus the target
-%  (assuming a sample size of 1000)
-%  using the Sequential Least SQuares Programming (SLSQP) method~\citep{Kraft1988}
-%  from the \texttt{scipy.optimize.minimize} Python package.}
-%The ratio of fitted (or posterior) contact rates $C_H~/~C_L$
-%represents the degree of risk heterogeneity in the population, after fixing all other parameters,
-%which produce the group-specific observed disease prevalence.
-%% --------------------------------------------------------------------------------------------------
-%\paragraph{Experiment 3.2: Influence of turnover on the predicted TPAF of the highest risk group}%
-%\label{exp:phi-tpaf}
-%We then calculate and compare the TPAF of the highest risk group
-%across the model variants with and without turnover.
-%We repeat this analysis using the default model parameters (before model fitting),
-%and again using the inferred values of $C_H$~and~$C_L$ (after model fitting).
-%%% SM: Suggest we put hypotheses in introduction
-%%% Thus, differences in inferred risk heterogeneity due to turnover from Experiment 3.1
-%%% are hypothesized to result in differences in the estimated TPAF of the high risk group.
-%%% JK: do you mean introduction to the paper, or introduction to this experiment (3)?
-%%% Leaving it out for now.
