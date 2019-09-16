@@ -4,8 +4,10 @@ and used the framework to explore the influence of turnover on
 the contribution of the highest risk group to onward transmission in an
 illustrative STI epidemic without STI-attributable mortality.
 We found that this contribution is lower in settings with turnover,
+% LW: I don’t think this is a valid stand alone statement as mentioned in my comments above in results
 but that failure to model turnover when simulating settings with turnover
 could result in underestimation of the contribution.
+% SB: "contribution" Of turn over or high risk groups?
 % SM: in original research papers, usually the summary opening paragraph should
 %     succintly (1-2 line at most) say what we found, not what we did. Otherwise reads as repetitive.
 % JK: A lot of papers in Epidemics journal seem to start discussion with paragraphs like:
@@ -16,6 +18,9 @@ could result in underestimation of the contribution.
 %     That's why I was hoping to highlight again the fact that turnover is not often modelled here.
 % --------------------------------------------------------------------------------------------------
 \paragraph{Turnover framework}
+% LW: I would keep this at the end of discussion before limitation section.
+%     It just flows better with results if we discuss result implications first
+%     before moving into method advance.
 % SM: this paragraph needs a lot of revision/work
 %     and I think I should definitely review/edit the next version before submission.
 %     I will not have time to edit before it goes to co-authors unfortuntel
@@ -29,7 +34,7 @@ First, the framework defines how specific epidemiologic data and assumptions
 can be used as constraints to help define rates of turnover
 (Table~\ref{tab:constraints}).
 These data and assumptions are further discussed in the next paragraph.
-Second, the framework allows such constraints to chosen and combined in a flexible way
+Second, the framework allows such constraints to be chosen and combined in a flexible way
 (as rows in the linear system of equations $\bm{b} = A\bm{\theta}$),
 depending on which data are available, or which assumptions are most plausible.
 While it is necessary that constraints do not conflict one another,
@@ -79,14 +84,21 @@ In the context of STIs, risk group size estimates may be
 obtained from representative surveys of the modelled population
 such as demographic health surveys, which collect data on
 self-reported behaviours or engagement in networks associated with variable risk \citep{DHS}.
-For example, one risk group may defined by any engagement in casual sex within the past year.
+% HM: Maybe consider to combine this sentence with the one with marginalized population together.
+%     Risk group size estimates could be obtained from DHS and mapping.
+% SB: Well, size estimates are complicated for key populations and DHS likely not ideal.
+%     But could reference either this https://www.who.int/hiv/pub/surveillance/final_estimating_populations_en.pdf
+%     or one of our pieces like https://www.ncbi.nlm.nih.gov/pubmed/31341935
+For example, one risk group may be defined by any engagement in casual sex within the past year.
 For marginalized populations, such as sex workers, estimates of population size
 are generated using various mapping and enumeration methods \citep{Abdul-Quader2014}.
+% SB: aha! Ok!
 % SM: try to give examples and citations as the edits above -->
 %     remember how tough it was to do this for the 'medium' risk for the ESwatini work?
 %     Not so simple so be careful with choice of verbs.
 %     Also that is not actually how we get size estimates for KP - we do mapping then surveys.
 %     we do not obtain the size from surveys.
+% HM: overall, I think this para could be shorten and simplified. It reads a little bit long
 Second, the proportion of exogenous individuals who enter into each risk group
 can be used to specify elements $\hat{e}_i$ as Type~2 Constraints.
 Such proportions could be obtained the same way as $\hat{x}_i$ above,
@@ -115,6 +127,7 @@ Fourth, similar data, if available, can also be used to estimate
 the rates of transition between specific risk groups ($\phi$).
 % SM: very vague. what kind of data? Cannot understand/follow this sentence.
 % </TODO>
+% LW: I would avoid the symbols (e.g., δ. x ....) in discussion section.
 % --------------------------------------------------------------------------------------------------
 \paragraph{Influence of turnover on incidence \& prevalence}
 % SM: check journal style if subheadings are common/used in Discussion section.
@@ -132,6 +145,7 @@ the rates of transition between specific risk groups ($\phi$).
 %     and thus goes into the Discussion section.
 We found that turnover influences the overall equilibrium STI incidence and prevalence,
 as shown by previous works \citep{Stigum1994,Zhang2012,Henry2015}.
+% LW: Did the previous work demonstrate similar patterns?
 However, unlike previous works, we also illustrated the influence of turnover on
 group-specific incidence and prevalence, and demonstrated mechanistically how this occurs.
 % Our findings are not new and indeed, are analogous to heat transfer mechanics [REF].
@@ -185,6 +199,13 @@ We found that the TPAF of the highest risk group
 would be lower in settings without turnover.
 This is important to consider when comparing whom to prioritize in different regions
 with different epidemiologic features, such as STI prevalence.
+% HM: Do we assume except turnover, all other factors, such as behaviour inputs etc. are the same?
+% HM: The first sentence saying: TPAF with turnover is higher?
+%     The 3rd, 4th, and 5th sentences suggesting: with turnover, the heterogeneity is reduced and
+%     therefore decreasing the contribution of the highest risk group to overall transmission?
+% SS: With? These two highlighted sentences seem to be in conflict otherwise
+% LW: I think u mean higher? Typo?
+%     I don’t think it is a fair comparison in two settings as discussed in my comments above on results.
 That is, a setting with turnover may require less of a focused approach on those at highest risk.
 Such an implication may be counterintuitive,
 as a shorter period of higher risk among a smaller group means
@@ -193,6 +214,8 @@ However, as described in the paragraph above,
 turnover reduces heterogeneity in risk and
 reduces the STI prevalence ratio between the highest and lowest risk groups,
 decreasing the contribution of the highest risk group to overall transmission.
+% LW: I think such conclusion/implication is misleading:
+%     Comparing different high risk groups in two settings and draw conclusion might be unfair.
 Public health implications of the above finding are two-fold.
 First, if epidemiologists and modelers were to generate
 a geographic map of TPAF across different settings with different rates of turnover,
@@ -201,20 +224,36 @@ the projected TPAF between settings.
 % JK: I'm not quite clear on the the importance of calling this a "geographic map".
 %     Can we just say, "First, differntial rates of risk group turnover between epidemic settings
 %     could represent an important source of variability in the projected TPAFs of risk groups."
+% HM: Not sure about this. Turnover could be different in different settings.
+%     Different turnover could also reflect different epidemics (different prevalence, incidence etc.)
+%     for different settings. Are you suggesting we control the rate of turnover in different settings?
 Second, if decision-makers were allocating
 a fixed ceiling of STI prevention and treatment resources
 for a particular high-risk group (e.g.\ sex workers) across settings,
 based on the TPAF, then settings with zero or lower rates of turnover
 may benefit the most from those resources.
+% HM: Not sure about this implication. Different settings will have different turnover rates
+%     as they have different epidemic. There are so many things could influence TPAF.
+%     I feel we should discuss with/w/o turnover (as next paragraph) in specific setting
+%     not compare different settings. The sentence sounds not clear?
+%     I think we used two different angles to discuss turnover,
+%     but I am not sure the implications from this angle...
+% LW: think this is equivalent as: if u were to allocate a fixed amount of resources to e.g.,
+%     the top 20\% population with highest risk in a setting with e.g, 20\% HIV prevalence
+%     vs. in a setting with 15\% HIV prevalence, the latter will benefit more.
+%     I think this is almost an intuitive conclusion.
+%     Turn-over is not really the cause here – but rather a confounder per-se --- created
+%     through the way the experiments were designed.
 The latter implication is a general insight, and does not account for:
 transmission between sites;
-how costs of STI interventions vary of the sexual life-course of individuals;
+how costs of STI interventions vary over the sexual life-course of individuals;
 and other sources of variability in TPAF not explored in our study.
 \par
 In contrast to a comparison of settings with and without turnover,
 our comparison of models with and without turnover, calibrated to the same epidemic,
 showed that ignoring turnover (if it exists in a given setting)
 will cause the TPAF to be underestimated.
+% LW: I think this is a valid conclusion
 This is because heterogeneity in risk
 must be higher in the presence of turnover than in a model without turnover
 in order to produce the same epidemic features.
@@ -247,7 +286,9 @@ and characterize the epidemiologic conditions under which the bias would be larg
 %     and "STI" to "infection" to keep comments a more generalized,
 %     especially for Epidemics journal.
 %     But let me know if you want to keep it more focused on STI & sex work.
-There are five limitations of the study that are important when considering
+% LW: I think underltying assumptions used in ur experiments should be highlighted especially
+%     the third assumption.
+There are five primary limitations of the study that are important when considering
 the implications of our proposed unified approach to turnover,
 and the implications of turnover on TPAF.
 First, our approach does not account for
@@ -265,6 +306,8 @@ of the sub-group populations to be stable over time
 %     Just adding back here with comments on sex stratification,
 %     as I think it is at least as important as sex,
 %     but even more challenging to adapt the framework to consider it.
+% LW: Lacking a “however” statement following this limitation to justify in which case such
+%     limitation is of less concern
 Second, we assumed a single-sex population and did not stratify by age.
 In the context of real-world STI epidemics,
 the relative size of risk groups may differ
@@ -274,6 +317,7 @@ versus the number of males who sell sex,
 versus the number of males who pay for sex (clients).
 Additional work on the proposed framework could address
 these two important limitations to the generalizability of the approach across STI models.
+% LW: What do u mean here? U mean future work is required?
 \par
 Third, we did not include individuals becoming re-susceptible
 -- an important feature of many STIs such as syphilis and gonorrhoea
@@ -282,6 +326,9 @@ As shown by \citet{Fenton2008} and \citet{Pourbohloul2003},
 the re-supply of susceptible individuals following STI treatment
 will fuel an epidemic, and so the influence of turnover on
 STI incidence, prevalence, and TPAF may be different, and warrants future study.
+% HM: couple of limitations is about the unified system.
+%     If we are going to focus on the model with one specific case,
+%     we might want to focus more on the limitations in application.
 Fourth, our analyses were restricted to
 equilibrium STI prevalence and incidence.
 The influence of turnover at different phases of an epidemic
@@ -303,34 +350,19 @@ measures of the contribution of high-risk groups to overall STI transmission.
 Turnover should therefore be considered in
 transmission models with heterogeneity in risk.
 Although the data-needs remain potentially challenging,
+% SS: This seems to undercut the paper a bit – if the data needs are allowed to come off as too daunting.
+%     I wonder if before highlighting what the failure would result in, if it’s worth noting that
+%     suggestions were provided of how to estimate / parameterize these data points. Perhaps not necessary,
+%     but I was thinking again about the contributions you want to highlight in this paper and the methods that this
+%     is advancing, and by ending with this statement it seems to downplay the methodological advance a bit by
+%     making it sound difficult to implement. Feel free to ignore.
+% SB: Yep, this is the balance of the big data grant. Ie, data are weak but not so weak
+%     that we cant do things. So while a balanced approach is needed, it is possible!
 a failure to meet this challenge
 could lead to misguided information on the importance of
-addressing the unmet needs of high risk populations
--- such as those engaged in sex work --
-to achieve population-level transmission reduction.
-% --------------------------------------------------------------------------------------------------
-% SMH: deleted below but left some notes as comments
-% However, following similar analyses in
-% Appendices~\ref{aaa:what-if-mort}~and~\ref{aaa:what-if-sirs}, respectively,
-% SM: I believe we discussed **not** including in the appendix at last PM.
-%     No right/wrong answer here but I remain convinced of that decision
-%     at this time unless you want to discuss further if you feel strongly
-%     that you want to include? You can use in the PhD, but I would strongly recommend
-%     removing from the results and appendix.
-%     If a reviewer asks, we can do - but the paper is starting to get diluted
-%     with too many 'and we did just a bit more' stuff that is showing up
-%     in the discussion and taking away from the messages
-%     and starting to read like a thesis chapter and not a tight paper.
-%     You did really great work Jesse - but can show / use later.
-%     Try to focus on a single story for a paper :)
-%     - especially given the journals we are submitting to.
-%     Thesis chapters have a wider belt.
-%     As an aside - I also want to go over and double-check the math and code
-%     re: the STI-attributable part much more carefully before you put into a paper...
-% JK: Right! Sorry I forgot to remove this after we discussed at the PM.
-%     I was trying to get a well-informed estimate at the potential influence, originally,
-%     but agreed the scope of the paper is already getting big,
-%     so on-board to leave out unless reviewers ask.
-% we found that inclusion of disease-attributable mortality or reinfection would
-% also result in greater underestimation of high risk group TPAF
-% by models without turnover.
+addressing the unmet needs of high risk populations -- including
+gay men and other men who have sex with men,
+transgender women,
+people who use drugs, and
+people of all genders who sell sex
+-- to achieve population-level transmission reduction.
