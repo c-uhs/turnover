@@ -1,142 +1,77 @@
-% TODO: what to put here?
-% In this section we summarize the results of the experiments described in Section~\ref{s:exp}.
-% In this section we summarize the results of the experiments examining
-% the influence of risk group dynamics on simulated epidemics.
-% The aim of the experiments was to explore the impact of
-% different implementations of risk group dynamics on model outputs
-% in a generalized epidemic model.
-% We compare the projected incidence and prevalence across
-% four model variants and range of turnover magnitudes,
-% as well as the estimated TPAF of the high risk group, with and without turnover.
+In this section we summarize the results of the experiments described in Section~\ref{ss:exp}.
 % LW: I believe all the experiments were done with 3 risk groups- -but all results were shown just
 %     for high and low --- what happened to the middle group?
 %     It is mentioned so less at the end – the reader may almost interpret as if
 %     there were just two risk groups in ur whole experiment.
+% JK: I agree, this was confusing, and mostly done to simplify interpretation of the results.
+%     I've added back the middle group throughout below, to avoid this confusion,
+%     though I don't think this usually adds much to the results.
 % ==================================================================================================
-\subsection{Experiment 1: Influence of turnover on equilibrium incidence and prevalence}
-\label{ss:res-1}
-First, we present general trends in equilibrium prevalence and incidence
-with respect to turnover.
-% --------------------------------------------------------------------------------------------------
-\paragraph{Experiment 1.1: Overall prevalence with vs without turnover}\label{p:res-turnover-simple}
-% LW: I think there is a lot of contents packed here for the readers to consume.
-%     To increase readability, I may suggest trying to separate out:
-%     1) face "Results" u want to show the readers (e.g., patterns/messages u want them to take
-%     home even if they are not 100% clear about the underlying reasons);
-%     2) underlying "explanations" u want to provide
-%     For example,
-%     1) can include 1 figure, which has 6 panels:
-%     Panel 1-3 shows under low treatment rate, what is the relationship between turnover rate
-%     with overall prevalence, high risk prevalence and low risk prevalence.
-%     Panel 4-6 shows under low treatment rate, what is the relationship between turnover rate
-%     with overall prevalence, high risk prevalence and low risk prevalence.
-%     2) can include things u investigated to explain the patterns u find (such as
-%     influence on incidence, etc. ) some figures of 2) can be included in the Appendix only.
-Figure~\ref{fig:compare-turnover-prevalence} shows
-the influence of turnover on overall prevalence at two different treatment rates.
-In both scenarios, turnover appeared to slow
-the initial epidemic growth as indicated by overall prevalence.
-However, at equilibrium, the influence of turnover on overall prevalence
-depended on the treatment rate:
-prevalence was higher with turnover for $\tau = 0.1$
-(Figure~\ref{fig:compare-turnover-prevalence-all-tau=0.1}),
-while it was higher without turnover for $\tau = 0.2$
-(Figure~\ref{fig:compare-turnover-prevalence-all-tau=0.2}).
-Experiments 1.2 and 1.3 aimed to clarify and explain this influence
-through exploration of group-specific incidence and prevalence at equilibrium
-under different rates of turnover $\phi$ and treatment $\tau$.
-% LW: Language like this sounds like method rather than results.
-\begin{figure}[!tbp]
-  \centering
-  \begin{subfigure}{0.45\linewidth}
-    \centering
-    \includegraphics[width=\linewidth]{{sit-turnover-prevalence-all-tau=0.1}.pdf}
-    \caption{Treatment rate $\tau= 0.1$}
-    \label{fig:compare-turnover-prevalence-all-tau=0.1}
-  \end{subfigure}
-  \begin{subfigure}{0.45\linewidth}
-    \centering
-    \includegraphics[width=\linewidth]{{sit-turnover-prevalence-all-tau=0.2}.pdf}
-    \caption{Treatment rate $\tau = 0.2$}
-    \label{fig:compare-turnover-prevalence-all-tau=0.2}
-  \end{subfigure}
-  \caption{Overall projected prevalence with and without risk group turnover
-    under two different treatment rates $\tau$.}
-  \label{fig:compare-turnover-prevalence}
-% LW: This figure can be dropped – or specify turnover rate here.
-%     I think figure 5 by including x axis=0 u will have similar information.
-%     The time-trajectory here is of less importance.
-\end{figure}
-% --------------------------------------------------------------------------------------------------
-\paragraph{Experiment 1.2: Influence of turnover rates on incidence and prevalence}
-\label{p:res-turnover-1D}
-Figure~\ref{fig:1d-prevalence} illustrates trends in equilibrium prevalence versus turnover
-among the high and low risk groups for fixed treatment rate ($\tau = 0.1$).
-% LW: U should also notethe treatment rate in Figure 5 legend.
-For both groups, the same profile was observed:
+\subsection{Experiment 1: How turnover influences equilibrium incidence and prevalence}
+\label{ss:res-prev-inc}
+Figure~\ref{fig:1d-prevalence} illustrates trends in equilibrium STI prevalence
+among the high, medium, low, risk groups, versus turnover.
+In all three cases, the same profile was observed:
 at low turnover, increasing turnover increased prevalence, up to a maximum value (region~A),
-and increasing turnover beyond this point (region~B) then decreased prevalence.
-In the high risk group (Figure~\ref{fig:1d-prevalence-high}),
+and increasing turnover beyond this point (region~B) then decreased equilibrium prevalence.
+In the highest risk group (Figure~\ref{fig:1d-prevalence-high}),
 this transition occurred at a lower rate of turnover,
-while in the low risk group (Figure~\ref{fig:1d-prevalence-low}),
+while in the lowest risk group (Figure~\ref{fig:1d-prevalence-low}),
 the transition occurred at a higher rate of turnover.
 This peaked prevalence profile can be explained by the interaction between two factors:
-the movement of individuals between risk groups and incidence.
+the movement of individuals between risk groups, and
+incidence.
 \begin{figure}[!tbp]
   \centering
-  \begin{subfigure}{0.45\linewidth}
+  \begin{subfigure}{0.31\linewidth}
     \centering
     \includegraphics[width=\linewidth]{{1d-prevalence-high-tau=0.1}.pdf}
     \caption{High risk}
     \label{fig:1d-prevalence-high}
   \end{subfigure}
-  \begin{subfigure}{0.45\linewidth}
+  \begin{subfigure}{0.31\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{{1d-prevalence-med-tau=0.1}.pdf}
+    \caption{Medium risk}
+    \label{fig:1d-prevalence-med}
+  \end{subfigure}
+  \begin{subfigure}{0.31\linewidth}
     \centering
     \includegraphics[width=\linewidth]{{1d-prevalence-low-tau=0.1}.pdf}
     \caption{Low risk}
     \label{fig:1d-prevalence-low}
   \end{subfigure}
-  \caption{Equilibrium prevalence among high and low  risk groups versus turnover,
-    as controlled by the duration in the high risk group $\delta_H$.
+  \caption{Equilibrium prevalence among high, medium, and low risk groups
+    versus turnover, as controlled by the duration in the high risk group $\delta_H$.
     Turnover shown in log scale.}
   \label{fig:1d-prevalence}
 \end{figure}
-\par
-The movement of individuals between risk groups is depicted in Figure~\ref{fig:flows}
-for four rates of turnover and a simplified system (two risk groups).
-% SB: Isnt it always just two states — ie, is this more of a simplified system than the others?
-Recall that, by our assumptions,
-the distribution of health states among individuals leaving a risk group
-was equal to the distribution of health states within the group.
-Therefore, a higher proportion of individuals leaving the high risk group
-were infectious as compared to individuals entering the high risk group,
-who were mostly susceptible.
-Thus, in the high risk group,
-turnover yielded a net replacement of infectious individuals with susceptible individuals.
-However, turnover similarly replaced treated individuals
-with susceptible individuals in this group.
-If incidence is sufficiently high,
-infection of these susceptible individuals can
-outpace the loss of infectious individuals via turnover.
-As a result, prevalence among the high risk group
-can actually increase with increasing turnover.
-In fact, this is what we observed in this model for moderate rates of turnover
-(Figure~\ref{fig:dX-high-I}),
-yielding the increase in prevalence among high risk individuals
-shown in region~A of Figure~\ref{fig:1d-prevalence-high}.%
-%and illustrated in Figure~\ref{fig:flows-med}~vs~\ref{fig:flows-low}.%
-\footnote{If prevalence is defined as to include
-  both infectious individuals and individuals on treatment,
-  such as in the context of HIV,
-  then infection prevalence among the high risk group
-  monotonically decreased with increasing turnover \citep{Knight2019}.}
-Among the low risk group, turnover yielded a net exchange susceptible individuals
-for infectious and treated individuals.
-As a result, moderate rates of turnover also
-increased prevalence among the low risk group,
-as shown in region~A of Figure~\ref{fig:1d-prevalence-low}.
-%Overall, turnover increases infection prevalence by
-%increasing the number of susceptible individuals exposed to the high risk state.
+% --------------------------------------------------------------------------------------------------
+\subsubsection{Movement of individuals between risk groups}
+The first factor, movement of individuals between risk groups,
+is illustrated in Figure~\ref{fig:flows} for four rates of turnover.
+We assumed that the distribution of health states among individuals leaving a risk group
+is equal to the distribution of health states within the group.
+Therefore, in the low risk group,
+a higher proportion of individuals leaving the group due to turnover were susceptible,
+as compared to individuals entering the group, who were more likely to be infectious.
+Thus, in the low risk group,
+turnover yielded a net replacement of susceptible individuals with infectious individuals.
+As a result, increasing turnover at low rates of turnover
+increased prevalence among the low risk group
+(Figure~\ref{fig:1d-prevalence-low}, region~A).
+Among the high risk group,
+turnover yielded a net replacement of both infectious and treated individuals
+with susceptible individuals.
+However, since incidence in the group was high,
+infection of new susceptible individuals from turnover
+outpaced the loss of infectious individuals via turnover
+for low rates of turnover.
+As a result, STI prevalence in the high risk group
+also increased with turnover for low rates of turnover
+(Figure~\ref{fig:1d-prevalence-high}, region~A).
+In order to explain the reversal of these trends in region~B,
+the second factor, incidence, must be considered.
 \par
 \begin{figure}[!tbp]
   \centering
@@ -144,6 +79,10 @@ as shown in region~A of Figure~\ref{fig:1d-prevalence-low}.
     \centering
     \includegraphics[width=\linewidth]{flows-legend.pdf}
   \end{subfigure}
+  \begin{subfigure}[t]{0.15\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{flows-labels.pdf}
+  \end{subfigure}%
   \begin{subfigure}[t]{0.2\linewidth}
     \centering
     \includegraphics[width=\linewidth]{flows-low.pdf}
@@ -172,297 +111,183 @@ as shown in region~A of Figure~\ref{fig:1d-prevalence-low}.
     moving between high and low risk groups due to different rates of turnover.}
   \label{fig:flows}
 \end{figure}
-Next, and in order to explain the reversal of these trends
-at higher rates of turnover (region~B),
-we examined the second factor in
-the influence of turnover on infection prevalence: incidence.
-Consider the force of infection equation, Eq~(\ref{eq:foi}).
-As shown in Appendix~\ref{aa:eqs-incidence}, the dynamic component in this expression is
-the proportion of available partnerships which are offered by infectious individuals,
-denoted as $\bm{C}_{\mathcal{I}}$.
-This component can be further broken down into the following two sub-factors:
+% --------------------------------------------------------------------------------------------------
+\subsubsection{Incidence}
+% Next, we examined the second factor in
+% the influence of turnover on infection prevalence: incidence.
+As shown in Appendix~\ref{aa:eqs-incidence}, incidence
+is proportional to two dynamic components:
 $\hat{C}_{\mathcal{I}}$ the average contact rate among infectious individuals, and
-$\hat{\mathcal{I}}$ overall prevalence.
-Thus, the influence of turnover on incidence
-can be understood through the influence of turnover on these two sub-factors.%
+$\hat{\mathcal{I}}$ overall prevalence.%
 \footnote{Since we assumed proportionate mixing among risk groups,
   and only consider heterogeneity in contact rate $C_i$,
-  incidence in each risk group is the same as overall
-  except for a scale factor proportional to $C_i$.}
-\begin{figure}[!tbp]
-  \centering
-  \begin{subfigure}{0.45\linewidth}
-    \centering
-    \includegraphics[width=\linewidth]{{1d-C-I-tau=0.1}.pdf}
-    \caption{Average contact rate among infectious individuals $\hat{C}_{\mathcal{I}}$}
-    \label{fig:1d-C-I}
-  \end{subfigure}
-  \begin{subfigure}{0.45\linewidth}
-    \centering
-    \includegraphics[width=\linewidth]{{1d-prevalence-all-tau=0.1}.pdf}
-    \caption{Overall prevalence $\hat{\mathcal{I}}$}
-    \label{fig:1d-prevalence-all}
-  \end{subfigure}\\[1em]
-  \begin{subfigure}[t]{0.45\linewidth}
-    \centering
-    \includegraphics[width=\linewidth]{{1d-XC-I-tau=0.1}.pdf}
-    \caption{Proportion of available partnerships
-      which are offered by infectious individuals $\bm{C}_{\mathcal{I}}$}
-    \label{fig:1d-XC-I}
-  \end{subfigure}
-  \begin{subfigure}[t]{0.45\linewidth}
-    \centering
-    \includegraphics[width=\linewidth]{{1d-incidence-all-tau=0.1}.pdf}
-    \caption{Overall incidence $\lambda$}
-    \label{fig:1d-incidence-all}
-  \end{subfigure}
-  \caption{Incidence and the dynamic factors of incidence versus turnover.
-    The product of components (a) and (b) is proportional to
-    (c) the proportion of total available contacts which are with infectious individuals
-    and (d) overall incidence.}
-  \label{fig:1d-incidence-factors}
-\end{figure}
-\par
-As shown in Figure~\ref{fig:1d-C-I}, turnover decreased the first sub-factor:
-$\hat{C}_{\mathcal{I}}$ the average contact rate among infectious individuals.
-This is because, as noted above,
-turnover causes in a net movement of infectious individuals from high to low risk.
-However, at low to moderate rates of turnover, turnover increased the second sub-factor:
+  incidence in each risk group is proportional to overall incidence
+  with $C_i$ as a scale factor (Figure~\ref{fig:1d-incidence}).}
+Therefore, the influence of turnover on equilibrium incidence
+can be understood through the influence of turnover on these two components
+(Figure~\ref{fig:1d-incidence-factors}).
+Increasing turnover monotonically decreased the first component:
+$\hat{C}_{\mathcal{I}}$ the average contact rate among infectious individuals
+(Figure~\ref{fig:1d-C-I}), because
+turnover caused a net movement of infectious individuals from high to low risk.
+For low rates of turnover, however,
+turnover increased the second component:
 $\hat{\mathcal{I}}$ overall prevalence
-(Figure~\ref{fig:1d-prevalence-all}, region~A).
-%since overall prevalence is simply a weighted average of the prevalence across risk groups
-%(Figure~\ref{fig:1d-prevalence}).
-Now, under the conditions in region~A,
+(Figure~\ref{fig:1d-prev-all}, region~A).
+For low rates of turnover,
 overall prevalence $\hat{\mathcal{I}}$
 increased faster with turnover than
 the average contact rate of infectious people $\hat{C}_{\mathcal{I}}$ decreased.
-Thus, as a product of these two sub-factors,
-$\bm{C}_{\mathcal{I}}$ increased with turnover in region~A
-(Figure~\ref{fig:1d-XC-I})
-and incidence increased proportionally
+As a product of these two components,
+incidence then increased with turnover in region~A
 (Figure~\ref{fig:1d-incidence-all}).
-\par
-It therefore follows that the peak in incidence, and
-the transition between regions~A~and~B in Figure~\ref{fig:1d-XC-I}
-occurred when the dominating sub-factor
-between $\hat{\mathcal{I}}$ and $\hat{C}_{\mathcal{I}}$ reversed.
+The transition between regions~A~and~B in Figure~\ref{fig:1d-incidence-all}
+(maximum equilibrium incidence) occurred when the dominating component
+between $\hat{\mathcal{I}}$ and $\hat{C}_{\mathcal{I}}$ reversed
 % SB: It may be common to write like this in the modeling world,
 %     but less so in traditional scientific writing.
 %     Ie, normally results would be laid out in an agnostic way
 %     and then discussions really provides the interpretation of
 %     why this was or was not expected.
 %     And the editorializing “therefore” would not be there as much...
-That is, the transition occurred when
+% JK: I think it is reasonable to argue that this conclusion is
+%     a result, rather than an interpretation, since we've hopefully shown
+%     it with the figures directly. I think you're right that this is a
+%     modelling thing, but its part of our "results" showing the mechanisms.
+-- that is, when
 the average contact rate of infectious people $\hat{C}_{\mathcal{I}}$
 decreased with turnover faster than prevalence $\hat{\mathcal{I}}$
-increased with turnover.
-Then, as rates of turnover continued to increase,
-declining incidence also reversed the upward trend in prevalence,
-and incidence and prevalence decreased across all groups in a snowball effect.
-% SB: Why is this a snowball effect?
-This mechanism then explains the observations shown in region~B throughout.
-\par
-Finally, we note that the rates of turnover which maximized incidence
-(Figure~\ref{fig:1d-incidence-all})
-were lower than those which maximized overall prevalence
-(Figure~\ref{fig:1d-prevalence-all}).
-This is because incidence represents
-the number of new infections per susceptible, not per individual;
-% SB: Does that mean this implies a curative STI? That can have repeat episodes?
-so a system at slightly higher prevalence
-can be maintained by a slightly lower incidence,
-provided the proportion of susceptibles has decreased more than
-prevalence has increased.
-We also note that infection prevalence among the high risk group
-peaked at lower rates of turnover than prevalence among the low risk group.
-This is because turnover yields a net movement of infectious individuals
-from high to low risk;
-so prevalence among the high risk group can decrease with turnover
-even as incidence increases,
-whereas prevalence among the low risk group can increase with turnover
-even as incidence decreases.
-% --------------------------------------------------------------------------------------------------
-\paragraph{Experiment 1.3: Influence of turnover rates at various treatment rates}
-\label{p:res-turnover-2D}
-% TODO: reference \ref{fig:prevalence-ratio}
-So far, the influence of turnover on equilibrium incidence and prevalence
-was explored for a single treatment rate.
-Experiment 1.3 explored additional treatment rates $\tau$.
-% LW: If u were to explain everything under one treatment rate- then don’t bring up two
-%     scenairos (high vs low treatment rate) at the beginning.
-\par
-First, the sub-factors of incidence are again shown
-in Figure~\ref{fig:2d-incidence-factors}.
-Increasing the treatment rate $\tau$ increased
-the average contact rate of infectious individuals $\hat{C}_{\mathcal{I}}$
-(Figure~\ref{fig:2d-C-I}).
-This is because increasing treatment concentrated infections in the highest risk group
-(Figure~\ref{fig:2d-ratio-prevalence}),
-so that $\hat{C}_{\mathcal{I}}$, on average, increased.
-However, increasing treatment reduced overall prevalence $\hat{\mathcal{I}}$
-(Figure~\ref{fig:2d-prevalence-all}),
-due to the herd immunity effect of treated individuals.
-The dominant effect was that of $\hat{\mathcal{I}}$,
-which tended towards zero faster than $\hat{C}_{\mathcal{I}}$ tended towards infinity,
-and so incidence declined with treatment
-(Figure~\ref{fig:2d-incidence-all}).
-\par
-Figure~\ref{fig:2d-incidence-all} also shows that
-the rate of turnover which maximized incidence decreased with treatment.
-That is, as treatment rates increased,
-turnover was more likely to decrease incidence than it was to increase incidence
-(region~B grew).
-This effect can be explained as follows.
-Recall that the mechanism by which turnover decreased incidence was through
-reduction of the average contact rate of infectious individuals $\hat{C}_{\mathcal{I}}$,
-due to net movement of infectious individuals from high to low risk
-(Figure~\ref{fig:flows}).
-If treatment increased the concentration of infections in the high risk group,
-then the average contact rate of infectious individuals $\hat{C}_{\mathcal{I}}$
-would be more sensitive to redistribution of those infectious individuals
-to lower risk groups via turnover.
-In Figure~\ref{fig:2d-C-I},
-this is shown as the larger downward slope of $\hat{C}_{\mathcal{I}}$ versus turnover
-at higher treatment rates (darker blue).
-Therefore, at higher treatment rates,
-turnover was more likely to decrease incidence
-because movement of infectious individuals from high to low risk
-had a larger impact on the average contact rate of infectious individuals.
+increased with turnover,
+causing incidence to decline.
+Then, as rates of turnover increased further,
+declining incidence also reduced prevalence,
+and incidence and prevalence decreased across all groups
+in mutually reinforcing decline.
+This mechanism explains the observations shown in region~B throughout.
 \begin{figure}[!tbp]
   \centering
-  \begin{subfigure}[t]{0.45\linewidth}
+  \begin{subfigure}[t]{0.31\linewidth}
     \centering
-    \includegraphics[width=\linewidth]{2d-C-I}
+    \includegraphics[width=\linewidth]{{1d-C-I-tau=0.1}.pdf}
     \caption{Average contact rate among infectious individuals $\hat{C}_{\mathcal{I}}$}
-    \label{fig:2d-C-I}
+    \label{fig:1d-C-I}
   \end{subfigure}
-  \begin{subfigure}[t]{0.45\linewidth}
+  \begin{subfigure}[t]{0.31\linewidth}
     \centering
-    \includegraphics[width=\linewidth]{2d-prevalence-all}
+    \includegraphics[width=\linewidth]{{1d-prevalence-all-tau=0.1}.pdf}
     \caption{Overall prevalence $\hat{\mathcal{I}}$}
-    \label{fig:2d-prevalence-all}
-  \end{subfigure}\\[1em]
-  \begin{subfigure}[t]{0.45\linewidth}
-    \centering
-    \includegraphics[width=\linewidth]{2d-XC-I}
-    \caption{Proportion of available partnerships
-      which are offered by infectious individuals $\bm{C}_{\mathcal{I}}$}
-    \label{fig:2d-XC-I}
+    \label{fig:1d-prev-all}
   \end{subfigure}
-  \begin{subfigure}[t]{0.45\linewidth}
+  \begin{subfigure}[t]{0.31\linewidth}
     \centering
-    \includegraphics[width=\linewidth]{2d-incidence-all}
+    \includegraphics[width=\linewidth]{{1d-incidence-all-tau=0.1}.pdf}
     \caption{Overall incidence $\lambda$}
-    \label{fig:2d-incidence-all}
+    \label{fig:1d-incidence-all}
   \end{subfigure}
-  \caption{Incidence and the dynamic factors of incidence versus turnover,
-    for a range of treatment rates.
-    Darker blue indicates higher treatment rate.
-    The product of components (a) and (b) is proportional to
-    (c) the proportion of total available contacts which are with infectious individuals
-    and (d) overall incidence.}
-  \label{fig:2d-incidence-factors}
+  \caption{Incidence and the dynamic factors of incidence versus turnover.
+    The product of components (\subref{fig:1d-C-I}) and (\subref{fig:1d-prev-all})
+    is proportional to (\subref{fig:1d-incidence-all}) overall incidence.}
+  \label{fig:1d-incidence-factors}
 \end{figure}
-% LW: I found this figure hard to interpret
-\par
-Finally, Figure~\ref{fig:surface} summarizes trends in
-overall equilibrium incidence and group-specific prevalence
-with respect to both turnover $\phi$ and treatment rate $\tau$.%
-\footnote{Figures~\ref{fig:surface-prevalence-all}~and~\ref{fig:surface-incidence-all}
-  are the surface projections of the profiles shown in
-  Figures~\ref{fig:2d-prevalence-all}~and~\ref{fig:2d-incidence-all}, respectively.}
-% LW: As mentioned in my comments above:
-%     Choose one as the main result – for example, prevalence.
-%     And incidence as a tool to assist in interpretation/explanation.
-%     U have a lot of information – and have to strategically simply things for the reader...
-%     Otherwise -- way too much information to grasp and readers will be lost.
-Treatment consistently decreased equilibrium incidence (as noted above),
-as well as prevalence, at all rates of turnover.
-As suggested in Experiment 1.2, infection prevalence increased with turnover
-for moderate rates of turnover and treatment, among all groups, and overall.
-However, for higher rates of turnover,
-prevalence among each risk group peaked, and then declined.
-As shown in Figure~\ref{fig:2d-incidence-factors},
-the rate of turnover at which the peak occurs decreased with treatment rate.
-Finally, for high rates of treatment and/or turnover, the product of
-the average contact rate of infectious individuals $\hat{C}_\mathcal{I}$
-and prevalence $\hat{\mathcal{I}}$
-was too low to sustain the epidemic.
-That is, the basic reproductive number $R_0$ declined to less than one,
-and no epidemic was  observed.%
-\footnote{In fact, it can be shown that for extreme rates of turnover,
-  a heterogeneous system (e.g. Full model) will converge on
-  a homogeneous system (e.g. model V1).
-  This result is shown in Figure~\ref{fig:hetero-converge}.}
-\begin{figure}[!tbp]
+% --------------------------------------------------------------------------------------------------
+\subsubsection{Prevalence ratios}
+Figure~\ref{fig:1d-ratio-prevalence} shows
+the equilibrium prevalence ratios in comparisons of all three risk groups.
+The prevalence ratio between highest and lowest risk groups
+monotonically decreases with turnover
+(Figure~\ref{fig:1d-ratio-prevalence-high-low}).
+Since incidence ratios were not affected by turnover
+(Figure~\ref{fig:1d-ratio-incidence}),
+this decrease in prevalence ratio with turnover
+was attributed to the movement of individuals between risk groups,
+namely infectious individuals from high-to-low risk,
+and non-infectious individuals from low-to-high risk.
+This movement of individuals can also explain why
+prevalence among the high risk group can decrease with turnover,
+even as incidence increases
+(region~B in Figure~\ref{fig:1d-prevalence-high} overlaps
+region~A in Figure~\ref{fig:1d-incidence-all}),
+while prevalence among the low risk group can increase with turnover,
+even as incidence decreases
+(region~A in Figure~\ref{fig:1d-prevalence-low} overlaps
+region~B in Figure~\ref{fig:1d-incidence-all}).
+The high-to-medium and medium-to-low prevalence ratios are not monotonic,
+but for moderate rates of turnover,
+they follow the same trends as
+the high-to-low prevalence ratio.
+% JK: This is tricky to explain and not much value added.
+%     Do you think we could cut the para here
+%     and omit the next two sentences?
+For low rates of turnover, the high-to-medium prevalence ratio
+(Figure~\ref{fig:1d-ratio-prevalence-high-med})
+increases slightly as prevalence among the high risk group
+increases with turnover faster than among the medium risk group.
+Similarly, for high rates of turnover, the medium-to-low prevalence ratio
+(Figure~\ref{fig:1d-ratio-prevalence-med-low})
+increases slightly as prevalence among the medium risk group
+declines faster with turnover than among the low risk group.
+\begin{figure}
   \centering
-  \begin{subfigure}{0.45\linewidth}
-    \centering
-    \includegraphics[width=\linewidth]{surface-prevalence-high}
-    \caption{High risk prevalence}
-    \label{fig:surface-prevalence-high}
+  \begin{subfigure}{0.31\linewidth}
+    \centering\includegraphics[width=\linewidth]{{1d-ratio-prevalence-high-low-tau=0.1}.pdf}
+    \caption{High vs Low risk}
+    \label{fig:1d-ratio-prevalence-high-low}
   \end{subfigure}
-  \begin{subfigure}{0.45\linewidth}
-    \centering
-    \includegraphics[width=\linewidth]{surface-prevalence-low}
-    \caption{Low risk prevalence}
-    \label{fig:surface-prevalence-low}
-  \end{subfigure}\\[1em]
-  \begin{subfigure}{0.45\linewidth}
-    \centering
-    \includegraphics[width=\linewidth]{surface-prevalence-all}
-    \caption{Overall prevalence}
-    \label{fig:surface-prevalence-all}
+  \begin{subfigure}{0.31\linewidth}
+    \centering\includegraphics[width=\linewidth]{{1d-ratio-prevalence-high-med-tau=0.1}.pdf}
+    \caption{High vs Medium Risk}
+    \label{fig:1d-ratio-prevalence-high-med}
   \end{subfigure}
-  \begin{subfigure}{0.45\linewidth}
-    \centering
-    \includegraphics[width=\linewidth]{surface-incidence-all}
-    \caption{Overall incidence}
-    \label{fig:surface-incidence-all}
+  \begin{subfigure}{0.31\linewidth}
+    \centering\includegraphics[width=\linewidth]{{1d-ratio-prevalence-med-low-tau=0.1}.pdf}
+    \caption{Medium vs Low Risk}
+    \label{fig:1d-ratio-prevalence-med-low}
   \end{subfigure}
-  \caption{Equilibrium prevalence and incidence for different rates of
-    turnover $\phi$ (log scale) and
-    treatment $\tau$ (log scale).}
-  \label{fig:surface}
+  \caption{Equilibrium prevalence ratios between risk groups
+    under different rates of turnover $\phi$.}
+  \label{fig:1d-ratio-prevalence}
 \end{figure}
 % ==================================================================================================
 \subsection{Experiment 2: Inferred risk heterogeneity with vs without turnover}
 % SB: I really feel like a separate paper... just a lot of info here!!
 % LW: Refresh the readers on under what values of treatment rate and turnover rate did u
 %     conduct these experiments.
+% JK: @LW done, and @SB hopefully we are much more consise and connected with our story now!
 \label{ss:res-infer}
+Next, we compared the fitted parameters in models with versus without turnover
+($\delta_H = 5$ vs.\ $\delta_H = 33$ years).
 Before model fitting, the predicted prevalence ratio
 between high and low risk groups was lower with turnover than without:
-$\input{\datapath/values/turnover-prevalence-ratio.txt}$~vs~%
-$\input{\datapath/values/no-turnover-prevalence-ratio.txt}$.
+$\input{\datapath/values/turnover-prevalence-ratio-high-low.txt}$~vs~%
+$\input{\datapath/values/no-turnover-prevalence-ratio-high-low.txt}$.
 This reflects the ``homogenizing'' effect of turnover on
 the average risk experienced by individuals in the model.
-As shown in Figure~\ref{fig:2d-ratio-prevalence-high-low},
-% SS: ???
-the high-to-low prevalence ratio consistently declined with turnover
-for all turnover and treatment rates explored.
+As shown in Figure~\ref{fig:1d-ratio-prevalence-high-low},
+the high-to-low prevalence ratio consistently declined with turnover.
 Thus, when fitting the model to target prevalence values,
-the fitted contact rates $C$ would have to compensate for this difference.
+the fitted contact rates $C$ would have to compensate for
+this difference in prevalence ratio with and without turnover.
 \par
 After fitting the contact rates, both models predicted
-the desired equilibrium infection prevalence values of 20\%,~3\%,~and~5\%
-among the high risk group, low risk group, and overall.
+the target equilibrium infection prevalence values of 20\%,~8.75\%,~3\%,~and~5\%
+among the high, medium, low risk groups, and overall
+(Figure~\ref{fig:tpaf-prevalence}).
 However, in order to do so, the ratio of fitted contact rates
 between high and low risk groups ($C_H~/~C_L$)
 was higher with turnover than without:
-$\input{\datapath/values/turnover-[fit]-C-ratio.txt}$~vs~%
-$\input{\datapath/values/no-turnover-[fit]-C-ratio.txt}$.
+$\input{\datapath/values/turnover-[fit]-C-ratio-high-low.txt}$~vs~%
+$\input{\datapath/values/no-turnover-[fit]-C-ratio-high-low.txt}$
+(Table~\ref{tab:fitting}).
 That is, the inferred level of risk heterogeneity was higher
 in the model with turnover than in the model without turnover.
 This is because,
 in order to observe the same prevalence ratio in a system with turnover,
 the ``risk homogenizing'' effects of turnover must be overcome by
 greater heterogeneity in risk, as compared to a system without turnover.
-These results are also summarized in Table~\ref{tab:fitting}.
 \begin{table}
   \centering
-  \caption{Equilibrium contact rates $C$ and prevalence $P$
-    among the high $H$ and low $L$ risk groups
+  \caption{Equilibrium contact rates and prevalence
+    among the high and low risk groups
     predicted by the models with and without turnover,
     before and after model fitting.}
   \label{tab:fitting}
@@ -472,90 +297,48 @@ These results are also summarized in Table~\ref{tab:fitting}.
 \subsection{Experiment 3: Influence of turnover on the TPAF of the highest risk group}
 \label{ss:res-tpaf}
 % SB: Isnt it normally noted tPAF not TPAF?
-Finally, we compared the predicted TPAF of the highest risk group with and without turnover in:
-two settings (same parameters, different prevalence); and
-two models (same prevalence, different parameters).
-% LW: I would suggest dropping the TPAF under two settings section as whole.
-%     Not a very relevant question on its own. Realistically speaking,
-%     1) How can u identify two settings with exact same behavioral parameters,
-%     but one with and another without turn-over?
-%     2)Even if there is, comparing the tPAF of high risk group in setting A (no turnover) to
-%     high risk group insetting B(turnover) is not a really fair comparison, as
-%     high risk group in setting A has a prevalence ratio of 9.2 wheares
-%     high risk group in setting B has a prevalence ratio of 6.7.
-These results are shown in Figure~\ref{fig:tpaf}.
-The TPAF approaches 1 for all models over the 50 year period,
+% JK: I think yes, but I'm trying to move towards "TPAF",
+%     since I feel the TPAF is fundamentally different from conventional PAF.
+Finally, we compared the predicted TPAF of the highest risk group
+with and without turnover, after fitting to the same prevalence data
+(Figure~\ref{fig:tpaf-fit}).
+The TPAF approaches 1 for both models over the 50 year period,
 indicating that unmet treatment needs of the highest risk group
-are central to epidemic persistence in all scenarios.
+are central to epidemic persistence in both scenarios.
 % SB: Crucial.
-Additionally, no TPAFs intersect during this period,
-so relative differences between TPAFs can be described irrespective of time horizon.
-\begin{figure}[!tbp]
-  \centering
-  \begin{subfigure}{0.45\linewidth}
-    \centering
-    \includegraphics[width=\linewidth]{sit-tpaf-tpaf-high-all-vs=raw}
-    \caption{No fitting}
-    \label{fig:tpaf-raw}
-  \end{subfigure}
-  \begin{subfigure}{0.45\linewidth}
-    \centering
-    \includegraphics[width=\linewidth]{sit-tpaf-tpaf-high-all-vs=fit}
-    \caption{Fitted contact rates}
-    \label{fig:tpaf-fit}
-  \end{subfigure}
-  \caption{Transmission population attributable fraction (TPAF-from)
-    of the high risk group with and without turnover,
-    and with and without fitted contact rates to group-specific prevalence.}
-  \label{fig:tpaf}
-\end{figure}
-% --------------------------------------------------------------------------------------------------
-\paragraph{Experiment 3.1: Two settings}
-\label{p:res-tpaf-raw}
-Figure~\ref{fig:tpaf-raw} shows the estimated TPAF of the high risk group
-in two different settings -- with and without turnover.
-In this case, the estimated TPAF is lower
-in Setting B with turnover versus
-in Setting A without turnover.
-% SS: I find it a little confusing that Setting B is with Turnover but in the legend that comes first
-This can be attributed to
-the larger equilibrium prevalence ratio without model fitting
-(Experiment 2, Table~\ref{tab:fitting}),
-which results in more onward transmission from the high prevalence high risk group.
-In other words, the importance of reaching high risk groups
-in a context without turnover is higher than in a context with turnover,
-all other factors being equal.
-% --------------------------------------------------------------------------------------------------
-\paragraph{Experiment 3.2: Two models}
-\label{p:res-tpaf-fit}
-Figure~\ref{fig:tpaf-fit} shows the estimated TPAF of the high risk group
-by two different models -- with and without turnover --
-both fitted to the same prevalence.
-Now the estimated TPAF is higher
-in Model B with turnover versus
-in Model A without turnover.
-This result, opposite to Experiment 3.1, can be explained by two factors.
-% LW: I would avoid further comparing experiment 3.1 and 3.2. there is no need to compare them.
-First, the equilibrium prevalence ratios predicted by the models with and without turnover
-are equalized through model fitting to the same targets.
-As a result, differences in prevalence in the high risk group
-no longer contribute to an increased TPAF estimate by Model A without turnover.
-Second, as shown in Experiment 2, 
-the ratio of fitted contact rates $C_H~/~C_L$ in model B with turnover
-are higher than in Model A without.
-This affords a higher risk of onward transmission to the high risk group
-in Model B with turnover, and thus an increased TPAF.
+The estimated TPAF of the highest risk group is also higher
+in the model with turnover versus
+in the model without turnover
+over all time horizons.
+This increase in TPAF of the highest risk group can be attributed to
+a higher ratio of fitted contact rates $C_H~/~C_L$
+in the model with turnover is higher than in the model without
+(Experiment~2).
+The increased contact rate ratio affords
+a higher risk of onward transmission to the highest risk group
+in the model with turnover, and thus an increase in TPAF.
 This result then implies that
 models which fail to capture turnover dynamics which are present in reality
 may underestimate the TPAF of high risk groups.
+\begin{figure}[!tbp]
+  \centering
+  \includegraphics[width=0.45\linewidth]{sit-tpaf-tpaf-high-all-vs=fit}
+  \caption{Transmission population attributable fraction (TPAF-from)
+    of the high risk group in models with and without turnover,
+    after fitting contact rates to group-specific prevalence.}
+  \label{fig:tpaf-fit}
+\end{figure}
 % LW: I think this is the key message and valid.
-Consequently, the importance of prioritizing high risk groups
-to achieve epidemic control may be similarly underestimated by such models.
-% SB: While I agree—this is really interpretation. To me, assumed this would be more in
-%     the discussion but could also be more about the style of paper.
 % SS: This section perhaps could be a bit clearer as clearly very important
 %     Is there a way to more explicitly talk about new infections
 %     in the low / medium risks coming from prevalent infections
 %     entering into these states from high risk groups and that
 %     subsequent infections emanating from these individuals are thus still
-%     linked back to prior history in the high risk group? 
+%     linked back to prior history in the high risk group?
+% JK: Great point and I realized this was not emphasized anywhere in the paper.
+%     However, I think this section is not the right place for it,
+%     as the increase in TPAF is really attributable to the higher estimated
+%     contact rate ratio from Experiment 2.
+%     However, I highlight that infections in low risk groups can originate
+%     from higher risk period in the discussion,
+%     since it kind of gets lost in Experiment 1.

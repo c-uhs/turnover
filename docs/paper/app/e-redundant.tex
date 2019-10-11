@@ -1,5 +1,4 @@
-Whenever it is assumed that risk groups do not change size
-(Type~1 Constraint),
+Whenever it is assumed that risk groups do not change size,
 $G$ rows of the form shown in Eq.~(\ref{eq:eg-basis})
 are added to $\bm{b}$ and $A$:
 \begin{equation}\tag{\ref{eq:eg-basis}}
@@ -12,7 +11,7 @@ A = \left[\begin{array}{ccccccccc}
 \cdot & \cdot &  \nu  & \cdot &  x_1  & \cdot &  x_2  & -x_3  & -x_3  \\
 \end{array}\right]
 \end{equation}
-These $G$ rows can be row-reduced by summing to obtain:
+After multiplying by $\bm{\theta}$, these $G$ rows can be row-reduced by summing to obtain:
 \begin{equation}
 \begin{aligned}
 \left[ \nu x_1 + \nu x_2 + \nu x_3 \right] &= 
@@ -26,4 +25,4 @@ These $G$ rows can be row-reduced by summing to obtain:
 which therefore implies that $\sum_{i} x_i = \sum_{i} e_i$,
 or equivalently $\sum_{i} \hat{x}_i = \sum_{i} \hat{e}_i = 1$.
 Thus, it is redundant to specify all $G$ elements of $\hat{e}$,
-as the final element will be dictated by Type~1 Constraints.
+as the final element will be dictated by constant group size constraints.

@@ -1,78 +1,88 @@
 Heterogeneity in transmission risk is a consistent characteristic of
-% HM: I feel we might want to explain "heterogeneity" a little more?
 epidemics of sexually transmitted infections (STI) \citep{Anderson1991}.
 This heterogeneity is often demarcated by identifying
 specific populations whose risks of acquisition and onward transmission of STI are the highest,
 such that their specific unmet prevention and treatment needs
 can sustain local epidemics of STI \citep{Yorke1978}.
-An important indicator in the appraisal of STI epidemics is
-the contribution of high risk groups to the overall epidemic \citep{Case2012}.
+Increased risk can be conferred in many ways, including
+a higher number of sexual partners,
+reduced condom use,
+stigma during access to care.
+% HM: I feel we might want to explain "heterogeneity" a little more?
+% JK: how about the new content above?
+The contribution of high risk groups to the overall epidemic
+can then be used as an indicator in the appraisal of STI epidemics,
+helping to guide intervention priorities
+\citep{Shubber2014,Mishra2016}.
 % SB: Rather than saying important, would explain. Ie, try to avoid editorializing in the
 % introduction and just provide empiric evidence as to why this is the case.
 \par
-Indicators of contribution are used to help prioritize or target interventions
-% SB: Why quotations? I see that you are using this as the link to the last sentence of the last
-% paragraph but would avoid this. Suspense is not really ideal here... :)
-% HM: do not understand this sentience.
-to reach groups at highest risk \citep{Case2012,Shubber2014}.
-Transmission models are increasingly being used to quantify
-contribution by simulating counterfactuals where transmission 
+Traditionally, contribution has been quantified using the
+\textit{population attributable fraction} (PAF):
+the proportion of new infections which are
+attributable to disproportionate risk of transmission in a given population,
+such as in the modes of transmission model \citep{Case2012,Mishra2014a}.
 % SB: Also don’t think quotations are ideal. Could just explain contribution as the traditional
-% PAF and that also sets up nicely for why the tPAF is an advance.
+%     PAF and that also sets up nicely for why the tPAF is an advance.
+% SB: Really think the PAF as an old concept needs to be introduced in a sentence and then can
+%     include the TPAF as to why it is an advance for infectious diseases.
+% JK: Is this better now?
+However, transmission models are increasingly being used to quantify
+contribution over longer time horizons
+using the \textit{transmission population attributable fraction} (TPAF).
+The TPAF is estimated by
+simulating counterfactual scenarios where transmission
 between specific subgroups is stopped, and
 the relative difference in cumulative infections in the total population
 over various time-periods is measured \citep{Mishra2016,Mukandavire2018}.
-This is often referred to as the
-\textit{transmission population attributable fraction} (TPAF)
-% SB: Really think the PAF as an old concept needs to be introduced in a sentence and then can
-% include the TPAF as to why it is an advance for infectious diseases.
-and counterfactuals have included
-setting susceptibility to zero and/or setting 
-infectiousness to zero to calculate the TPAF \citep{Mishra2012}.
+Transmission can be stopped by
+setting susceptibility and/or infectiousness to zero in the model \citep{Mishra2012}.
 The TPAF is then interpreted as
 the fraction of all new infections that stem, directly and indirectly, from
-a failure to prevent acquisition and/or
-a failure to provide effective treatment in a particular risk group \citep{Mishra2016}.
+a failure to prevent acquisition and/or to provide effective treatment
+in a particular risk group \citep{Mishra2016}.
 \par
-An epidemiologic phenomenon that is often overlooked in transmission models,
+An epidemiologic phenomenon that is sometimes missing from transmission models,
 but is well-described in the context of sexual behaviour,
-is the movement between risk groups \citep{Watts2010}.
+is the movement of individuals between risk groups.
 % SB: Again, editorializing and is setting up potentially adversarial relationships with reviewers.
 %     I just don’t think you need the sentence and can still highlight the need for turnover in models.
+% JK: I agree it is hard to express this thought in a friendly / objective way,
+%     but I really think its worth noting.
 Such movement is often referred to in the STI epidemiology literature as
-``turnover'' \citep{Watts2010}.
-For example, turnover may reflect entry and retirement from
-formal sex work -- a period of time in an individual's sexual life-course
-that represents a greater risk of STI susceptibility and 
-onward transmission \citep{Watts2010}. Similarly, individuals 
-may have a larger number of sexual partnerships or experience
-greater STI-associated vulnerabilities during specific times
-within their sexual life-course \citep{Marston2006}.
-\par
-Risk group turnover has been shown to 
+\textit{turnover} \citep{Watts2010}.
+For example, turnover may reflect entry into or retirement from formal sex work,
+or other periods associated with higher STI susceptibility and onward transmission
+due to more partners and/or vulnerabilities
+\citep{Marston2006,Watts2010}.
+Risk group turnover has been shown to
 influence the predicted equilibrium prevalence of an STI \citep{Stigum1994,Zhang2012};
 the fraction of transmissions occurring during acute HIV infection \citep{Zhang2012};
-the basic reproductive number $R_0$ of HIV \citep{Henry2015}; and
+the basic reproductive number $R_0$ \citep{Henry2015}; and
 the coverage of antiretroviral therapy required to achieve HIV epidemic control \citep{Henry2015}.
 % SB: Can cite our recent Lancet HIV piece...
-Yet how, and the extent to which, turnover influences the TPAF remains unknown.
+% JK: This one? "The disconnect between individual-level ..."
+%     I coubldn't see if it commented on turnover though
+Yet how, and the extent to which, turnover influences TPAF remains unknown.
 % SB: I would really frame the specific element of what you aim to study towards
 %     the last paragraph of intro.
-\par
+% JK: Just trying to tie it in to the previous two paragpraphs here
 Implementations of risk group turnover in compartmental transmission models also vary widely.
-In works by \citeauthor{Koopman1997} and \citeauthor{Stigum1994},
-rates of movement between two risk groups
-were balanced analytically based on the size of the groups;
-\citet{Boily2015} used a 100-year burn-in period
-to equilibrate a complex system of demographic transitions before 
-introduction of HIV into the modelled system;
-others restricted the system to unidirectional turnover -- e.g. from high to low risk
-\citep{Eaton2014}.
+In some simple models, the rates of movement between two risk groups
+is balanced analytically based on the sizes of the groups
+\citep{Koopman1997,Stigum1994}.
+In more complex models, a stabilization period is used
+to equilibrate turnover dynamics,
+during which time the sizes of risk groups may deviate
+from their initial values \citep{Boily2015}.
+Other models only consider unidirectional turnover
+-- e.g. from high to low risk \citep{Eaton2014}.
 % LW: Can u explain a bit more about this approach?
 %     Not clear what exactly burn-in period mean here.
 %     Given lots of argument below was based on avoiding the need for a burn-in period,
 %     it is necessary to let readers know what it is and what is the limitation in this approach.
 % SB: Would break this sentence up and likely not have it be its own paragraph
+% JK: Hopefully this is clearer now?
 \par
 Challenges in implementing turnover include
 incorporation of data-driven epidemiologic constraints.
@@ -92,32 +102,29 @@ but it is not always clear how to do so.
 Moreover, without an exact analysis of the turnover implementation,
 a burn-in period may be required to equilibrate the system,
 resulting in potentially unwanted changes to the initial group sizes.
+% JK: I'm struggling to find citations for these ^ @SM do you have any suggestions?
 \par
 In this paper, we aim to examine the influence of risk group turnover
-on the TPAF of an illustrative STI without STI-attributable mortality.
+on the TPAF of a high risk group
+in an illustrative STI without STI-attributable mortality.
 First, we propose a solution to the challenges outlined above
-of including epidemiologic data while avoiding the need for a burn-in period.
-That is, we introduce a unified framework for
-parameterizing risk group turnover, based on available data.
+of parameterizing turnover based on epidemiologic data
+while avoiding the need for an equilibration period.
 % LW: Find this sentence a bit too abstract.
 %     Wondering if can provide a bit more detail here. Like the one sentence summary of other
 %     approaches mentioned above:
 %     e.g., In works by Koopman et al. and Stigum et al., rates of movement between two risk groups
 %     were balanced analytically based on the size of the groups
 %     Then in ur approach, what was done? What was the available data?
+% JK: Since this is no longer a major focus of the paper,
+%     I think it works to just leave it as one sentence. Thoughts?
 We then examine the mechanisms by which turnover
-influences group-specific STI incidence and prevalence
+influences group-specific STI prevalence
 (Experiment~1).
-We then examine how inclusion/exclusion of turnover influences
-the values parameters related to heterogeneity during model fitting
+Next, we examine how inclusion/exclusion of turnover influences
+the values of heterogeneity-related parameters inferred during model fitting
 (Experiment~2).
-% LW: Should experiment be split into 2?
-%     To me, the first part is a continuation of Experiment 1
-%     and the latter is a continuation of experiment 2.
-%     Also, in the write-up, might be clearer for the readers if we rearrange the experiments
-%     (1, 3(first half); 2, 3 (second half)
-Finally, we compare the TPAF of the highest risk group estimated
-from two different settings: one with and one without turnover,
-and from two models that reproduce the same setting:
+Finally, we compare the TPAF of the highest risk group
+estimated by two models after fitting to same setting:
 one model with and one model without turnover
 (Experiment~3).

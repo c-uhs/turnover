@@ -1,16 +1,12 @@
-% LW: I would suggest putting the system and previous approach section into appendix
-%     as we discussed at the meeting.
-In this section we introduce a unified system of equations
-% LW: What do u mean by unified system of equations?
+We introduce a system of parameters and constraints
 to describe risk group turnover
 in deterministic epidemic models with heterogeneity in risk.
-% JK: this "with heterogeneity in risk" feels a little redundant?
-We then describe how the unified approach can be used in practical terms,
+We then describe how the system can be used in practical terms,
 based on different assumptions and data available for parameterizing turnover in risk.
-We then conclude by framing previous approaches to this task using the proposed system.
+We conclude by framing previous approaches to this task using the proposed system.
 % ==================================================================================================
 \subsection{Notation}
-\label{ss:notation}
+\label{aa:notation}
 Consider a population divided into $G$ risk groups.
 We denote the number of individuals in risk group $i \in [1, \dots, G]$ as $x_i$
 and the set of all risk groups as $\bm{x} = \{x_1, \dots, x_G\}$.
@@ -19,21 +15,13 @@ and the relative population size of each group
 is denoted as $\hat{x}_i = x_i / N$.
 Individuals enter the population at a rate $\nu$ per year,
 and exit at a rate $\mu$ per year.
-We assume that individuals entering into the population
-originate from another exogenous population
-$\bm{e} = \{e_1, \dots, e_G\}$.
-We make this assumption so that the exogenous population $\bm{e}$
-may have different relative risk group sizes from the system population $\bm{x}$.%
-\footnote{We could equivalently stratify the rate of entry $\nu$ by risk group
-  while keeping the exogenous population $\bm{e}$
-  equal to the system population $\bm{x}$.
-  However, we find this formulation more difficult to work with
-  in the subsequent sections.}
-That is, $\hat{e}_i$ may not necessarily equal $\hat{x}_i$.
-However, since the entry rate $\nu$ is relative to the size $N$ of population $\bm{x}$,
-it will be convenient and otherwise inconsequential to assume that population $\bm{e}$
-also has size $N$.
-That way, the total number of individuals
+We model the distribution of risk groups
+among individuals entering into the population as $\bm{\hat{e}}$,
+which may be different from individuals already in the population $\bm{\hat{x}}$.%
+\footnote{We could equivalently stratify the rate of entry $\nu$ by risk group;
+  however, we find that the mathematics in subsequent sections
+  are more straightforward using $\bm{\hat{e}}$.}
+Thus, the total number of individuals
 entering into population $\bm{x}$ per year is given by $\nu N$,
 and the number of individuals
 entering into group $x_i$ specifically is given by $\hat{e}_i \nu N$.
@@ -49,6 +37,7 @@ entering into group $x_i$ specifically is given by $\hat{e}_i \nu N$.
 %     We assume that population e also has size N given the rational u described here.
 %     That way, the number of individuals entering into group
 %     x_i specifically is given by e_i ν.
+% JK: Is this better?
 \par
 Turnover transitions may then occur between any two groups, in either direction.
 Therefore we denote the turnover rates as a $G \times G$ matrix $\phi$.
@@ -66,17 +55,17 @@ transitions from a group to itself.
 \end{array}\right]
 \end{equation}
 Risk groups, transitions, and the associated rates
-are also shown for $G = 3$ in Figure~\ref{fig:system}.
+are also shown for $G = 3$ in Figure~\ref{fig:system-app}.
 \begin{figure}
   \centering
   \includegraphics[width=0.5\linewidth]{turnover}
   \caption{System of risk groups and flows between them for $G = 3$}
-  \label{fig:system}
+  \label{fig:system-app}
 \end{figure}
 % ==================================================================================================
 \subsection{Parameterization}
-\label{ss:params}
-Next, we consider the goal of constructing a system like the one introduced above
+\label{aa:params}
+Next, we construct a system like the one above
 which reflects the risk group dynamics observed in a specific context.
 We assume that the relative sizes of the risk groups in the model ($\bm{\hat{x}}$)
 are already known, and should remain constant over time.
@@ -85,7 +74,7 @@ $\nu$, $\mu$, $\bm{\hat{e}}$, and $\phi$,
 using commonly available sources of data.
 % --------------------------------------------------------------------------------------------------
 \subsubsection{Total Population Size}
-\label{sss:params-nu-mu}
+\label{aaa:params-nu-mu}
 The total population size $N(t)$ is a function of
 the rates of population entry $\nu(t)$ and exit $\mu(t)$, given an initial size $N_0$.
 We allow the proportion entering the system to vary by risk group via $\bm{\hat{e}}$,
@@ -101,17 +90,12 @@ defines the rate of population growth:
 \mathcal{G}(t) = \nu(t) - \mu(t) 
 \end{equation}
 The total population may then be defined using an initial population size $N_0$ as:
-% SM: suggest including citation for equation (3) and (4)
-%     as they have been shown/used before from demography
-% JK: (4): done, but I had trouble finding one for (3)
-%     had to derive it myself, with a little online help:
-%     https://math.stackexchange.com/questions/2361180
 \begin{equation}\label{eq:growth-vary}
-  N(t) = N_0 \exp{\left(\int_{0}^{\,t}{\log\big(1+\mathcal{G}(\tau) \big)d\tau}\right)}
+N(t) = N_0 \exp{\left(\int_{0}^{\,t}{\log\big(1+\mathcal{G}(\tau) \big)d\tau}\right)}
 \end{equation}
 which, for constant growth, simplifies to the familiar expression~\citep{Malthus1798}:
 \begin{equation}\label{eq:growth-const}
-  N(t) = N_0 {(1 + \mathcal{G})}^{t}
+N(t) = N_0 {(1 + \mathcal{G})}^{t}
 \end{equation}
 Census data, such as \citep{WorldBank}, can be used to source
 the total population size in a given geographic setting over time $N(t)$,
@@ -134,12 +118,6 @@ The piecewise approximation can be more feasible
 than exact solutions using Eq.~(\ref{eq:growth-vary}),
 and can reproduce $N(t)$ accurately for small enough intervals $\tau$,
 such as one year.
-% SM: the above sentence would benefit from a citation for
-%     'feasibility' and 'reproducing accurately' otherwise it may be considered editorializing
-% JK: I softened 'is generally more feasible' to 'can be more feasible'
-%     but I can't really find a citation for the accuracy of
-%     exponential piecewise approximations of variable rate exponential growth,
-%     since most people do linear piecewise approximations of fixed rate exponential growth.
 \par
 Now, given a value of $\mathcal{G}(t)$,
 either $\nu(t)$ must be chosen and $\mu(t)$ calculated using Eq.~(\ref{eq:growth-G}),
@@ -160,7 +138,7 @@ and the entry rate $\nu(t)$ defined as $\mathcal{G}(t) - \mu(t)$
 following Eq.~(\ref{eq:growth-G}).
 % --------------------------------------------------------------------------------------------------
 \subsubsection{Turnover}
-\label{sss:params-turnover}
+\label{aaa:params-turnover}
 Next, we present methods for resolving
 the distribution of individuals entering the risk model $\bm{\hat{e}}(t)$ and
 the rates of turnover $\phi(t)$,
@@ -172,8 +150,8 @@ The $(t)$ notation is omitted throughout this section for clarity,
 though time-varying parameters can be estimated by
 repeating the necessary calculations for each $t$.
 \par
-The number of risk groups $G$ specifies the number of
-$G$ unknown elements in $\bm{\hat{e}}$ and $G(G-1)$ unknown elements in $\phi$.
+The number of risk groups $G$ dictates the number of
+unknown elements in $\bm{\hat{e}}$ and $\phi$: $G$ and $G(G-1)$, respectively.
 We collect these unknowns in the vector
 $\bm{\theta} = \left[\bm{\hat{e}}, \bm{y}\right]$,
 where $\bm{y} = \mathrm{vec}_{i \ne j}(\phi)$.
@@ -186,7 +164,7 @@ For example, for $G = 3$, the vector $\bm{\theta}$ is defined as:
 \end{equation}
 We then define a linear system of equations
 which uniquely determine the elements of $\bm{\theta}$:
-\begin{equation}\label{eq:system-matrix}
+\begin{equation}\label{eq:system-matrix-app}
 \bm{b} = A \thinspace \bm{\theta}
 \end{equation}
 where $A$ is a $M \times G^2$ matrix
@@ -206,32 +184,29 @@ However, a total of $M = G^2$ constraints must be defined
 in order to obtain a ``unique solution'':
 exactly one value of $\bm{\theta}$ which satisfies all constraints.
 The values of $\bm{\hat{e}}$ and $\phi$
-can then be calculated algebraically by solving Eq.~(\ref{eq:system-matrix})
+can then be calculated algebraically by solving Eq.~(\ref{eq:system-matrix-app})
 with $\bm{\theta} = A^{-1}\bm{b}$,
 for which many algorithms exist~\citep{LAPACK}.
 % --------------------------------------------------------------------------------------------------
-\paragraph{Constraint Type 1: Constant group size}
+\paragraph{1.~Constant group size}
 \label{con:const-group}
 One epidemiologic feature that epidemic models consider
 is whether or not the relative sizes of risk groups are constant over time
 \citep{Henry2015,Boily2015}.
 Assuming constant group size implies a stable level of heterogeneity over time.
-% TODO: discuss assumption of "constant" sex work population size over time?
 To enforce this assumption,
 we define the ``conservation of mass'' equation for group $x_i$,
 wherein the rate of change of the group
 is defined as the sum of flows in\,/\,out of the group:
 \begin{equation}\label{eq:mass-balance-1}
 \frac{d}{dt}x_i
-= \nu \thinspace e_i + \sum_{j}{\phi_{ji} \thinspace x_j}
+= \nu N \hat{e}_i + \sum_{j}{\phi_{ji} \thinspace x_j}
 - \mu \thinspace x_i - \sum_{j}{\phi_{ij} \thinspace x_i}
 \end{equation}
 Eq.~(\ref{eq:mass-balance-1}) is written in terms of
-absolute population sizes $\bm{x}$ and $\bm{e}$,
-but can be written
-as proportions $\bm{\hat{x}}$ and $\bm{\hat{e}}$
-when dividing by $N$.
-Working with proportions is useful, as $N$ need not be known.
+absolute population sizes $\bm{x}$,
+but can be written as proportions $\bm{\hat{x}}$
+by dividing all terms by $N$.
 If we assume that the proportion of each group $\hat{x}_i$ is constant over time,
 then the desired rate of change for risk group $i$
 will be equal to the rate of population growth of the risk group, $\mathcal{G} x_i$.
@@ -240,7 +215,7 @@ into Eq.~(\ref{eq:mass-balance-1}),
 and simplifying yields:
 \begin{equation}\label{eq:mass-balance-2}
 \nu \thinspace x_i
-= \nu \thinspace e_i + \sum_{j}{\phi_{ji} \thinspace x_j}
+= \nu \thinspace N \hat{e}_i + \sum_{j}{\phi_{ji} \thinspace x_j}
 - \sum_{j}{\phi_{ij} \thinspace x_i}
 \end{equation}
 Factoring the left and right hand sides in terms of $\bm{\hat{e}}$ and $\phi$,
@@ -251,9 +226,9 @@ For $G = 3$, this yields the following 3 rows as the basis of $\bm{b}$ and $A$:
 \nu x_1 \\ \nu x_2 \\ \nu x_3
 \end{array}\right];\qquad
 A = \left[\begin{array}{ccccccccc}
- \nu  & \cdot & \cdot & -x_1  & -x_1  &  x_2  & \cdot &  x_3  & \cdot \\
-\cdot &  \nu  & \cdot &  x_1  & \cdot & -x_2  & -x_2  & \cdot &  x_3  \\
-\cdot & \cdot &  \nu  & \cdot &  x_1  & \cdot &  x_2  & -x_3  & -x_3  \\
+	 \nu  & \cdot & \cdot & -x_1  & -x_1  &  x_2  & \cdot &  x_3  & \cdot \\
+	\cdot &  \nu  & \cdot &  x_1  & \cdot & -x_2  & -x_2  & \cdot &  x_3  \\
+	\cdot & \cdot &  \nu  & \cdot &  x_1  & \cdot &  x_2  & -x_3  & -x_3
 \end{array}\right] 
 \end{equation}
 These $G$ constraints ensure risk groups do not change size over time.
@@ -261,7 +236,7 @@ However, a unique solution requires
 an additional $G(G-1)$ constraints.
 For $G = 3$, this corresponds to 6 additional constraints.
 % --------------------------------------------------------------------------------------------------
-\paragraph{Constraint Type 2: Specified elements}
+\paragraph{2.~Specified elements}
 \label{con:spec-element}
 The simplest type of additional constraint is to
 directly specify the values of individual elements in $\bm{\hat{e}}$ or $\phi$.
@@ -275,8 +250,8 @@ That is, with $b_k$ as the specified value $v$,
 and $A_k$ as the indicator vector,
 with $1$ in the same position as the desired element in $\bm{\theta}$:
 \begin{equation}\label{eq:spec-elem}
-  b_k = v;\qquad
-  A_k = [0,\dots,1,\dots,0]
+b_k = v;\qquad
+A_k = [0,\dots,1,\dots,0]
 \end{equation}
 For example, for $G = 3$, if it is known that 20\% of individuals
 enter directly into risk group $x_2$ upon entry into the model ($\hat{e}_2 = 0.20$),
@@ -284,7 +259,7 @@ then $\bm{b}$ and $A$ can be augmented with:
 \begin{equation}\label{eq:eg-spec}
 b_k = \left[\begin{array}{c} 0.20 \end{array}\right];\qquad
 A_k = \left[\begin{array}{ccccccccc}
-\cdot & 1 & \cdot & \cdot & \cdot & \cdot & \cdot & \cdot & \cdot \\
+	\cdot & 1 & \cdot & \cdot & \cdot & \cdot & \cdot & \cdot & \cdot
 \end{array}\right] 
 \end{equation}
 since $\hat{e}_2$ is the second element in $\bm{\theta}$.
@@ -299,7 +274,7 @@ As shown in Appendix~\ref{aa:eqs-e-redundant},
 the sum-to-one rule is actually implicit in Eq.~(\ref{eq:eg-basis}),
 so it is not necessary to supply a constraint like $1 = \sum_{i} \hat{e}_i$.
 % --------------------------------------------------------------------------------------------------
-\paragraph{Constraint Type 3: Group duration}
+\paragraph{3.~Group duration}
 \label{con:group-dur}
 Type 1 Constraints assume that the relative population size of each group remains constant.
 Another epidemiologic feature that epidemic models considered
@@ -330,7 +305,7 @@ b_k = \left[\begin{array}{c}
 {5}^{-1} - \mu
 \end{array}\right];\qquad
 A_k = \left[\begin{array}{ccccccccc}
-\cdot & \cdot & \cdot & 1 & 1 & \cdot & \cdot & \cdot & \cdot \\
+	\cdot & \cdot & \cdot & 1 & 1 & \cdot & \cdot & \cdot & \cdot
 \end{array}\right]
 \end{equation}
 \par
@@ -352,7 +327,7 @@ so we do not attempt to describe them all.
 Section~\ref{p:solving} describes how to identify
 conflicts and redundancies when they are not obvious.
 % --------------------------------------------------------------------------------------------------
-\paragraph{Constraint Type 4: Relative rates of turnover}
+\paragraph{4.~Turnover rate ratios}
 \label{con:rel-turnover}
 In many cases, it may be difficult to
 obtain estimates of a given turnover rate $\phi_{ij}$
@@ -377,7 +352,7 @@ b_k = \left[\begin{array}{c}
 0
 \end{array}\right];\qquad
 A_k = \left[\begin{array}{ccccccccc}
-\cdot & \cdot & \cdot & \cdot & \left(\frac{0.3\,x_2}{0.7\,x_1}\right) & \cdot & 1 & \cdot & \cdot \\
+	\cdot & \cdot & \cdot & \cdot & \left(\frac{0.3\,x_2}{0.7\,x_1}\right) & \cdot & 1 & \cdot & \cdot
 \end{array}\right] 
 \end{equation}
 The example in Eq.~(\ref{eq:eg-ratio}) is based on
@@ -390,13 +365,13 @@ It can also be assumed that
 the absolute number of individuals moving between two risk groups is equal,
 in which case the relationship is:
 $\phi_{ij} \left(\frac{x_i}{x_j}\right) = \phi_{ji}$.
-All constraints of type 4 will have $b_k = 0$.
+All constraints of this type will have $b_k = 0$.
 % --------------------------------------------------------------------------------------------------
 \paragraph{Solving the System}
 \label{p:solving}
-Table~\ref{tab:constraints} summarizes the four types of constraints described above.
+Table~\ref{tab:constraints-app} summarizes the four types of constraints described above.
 Given a set of sufficient constraints on $\bm{\theta}$
-to ensure exactly one solution, the system of equations Eq.~(\ref{eq:system-matrix})
+to ensure exactly one solution, the system of equations Eq.~(\ref{eq:system-matrix-app})
 can be solved using $\bm{\theta} = A^{-1}\bm{b}$.
 The resulting values of $\bm{\hat{e}}$ and $\phi$ can then be used
 in the epidemic model.
@@ -405,7 +380,7 @@ However, we may find that we have an insufficient number of constraints, implyin
 there are multiple values of the vector $\bm{\theta}$ which satisfy the constraints.
 An insufficient number of constraints may be identified
 by a ``rank deficiency'' warning
-in numerical solvers of Eq.~(\ref{eq:system-matrix}) \citep{LAPACK}.
+in numerical solvers of Eq.~(\ref{eq:system-matrix-app}) \citep{LAPACK}.
 Even if $A$ has $G^2$ rows,
 the system may have an insufficient number of constraints
 because some constraints are redundant.
@@ -425,33 +400,33 @@ which satisfy the constraints will be resolved.%
 \footnote{Numerical solutions to such problems are widely available,
   such as the Non-Negative Lease Squares solver \citep{Lawson1995},
   available in Python:
-   \href{https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.nnls.html}
-{\texttt{https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.nnls.html}}.}
+  \href{https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.nnls.html}
+  {\texttt{https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.nnls.html}}.}
 \par
 Similarly, we may find that no solution exists for the given constraints,
 since two or more constraints are in conflict.
 Conflicting constraints may be identified by a non-zero error
-in the solution to Eq.~(\ref{eq:system-matrix}) \citep{LAPACK}.
+in the solution to Eq.~(\ref{eq:system-matrix-app}) \citep{LAPACK}.
 In this case, the conflict should be resolved by
 changing or removing one of the conflicting constraints.
 \begin{table}
   \centering
   \caption{Summary of constraint types for defining risk group turnover}
-  \label{tab:constraints}
-  \input{floats/tab-constraints.tex}
+  \label{tab:constraints-app}
+  \input{floats/tab-constraints-app.tex}
 \end{table}
 % ==================================================================================================
 \subsection{Previous Approaches}
-\label{ss:prev-approach}
+\label{aa:prev-appr}
 Few epidemic models of sexually transmitted infections
 with heterogeneity in risk
 have simulated turnover among risk groups,
 and those models which have simulated turnover
 have done so in various ways.
 In this section, we review
-four prior implementations of turnover and each study's objectives for the implementation
+three prior implementations of turnover and each study's objectives for the implementation
 -- e.g. constant relative group sizes over time.
-We then highlight how the approach proposed in Section~\ref{ss:params}
+We then highlight how the approach proposed in Section~\ref{aa:params}
 could be used to achieve the same objectives.
 % --------------------------------------------------------------------------------------------------
 \par
@@ -496,12 +471,8 @@ computed using Type 1 Constraints as follows:
 \input{app/prior-systems/Eaton2014-simple.tex}
 % --------------------------------------------------------------------------------------------------
 \par
-\citet{Boily2015} simulated turnover among $G = 7$ risk groups, -- \frame{TODO}.
-\par
 In sum, the framework for modelling turnover presented in this section
 aims to generalize all previous implementations.
 In so doing, we hope to clarify the requisite assumptions,
 dependencies on epidemiologic data,
 and relationships between previous approaches.
-In the following Experiments, we leverage this framework to explore
-the potential influences of turnover on simulated epidemics.

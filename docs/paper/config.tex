@@ -25,9 +25,8 @@
 \newcommand{\tarr}[1]{{\def\arraycolsep{3pt}[\begin{matrix}\StrSubstitute{#1}{,}{&}\end{matrix}]}} % TEMP
 \newcommand{\es}{\enspace}
 % tables
-\usepackage{booktabs,caption,tabularx}
-\usepackage{threeparttable}
-\newcolumntype{Y}{>{\centering\arraybackslash}X}
+\usepackage{booktabs,caption,float}
+\newcommand{\cellbox}[2]{\parbox[t]{#1}{\linespread{1}\selectfont{#2}}\vspace{3pt}}
 % figures
 \usepackage{graphicx,subcaption}
 \graphicspath{
@@ -35,7 +34,7 @@
   {\tikzpath/health/}
   {\tikzpath/tpaf-contexts/}
 %  {\tikzpath/variants/}
-%  {\tikzpath/flows/}
+  {\tikzpath/flows/}
   {\figpath/compare/}
   {\figpath/sensitivity/}
   {\figpath/flows/}
@@ -44,10 +43,6 @@
   {\outpath/paper/whatif/sirs/figs/compare/}
 }
 \captionsetup[sub]{size=footnotesize}
-% float box environment
-\usepackage{tcolorbox,newfloat,float}
-\newtcolorbox{fboxed}{sharp corners=all,colback=white!97!black,boxrule=\heavyrulewidth}
-\DeclareFloatingEnvironment[name=Box]{floatbox}
 % footnotes
 \usepackage[hang]{footmisc}
 \setlength{\footnotesep}{\baselineskip}
@@ -60,7 +55,8 @@
 % appendix
 \newcommand{\initappendix}{
   \appendix
-  \setcounter{figure}{0}
-  \setcounter{table}{0}
+  \numberwithin{figure}{section}
+  \numberwithin{table}{section}
+  \numberwithin{equation}{section}
   \renewcommand*{\thesection}{\Alph{section}}
 }
