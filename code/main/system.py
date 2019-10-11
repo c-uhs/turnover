@@ -78,12 +78,12 @@ def dxfun(X,t,P,dxout={}):
 def initfun(model):
   P = model.params
   # define beta
-  P['beta'].update(0)
+  P['beta'].update(0.0)
   P['beta'].update(P['ibeta'],hp=['I'])
   # turnover
   if P['px'].space.dim('ii').n > 1:
     if np.all(np.isnan(P['dur'])): # TODO: this is not a robust condition
-      P['phi'].update(0)
+      P['phi'].update(0.0)
     else:
       turnover = transmit.turnover(
         nu   = P['nu'],

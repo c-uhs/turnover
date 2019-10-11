@@ -2,10 +2,10 @@
 
 # run this script from: turnover/code/
 
-./main/sensitivity-run.sh
+# ./main/sensitivity-run.sh
 for todo in \
+  phi-base         \
   fit              \
-  compare-turnover \
   compare-tpaf     \
   sensitivity-plot \
   flows            \

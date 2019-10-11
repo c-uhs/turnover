@@ -9,5 +9,7 @@ targets:
     cmd: python3 main/main.py flows
   fit:
     cmd: python3 main/main.py fit
+  phi-base:
+    cmd: python3 main/main.py phi-base
   debug:
     cmd: python3 main/main.py debug

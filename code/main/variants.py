@@ -43,14 +43,17 @@ def txtsave(sims,output):
   def fname(name,output,selector):
     return os.path.join(config.path['data'],'values','-'.join([shortname(name),output,selector])+'.txt')
   fmts = {
-    'prevalence': lambda x: '{:.0f}\%'.format(100*float(x)),
+    'prevalence': lambda x: '{:.1f}\%'.format(100*float(x)),
     'C':          lambda x: '{:.1f}'.format(float(x)),
     'ratio':      lambda x: '{:.1f}'.format(float(x)),
   }
   for name,sim in sims.items():
-    utils.savetxt(fname(name,output,'high'),  fmts[output] (vfun(sim,output,'high')))
-    utils.savetxt(fname(name,output,'low'),   fmts[output] (vfun(sim,output,'low')))
-    utils.savetxt(fname(name,output,'ratio'), fmts['ratio'](vfun(sim,output,'high') / vfun(sim,output,'low')))
+    utils.savetxt(fname(name,output,'high'),  fmts[output](vfun(sim,output,'high')))
+    utils.savetxt(fname(name,output,'med'),   fmts[output](vfun(sim,output,'med')))
+    utils.savetxt(fname(name,output,'low'),   fmts[output](vfun(sim,output,'low')))
+    utils.savetxt(fname(name,output,'ratio-high-low'), fmts['ratio'](vfun(sim,output,'high') / vfun(sim,output,'low')))
+    utils.savetxt(fname(name,output,'ratio-high-med'), fmts['ratio'](vfun(sim,output,'high') / vfun(sim,output,'med')))
+    utils.savetxt(fname(name,output,'ratio-med-low'),  fmts['ratio'](vfun(sim,output,'med')  / vfun(sim,output,'low')))
 
 def get_sim(variant=None,t=None):
   specs = system.get_specs()
@@ -158,6 +161,15 @@ def run_fit():
     else:
       print(dict(calsim.fitted_params().todict()))
 
+def gen_phi_base():
+  phi = get_sim().model.params['phi']
+  fmt = lambda x: '{:.4f}'.format(x)
+  s = '\\left[\\begin{{array}}{{{}}}\n{}\n\\end{{array}}\\right]'.format(
+    'c'*phi.shape[1], '\\\\\n'.join([' & '.join([fmt(ij) for ij in i]) for i in phi])
+  ).replace(fmt(0),'*')
+  fname = os.path.join(config.path['data'],'values','phi-base.tex')
+  utils.savetxt(fname,s)
+
 def simple_turnover():
   sims = odict([
     ('Turnover',    get_sim('full')),
@@ -185,10 +197,10 @@ def exp_tpaf():
       pass
     if case == 'fit':
       for name in list(sims.keys()):
-        sims.update([(name, load_fit(name,sims[name]))])
+        sims.update([(name+' [fit]', load_fit(name,sims.pop(name)))])
     if case == 'both':
       for name in list(sims.keys()):
-        sims.update([(name+' [fit]', load_fit(name,sims[name]))])
+        sims.update([(name+' [fit]', load_fit(name,sims.get(name)))])
     exp_run_plot('tpaf',
       sims      = sims,
       outputs   = ['tpaf-high'],
@@ -204,6 +216,6 @@ def exp_tpaf():
   exp_run_plot('tpaf',
     sims      = sims,
     outputs   = ['prevalence','C'],
-    selectors = ['low','high','all'],
+    selectors = ['low','med','high','all'],
     txt       = True,
   )

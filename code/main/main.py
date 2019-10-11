@@ -4,8 +4,10 @@ import variants
 import flows
 
 todo = sys.argv[1]
+if todo == 'phi-base':
+  variants.gen_phi_base()
 if todo == 'compare-turnover':
-  variants.exp_turnover()
+  variants.simple_turnover()
 if todo == 'fit':
   variants.run_fit()
 if todo == 'compare-tpaf':
@@ -15,6 +17,6 @@ if todo == 'sensitivity-run':
 if todo == 'sensitivity-plot':
   sensitivity.gen_plots()
 if todo == 'flows':
-  flows.make_figs()
-if todo == 'debug': 
+  flows.run_sims()
+if todo == 'debug':
   sensitivity.run_sims('debug')

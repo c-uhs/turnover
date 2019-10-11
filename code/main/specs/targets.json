@@ -7,8 +7,20 @@
   },
   "dist": {
     "name": "binom",
-    "N": 1000,
+    "N": 500,
     "p": 0.20
+  }
+},
+{ "name": "prevalence-med", "output": "prevalence", "selector": "med",
+  "arr": {
+    "idxs": ["t"],
+    "t":    [ 500 ],
+    "arr":  [ 0.0875 ]
+  },
+  "dist": {
+    "name": "binom",
+    "N": 2000,
+    "p": 0.0875
   }
 },
 { "name": "prevalence-low", "output": "prevalence", "selector": "low",
@@ -19,7 +31,7 @@
   },
   "dist": {
     "name": "binom",
-    "N": 1000,
+    "N": 7500,
     "p": 0.03
   }
 },
@@ -31,7 +43,7 @@
   },
   "dist": {
     "name": "binom",
-    "N": 1000,
+    "N": 10000,
     "p": 0.05
   }
 }

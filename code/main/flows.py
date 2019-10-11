@@ -20,63 +20,43 @@ import system
 import sensitivity
 
 names = ['S','I','T']
+selects = ['high','med','low']
 # names = ['S','infected']
-lights = [0.6,0.0,0.3]
+lights = [0.0,0.0,0.0]
 out = 'X'
 n = 1
 
-def make_pie(sim,select,phi):
-  plt.figure(figsize=(2,2))
-  selectors = [
-    sim.model.select[name].union(sim.model.select[select])
-    for name in names
-  ]
+def gen_pie_data(sim,select,phi):
   SIR = np.array([
-    modelutils.taccum(sim.outputs[out],**selector).islice(t=sim.t[-1])
-    for selector in selectors
+    modelutils.taccum(
+      sim.outputs[out],
+      **sim.model.select[name].union(sim.model.select[select])
+    ).islice(t=sim.t[-1])
+    for name in names
   ])
-  SIR = SIR / SIR.sum()
-  colors = [selector.color.lighten(light) for selector,light in zip(selectors,lights)]
-  labels = [sim.model.select[name].label for name in names]
-  reorder = lambda x: [x[0],x[2],x[1]]
-  # reorder = lambda x: [x[0],x[1]]
-  plt.pie(reorder(SIR), colors=reorder(colors), startangle=90, counterclock=True )
-  plt.tight_layout(pad=-1.8)
-  figdir = os.path.join(config.path['figs'],'flows','phi={}'.format(phi))
-  utils.makedir(figdir)
+  SIR = np.round(SIR * 360 / SIR.sum()).astype(np.int)
+  SIR[0] = 360-SIR[1:].sum() # HACK in case sum < 1
+  tdir = os.path.join(config.path['data'],'flows','phi={}'.format(phi))
   if config.save:
-    plt.savefig(os.path.join(figdir,'{}-{}.pdf'.format('flow',select,phi)),transparent=True)
-  else:
-    plt.show()
-  plt.close()
-  make_legend(labels,colors)
-
-def make_legend(labels,colors):
-  plt.figure(figsize=(4.5,0.5))
-  # plt.figure(figsize=(1.5,1))
-  for color in colors:
-    plt.fill([np.nan]*3,[np.nan]*3,color=color)
-  # plt.legend(['$\\mathcal{S}$','$\\mathcal{I}$','$\\mathcal{R}$'],loc='center',ncol=3)
-  plt.legend(labels,loc='center',mode='expand',ncol=3 )
-  plt.gca().set_axis_off()
-  if config.save:
-    plt.savefig(os.path.join(config.path['figs'],'flows','flows-legend.pdf'))
-  else:
-    plt.show()
-  plt.close()
+    utils.makedir(tdir)
+    for name,value in zip(names,SIR):
+      utils.savetxt(os.path.join(tdir,'flow-{}-{}.tex'.format(select,name)),int(np.round(value)))
 
 def make_tikz(label,phi):
-  tikzdir = os.path.join(config.path['tikz'],'flows');
-  phistr  = 'phi={}'.format(phi)
+  tikzdir = os.path.join(config.path['tikz'],'flows')
+  tdir    = os.path.join(config.path['data'],'flows','phi={}'.format(phi))
   flowdir = os.path.join(config.path['figs'],'flows')
   # What is this 3x escape mess?
-  configstr = \
-    '\\\\graphicspath{{'+os.path.join(flowdir,phistr)+'/}}'+\
-    '\\\\\\\\newcommand{\\\\\\\\turnover}{'+str(4*np.minimum(1,phi**(1/3)))+'}'
-  os.system('cd {} && echo {} > config.tex && pdflatex flows.tex >/dev/null && cp flows.pdf {}/{}'.format(
-    tikzdir, configstr, flowdir, 'flows-{}.pdf'.format(label) ))
+  configstr = '\n'.join([
+    '\\newcommand{{\\x{}{}}}{{{}}}'.format(name,select,
+        int(utils.loadtxt(os.path.join(tdir,'flow-{}-{}.tex'.format(select,name))))
+      ) for name in names for select in selects
+  ])+'\n\\newcommand{\\turnover}{'+str(4*np.minimum(1,phi**(1/3)))+'}'
+  utils.savetxt(os.path.join(tikzdir,'config.tex'),configstr)
+  os.system('cd {} && pdflatex flows.tex >/dev/null && cp flows.pdf {}/{}'.format(
+    tikzdir, flowdir, 'flows-{}.pdf'.format(label) ))
 
-def make_figs():
+def run_sims():
   phis = list(sensitivity.iter_phi())
   for label,phi in [
       ('low',    phis[n]),
@@ -96,6 +76,6 @@ def make_figs():
     if label == 'extreme':
       sim.update_params(dict(ibeta=0.038))
     sim.solve()
-    for name in ['high','low']:
-      make_pie(sim,name,phi)
+    for select in selects:
+      gen_pie_data(sim,select,phi)
     make_tikz(label,phi)
