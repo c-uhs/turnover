@@ -4,12 +4,15 @@ This heterogeneity is often demarcated by identifying
 specific populations whose risks of acquisition and onward transmission of STI are the highest,
 such that their specific unmet prevention and treatment needs
 can sustain local epidemics of STI \citep{Yorke1978}.
-Increased risk can be conferred in many ways, including
-a higher number of sexual partners,
-reduced condom use,
-stigma during access to care.
+That is, disproportionate risks experienced by a relatively smaller subset
+of a population, such as individuals engaged in sex work, could sustain onward transmission.
+Disproportionate risk can be conferred in many ways at the
+individual-level (higher number of sexual partners), 
+partnership-level (reduced condom use within specific partnership types), 
+or structural-level (stigma as a barrier to accessing prevention and treatment services). %cite =Baral et al. PMID 23679953 
 % HM: I feel we might want to explain "heterogeneity" a little more?
-% JK: how about the new content above?
+% JK: how about the new content above? 
+% SM: some minor edits above
 The contribution of high risk groups to the overall epidemic
 can then be used as an indicator in the appraisal of STI epidemics,
 helping to guide intervention priorities
@@ -17,38 +20,54 @@ helping to guide intervention priorities
 % SB: Rather than saying important, would explain. Ie, try to avoid editorializing in the
 % introduction and just provide empiric evidence as to why this is the case.
 \par
-Traditionally, contribution has been quantified using the
-\textit{population attributable fraction} (PAF):
-the proportion of new infections which are
-attributable to disproportionate risk of transmission in a given population,
-such as in the modes of transmission model \citep{Case2012,Mishra2014a}.
+Traditionally, contribution was quantified using the
+\textit{population attributable fraction} (PAF):		%SM: not really. the PAF is from epidemiology - and is not exactly what the MOT model generates. 
+the number of prevalent or incident infections
+within a subset of the population, divided by the total number of 
+prevalent or incident infections in the total population. %SM: cite original PAF description = Gregory Rose. https://academic.oup.com/ije/article/30/3/427/736897
+So when small subgroups experience disproportionately higher burden of prevalent 
+or incident infections - e.g. 5 percent of a population acquire 30 percent 
+of STI infections - the PAF is interpreted as 5 percent of the population contributing to  %cite: PAF due to sex work. PMID 23717432. https://www.ncbi.nlm.nih.gov/pubmed/23717432
+30 percent of all infections. Usually the PAF is measured from empirical data, 
+but similar estimates of the distribution of new infections across subsets of a population can also 
+be generated using risk equations  \citep{Case2012,Mishra2014a}.
 % SB: Also don’t think quotations are ideal. Could just explain contribution as the traditional
 %     PAF and that also sets up nicely for why the tPAF is an advance.
 % SB: Really think the PAF as an old concept needs to be introduced in a sentence and then can
 %     include the TPAF as to why it is an advance for infectious diseases.
 % JK: Is this better now?
-However, transmission models are increasingly being used to quantify
-contribution over longer time horizons
-using the \textit{transmission population attributable fraction} (TPAF).
+% SM: Not really accurate :) --> the PAF is different from the tPAF but *not just because of time-period*.. PAF does not account for indirect/onward/secondary transmission. The MOT modeled esiimates come from a binomial probablity term to generate incident estimates, not traditional PAF equations per se which work with empirical prevalent or incident estiamtes. See our paper on Data methods which goes into this in detail. https://www.sciencedirect.com/science/article/abs/pii/S1047279716301636?via%3Dihub
+
+However, the PAF does not account for chains of (indirect) transmission, and has been 
+shown to underestimate the contribution of some higher-risk groups to cumulative 
+STI infections, especially over time. \citep{Mishra2014a}. Thus, 
+transmission models are increasingly being used to quantify
+contribution by accounting for indirect transmission and estimating   
+the \textit{transmission population attributable fraction} (TPAF).
 The TPAF is estimated by
 simulating counterfactual scenarios where transmission
 between specific subgroups is stopped, and
 the relative difference in cumulative infections in the total population
-over various time-periods is measured \citep{Mishra2016,Mukandavire2018}.
+over various time-periods is measured \citep{Mishra2016,Mukandavire2018}.  %instead of Mishra2016 citation, suggest using this one (was earlier, and specifically talked about tPAF and showed how it captured onward trasmission. PMID 24056777
 Transmission can be stopped by
-setting susceptibility and/or infectiousness to zero in the model \citep{Mishra2012}.
+setting susceptibility and/or infectiousness to zero in the model \citep{Mishra2012}. %I think wrong citation. should be PMID 24056777
 The TPAF is then interpreted as
 the fraction of all new infections that stem, directly and indirectly, from
 a failure to prevent acquisition and/or to provide effective treatment
-in a particular risk group \citep{Mishra2016}.
+in a particular risk group \citep{Mishra2016}.  %also cite: Mukandavire2018 & PMID: 28471837
 \par
-An epidemiologic phenomenon that is sometimes missing from transmission models,
-but is well-described in the context of sexual behaviour,
-is the movement of individuals between risk groups.
+There is limited evidence on how model structures - particularly phenomena 
+related to higher-risk groups - might influence the tPAF; %cite: look at most of the papers that estimated tPAF (including mine, MC's, Mukandavire, Maheu-Giroux https://www.ncbi.nlm.nih.gov/pubmed/29137859), and you will see that they did not explicitly ask this question - so cite all of them here. you will see that they did look at other potential sources of heterogeneity though (like size of the highest-risk groups, etc.). Also - if any of them looked at sensitivity of their parameters related to turn-over (e.g. duration in sex work) -- what did they find? could be good to mention in discussion section of paper.
+especially
+movement of individuals between risk groups, an epidemiologic phenomenon 
+that is well-described in the context of sexual behaviour. %cite: Watts et al. 2010.
+
 % SB: Again, editorializing and is setting up potentially adversarial relationships with reviewers.
 %     I just don’t think you need the sentence and can still highlight the need for turnover in models.
 % JK: I agree it is hard to express this thought in a friendly / objective way,
 %     but I really think its worth noting.
+% SM: on re-reading the intro, I think Stef is right. We are using circular logic to say that it is important without first showing evidence - which we aim to actually do. 
+% see edits. I think it could be good to read more from the tPAF papers :). 
 Such movement is often referred to in the STI epidemiology literature as
 \textit{turnover} \citep{Watts2010}.
 For example, turnover may reflect entry into or retirement from formal sex work,
@@ -63,53 +82,62 @@ the coverage of antiretroviral therapy required to achieve HIV epidemic control 
 % SB: Can cite our recent Lancet HIV piece...
 % JK: This one? "The disconnect between individual-level ..."
 %     I coubldn't see if it commented on turnover though
-Yet how, and the extent to which, turnover influences TPAF remains unknown.
+Yet how, and the extent to which, turnover influences TPAF has yet to be examined.
 % SB: I would really frame the specific element of what you aim to study towards
 %     the last paragraph of intro.
 % JK: Just trying to tie it in to the previous two paragpraphs here
-Implementations of risk group turnover in compartmental transmission models also vary widely.
-In some simple models, the rates of movement between two risk groups
-is balanced analytically based on the sizes of the groups
-\citep{Koopman1997,Stigum1994}.
-In more complex models, a stabilization period is used
-to equilibrate turnover dynamics,
-during which time the sizes of risk groups may deviate
-from their initial values \citep{Boily2015}.
-Other models only consider unidirectional turnover
--- e.g. from high to low risk \citep{Eaton2014}.
+
+% SM: this entire paragraph should be subsumed into "discussion" = no longer the main part of the rationale to set up the study objectives.
+
+%Implementations of risk group turnover in compartmental transmission models also vary widely.
+%In some simple models, the rates of movement between two risk groups
+%is balanced analytically based on the sizes of the groups
+%\citep{Koopman1997,Stigum1994}.
+%In more complex models, a stabilization period is used
+%to equilibrate turnover dynamics,
+%during which time the sizes of risk groups may deviate
+%from their initial values \citep{Boily2015}.
+%Other models only consider unidirectional turnover
+%-- e.g. from high to low risk \citep{Eaton2014}.
 % LW: Can u explain a bit more about this approach?
 %     Not clear what exactly burn-in period mean here.
 %     Given lots of argument below was based on avoiding the need for a burn-in period,
 %     it is necessary to let readers know what it is and what is the limitation in this approach.
 % SB: Would break this sentence up and likely not have it be its own paragraph
 % JK: Hopefully this is clearer now?
-\par
-Challenges in implementing turnover include
-incorporation of data-driven epidemiologic constraints.
-For example, data may suggest
-that the relative sizes of specific populations in the model,
-such as the population of sex workers,
-have remained constant over time. % \cite{TBD} % Type 1
-Data may also suggest that heterogeneity in risk behaviour
-of individuals entering into the model (reflecting coital debut)
-may be different from the risk behaviour
-of individuals already in the model (reflecting sexually active adults). % \cite{TBD} % Type 2
-Data may indicate the average duration
-of a high risk period of one's sexual life-course \citep{Watts2010}, % Type 3
-or how their behaviour changes following that period. % \cite{TBD} % Type 4
-Such data should be reflected in implementations of turnover,
-but it is not always clear how to do so.
-Moreover, without an exact analysis of the turnover implementation,
-a burn-in period may be required to equilibrate the system,
-resulting in potentially unwanted changes to the initial group sizes.
+%\par
+% SM --> move to "discussion".
+%There is variability in how turnover may be implemented, 
+%in large part because of the underlying assumptions or epidemiologic 
+%constraints surrounding movement between risk groups. % here, cite the previous papers that implemented turnover %\citep{Koopman1997,Stigum1994}. \citep{Boily2015}. \citep{Eaton2014}.
+%For example, data may suggest
+%that the relative sizes of specific populations in the model 
+%have remained constant over time, such as the proportion of males
+%who paid for sex in the Demographic Health Surveys.  % \cite{TBD} % Type 1 = Demographic Health Surveys. Check out some DHS reports in same country over time.
+%Data may suggest that heterogeneity in risk behaviour
+%of individuals entering into the model (i.e. at coital debut)
+%may be different from the distribution of risk groups 
+%already in the model (reflecting sexually active adults). % \cite{TBD} % Type 2  %SM: I do not understand this sentence. I tried to edit it but it is still unclear to me. Please revise for clarity and simplicity - use more words or 2 sentences if needed. I got stuck and found myself not wanting to read more becuase I got stuck! :). Re; citations - what about Transitions and then the published data/studies on size of FSW population in Kenya? or what about what you have from Eswatini?
+%Data may indicate the average duration
+%of a high risk period of one's sexual life-course \citep{Watts2010}, % Type 3  %SM: unclear sentence. hard to follow.
+%or how their behaviour changes following that period. % \cite{TBD} % Type 4  %SM: unclear sentence. hard to follow and I could not understand so did not know how to help find a reference.
+
+%SM: move the sentence below to "discussion" re: potential advantages of the unified approach.
+%Moreover, without an exact analysis of the turnover implementation,
+%a burn-in period may be required to equilibrate the system,
+%resulting in potentially unwanted changes to the initial group sizes.
+
 % JK: I'm struggling to find citations for these ^ @SM do you have any suggestions?
+% SM: how did you look/search for these citations? Did you discuss/chat with Sheree, Stef, Linwei and Huiting to help you out? In future, that is really important to do so that you 
+% can learn from them too. am slightly concerned that not being able to find citations means one needs to be doing more reading around the topic :). 
+
 \par
-In this paper, we aim to examine the influence of risk group turnover
-on the TPAF of a high risk group
+We aim to examine the mechanisms by which turnover     %SM: check verb tense. 
+may influence the TPAF of a high risk group			%SM: focus on 'mechanism' since not a real STI. 
 in an illustrative STI without STI-attributable mortality.
-First, we propose a solution to the challenges outlined above
-of parameterizing turnover based on epidemiologic data
-while avoiding the need for an equilibration period.
+%First, we propose a solution to the challenges outlined above		%SM: do not talk about this in intro/objectives. instead, just make it part of the methods. and in discussion - refer to its use.
+%of parameterizing turnover based on epidemiologic data
+%while avoiding the need for an equilibration period.
 % LW: Find this sentence a bit too abstract.
 %     Wondering if can provide a bit more detail here. Like the one sentence summary of other
 %     approaches mentioned above:
@@ -118,7 +146,7 @@ while avoiding the need for an equilibration period.
 %     Then in ur approach, what was done? What was the available data?
 % JK: Since this is no longer a major focus of the paper,
 %     I think it works to just leave it as one sentence. Thoughts?
-We then examine the mechanisms by which turnover
+Specifically, we examine the mechanisms by which turnover
 influences group-specific STI prevalence
 (Experiment~1).
 Next, we examine how inclusion/exclusion of turnover influences
