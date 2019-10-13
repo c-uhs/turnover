@@ -87,7 +87,8 @@ Yet how, and the extent to which, turnover influences TPAF has yet to be examine
 %     the last paragraph of intro.
 % JK: Just trying to tie it in to the previous two paragpraphs here
 
-% SM: this entire paragraph should be subsumed into "discussion" = no longer the main part of the rationale to set up the study objectives.
+% SM: this entire paragraph should be subsumed into "discussion" = no longer the main part of the rationale to set up the study objectives, so shorten and place a line or
+% two in the paragraph below about variability in how turnover is implemted + constraints.
 
 %Implementations of risk group turnover in compartmental transmission models also vary widely.
 %In some simple models, the rates of movement between two risk groups
@@ -106,38 +107,40 @@ Yet how, and the extent to which, turnover influences TPAF has yet to be examine
 % SB: Would break this sentence up and likely not have it be its own paragraph
 % JK: Hopefully this is clearer now?
 %\par
-% SM --> move to "discussion".
-%There is variability in how turnover may be implemented, 
-%in large part because of the underlying assumptions or epidemiologic 
-%constraints surrounding movement between risk groups. % here, cite the previous papers that implemented turnover %\citep{Koopman1997,Stigum1994}. \citep{Boily2015}. \citep{Eaton2014}.
-%For example, data may suggest
-%that the relative sizes of specific populations in the model 
-%have remained constant over time, such as the proportion of males
-%who paid for sex in the Demographic Health Surveys.  % \cite{TBD} % Type 1 = Demographic Health Surveys. Check out some DHS reports in same country over time.
-%Data may suggest that heterogeneity in risk behaviour
-%of individuals entering into the model (i.e. at coital debut)
-%may be different from the distribution of risk groups 
-%already in the model (reflecting sexually active adults). % \cite{TBD} % Type 2  %SM: I do not understand this sentence. I tried to edit it but it is still unclear to me. Please revise for clarity and simplicity - use more words or 2 sentences if needed. I got stuck and found myself not wanting to read more becuase I got stuck! :). Re; citations - what about Transitions and then the published data/studies on size of FSW population in Kenya? or what about what you have from Eswatini?
-%Data may indicate the average duration
-%of a high risk period of one's sexual life-course \citep{Watts2010}, % Type 3  %SM: unclear sentence. hard to follow.
-%or how their behaviour changes following that period. % \cite{TBD} % Type 4  %SM: unclear sentence. hard to follow and I could not understand so did not know how to help find a reference.
+
+There is variability in how turnover has been implemented, 
+in large part because of four main assumptions or epidemiologic  %SM: give the number (4)
+constraints surrounding movement between risk groups. % here, cite the previous papers that implemented turnover %\citep{Koopman1997,Stigum1994}. \citep{Boily2015}. \citep{Eaton2014}.
+For example, in the context of turnover, the relative 
+size of specific populations in the model 
+may be constrained to remain constant over time, such as the proportion of individuals
+who sell sex.  % \cite{TBD} % Type 1  % SM: cite one of the models that tried to do this 
+% data source for paid sex among males = Demographic Health Surveys. check out some DHS reports in same country over time); data sources for FSW are repeated mapping/enumeration surveys in same location). But in reading the introduction a few times, I would suggest mentioning the possible constraints here, and then listing the data sources in the methods (and discussion).
+Second, the distribution of risks upon as individuals enter the model of 
+STI transmission (i.e. when individuals first have sex) may be different 
+from the distribution of risks at a steady-state (i.e. as individuals age). % \cite{TBD} % Type 2  %SM: I do not understand this sentence. I tried to edit it but it is still unclear to me. Please revise for clarity and simplicity - use more words or 2 sentences if needed. SM: cite on of the prior models if they did this
+% SM: Re: data sources =  perhaps Transitions and then the published data/studies on size of FSW population in Kenya? or perhaps what about what you have from Eswatini?
+Third, turnover may be constrained to reflect the average duration of time spent 
+within a given higher risk period, such as duration engaged in formal sex work \citep{Watts2010}. % Type 3  %SM: was a bit hard to follow but i think this is what we mean? SM: cite on of the prior models if they did this (e.g. most of the FSW models - like Pickles et al. Lancet Global Health, did this).
+% SM: data source = Watts2010
+Finally, turnover could reflect data on...??how their behaviour changes following that period. % \cite{TBD} % Type 4  %SM: I could not understand the sentence so did not know how to edit. Do we mean by keeping track of former sex worker for example? like we did in Boily2015?
+Most models defined a constraint or two based on their specific data or research question and 
+some faced implementation issues, such as the need 
+for a burn-in period to establish a demographic steady-state before introducing infection. %SM: include citation here
+Thus, to date there is no unified approach to modeling turnover.
 
 %SM: move the sentence below to "discussion" re: potential advantages of the unified approach.
 %Moreover, without an exact analysis of the turnover implementation,
 %a burn-in period may be required to equilibrate the system,
 %resulting in potentially unwanted changes to the initial group sizes.
-
 % JK: I'm struggling to find citations for these ^ @SM do you have any suggestions?
-% SM: how did you look/search for these citations? Did you discuss/chat with Sheree, Stef, Linwei and Huiting to help you out? In future, that is really important to do so that you 
-% can learn from them too. am slightly concerned that not being able to find citations means one needs to be doing more reading around the topic :). 
 
 \par
-We aim to examine the mechanisms by which turnover     %SM: check verb tense. 
+In this study, we explore the mechanisms by which turnover     %SM: check verb tense. 
 may influence the TPAF of a high risk group			%SM: focus on 'mechanism' since not a real STI. 
-in an illustrative STI without STI-attributable mortality.
-%First, we propose a solution to the challenges outlined above		%SM: do not talk about this in intro/objectives. instead, just make it part of the methods. and in discussion - refer to its use.
-%of parameterizing turnover based on epidemiologic data
-%while avoiding the need for an equilibration period.
+using an illustrative STI without STI-attributable mortality.
+First, we propose a unified approach of implementing turnover based on epidemiologic constraints.
+%the part about equilibriating first is confusing for people who are not deep into this, and I think it is better to talk about in discussion instead of here as the focus is now less on the ratioanale for a new/unified approach...and more on mechanism of influence of turnover.
 % LW: Find this sentence a bit too abstract.
 %     Wondering if can provide a bit more detail here. Like the one sentence summary of other
 %     approaches mentioned above:
@@ -146,7 +149,7 @@ in an illustrative STI without STI-attributable mortality.
 %     Then in ur approach, what was done? What was the available data?
 % JK: Since this is no longer a major focus of the paper,
 %     I think it works to just leave it as one sentence. Thoughts?
-Specifically, we examine the mechanisms by which turnover
+We then examine the mechanisms by which turnover
 influences group-specific STI prevalence
 (Experiment~1).
 Next, we examine how inclusion/exclusion of turnover influences
