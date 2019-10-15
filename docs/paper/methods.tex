@@ -1,11 +1,9 @@
-We aimed to determine and understand the influence of risk group turnover on
-the contribution of the highest risk group to the overall epidemic,
-as measured by the transmission population attributable fraction (TPAF).
-This section introduces a new framework for parameterizing turnover,
-describes the STI model used in the experiments,
-and outlines the experiments.
+First we developed a new, unified framework for parameterizing turnover. 
+We then simulated a deterministic, compartmental model of
+an illustrative STI to carry out the experiments.
 % ==================================================================================================
-\subsection{Turnover System}
+\subsection{Turnover System}			%I find myself getting confused by the verb tense. Past tense or present tense? I find that the methods has gone back and forth - inconsistent.
+%Most scientific paper use the past tense. Is there a rationale for using the present tense - e.g. does Epidemics require present tense? Before I edit further, could you revise to one single tense as it will make it easier for me to do a final review/edit of the methods. Thanks!
 \label{ss:system}
 \begin{figure}
   \centering
@@ -15,23 +13,24 @@ and outlines the experiments.
 \end{figure}
 We developed a framework for modelling turnover,
 based on the system shown in Figure~\ref{fig:system}.
-A more detailed description of this framework is given in Appendix~\ref{a:system}.
+The framework is detailed in the Appendix~\ref{a:system}.		%avoid using the words 'this', 'these', etc. as much as possible
 The simulated population is divided into $G$ risk groups.
 The number of individuals in group $i \in [1, \dots, G]$ is denoted $x_i$,
 and the relative size of each group is denoted $\hat{x}_i = x_i / N$,
 where $N$ is the total population size.
 Individuals enter the population at a rate $\nu$ and exit at a rate $\mu$ per year.
-The distribution of risk groups among individuals entering into the model
+The distribution of risk groups at entry into the model
 is denoted $\hat{e}_i$, which may be different from $\hat{x}_i$.
-The total number of individuals entering into group $i$ per year
+The total number of individuals entering group $i$ per year
 is therefore given by $\nu \hat{e}_i N$.
 Turnover rates are collected in a $G \times G$ matrix $\phi$,
 where $\phi_{ij}$ is the proportion of individuals in group $i$
 who move from group $i$ into group $j$ each year.
 We assume that rates of turnover $\phi$
-are not affected by the health state of individuals.
+are not affected by the health state of individuals. 		%But health-states have not been described yet. Seems funny to write it into the unified system noh? Perhaps should say that the unified system is independent of the disease model, and thus, independent of the health-states, or something like that?
 \par
-We assume that the relative sizes of risk groups in the model
+For our research questions,			
+we assumed that the relative sizes of risk groups in the model	%Clarify that the 'we assume' part is specific to the research question - i.e. for the set of experiments in the current paper. Vs. the unified framework assumes that the relative size of risk groups remain stable, etc.
 $\bm{\hat{x}} = [\hat{x}_1, \dots, \hat{x}_G]$
 are known and should remain constant over time.
 We also assume that the rates of population entry $\nu$ and exit $\mu$
