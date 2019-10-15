@@ -2,8 +2,15 @@ First we developed a new, unified framework for parameterizing turnover.
 We then simulated a deterministic, compartmental model of
 an illustrative STI to carry out the experiments.
 % ==================================================================================================
-\subsection{Turnover System}			%I find myself getting confused by the verb tense. Past tense or present tense? I find that the methods has gone back and forth - inconsistent.
-%Most scientific paper use the past tense. Is there a rationale for using the present tense - e.g. does Epidemics require present tense? Before I edit further, could you revise to one single tense as it will make it easier for me to do a final review/edit of the methods. Thanks!
+\subsection{Turnover System}
+% SM: I find myself getting confused by the verb tense. Past tense or present tense? I find that the methods has gone back and forth - inconsistent.
+%     Most scientific paper use the past tense. Is there a rationale for using the present tense - e.g. does Epidemics require present tense? Before I edit further, could you revise to one single tense as it will make it easier for me to do a final review/edit of the methods. Thanks!
+% JK: Sorry about that, I meant to use past tense throughout, with the exception of
+%     introducing the variables and notation, since I think it is strange to write:
+%     "was denoted $x_i$", instead of "is denoted $x_i$", since the denoting is for the reader,
+%     who is reading in the present. Does that make sense?
+%     But you're right, there was a lot of flip-flopping elsewhere too.
+%     (PS not addressing other comments yet in this edit)
 \label{ss:system}
 \begin{figure}
   \centering
@@ -14,7 +21,11 @@ an illustrative STI to carry out the experiments.
 We developed a framework for modelling turnover,
 based on the system shown in Figure~\ref{fig:system}.
 The framework is detailed in the Appendix~\ref{a:system}.		%avoid using the words 'this', 'these', etc. as much as possible
-The simulated population is divided into $G$ risk groups.
+% JK: in the section below only, I use present tense, since it is describing
+%     the variables /notation of the framework, and not things we did.
+%     I think this makes the most sense,
+%     but let me know if you think it should be past tense here too.
+In the framework, the simulated population is divided into $G$ risk groups.
 The number of individuals in group $i \in [1, \dots, G]$ is denoted $x_i$,
 and the relative size of each group is denoted $\hat{x}_i = x_i / N$,
 where $N$ is the total population size.
@@ -33,27 +44,29 @@ For our research questions,
 we assumed that the relative sizes of risk groups in the model	%Clarify that the 'we assume' part is specific to the research question - i.e. for the set of experiments in the current paper. Vs. the unified framework assumes that the relative size of risk groups remain stable, etc.
 $\bm{\hat{x}} = [\hat{x}_1, \dots, \hat{x}_G]$
 are known and should remain constant over time.
-We also assume that the rates of population entry $\nu$ and exit $\mu$
+We also assumed that the rates of population entry $\nu$ and exit $\mu$
 are known, but that they may vary over time.
 Methods to estimate $\nu$ and $\mu$ are given in Appendix~\ref{aaa:params-nu-mu}.
-What remains is to estimate $\bm{\hat{e}}$ and $\phi$,
+So, what remained was to estimate $\bm{\hat{e}}$ and $\phi$,
 representing $G + G(G-1) = G^2$ unknown values.
 In the proposed framework,
 these variables are collected in the vector
+% JK: again, present tense for the notation
 $\bm{\theta} = \left[\bm{\hat{e}}, \bm{y}\right]$,
 where $\bm{y} = \mathrm{vec}_{i \ne j}(\phi)$.
-We then construct a set of linear constraints based on data
+As per the framework, we then constructed a set of linear constraints
 to uniquely determine the elements of $\bm{\theta}$.
-Using this approach, each constraint $k$ takes the form
+Using this approach, each constraint $k$ took the form
 $b_k = A_k \bm{\theta}$,
+% JK: present tense for notation
 where $b_k$ is a constant and $A_k$ is a vector with the same length as $\bm{\theta}$.
-The values of $\bm{\theta}$ can then be obtained by solving
+The values of $\bm{\theta}$ were then obtained by solving
 %\begin{equation}\label{eq:system-matrix}
 $\bm{\theta} = A^{-1}\bm{b}$,
 %\end{equation}
 for which many algorithms exist~\citep{LAPACK}.
 \par
-We define four types of constraints which can used to
+The framework defines four types of constraints which can used to
 solve for the values of $\bm{\hat{e}}$ and $\phi$ via $\bm{\theta}$.
 These constraints can be selected and combined together in a flexible way,
 depending on the availability of data and plausibility of assumptions.
@@ -75,8 +88,8 @@ are given in Appendix~\ref{aaa:params-turnover}.%
 \subsection{Model \& Simulations}\label{ss:model-sim}
 To run our experiments,
 we developed a deterministic single-sex susceptible-infectious-treated (SIT) model
-which simulates transmission in a population with heterogeneity in risk.
-The model is not representative of a specific infection
+which simulated transmission in a population with heterogeneity in risk.
+The model was not representative of a specific infection
 % SS: I think it might be easier to follow if it did.
 %     I think it could be used as an example to thread across
 %     and then in the discussion go into how this would be similar/different for another infection
@@ -88,13 +101,13 @@ The model is not representative of a specific infection
 %     might be included in a model like this.
 % JK: Ugh, I know, but at this point I'm not sure we can change it.
 %     I really do believe that the trends in the results will hold for other STIs though.
-but includes transmission via partnerships
+but included transmission via partnerships
 as per sexually transmitted infections \citep{Garnett1994}.
 % SB: Not sure what this means.
 % JK: As to differentiate it from "mass-action" infections like the flu,
 %     since we are submitting to Epidemics.
 %     I've updated for clarify, hopefully
-The model includes three health states:
+The model included three health states:
 susceptible~$\mathcal{S}$, infectious~$\mathcal{I}$, and treated~$\mathcal{T}$
 (Figure~\ref{fig:health-states}),
 and $G = 3$ levels of risk:
@@ -110,11 +123,11 @@ high~$H$, medium~$M$, and low~$L$.
     $\tau$: treatment.}
   \label{fig:health-states}
 \end{figure}
-Risk strata are defined by different number of contacts per year
-so that individuals in risk group $i$ are assumed to
+Risk strata were defined by different number of contacts per year
+so that individuals in risk group $i$ were assumed to
 form contacts at a rate $C_{i}$ per year.
 The probability of contact formation $\rho_{ik}$ between individuals in group $i$
-and individuals in risk group $k$ is assumed to be
+and individuals in risk group $k$ was assumed to be
 proportionate to the total number of available contacts within each group:
 \begin{equation}
 \rho_{ik} = \frac
@@ -123,8 +136,8 @@ proportionate to the total number of available contacts within each group:
 \label{eq:rho}
 \end{equation}
 \par
-The biological probability of transmission is defined as $\beta$ per contact.
-Individuals transition from the
+The biological probability of transmission was defined as $\beta$ per contact.
+Individuals transitioned from the
 susceptible $\mathcal{S}$ to infectious $\mathcal{I}$ health-state
 via a force of infection $\lambda$ per year, per susceptible in risk group $i$:
 \begin{equation}
@@ -132,12 +145,12 @@ via a force of infection $\lambda$ per year, per susceptible in risk group $i$:
 C_{i} \sum_k \rho_{ik} \thinspace  \beta \thinspace \frac{\mathcal{I}_k}{x_k}
 \label{eq:foi}
 \end{equation}
-Individuals are assumed to transition from the
+Individuals were assumed to transition from the
 infectious $\mathcal{I}$ to treated $\mathcal{T}$ health-state
 at a rate $\tau$ per year, reflecting diagnosis and treatment.
-The treatment rate is not stratified by risk group.
-Individuals in the treated $\mathcal{T}$ health-state are not infectious nor susceptible,
-and individuals cannot become re-infected.
+The treatment rate was not stratified by risk group.
+Individuals in the treated $\mathcal{T}$ health-state were not infectious nor susceptible,
+and individuals could not become re-infected.
 % SS: What seems confusing to me at this point is that
 %     given the lack of specificity of the infection of interest,
 %     the R assumptions seem potentially overly simplistic
@@ -152,9 +165,9 @@ and individuals cannot become re-infected.
 % --------------------------------------------------------------------------------------------------
 \subsubsection{Turnover implementation}
 As described in Section~\ref{ss:system}, individuals
-enter the model at a rate $\nu$,
-exit the model at a rate $\mu$,
-and transition from risk group $i$ to group $j$ at a rate $\phi_{ij}$.
+entered the model at a rate $\nu$,
+exited the model at a rate $\mu$,
+and transitioned from risk group $i$ to group $j$ at a rate $\phi_{ij}$.
 The turnover rates $\phi$ and
 distribution of individuals entering the model by risk group $\bm{\hat{e}}$
 were computed using the methods outlined in
@@ -175,9 +188,9 @@ was equal to the proportion of individuals across risk groups in the model $\bm{
 % JK: So, I did now include this in the Turnover System section (last sentence).
 %     Do you think it needs to be restated here?
 Second, we assumed that
-the average duration spent in each risk group $\bm{\delta}$ is known.
+the average duration spent in each risk group $\bm{\delta}$ was known.
 Third, we assumed that
-the absolute number of individuals moving between two risk groups in either direction is balanced.
+the absolute number of individuals moving between two risk groups in either direction was balanced.
 % LW: I would think this is a very strong assumption.
 %     It is essentially saying the turn-over system consistently
 %     *swap* individuals in two risk groups.
@@ -192,17 +205,17 @@ These assumptions were chosen to avoid any dominant direction of turnover,
 so that the effects of turnover on model outputs would be
 attributable to movement of people between risk groups in general,
 rather than in one specific direction.
-The system of equations which results from these assumptions
+The system of equations which resulted from these assumptions
 is given in Appendix~\ref{aa:eqs-turnover}.
-To meet all three conditions, there is only one possible value
+To meet all three conditions, there was only one possible value
 for each element in $\phi$ and $\bm{\hat{e}}$.
 In other words, by specifying these three conditions,
-we ensure that a unique set of $\phi$ and $\bm{\hat{e}}$ is computed.
+we ensured that a unique set of $\phi$ and $\bm{\hat{e}}$ was computed.
 \par
 Using the above three assumptions,
-we need to specify the values of $\bm{\hat{x}}$, $\bm{\delta}$, $\nu$, and $\mu$.
-Such parameters could be derived from data as described in Section~\ref{aaa:params-turnover};
-however, in this experiment, we use the illustrative values summarized in
+we needed to specify the values of $\bm{\hat{x}}$, $\bm{\delta}$, $\nu$, and $\mu$.
+Such parameters could be derived from data as described in Appendix~\ref{aaa:params-turnover};
+however, in this experiment, we used the illustrative values summarized in
 Table~\ref{tab:params}.
 % LW: After read the whole results section,
 %     I think experiment 2 and 3.2 followed values specified in Table 3.
@@ -214,7 +227,7 @@ Table~\ref{tab:params}.
 %     explored a range of values of turn-over rate and treatment rate.
 % JK: Hopefully now with the paper much much shorter, this is resolved?
 After resolving the system of equations,
-$\bm{\hat{e}}$ is equal to $\bm{\hat{x}}$ (assumed), and $\phi$ is:
+$\bm{\hat{e}}$ was equal to $\bm{\hat{x}}$ (assumed), and $\phi$ was:
 \begin{equation}
 \label{eq:phi-values}
 \phi = \input{\datapath/values/phi-base.tex}
@@ -234,7 +247,7 @@ $\bm{\hat{e}}$ is equal to $\bm{\hat{x}}$ (assumed), and $\phi$ is:
 \par
 We then simulated epidemics using these parameters.
 The model was initialized with $N_0 = 1000$ individuals
-who are distributed across risk groups according to $\bm{\hat{x}}$.
+who were distributed across risk groups according to $\bm{\hat{x}}$.
 We seeded the epidemic with
 one infectious individual in each risk group at $t = 0$.
 There were no treated individuals at the start of the epidemic,
@@ -245,14 +258,14 @@ in Python%
   \href{https://github.com/c-uhs/turnover}{\texttt{https://github.com/c-uhs/turnover}}}
 using Euler's method with a time step of $dt = 0.1$ years.
 The full system of model equations is given in Appendix~\ref{aa:eqs-model}.
-All comparative analyses are then conducted at equilibrium,
+All comparative analyses were then conducted at equilibrium,
 defined as a steady state at 500 years with $<1\%$ difference in incidence per year.
 % ==================================================================================================
 \subsection{Experiments}
 \label{ss:exp}
 The experiments used to examine
 the influence of risk group turnover on model outputs
-are as follows.
+were as follows.
 % --------------------------------------------------------------------------------------------------
 \subsubsection{Experiment~1: Influence of turnover on equilibrium incidence and prevalence}
 \label{sss:exp-prev-inc}
@@ -283,7 +296,7 @@ The duration of individuals in the low risk group $\delta_L$
 similarly scaled with $\delta_H$,
 but due to existing constraints,
 specification of $\delta_H$ and $\delta_M$
-results in only one possible value of $\delta_L$.
+resulted in only one possible value of $\delta_L$.
 In this way, each value of $\delta_H$ was used to define a unique set of turnover rates $\phi$
 whose elements all scaled inversely with the duration in the high risk group $\delta_H$.
 The value of $\delta_H$ was then varied from 33~to~3 years
@@ -299,7 +312,7 @@ We plotted the STI prevalence versus turnover for each risk group,
 and explored mechanisms which explained the observed trends,
 including movement of individuals between risk groups, and incidence.
 We also plotted the STI prevalence ratios between each combination of risk groups,
-to help form a basis for understanding the results of Experiments~2~and~3.
+to help form a basis for understanding the results of subsequent experiments.
 % --------------------------------------------------------------------------------------------------
 \subsubsection{Experiment~2: Inferred risk heterogeneity with vs without turnover}
 \label{sss:exp-infer}
@@ -331,15 +344,18 @@ Finally, Experiment~3 examined how
 the estimated contribution of highest risk group to overall transmission,
 as measured by the transmission population attributable fraction (TPAF),
 varied with versus without turnover.
-The TPAF of a risk group $i$ is defined as:
+% JK: changed this from "is defined as" to "was defined as"
+%     I personally prefer the old "is" but let me know what you think @SM.
+The TPAF of a risk group $i$ was defined as:
 \begin{equation}
 \textsc{tpaf}_i(t) = \frac{I_0(t) - I_i(t)}{I_0(t)}
 \end{equation}
+% JK: again, I think present tense belongs here for notation.
 where $I_0(t)$ is the cumulative number of new infections
 by time $t$ under usual conditions,
 and $I_i(t)$ is the cumulative number of new infections
 assuming no transmission from risk group $i$.
-Both $I_0(t)$ and $I_i(t)$ are calculated
+Both $I_0(t)$ and $I_i(t)$ were calculated
 starting from a system at equilibrium.
 \par
 We compared the two fitted models from Experiment~2,
