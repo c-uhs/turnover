@@ -294,32 +294,42 @@ is shown in Figure~\ref{fig:dur-group}.
 \end{figure}
 \par
 We then compared the equilibrium prevalence (in each risk group and in the
-total population) across the range of $\delta_H$ = 33~to~3 years.						%SM: justify why chose 33 to 3 years.
-To explain the observed relationships, we ??did what? 
+total population) across the range of $\delta_H$ = 33~to~3 years.						%SM: justify why chose 33 to 3 years. We selected the range to reflect reports of average duration in sex work as short as 2-3 years (%cite) and the average life-span in the model of 33 years, which generally reflects the average duration of sexual activity (age 14-X years) commonly assumed in STI transmssion models. % cite (e.g. Garnett review/explanatory paper on STI modeling and vaccines I think?)
+To explain the observed relationships, we.... %SM: ??did what? 
 % --------------------------------------------------------------------------------------------------
 \subsubsection{Experiment~2: Inferred risk heterogeneity with vs without turnover}
 \label{sss:exp-infer}
-Next, we examined the influence of turnover on
-the parameter values inferred via model fitting.
-Specifically, we fit the model, with and without turnover, to:
+We designed experiement~2 to examine how the inclusion of turnover
+(vs. absence of turnover) could change inference on other transmission model parameters 
+related to risk heterogeneity: specifically,
+the ratio of partner numbers  $C$ across risk groups.							%SM: call it partnership rates. in the discussion, can go into how findings could be generalized to contacts. but you balanced partnerships so partner numbers is easier to follow.
+The ratio of partner numbers $C_H~/~C_L$
+is one way to measure of how different the two 
+risk groups are with respect to their 
+acquistion and transmission risks.	 
+Indeed, ratios of partner numbers are often used when parameterizing 
+risk heterogeneity in STI transmission models.						%SM: cite. General principle throughout - justify or give rationale for the choices and selections always. Cannot emphasize enough in modeling (and all science actually) re: good practice! :) 
+				
+First, we independently fit the transmission model with turnover 
+and without turnover, to
+equilibium infection prevalence across risk groups. Specifically, we 
+held all other parameters at their default values and
+fit the partner numbers $C$ in each risk group	to reproduce the following:
 20\% infection prevalence among the high risk group,
 8.75\% among the medium risk group,
 3\% among the low risk group,
 and 5\% overall.
-We fit the contact rates $C$ of all risk groups
-by minimizing the negative log-likelihood of each predicted prevalence versus the target.%
+To identify the set of paramters (i.e.  partner numbers $C$ in each risk group)
+that best reproduced the fitting targets, we minimized
+the negative log-likelihood of group-specific and overall prevalence.%				%SM: most journals do not like footnotes. Check if Epidemics allows. I believe IDM does not. Journals like AJE, IJE, Lancet, JAIDS, etc. do not allow footnotes except in tables. So you may need to move to the methods or put into appendix.
 \footnote{Sample sizes of 500, 2000, 7500, and 10,000 were assumed to generate binomial distributions
-  for the high, medium, low, and overall prevalence targets respectively,
+  for the high, medium, low, and overall prevalence targets respectively,				%SM: justify the use of these sample size as sample size would effect the log-liklihood term. For example, did you choose them based on typical surveys of such groups when prevalence is measured? e.g. DHS and key popualtion surveys?
   and the minimization was performed using
   the SLSQP method~\citep{Kraft1988} from the SciPy Python package
   (\href{https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html}
   {\texttt{scipy.optimize.minimize}}).}
-We then compared the inferred contact rates $C$
-in the model with versus without turnover.
-The ratio of fitted (or posterior) contact rates $C_H~/~C_L$
-represents a measure of risk heterogeneity in the population,
-after fixing all other parameters,
-which produces the given infection prevalence.
+We then compared the fitted (posterior) ratio of partner numbers $C_H~/~C_L$
+in the model with turnover versus the model without turnover.
 % --------------------------------------------------------------------------------------------------
 \subsubsection{Experiment~3: Influence of turnover on the TPAF of the highest risk group}
 \label{sss:exp-tpaf}
