@@ -249,50 +249,53 @@ defined as a steady state at 500 years with $<1\%$ difference in incidence per y
 % --------------------------------------------------------------------------------------------------
 \subsubsection{Experiment~1: Influence of turnover on equilibrium incidence and prevalence}
 \label{sss:exp-prev-inc}
-Experiment~1 examined the influence of turnover on
-equilibrium incidence and prevalence, across each risk group and overall.
-Incidence was defined as $\lambda_i$ from Eq.~(\ref{eq:foi}), and
-prevalence was defined as $\hat{\mathcal{I}}_i = \dfrac{\mathcal{I}_i}{\mathcal{X}_i}$.
+We designed experiment~1 to explore the mechanism by which turnover influences
+the equilibrium incidence and prevalence of infection, and the ratio of prevalence between risk groups (prevalence ratios).		%SM: make sure the order of incidence/prevalence is consistent througout paper. i think based on the results, you start with prevalence and then incidence. so order that way in writing throughout the methods. Introduce the outcome = prevalence ratios up front here.
+We defined incidence as $\lambda_i$ from Eq.~(\ref{eq:foi}), and
+prevalence as $\hat{\mathcal{I}}_i = \dfrac{\mathcal{I}_i}{\mathcal{X}_i}$.
 % SM: start by something like this to orient the reader
 %     and help with interpretation before results section
 % JK: I agree this could be useful, but then we go back-and forth between
 %     implementation ("controlled by a single parameter") and
 %     an overview of the experiment ("influence of turnover on ...")
 %     I'd rather introduce how turnover is controlled via duration in high risk group
-%     after noting why we cannot simply scale the rates proportionally with a single parameter.
-As in similar experiments \citep{Zhang2012,Henry2015},
-the rates of turnover were scaled by a single parameter.
-However, because the model had $G = 3$ risk groups,
+%     after noting why we cannot simply scale the rates proportionally with a single parameter. %SM: I found it easy to follow the current version.
+Similar to previous studies, \citep{Zhang2012,Henry2015},		%SM: because already mentioned the two studies in the introduction, I think do not have to go into detail here that the two studies examined influence of turnover on other modeled outcomes, etc.
+we scaled (varied) the rates of turnover using a single parameter.
+
+However, because our model had $G = 3$ risk groups,
 multiplying a set of base rates $\phi$ by a scalar factor
-would have resulted in changes to the relative population size of risk groups $\bm{\hat{x}}$.
-Thus, we controlled the rates of turnover using
-the duration of individuals in the high risk group $\delta_H$,
-such that a shorter $\delta_H$ implied higher rates of turnover among all groups.
-The duration of individuals in the medium risk group $\delta_M$
+would change the relative population size of risk groups $\bm{\hat{x}}$. 	%SM: consistency check: relative population sizes vs. sizes vs. size ... of risk groups
+Thus, to explore the influence over a range of turnover rates 
+but keep the relative size of each risk group stable, we 
+controlled the rates of turnover using
+the duration of individuals in the high risk group $\delta_H$.
+We used the duration of time spent in the high risk group as the mediator of overall turnover
+because of its practical interpreation in the context of STI transmission:
+the duration in formal sex work for example.						%cite: Watts
+A shorter $\delta_H$ implied higher rates of turnover among all groups.		%implied or means or is equivalent to? 'implied' seems vague?
+The duration of time spent in the medium risk group $\delta_M$			%SM: duration of individuals reads funny. please change throughout. duration of time. duration of person-years. but people do not have durations so grammatically sounds really odd.
 was then defined as a value between $\delta_H$ and the maximum duration $\mu^{-1}$
 which scaled with $\delta_H$ following:
 $\delta_M = \delta_H + \kappa \left(\mu^{-1} - \delta_H\right)$, with $\kappa = 0.3$.
-The duration of individuals in the low risk group $\delta_L$
+The duration of time in the low risk group $\delta_L$
 similarly scaled with $\delta_H$,
 but due to existing constraints,
 specification of $\delta_H$ and $\delta_M$
-resulted in only one possible value of $\delta_L$.
-In this way, each value of $\delta_H$ was used to define a unique set of turnover rates $\phi$
+ensured only one possible value of $\delta_L$.
+Thus, each value of $\delta_H$ represented a unique set of turnover rates $\phi$
 whose elements all scaled inversely with the duration in the high risk group $\delta_H$.
-The value of $\delta_H$ was then varied from 33~to~3 years
-to examine the influence of different turnover rates.
-The resulting durations in each group are shown in Figure~\ref{fig:dur-group}.
+					The duration of time spent in each group as function of the turnover in the high risk group 
+is shown in Figure~\ref{fig:dur-group}.
 \begin{figure}
   \centering\includegraphics[width=0.45\linewidth]{{1d-dur-all-tau=0.1}.pdf}
   \caption{Average duration in each risk group as turnover rates vary.}
   \label{fig:dur-group}
 \end{figure}
 \par
-We plotted the STI prevalence versus turnover for each risk group,
-and explored mechanisms which explained the observed trends,
-including movement of individuals between risk groups, and incidence.
-We also plotted the STI prevalence ratios between each combination of risk groups,
-to help form a basis for understanding the results of subsequent experiments.
+We then compared the equilibrium prevalence (in each risk group and in the
+total population) across the range of $\delta_H$ = 33~to~3 years.						%SM: justify why chose 33 to 3 years.
+To explain the observed relationships, we ??did what? 
 % --------------------------------------------------------------------------------------------------
 \subsubsection{Experiment~2: Inferred risk heterogeneity with vs without turnover}
 \label{sss:exp-infer}
