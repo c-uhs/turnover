@@ -293,9 +293,10 @@ is shown in Figure~\ref{fig:dur-group}.
   \label{fig:dur-group}
 \end{figure}
 \par
-We then compared the equilibrium prevalence (in each risk group and in the
+To address our first objective, we first
+compared the equilibrium prevalence (in each risk group and in the
 total population) across the range of $\delta_H$ = 33~to~3 years.						%SM: justify why chose 33 to 3 years. We selected the range to reflect reports of average duration in sex work as short as 2-3 years (%cite) and the average life-span in the model of 33 years, which generally reflects the average duration of sexual activity (age 14-X years) commonly assumed in STI transmssion models. % cite (e.g. Garnett review/explanatory paper on STI modeling and vaccines I think?)
-To explain the observed relationships, we.... %SM: ??did what? 
+We then explored the mechanisms that explain the observed relationships by.... %SM: ??doing what? 
 % --------------------------------------------------------------------------------------------------
 \subsubsection{Experiment~2: Inferred risk heterogeneity with vs without turnover}
 \label{sss:exp-infer}
@@ -328,34 +329,33 @@ the negative log-likelihood of group-specific and overall prevalence.%				%SM: m
   the SLSQP method~\citep{Kraft1988} from the SciPy Python package
   (\href{https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html}
   {\texttt{scipy.optimize.minimize}}).}
-We then compared the fitted (posterior) ratio of partner numbers $C_H~/~C_L$
+To address our second objective, we compared the fitted (posterior) ratio of partner numbers $C_H~/~C_L$		%in introduction, helpful if objectives listed.
 in the model with turnover versus the model without turnover.
 % --------------------------------------------------------------------------------------------------
 \subsubsection{Experiment~3: Influence of turnover on the TPAF of the highest risk group}
 \label{sss:exp-tpaf}
-Finally, Experiment~3 examined how
-the estimated contribution of highest risk group to overall transmission,
-as measured by the transmission population attributable fraction (TPAF),
-varied with versus without turnover.
-% JK: changed this from "is defined as" to "was defined as"
-%     I personally prefer the old "is" but let me know what you think @SM.
-The TPAF of a risk group $i$ was defined as:
+We designed experiment~3 to examined how the TPAF of the 
+highest risk group to overall transmission varies when generated
+by a model with versus a model without turnover.
+
+We calculated the TPAF of a risk group $i$ by comparing the relative difference in 
+cumulative incidence between the base-case scenario and a 
+counterfactual where X is turned off starting at the fitted equlibrium prevalence. 	%SM: the counterfactual is not defined clearly enough. 'assuming no transmission from a risk group' is not precise enough. what exactly did we do? set beta to zero within the risk group? is it a bi-direcitonal TPAF or unidirectional? Remember my talk at CROI where I had to clearly say what the counterfactual was.
+That is, in the counterfactual scenario, individuals in the high risk group could not become 
+infected nor could those already infectious transmit to another person.		%SM: correct? or edit for accuracy but needs to be clearly articulated 
+
+The TPAF was calculated over different time-horizons (1 to 30 years) as:		%SM: give the time-horizon shown in results. helps the reader know what is coming.
 \begin{equation}
 \textsc{tpaf}_i(t) = \frac{I_0(t) - I_i(t)}{I_0(t)}
 \end{equation}
-% JK: again, I think present tense belongs here for notation.
+
 where $I_0(t)$ is the cumulative number of new infections
-by time $t$ under usual conditions,
-and $I_i(t)$ is the cumulative number of new infections
-assuming no transmission from risk group $i$.
-Both $I_0(t)$ and $I_i(t)$ were calculated
+by time $t$ in the base-case scenario,
+and $I_i(t)$ is the cumulative number of new infections in the counterfactual scenario.
+
+Both $I_0(t)$ and $I_i(t)$ were calculated					%SM: I do not understand the sentence. Please revise for clarity.
 starting from a system at equilibrium.
 \par
-We compared the two fitted models from Experiment~2,
-which were identical in structure except that
-one model had no turnover and one model had turnover
-(default parameterization described in Section~\ref{ss:model-sim}).
-While prevalence was the same in both models,
-the group-specific contact rates inferred via model fitting were different.
-Following equilibration of both models,
-the TPAF of the high risk group was then estimated over a continuous time horizon.
+To address our third objective, we compared the TPAF generated from
+the fitted model with turnover versus the TPAF generated from the 
+fitted model without turnover.
