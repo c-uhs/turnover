@@ -4,7 +4,8 @@ an illustrative STI to carry out the experiments.
 
 % SM: consistency & double-checks
 % modelliing vs. modeling
-% avoid using the words 'this', 'these', etc. as much as possible
+% avoid using the words 'this', 'these', etc. as much as possible. Used **a lot** throughout methdods section reviewed so far
+%SM: consistency check with numbers (3 or three)
 % ==================================================================================================
 \subsection{A unified framework for implementing turnover} %we do not use the term 'turnover system' before, so even though more words - would suggest we try to use same phrasing throughout. we introduce a lot of new terminology in the paper, and so the fewer new 'terms/phrases' that need to be defined --> the eaiser it will be for the reader
 %     (PS not addressing other comments yet in this edit)
@@ -73,7 +74,7 @@ the four types of constraints, with their underlying assumptions and the type of
 can be used to inform the parameters.									%SM: the term 'define' takes on various meanings in the text. review for consistency.
 Additional details, including
 constraint equations, examples, and considerations for combining constraints,
-are in Appendix~\ref{aaa:params-turnover}.%
+are in Appendix~\ref{aaa:params-turnover}.%							%SM: hard copy of edits on your desk. the references need some work.
 \begin{table}
   \centering
   \caption{Summary of constraint types for defining risk group turnover}
@@ -81,7 +82,7 @@ are in Appendix~\ref{aaa:params-turnover}.%
   \input{floats/tab-constraints.tex}
 \end{table}
 % ==================================================================================================
-\subsection{Transmission model}\label{ss:model-sim}
+\subsection{Transmission model}\label{ss:model-sim}						%can you point to the Appendix where the ODEs for the transmission model can be found?
 We developed a deterministic, compartmental model of an illustrative 
 sexually tranmitted infection with 3 risk groups. We did not
 simulate a specific pathogen, but rather selected a biological system
@@ -91,7 +92,8 @@ HIV (where effective antiretroviral treatment reflects a health-state where indi
 are no longer susceptible nor infectious) or hepatitis B virus (where among the large proportion
 of individuals who clear their acute infection, develop life-long protective immunity). %SM: find a citation for the natural history of HBV infection (e.g. a major review paper)
 
-Thus, the model included three health states:
+The model is represented by a set of coupled, ordinary differential equations (shown in AppendixXX) and
+includes three health states:
 susceptible~$\mathcal{S}$, infectious~$\mathcal{I}$, and treated~$\mathcal{T}$
 (Figure~\ref{fig:health-states}),
 and $G = 3$ levels of risk:
@@ -144,7 +146,7 @@ and transitioned from risk group $i$ to group $j$ at a rate $\phi_{ij}$.
 The turnover rates $\phi$ and
 distribution of individuals entering the model by risk group $\bm{\hat{e}}$
 were computed using the methods outlined in
-Appendix~\ref{aaa:params-turnover}, based on the following assumptions.
+Appendix~\ref{aaa:params-turnover}, based on the following three assumptions.			%SM; assumption, or condition, or constraint? 
 % SB: Do we need to explain why we made these assumptions? Or provide refs?
 % JK: Since we are constructing a simulated system, I'm not sure what refs might be appropriate,
 %     but, you make a great point about justifying.
@@ -159,36 +161,42 @@ was equal to the proportion of individuals across risk groups in the model $\bm{
 %     And I think it is critical to make it explicit.
 %     So S, I, T all have the same turn over rate,
 % JK: So, I did now include this in the Turnover System section (last sentence).
-%     Do you think it needs to be restated here?
+%     Do you think it needs to be restated here? SM: yes, re-iterate here (before 'first')
 Second, we assumed that
 the average duration spent in each risk group $\bm{\delta}$ was known.
 Third, we assumed that
-the absolute number of individuals moving between two risk groups in either direction was balanced.
+the absolute number of individuals moving between two risk groups in either direction was balanced such that
+the proportion of individuals in each risk group remain stable over time.   %SM: yes agree a strong assumption, but one that most models make. So make sure to discuss each of these 
+%excellent points by SB and LW and HM in the discussion!
 % LW: I would think this is a very strong assumption.
 %     It is essentially saying the turn-over system consistently
 %     *swap* individuals in two risk groups.
 % HM: Not fully understand how does this assumption work?
 %     If high risk group has 10 individuals move to medium group,
 %     medium group will move 10 individuals to high risk? This is independent from population entry?
-% JK: @HM: yes, this is what this assumption means. I've edited hopefully to be more clear.
+% JK: @HM: yes, this is what this assumption means. I've edited hopefully to be more clear.  %SM: could be more clear. suggest giving an example  as HM did in her comments.
 %     @LW: see new sentence below. We have to make at least one more assumption,
 %     else the system will not have a unique solution,
 %     and by "balancing" the turnover rates, it is a way of avoiding "bias":
-These assumptions were chosen to avoid any dominant direction of turnover,
-so that the effects of turnover on model outputs would be
-attributable to movement of people between risk groups in general,
-rather than in one specific direction.
-The system of equations which resulted from these assumptions
+The above assumptions, and therefore constraints, were selected
+because they reflect the common assumptions underlying turnover in prior models	%SM: cite (as per introduction)
+and also to avoid any dominant direction of turnover. That is, 
+we wanted to restrict our analyses to the influence of movement
+between risk groups in general (compared with no movement and at
+various overall rates of movement) rather than 
+unidirectional movement from one just one group to another.
+The system of equations formulated from the above assumptions and constraints
 is given in Appendix~\ref{aa:eqs-turnover}.
-To meet all three conditions, there was only one possible value
+
+To meet all three conditions, there was only one possible value			%what do you mean by 'condition' here? constraints? 
 for each element in $\phi$ and $\bm{\hat{e}}$.
-In other words, by specifying these three conditions,
-we ensured that a unique set of $\phi$ and $\bm{\hat{e}}$ was computed.
-\par
-Using the above three assumptions,
+That is, by specifying the three conditions,						%it gets frustrating for the reader to see various terms like this!
+we were able to generate a unique set of $\phi$ and $\bm{\hat{e}}$.		%try for more active voice 
+\par %SM: I did not understand the paragraph below. 
+Using the above three assumptions,							%conditions or assumpiton? ugh.... starting to frustrate the reader dude! :) 
 we needed to specify the values of $\bm{\hat{x}}$, $\bm{\delta}$, $\nu$, and $\mu$.
-Such parameters could be derived from data as described in Appendix~\ref{aaa:params-turnover};
-however, in this experiment, we used the illustrative values summarized in
+Such parameters could be derived from data as described in Appendix~\ref{aaa:params-turnover}.
+However, in this experiment, we used the illustrative values summarized in %SM: what does 'this' refer to? which experiment? the whole study? there are 3 experiments noh? poor  reader is wanting to give up soon :) !
 Table~\ref{tab:params}.
 % LW: After read the whole results section,
 %     I think experiment 2 and 3.2 followed values specified in Table 3.
@@ -218,27 +226,26 @@ $\bm{\hat{e}}$ was equal to $\bm{\hat{x}}$ (assumed), and $\phi$ was:
   %     we really cannoy call it HIV.
 \end{table}
 \par
-We then simulated epidemics using these parameters.
-The model was initialized with $N_0 = 1000$ individuals
+We then simulated epidemics using the parameters %SM: list the parameters or say in $\phi$ .
+The transmission model was initialized with $N_0 = 1000$ individuals
 who were distributed across risk groups according to $\bm{\hat{x}}$.
 We seeded the epidemic with
-one infectious individual in each risk group at $t = 0$.
-There were no treated individuals at the start of the epidemic,
-and so all individuals except the 3 infectious individuals were susceptible.
-We numerically solved the system of ordinary differential equations
+one infectious individual in each risk group at $t = 0$ in an otherwise 
+fully susceptible populatuon.
+We numerically solved the system of ordinary differential equations			%SM: did you tell the reader where the ODEs are, in description above?
 in Python%
 \footnote{Code for all aspects of the project is available at:
   \href{https://github.com/c-uhs/turnover}{\texttt{https://github.com/c-uhs/turnover}}}
 using Euler's method with a time step of $dt = 0.1$ years.
-The full system of model equations is given in Appendix~\ref{aa:eqs-model}.
-All comparative analyses were then conducted at equilibrium,
-defined as a steady state at 500 years with $<1\%$ difference in incidence per year.
+The set of coupled ordinary differential equations is in Appendix~\ref{aa:eqs-model}.		%SM: should be in the section on the transmission model I think
+
 % ==================================================================================================
 \subsection{Experiments}
 \label{ss:exp}
-The experiments used to examine
-the influence of risk group turnover on model outputs
-were as follows.
+We designed three experiments to examine the influence of turnover.
+We compared outcomes at equilibrium,
+defined as a steady state at 500 years with $<1\%$ difference in incidence per year.
+
 % --------------------------------------------------------------------------------------------------
 \subsubsection{Experiment~1: Influence of turnover on equilibrium incidence and prevalence}
 \label{sss:exp-prev-inc}
