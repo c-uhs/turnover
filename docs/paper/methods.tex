@@ -1,15 +1,12 @@
-First we developed a new, unified framework for parameterizing turnover. 
+First we developed a new, unified framework for implementing turnover. 
 We then simulated a deterministic, compartmental model of
 an illustrative STI to carry out the experiments.
+
+% SM: consistency & double-checks
+% modelliing vs. modeling
+% avoid using the words 'this', 'these', etc. as much as possible
 % ==================================================================================================
-\subsection{Turnover System}
-% SM: I find myself getting confused by the verb tense. Past tense or present tense? I find that the methods has gone back and forth - inconsistent.
-%     Most scientific paper use the past tense. Is there a rationale for using the present tense - e.g. does Epidemics require present tense? Before I edit further, could you revise to one single tense as it will make it easier for me to do a final review/edit of the methods. Thanks!
-% JK: Sorry about that, I meant to use past tense throughout, with the exception of
-%     introducing the variables and notation, since I think it is strange to write:
-%     "was denoted $x_i$", instead of "is denoted $x_i$", since the denoting is for the reader,
-%     who is reading in the present. Does that make sense?
-%     But you're right, there was a lot of flip-flopping elsewhere too.
+\subsection{A unified framework for implementing turnover} %we do not use the term 'turnover system' before, so even though more words - would suggest we try to use same phrasing throughout. we introduce a lot of new terminology in the paper, and so the fewer new 'terms/phrases' that need to be defined --> the eaiser it will be for the reader
 %     (PS not addressing other comments yet in this edit)
 \label{ss:system}
 \begin{figure}
@@ -18,13 +15,9 @@ an illustrative STI to carry out the experiments.
   \caption{System of risk groups and flows between them for $G = 3$}
   \label{fig:system}
 \end{figure}
-We developed a framework for modelling turnover,
-based on the system shown in Figure~\ref{fig:system}.
-The framework is detailed in the Appendix~\ref{a:system}.		%avoid using the words 'this', 'these', etc. as much as possible
-% JK: in the section below only, I use present tense, since it is describing
-%     the variables /notation of the framework, and not things we did.
-%     I think this makes the most sense,
-%     but let me know if you think it should be past tense here too.
+We developed a framework for implementing turnover,	
+as depicted in  Figure~\ref{fig:system}.
+and detailed in the Appendix~\ref{a:system}. 
 In the framework, the simulated population is divided into $G$ risk groups.
 The number of individuals in group $i \in [1, \dots, G]$ is denoted $x_i$,
 and the relative size of each group is denoted $\hat{x}_i = x_i / N$,
@@ -37,18 +30,21 @@ is therefore given by $\nu \hat{e}_i N$.
 Turnover rates are collected in a $G \times G$ matrix $\phi$,
 where $\phi_{ij}$ is the proportion of individuals in group $i$
 who move from group $i$ into group $j$ each year.
-We assume that rates of turnover $\phi$
-are not affected by the health state of individuals. 		%But health-states have not been described yet. Seems funny to write it into the unified system noh? Perhaps should say that the unified system is independent of the disease model, and thus, independent of the health-states, or something like that?
+
+The framework only considers demographic transitions between risk groups, and does not
+include any health-states. That is, we assume that rates of turnover $\phi$
+do not vary by the health state of individuals. 		%But health-states have not been described yet. Seems funny to write it into the unified system noh? Perhaps should say that the unified system is independent of the disease model, and thus, independent of the health-states, or something like that?
 \par
-For our research questions,			
-we assumed that the relative sizes of risk groups in the model	%Clarify that the 'we assume' part is specific to the research question - i.e. for the set of experiments in the current paper. Vs. the unified framework assumes that the relative size of risk groups remain stable, etc.
+For our specific research questions,			%Clarify that the 'we assume' part is specific to the research question - i.e. for the set of experiments in the current paper. vs. the unified framework assumes that the relative size of risk groups remain stable, etc. 
+we assumed that the following: (1) the relative sizes of risk groups		%consider list/number the assumptions to help the reader navigate and follow the thought process	
 $\bm{\hat{x}} = [\hat{x}_1, \dots, \hat{x}_G]$
-are known and should remain constant over time.
-We also assumed that the rates of population entry $\nu$ and exit $\mu$
+are known and should remain constant over time; and (2) 
+the rates of population entry $\nu$ and exit $\mu$
 are known, but that they may vary over time.
-Methods to estimate $\nu$ and $\mu$ are given in Appendix~\ref{aaa:params-nu-mu}.
-So, what remained was to estimate $\bm{\hat{e}}$ and $\phi$,
+The approach to estimate $\nu$ and $\mu$ is detailed in Appendix~\ref{aaa:params-nu-mu}.
+Thus, what remained was to estimate $\bm{\hat{e}}$ and $\phi$,
 representing $G + G(G-1) = G^2$ unknown values.
+
 In the proposed framework,
 these variables are collected in the vector
 % JK: again, present tense for the notation
