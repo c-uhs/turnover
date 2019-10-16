@@ -45,14 +45,14 @@ The approach to estimate $\nu$ and $\mu$ is detailed in Appendix~\ref{aaa:params
 Thus, what remained was to estimate $\bm{\hat{e}}$ and $\phi$,
 representing $G + G(G-1) = G^2$ unknown values.
 
-In the proposed framework,
-these variables are collected in the vector
-% JK: again, present tense for the notation
+In the framework,
+the parameters (%SM: list parameters) 
+are collected in the vector   %change variable to parameter. 'variables' have a very specific meaning in ID modeling (state variable and force of infection terms). What does 'these parameters' refer to? 
 $\bm{\theta} = \left[\bm{\hat{e}}, \bm{y}\right]$,
 where $\bm{y} = \mathrm{vec}_{i \ne j}(\phi)$.
-As per the framework, we then constructed a set of linear constraints
-to uniquely determine the elements of $\bm{\theta}$.
-Using this approach, each constraint $k$ took the form
+To uniquely determine the elements of $\bm{\theta}$, we
+we constructed a set of linear constraints.
+Each constraint $k$ took the form		%SM: remove 'this' and 'these' from every sentence in paper, and then put back in with a clear definition of the subject :) 
 $b_k = A_k \bm{\theta}$,
 % JK: present tense for notation
 where $b_k$ is a constant and $A_k$ is a vector with the same length as $\bm{\theta}$.
@@ -60,20 +60,20 @@ The values of $\bm{\theta}$ were then obtained by solving
 %\begin{equation}\label{eq:system-matrix}
 $\bm{\theta} = A^{-1}\bm{b}$,
 %\end{equation}
-for which many algorithms exist~\citep{LAPACK}.
+using existing algorithms~\citep{LAPACK}. %SM: specify what type of algorithm: eg. optimization algorithms for soliving linear systems? 
 \par
 The framework defines four types of constraints which can used to
 solve for the values of $\bm{\hat{e}}$ and $\phi$ via $\bm{\theta}$.
-These constraints can be selected and combined together in a flexible way,
-depending on the availability of data and plausibility of assumptions.
-However, a minimum of $G^2$ non-redundant constraints must be specified
-to ensure a ``unique solution''
--- exactly one value of $\bm{\theta}$ which satisfies all constraints.
-The four types of constraints, and the data to required to define them,
-are summarized in Table~\ref{tab:constraints}.
+The frameworks supports flexibility with respect to selecting and combining
+constraints, guided by data availability and the underlying assumptions.
+However, a minimum of $G^2$ non-redundant constraints had to be specified
+to produce a unique solution such that one value of $\bm{\theta}$ satisfies all constraints. %SM: using -- word -- is for emphasis in place of commas usually. don't think aposthrophes needed.
+Table~\ref{tab:constraints} summarizes 
+the four types of constraints, with their underlying assumptions and the type of data which
+can be used to inform the parameters.									%SM: the term 'define' takes on various meanings in the text. review for consistency.
 Additional details, including
 constraint equations, examples, and considerations for combining constraints,
-are given in Appendix~\ref{aaa:params-turnover}.%
+are in Appendix~\ref{aaa:params-turnover}.%
 \begin{table}
   \centering
   \caption{Summary of constraint types for defining risk group turnover}
@@ -81,29 +81,17 @@ are given in Appendix~\ref{aaa:params-turnover}.%
   \input{floats/tab-constraints.tex}
 \end{table}
 % ==================================================================================================
-\subsection{Model \& Simulations}\label{ss:model-sim}
-To run our experiments,
-we developed a deterministic single-sex susceptible-infectious-treated (SIT) model
-which simulated transmission in a population with heterogeneity in risk.
-The model was not representative of a specific infection
-% SS: I think it might be easier to follow if it did.
-%     I think it could be used as an example to thread across
-%     and then in the discussion go into how this would be similar/different for another infection
-%     (which parameters would likely change,
-%     whether we would anticipate that the impact of turnover would be similar, different)
-% SB: I get saying any STI—but some are curative and some aren’t. ie, you can treat some
-%     folks but the infection may be sustained and in others it is totally gone.
-%     So just ask the question as whether we want to specify more about which type of STI
-%     might be included in a model like this.
-% JK: Ugh, I know, but at this point I'm not sure we can change it.
-%     I really do believe that the trends in the results will hold for other STIs though.
-but included transmission via partnerships
-as per sexually transmitted infections \citep{Garnett1994}.
-% SB: Not sure what this means.
-% JK: As to differentiate it from "mass-action" infections like the flu,
-%     since we are submitting to Epidemics.
-%     I've updated for clarify, hopefully
-The model included three health states:
+\subsection{Transmission model}\label{ss:model-sim}
+We developed a deterministic, compartmental model of an illustrative 
+sexually tranmitted infection with 3 risk groups. We did not
+simulate a specific pathogen, but rather selected a biological system
+that included susceptible, infectious, and treated (or recovered/immune) health-states. 
+The transmission model thereofore was mechannistically representative of sexually transmitted infections like
+HIV (where effective antiretroviral treatment reflects a health-state where individuals
+are no longer susceptible nor infectious) or hepatitis B virus (where among the large proportion
+of individuals who clear their acute infection, develop life-long protective immunity). %SM: find a citation for the natural history of HBV infection (e.g. a major review paper)
+
+Thus, the model included three health states:
 susceptible~$\mathcal{S}$, infectious~$\mathcal{I}$, and treated~$\mathcal{T}$
 (Figure~\ref{fig:health-states}),
 and $G = 3$ levels of risk:
@@ -144,22 +132,11 @@ C_{i} \sum_k \rho_{ik} \thinspace  \beta \thinspace \frac{\mathcal{I}_k}{x_k}
 Individuals were assumed to transition from the
 infectious $\mathcal{I}$ to treated $\mathcal{T}$ health-state
 at a rate $\tau$ per year, reflecting diagnosis and treatment.
-The treatment rate was not stratified by risk group.
-Individuals in the treated $\mathcal{T}$ health-state were not infectious nor susceptible,
+The treatment rate did not vary by risk group.
+Individuals in the treated $\mathcal{T}$ health-state were neither infectious nor susceptible,
 and individuals could not become re-infected.
-% SS: What seems confusing to me at this point is that
-%     given the lack of specificity of the infection of interest,
-%     the R assumptions seem potentially overly simplistic
-%     given that with most STIs there is unlikely to be immunity following recovery
-%     and in the case of HIV, treatment (if considered R) may be stopped/incomplete
-%     and then they may not be susceptible, but certainly transmittable.
-% JK: I guess I could try to justify this by saying that
-%     allowing R -> I transitions (coming off treatment)
-%     could be approximated by a slower I -> R (treatment) rate,
-%     since it would result in more people in I than R.
-%     So, I don't think the results would change too much
 % --------------------------------------------------------------------------------------------------
-\subsubsection{Turnover implementation}
+\subsubsection{Implementing turnover within the transmission model}
 As described in Section~\ref{ss:system}, individuals
 entered the model at a rate $\nu$,
 exited the model at a rate $\mu$,
