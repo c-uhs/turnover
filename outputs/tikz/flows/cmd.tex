@@ -1,0 +1,53 @@
+% black magic
+\makeatletter
+\newcommand{\setdy}[3]{%
+  \pgfpointdiff{\pgfpointanchor{#1}{center}}{\pgfpointanchor{#2}{center}}
+  \edef#3{0.5*\the\pgf@y}}
+\newlength{\cy}
+\newcommand{\setcy}[1]{%
+  \pgfpointanchor{#1}{center}
+  \setlength{\cy}{\pgf@y}}
+\makeatother
+\def\pgfmathsetglobalmacro#1#2{%
+  \pgfmathparse{#2}%
+  \global\let#1\pgfmathresult}
+% pie charts
+\newlength{\rad}\setlength{\rad}{6mm}
+\newlength{\dx}\setlength{\dx}{0.5mm}
+\newcommand{\pie}[5]{
+  \node[pie=2*#2*\rad-\dx] (#1) at (#3,#4){};
+  \node[pie=2*#2*\rad+\dx] at (#3,#4){};
+  \pgfmathsetmacro{\cuma}{0.0}
+  \pgfmathsetmacro{\cumb}{0.0}
+  \foreach \prop/\clr in {#5}{
+    \pgfmathsetglobalmacro{\cumb}{\cumb + \prop}
+    \fill[color=\clr] (#3,#4)
+    -- ([shift={(#3,#4)}] 90-\cuma*360:#2*\rad) arc (90-\cuma*360:90-\cumb*360:#2*\rad)
+    -- cycle;
+    \pgfmathsetglobalmacro{\cuma}{\cuma + \prop}
+  }
+}
+% flows
+\newcommand{\flow}[6]{
+  \coordinate(c) at ($(#1)!0.5!(#2)$);
+  \setdy{#1}{#2}{\dy}
+  \setcy{c}
+  \draw[#4,wide=#5*\turnover pt,domain=-#3:+#3] plot(
+    {-\dy/tan(#3) + ((\dy/sin(#3) - (#6+0.5*#5-0.5)*\turnover pt))*cos(\x)},
+    { \cy         + ((\dy/sin(#3) - (#6+0.5*#5-0.5)*\turnover pt))*sin(\x)}
+  );
+  \setlength{\cy}{0.1\rad}
+  \pgfmathsetmacro{\sign}{\dy/abs(\dy)}
+  \pgfmathsetmacro{\r}{-\dy/tan(#3) + \dy/sin(#3)}
+  \draw[fill=black] ($(c) + (\r pt + 0.55*\turnover pt, 0)$)
+    -- ++(-\cy,0) -- ++(\cy,\sign*2\cy) -- ++(\cy,-\sign*2\cy) -- cycle;
+}
+\newcommand{\flows}[6]{
+  \pgfmathsetmacro{\cum}{0}
+  \foreach \clr/\val in {S3/#6,T3/#5,I3/#4}{%
+    \flow{#1}{#2}{#3}{\clr}{\val}{\cum}
+    \pgfmathsetglobalmacro{\cum}{\cum + \val}
+  }
+  \flow{#1}{#2}{#3}{black}{0.1}{-0.1}
+%  \flow{#1}{#2}{#3}{black}{0.1}{+1.0}
+}

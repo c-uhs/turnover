@@ -4,22 +4,11 @@
 \newcommand{\colorx}{C1}
 \newcommand{\colort}{\colorx}
 \newcommand{\colorw}{\colorx}
-% pie charts
-\newlength{\rad}\setlength{\rad}{6mm}
-\newlength{\dx}\setlength{\dx}{0.5mm}
-\newcounter{pa}\setcounter{pa}{0}
-\newcounter{pb}\setcounter{pb}{0}
-\newcommand{\pie}[4]{
-  \node[pie=2*\rad-\dx] (#1) at (#2,#3){};
-  \node[pie=2*\rad+\dx] at (#2,#3){};
-  \foreach \i/\c in {#4}{
-    \addtocounter{pb}{\i}
-    \fill[color=\c] (#2,#3)
-    -- ([shift={(#2,#3)}] 90-\thepa:\rad) arc (90-\thepa:90-\thepb:\rad)
-    -- cycle;
-    \addtocounter{pa}{\i}
-  }
-}
+\colorlet{I3}{I!80!white}
+\colorlet{T3}{T!60!white}
+\colorlet{S3}{S!40!white}
+% commands
+\input{cmd.tex}
 % layers
 \pgfdeclarelayer{background}
 \pgfsetlayers{background,main}
@@ -32,24 +21,22 @@
     minimum size=#1,
     inner sep=0pt,
     anchor=center,
-  },
-  tarrow/.style = {
-    wide=\turnover,
-    fill=none,
-    -{Latex[length=3.5mm]},
   }
 ]
-\pie{x1}{0}{4}{\xIhigh/I!80!white,\xThigh/T!60!white,\xShigh/S!40!white}
-\pie{x2}{0}{2}{ \xImed/I!80!white, \xTmed/T!60!white, \xSmed/S!40!white}
-\pie{x3}{0}{0}{ \xIlow/I!80!white, \xTlow/T!60!white, \xSlow/S!40!white}
+\useasboundingbox (-1.4,-0.7) rectangle (+1.4,4.7);
+\pie{x1}{0.27386128}{0}{4}{\xIhigh/I3,\xThigh/T3,\xShigh/S3}
+\pie{x2}{0.54772256}{0}{2}{ \xImed/I3, \xTmed/T3, \xSmed/S3}
+\pie{x3}{1.06066017}{0}{0}{ \xIlow/I3, \xTlow/T3, \xSlow/S3}
 \begin{pgfonlayer}{background}
-\draw[arrow,tarrow] (x3.020) to[bend right=70] (x1.340);
-\draw[arrow,tarrow] (x1.210) to[bend right=70] (x3.160);
-\draw[arrow,tarrow] (x2.040) to[bend right=40] (x1.320);
-\draw[arrow,tarrow] (x1.230) to[bend right=40] (x2.140);
-\draw[arrow,tarrow] (x3.040) to[bend right=40] (x2.320);
-\draw[arrow,tarrow] (x2.240) to[bend right=40] (x3.140);
-\end{pgfonlayer}
+\ifnum\turnover>0
+  \flows{x1}{x3}{60}{\xIhigh}{\xThigh}{\xShigh}
+  \flows{x3}{x1}{60}{\xIlow }{\xTlow }{\xSlow }
+  \flows{x1}{x2}{50}{\xIhigh}{\xThigh}{\xShigh}
+  \flows{x2}{x1}{50}{\xImed }{\xTmed }{\xSmed }
+  \flows{x2}{x3}{50}{\xImed }{\xTmed }{\xSmed }
+  \flows{x3}{x2}{50}{\xIlow }{\xTlow }{\xSlow }
+\fi
+;\end{pgfonlayer}
 \end{tikzpicture}
 \end{document}
 % eof

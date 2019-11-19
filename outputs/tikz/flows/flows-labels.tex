@@ -3,17 +3,20 @@
 \newcommand{\colorx}{C1}
 \newcommand{\colort}{\colorx}
 \newcommand{\colorw}{\colorx}
+\newcommand{\labfmt}[1]{\footnotesize{#1}}
 % document
 \begin{document}
 \begin{tikzpicture}[
   label/.style = {
-    text width = 0.8cm,
+    minimum height = 0.5cm,
+    text width = 1.25cm,
+    inner xsep = 0.05cm,
   }
 ]
-\useasboundingbox (-1.45,-0.8) rectangle (1.45,4.8);
-\node[tbox=gray] at (0,4) {High Risk};
-\node[tbox=gray] at (0,2) {Med Risk};
-\node[tbox=gray] at (0,0) {Low Risk};
+\useasboundingbox (-0.7,-0.7) rectangle (+0.7,4.7);
+\node[tbox=black!20!white,label] at (0,4) {\labfmt{High risk}};
+\node[tbox=black!20!white,label] at (0,2) {\labfmt{Med risk}};
+\node[tbox=black!20!white,label] at (0,0) {\labfmt{Low risk}};
 \end{tikzpicture}
 \end{document}
 % eof
