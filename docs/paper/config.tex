@@ -10,7 +10,7 @@
 % enumerate & itemize
 \usepackage{enumitem}
 % references
-\bibliographystyle{plainnat}
+\bibliographystyle{elsarticle-harv}
 % fixing natbib & hyperref issues
 \makeatletter
 \def\bibinfo#1{%
@@ -22,7 +22,6 @@
 % maths
 \usepackage{bm,amsmath}
 \usepackage{xstring}
-\newcommand{\tarr}[1]{{\def\arraycolsep{3pt}[\begin{matrix}\StrSubstitute{#1}{,}{&}\end{matrix}]}} % TEMP
 \newcommand{\es}{\enspace}
 % tables
 \usepackage{booktabs,caption,float}
@@ -32,8 +31,6 @@
 \graphicspath{
   {\tikzpath/turnover/}
   {\tikzpath/health/}
-  {\tikzpath/tpaf-contexts/}
-%  {\tikzpath/variants/}
   {\tikzpath/flows/}
   {\figpath/compare/}
   {\figpath/sensitivity/}

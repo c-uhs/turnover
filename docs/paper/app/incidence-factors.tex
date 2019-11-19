@@ -1,49 +1,92 @@
-Rearranging the force of infection $\lambda_i$
-to isolate the dynamic (not constant) component ($*$):
-\begin{equation}\label{eq:lambda-dynamic}
-\begin{aligned}
-  \lambda_i
-    &= C_i \sum_k \rho_{ik} \beta \thinspace \frac{\mathcal{I}_k(t)}{\mathcal{X}_k}\\
-    &= C_i \beta \sum_k
+Substituting the proportional mixing definition of $\rho_{ik}$ into
+the incidence equation $\lambda_i$, we have:
+\begin{align}
+\lambda_i
+  &= C_i \sum_k \rho_{ik} \beta \thinspace \frac{\mathcal{I}_k(t)}{\mathcal{X}_k}\\
+  &= C_i \beta \sum_k
     \frac{C_k \mathcal{X}_k}{\sum_{\mathrm{k}}C_{\mathrm{k}}\mathcal{X}_{\mathrm{k}}}
     \frac{\mathcal{I}_k(t)}{\mathcal{X}_k}\\
-    &= C_i \beta \underbrace{
+  &= C_i \beta \underbrace{
       \frac{\sum_k C_k \mathcal{I}_k(t)}{\sum_{\mathrm{k}}C_{\mathrm{k}}\mathcal{X}_{\mathrm{k}}}
-    }_{\text{*}}
-\end{aligned}
-\end{equation}
-This component ($*$) is:
-$\bm{C}_{\mathcal{I}}$~%
-\textit{the proportion of available partnerships which are offered by infectious individuals}.
-As the only dynamic component, only this component can be affected by turnover.
-\par
-Now consider that $\bm{C}_{\mathcal{I}}$
-can be written in terms of the following three factors:
-\begin{itemize}
-  \item The average contact rate among infectious individuals
-  $\hat{C}_{\mathcal{I}} = \frac{\sum_k C_k \mathcal{I}_k}{\sum_k \mathcal{I}_k}$
-  \item The proportion of the population who are infectious (prevalence)
-  $\hat{\mathcal{I}} = \frac{\sum_k \mathcal{I}_k}{\sum_k \mathcal{X}_k}$
-  \item The average contact rate among all individuals (constant)
-  $\hat{C} = \frac{\sum_k C_k \mathcal{X}_k}{\sum_k \mathcal{X}_k}$
-\end{itemize}
-\begin{equation}
-\begin{aligned}
-\bm{C}_{\mathcal{I}}
-&= \hat{C}_{\mathcal{I}} \times \hat{\mathcal{I}} \times \hat{C}^{-1}\\
-&= \frac{\sum_k C_k \mathcal{I}_k}{\sum_k \mathcal{I}_k}
-\times
-\frac{\sum_k \mathcal{I}_k}{\sum_k \mathcal{X}_k}
-\times
-\frac{\sum_k \mathcal{X}_k}{\sum_k C_k \mathcal{X}_k}\\
-&= \frac{\sum_k C_k \mathcal{I}_k}{\sum_{\mathrm{k}}C_{\mathrm{k}}\mathcal{X}_{\mathrm{k}}}\\
-\end{aligned}
-\end{equation}
-Therefore, actually only two dynamic factors control the force of infection:
-1) the average contact rate among infectious individuals $\hat{C}_{\mathcal{I}}$, and
-2) the proportion of the population who are infectious $\hat{\mathcal{I}}$;
-and the product of these factors (scaled by $\hat{C}^{-1}$) gives $\bm{C}_{\mathcal{I}}$.
-Overall incidence is then directly proportional to $\bm{C}_{\mathcal{I}}$,
-following Eq.~(\ref{eq:lambda-dynamic}).
-In fact, the incidence in each group individually is proportional to $\bm{C}_{\mathcal{I}}$,
-as $C_i$ is only factor depending on $i$.
+    }_{f}
+\end{align}
+We can factor the term $f$ as:
+\begin{align}
+  f
+  &= \frac{\sum_k C_k \mathcal{I}_k}{\sum_{\mathrm{k}}C_{\mathrm{k}}\mathcal{X}_{\mathrm{k}}}\\
+  &= \frac{\sum_k C_k \mathcal{I}_k}{\sum_k \mathcal{I}_k}
+       \cdot
+     \frac{\sum_k \mathcal{I}_k}{\sum_k \mathcal{X}_k}
+       \cdot
+     \frac{\sum_k \mathcal{X}_k}{\sum_k C_k \mathcal{X}_k}\\
+\intertext{which we recognize as the following terms:}
+  &= \hat{C}_{\mathcal{I}} \cdot \hat{\mathcal{I}} \cdot \hat{C}^{-1}
+\end{align}
+Namely,
+\begin{enumerate}
+  \item $\hat{C}_{\mathcal{I}}$ is the average number of partners among infectious individuals
+  \item $\hat{\mathcal{I}}$ is the proportion of the population who are infectious (overall prevalence)
+  \item $\hat{C}$ is the average number of partners among all individuals (constant)
+\end{enumerate}
+Therefore, only two non-constant factors control incidence per susceptible:
+1) the average number of partners among infectious individuals $\hat{C}_{\mathcal{I}}$, and
+2) overall prevalence $\hat{\mathcal{I}}$.
+The product of these factors $\hat{C}_{\mathcal{I}}\,\hat{\mathcal{I}}$,
+scaled by $\beta \, C_i / \hat{C}$,
+then gives $\lambda_i$.
+In fact, the incidence in each group individually is proportional to
+incidence overall, as $C_i$ is only factor depending on $i$.
+
+
+
+%Substituting the definition of $\rho_{ik}$ into the
+%force of infection equation $\lambda_i$,
+%and rearranging to isolate the non-constant component ($*$), we have:
+%\begin{equation}\label{eq:lambda-dynamic}
+%\begin{aligned}
+%  \lambda_i
+%    &= C_i \sum_k \rho_{ik} \beta \thinspace \frac{\mathcal{I}_k(t)}{\mathcal{X}_k}\\
+%    &= C_i \beta \sum_k
+%    \frac{C_k \mathcal{X}_k}{\sum_{\mathrm{k}}C_{\mathrm{k}}\mathcal{X}_{\mathrm{k}}}
+%    \frac{\mathcal{I}_k(t)}{\mathcal{X}_k}\\
+%    &= C_i \beta \underbrace{
+%      \frac{\sum_k C_k \mathcal{I}_k(t)}{\sum_{\mathrm{k}}C_{\mathrm{k}}\mathcal{X}_{\mathrm{k}}}
+%    }_{\text{*}}
+%\end{aligned}
+%\end{equation}
+%This component ($*$) is:
+%$\bm{C}_{\mathcal{I}}$~%
+%\textit{the proportion of available partnerships which are offered by infectious individuals}.
+%As the non-constant component, only this component can be affected by turnover.
+%\par
+%Now consider that $\bm{C}_{\mathcal{I}}$
+%can be written in terms of the following three factors:
+%\begin{itemize}
+%  \item The average number of partners among infectious individuals
+%  $\hat{C}_{\mathcal{I}} = \frac{\sum_k C_k \mathcal{I}_k}{\sum_k \mathcal{I}_k}$
+%  \item The proportion of the population who are infectious (prevalence)
+%  $\hat{\mathcal{I}} = \frac{\sum_k \mathcal{I}_k}{\sum_k \mathcal{X}_k}$
+%  \item The average number of partners among all individuals (constant)
+%  $\hat{C} = \frac{\sum_k C_k \mathcal{X}_k}{\sum_k \mathcal{X}_k}$
+%\end{itemize}
+%\begin{equation}
+%\begin{aligned}
+%\bm{C}_{\mathcal{I}}
+%&= \hat{C}_{\mathcal{I}} \times \hat{\mathcal{I}} \times \hat{C}^{-1}\\
+%&= \frac{\sum_k C_k \mathcal{I}_k}{\sum_k \mathcal{I}_k}
+%\times
+%\frac{\sum_k \mathcal{I}_k}{\sum_k \mathcal{X}_k}
+%\times
+%\frac{\sum_k \mathcal{X}_k}{\sum_k C_k \mathcal{X}_k}\\
+%&= \frac{\sum_k C_k \mathcal{I}_k}{\sum_{\mathrm{k}}C_{\mathrm{k}}\mathcal{X}_{\mathrm{k}}}\\
+%\end{aligned}
+%\end{equation}
+%Therefore, actually only two non-constant factors control the force of infection:
+%1) the average number of partners among infectious individuals $\hat{C}_{\mathcal{I}}$, and
+%2) overall prevalence $\hat{\mathcal{I}}$.
+%The product of these factors,
+%scaled by $C_i \beta \hat{C}^{-1}$,
+%then gives $\lambda_i$.
+%In fact, the incidence in each group individually is proportional to
+%$\hat{C}_{\mathcal{I}} \hat{\mathcal{I}}$,
+%as $C_i$ is only factor depending on $i$.

@@ -1,22 +1,38 @@
+\newcommand{\bracelabel}[2]{%
+  \underbrace{\smash{\phantom{#1}}}_{\textrm{#2}}
+}
 \begin{alignat}{9}
 \frac{d}{dt}\mathcal{S}_i(t) &=
-        \sum_j \phi_{ji} \mathcal{S}_j(t)
+      + \sum_j \phi_{ji} \mathcal{S}_j(t)
 &&    - \sum_j \phi_{ij} \mathcal{S}_i(t)
 &&    - \mu \mathcal{S}_i(t)
 &&    + \nu \hat{e}_i N(t)
 &&    - \lambda_i(t) \mathcal{S}_i(t)
-\\
+&&
+\label{eq:model-S}\\
 \frac{d}{dt}\mathcal{I}_i(t) &=
-        \sum_j \phi_{ji} \mathcal{I}_j(t)
+      + \sum_j \phi_{ji} \mathcal{I}_j(t)
 &&    - \sum_j \phi_{ij} \mathcal{I}_i(t)
 &&    - \mu \mathcal{I}_i(t)
-&&&&  + \lambda_i(t) \mathcal{S}_i(t)
+&&
+&&    + \lambda_i(t) \mathcal{S}_i(t)
 &&    - \tau \mathcal{I}_i(t)
-\\
+\label{eq:model-I}\\
 \frac{d}{dt}\mathcal{T}_i(t) &=
-        \sum_j \phi_{ji} \mathcal{T}_j(t)
+      + \sum_j \phi_{ji} \mathcal{T}_j(t)
 &&    - \sum_j \phi_{ij} \mathcal{T}_i(t)
 &&    - \mu \mathcal{T}_i(t)
-&&&&&&+ \tau \mathcal{I}_i(t)
+&& 
+&&
+&&    + \tau \mathcal{I}_i(t)
+\label{eq:model-T}\\[-1em]
+&\hphantom{=}
+      \bracelabel{+ \sum_j \phi_{ji} \mathcal{S}_j(t)}{turnover into}
+&&    \bracelabel{+ \sum_j \phi_{ij} \mathcal{S}_i(t)}{turnover from}
+&&    \bracelabel{+ \mu \mathcal{S}_i(t)}{death}
+&&    \bracelabel{+ \nu \hat{e}_i N(t)}{birth}
+&&    \bracelabel{+ \lambda_i(t) \mathcal{S}_i(t)}{incidence}
+&&    \bracelabel{+ \tau \mathcal{I}_i(t)}{treatment}
+\nonumber
 \end{alignat}
 \\

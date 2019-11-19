@@ -17,14 +17,14 @@ Individuals enter the population at a rate $\nu$ per year,
 and exit at a rate $\mu$ per year.
 We model the distribution of risk groups
 among individuals entering into the population as $\bm{\hat{e}}$,
-which may be different from individuals already in the population $\bm{\hat{x}}$.%
+which may be different from individuals already in the population~$\bm{\hat{x}}$.%
 \footnote{We could equivalently stratify the rate of entry $\nu$ by risk group;
   however, we find that the mathematics in subsequent sections
-  are more straightforward using $\bm{\hat{e}}$.}
+  are more straightforward using~$\bm{\hat{e}}$.}
 Thus, the total number of individuals
 entering into population $\bm{x}$ per year is given by $\nu N$,
 and the number of individuals
-entering into group $x_i$ specifically is given by $\hat{e}_i \nu N$.
+entering into group~$i$ specifically is given by~$\hat{e}_i \nu N$.
 % LW: I think the logic of this paragraph should be modified a bit.
 %     When we say entry rate, we usually define it
 %     from the perspective of the current population size (N).
@@ -40,18 +40,18 @@ entering into group $x_i$ specifically is given by $\hat{e}_i \nu N$.
 % JK: Is this better?
 \par
 Turnover transitions may then occur between any two groups, in either direction.
-Therefore we denote the turnover rates as a $G \times G$ matrix $\phi$.
-The element $\phi_{ij}$ corresponds to the proportion of individuals in group $x_i$
-who move from group $x_i$ to group $x_j$ each year.
+Therefore we denote the turnover rates as a $G \times G$~matrix~$\phi$.
+The element $\phi_{ij}$ corresponds to the proportion of individuals in group $i$
+who move from group~$i$ to group~$j$ each year.
 An example matrix is given in Eq.~(\ref{eq:phi}),
 where we write the diagonal elements as $*$ since they represent
 transitions from a group to itself.
 \begin{equation}\label{eq:phi}
 \phi = \left[\begin{array}{cccc}
-	         *          & x_1  \rightarrow x_2 & \cdots & x_1 \rightarrow x_G \\[0.5em]
-	x_2 \rightarrow x_1 &          *           & \cdots & x_2 \rightarrow x_G \\[0.5em]
-	      \vdots        &        \vdots        & \ddots &       \vdots        \\[0.5em]
-	x_G \rightarrow x_1 & x_G \rightarrow x_2  & \cdots &          *
+           *          & x_1  \rightarrow x_2 & \cdots & x_1 \rightarrow x_G \\[0.5em]
+  x_2 \rightarrow x_1 &          *           & \cdots & x_2 \rightarrow x_G \\[0.5em]
+        \vdots        &        \vdots        & \ddots &       \vdots        \\[0.5em]
+  x_G \rightarrow x_1 & x_G \rightarrow x_2  & \cdots &          *
 \end{array}\right]
 \end{equation}
 Risk groups, transitions, and the associated rates
@@ -59,7 +59,13 @@ are also shown for $G = 3$ in Figure~\ref{fig:system-app}.
 \begin{figure}
   \centering
   \includegraphics[width=0.5\linewidth]{turnover}
-  \caption{System of risk groups and flows between them for $G = 3$}
+  \caption{System of $G = 3$ risk groups and turnover between them.}
+  \footnotesize\raggedright
+  $x_i$: number of individuals in risk group~$i$;
+  $e_i$: number of individuals available to enter risk group~$i$;
+  $\nu$: rate of population entry;
+  $\mu$: rate of population exit;
+  $\phi_{ij}$: rate of turnover from group~$i$ to group~$j$.
   \label{fig:system-app}
 \end{figure}
 % ==================================================================================================
@@ -76,13 +82,13 @@ using commonly available sources of data.
 \subsubsection{Total Population Size}
 \label{aaa:params-nu-mu}
 The total population size $N(t)$ is a function of
-the rates of population entry $\nu(t)$ and exit $\mu(t)$, given an initial size $N_0$.
+the rates of population entry $\nu(t)$ and exit $\mu(t)$, given an initial size~$N_0$.
 We allow the proportion entering the system to vary by risk group via $\bm{\hat{e}}$,
 while the exit rate has the same value for each group.
 We assume that there is no disease-attributable death.
 Because the values of $\nu$ and $\mu$ are the same for each risk group, 
 they can be estimated independent of
-$\bm{\hat{x}}$, $\bm{\hat{e}}$, and $\phi$.
+$\bm{\hat{x}}$,~$\bm{\hat{e}}$,~and~$\phi$.
 \par
 The difference between entry and exit rates
 defines the rate of population growth:
@@ -100,7 +106,7 @@ N(t) = N_0 {(1 + \mathcal{G})}^{t}
 Census data, such as \citep{WorldBank}, can be used to source
 the total population size in a given geographic setting over time $N(t)$,
 thus allowing Eqs.~(\ref{eq:growth-vary})~and~(\ref{eq:growth-const})
-to be used to estimate $\mathcal{G}(t)$.
+to be used to estimate~$\mathcal{G}(t)$.
 \par
 If the population size is assumed to be constant,
 then $\mathcal{G}(t) = 0$ and $\nu(t) = \mu(t)$.
@@ -148,7 +154,7 @@ Then, we explore the data and assumptions required
 to solve for the values of parameters in the system.
 The $(t)$ notation is omitted throughout this section for clarity,
 though time-varying parameters can be estimated by
-repeating the necessary calculations for each $t$.
+repeating the necessary calculations for each~$t$.
 \par
 The number of risk groups $G$ dictates the number of
 unknown elements in $\bm{\hat{e}}$ and $\phi$: $G$ and $G(G-1)$, respectively.
@@ -171,7 +177,7 @@ where $A$ is a $M \times G^2$ matrix
 and $\bm{b}$ is a $M$-length vector.
 Specifically, each row in $A$ and $\bm{b}$ defines a constraint:
 an assumed mathematical relationship involving one or more elements of
-$\bm{\hat{e}}$ and $\phi$.
+$\bm{\hat{e}}$~and~$\phi$.
 For example, a simple constraint could be to assume the value $\hat{e}_2 = 0.20$.
 Each of the following sections introduces a type of constraint, including:
 assuming a constant group size,
@@ -195,7 +201,7 @@ is whether or not the relative sizes of risk groups are constant over time
 \citep{Henry2015,Boily2015}.
 Assuming constant group size implies a stable level of heterogeneity over time.
 To enforce this assumption,
-we define the ``conservation of mass'' equation for group $x_i$,
+we define the ``conservation of mass'' equation for group~$i$,
 wherein the rate of change of the group
 is defined as the sum of flows in\,/\,out of the group:
 \begin{equation}\label{eq:mass-balance-1}
@@ -206,9 +212,9 @@ is defined as the sum of flows in\,/\,out of the group:
 Eq.~(\ref{eq:mass-balance-1}) is written in terms of
 absolute population sizes $\bm{x}$,
 but can be written as proportions $\bm{\hat{x}}$
-by dividing all terms by $N$.
+by dividing all terms by~$N$.
 If we assume that the proportion of each group $\hat{x}_i$ is constant over time,
-then the desired rate of change for risk group $i$
+then the desired rate of change for risk group~$i$
 will be equal to the rate of population growth of the risk group, $\mathcal{G} x_i$.
 Substituting $\frac{d}{dt}x_i = \mathcal{G} x_i$
 into Eq.~(\ref{eq:mass-balance-1}),
@@ -220,15 +226,15 @@ and simplifying yields:
 \end{equation}
 Factoring the left and right hand sides in terms of $\bm{\hat{e}}$ and $\phi$,
 we obtain $G$ unique constraints.
-For $G = 3$, this yields the following 3 rows as the basis of $\bm{b}$ and $A$:
+For $G = 3$, this yields the following 3 rows as the basis of $\bm{b}$ and~$A$:
 \begin{equation}\label{eq:eg-basis}
 \bm{b} = \left[\begin{array}{c}
 \nu x_1 \\ \nu x_2 \\ \nu x_3
 \end{array}\right];\qquad
 A = \left[\begin{array}{ccccccccc}
-	 \nu  & \cdot & \cdot & -x_1  & -x_1  &  x_2  & \cdot &  x_3  & \cdot \\
-	\cdot &  \nu  & \cdot &  x_1  & \cdot & -x_2  & -x_2  & \cdot &  x_3  \\
-	\cdot & \cdot &  \nu  & \cdot &  x_1  & \cdot &  x_2  & -x_3  & -x_3
+   \nu  & \cdot & \cdot & -x_1  & -x_1  &  x_2  & \cdot &  x_3  & \cdot \\
+  \cdot &  \nu  & \cdot &  x_1  & \cdot & -x_2  & -x_2  & \cdot &  x_3  \\
+  \cdot & \cdot &  \nu  & \cdot &  x_1  & \cdot &  x_2  & -x_3  & -x_3
 \end{array}\right] 
 \end{equation}
 These $G$ constraints ensure risk groups do not change size over time.
@@ -239,8 +245,8 @@ For $G = 3$, this corresponds to 6 additional constraints.
 \paragraph{2.~Specified elements}
 \label{con:spec-element}
 The simplest type of additional constraint is to
-directly specify the values of individual elements in $\bm{\hat{e}}$ or $\phi$.
-Such constraints may be appended to $\bm{b}$ and $A$
+directly specify the values of individual elements in $\bm{\hat{e}}$~or~$\phi$.
+Such constraints may be appended to $\bm{b}$~and~$A$
 as an additional row $k$ using indicator notation.%
 \footnote{Indicator notation, also known as ``one-hot notation'' is used to
   select one element from another vector, based on its position.
@@ -248,22 +254,22 @@ as an additional row $k$ using indicator notation.%
   and 0 everywhere else.}
 That is, with $b_k$ as the specified value $v$,
 and $A_k$ as the indicator vector,
-with $1$ in the same position as the desired element in $\bm{\theta}$:
+with $1$ in the same position as the desired element in~$\bm{\theta}$:
 \begin{equation}\label{eq:spec-elem}
 b_k = v;\qquad
 A_k = [0,\dots,1,\dots,0]
 \end{equation}
 For example, for $G = 3$, if it is known that 20\% of individuals
-enter directly into risk group $x_2$ upon entry into the model ($\hat{e}_2 = 0.20$),
+enter directly into risk group $2$ upon entry into the model ($\hat{e}_2 = 0.20$),
 then $\bm{b}$ and $A$ can be augmented with:
 \begin{equation}\label{eq:eg-spec}
 b_k = \left[\begin{array}{c} 0.20 \end{array}\right];\qquad
 A_k = \left[\begin{array}{ccccccccc}
-	\cdot & 1 & \cdot & \cdot & \cdot & \cdot & \cdot & \cdot & \cdot
+  \cdot & 1 & \cdot & \cdot & \cdot & \cdot & \cdot & \cdot & \cdot
 \end{array}\right] 
 \end{equation}
-since $\hat{e}_2$ is the second element in $\bm{\theta}$.
-If the data suggest zero turnover from group $i$ to group $j$,
+since $\hat{e}_2$ is the second element in~$\bm{\theta}$.
+If the data suggest zero turnover from group~$i$ to group~$j$,
 then Eq.~(\ref{eq:eg-spec}) can also be used to set $\phi_{ij} = 0$.
 \par
 Note that the elements of $\bm{\hat{e}}$ must sum to one.
@@ -281,7 +287,7 @@ Another epidemiologic feature that epidemic models considered
 is whether or not the duration of time spent within a given risk group remains constant.
 For example, in STI transmission models that include formal sex work,
 it can be assumed that the duration in formal sex work work remains stable over time,
-such as in \citep{Mishra2014a,Boily2015}.
+such as in \citep{Mishra2014,Boily2015}.
 The duration $\delta_i$ is defined as the inverse of all rates of exit from the group:
 \begin{equation}\label{eq:duration-group}
 \delta_i = {\bigg(\mu + \sum_{j}{\phi_{ij}}\bigg)}^{-1}
@@ -298,14 +304,14 @@ Data on duration in each risk group can then be used to define $\phi$ by
 rearranging Eq.~(\ref{eq:duration-group}) to yield:
 ${\delta_{i}}^{-1} - \mu = \sum_{j}{\phi_{ij}}$.
 For example, if for $G = 3$,
-the average duration in group $x_1$ is known to be $\delta_1 = 5$ years,
+the average duration in group $1$ is known to be $\delta_1 = 5$ years,
 then $\bm{b}$ and $A$ can be augmented with another row $k$:
 \begin{equation}\label{eq:eg-dur}
 b_k = \left[\begin{array}{c}
 {5}^{-1} - \mu
 \end{array}\right];\qquad
 A_k = \left[\begin{array}{ccccccccc}
-	\cdot & \cdot & \cdot & 1 & 1 & \cdot & \cdot & \cdot & \cdot
+  \cdot & \cdot & \cdot & 1 & 1 & \cdot & \cdot & \cdot & \cdot
 \end{array}\right]
 \end{equation}
 \par
@@ -314,7 +320,7 @@ specifying $\delta_i$ may result in conflicts or redundancies with other constra
 A conflict means it will not be possible to resolve values of $\phi$
 which simultaneously satisfy all constraints, while
 a redundancy means that adding one constraint does not help resolve
-a unique set of values $\bm{\theta}$.
+a unique set of values~$\bm{\theta}$.
 For example, for $G = 3$,
 if Type 2 Constraints are used to specify $\phi_{12} = 0.1$ and $\phi_{13} = 0.1$,
 and $\mu = 0.05$, then by Eq.~(\ref{eq:duration-group}), we must have
@@ -338,12 +344,12 @@ such as:
 \begin{equation}\label{eq:ratio}
 r\,\phi_{ij} = \phi_{i'j'}
 \end{equation}
-where $r$ is a ratio relating the values of $\phi_{ij}$ and $\phi_{i'j'}$.
+where $r$ is a ratio relating the values of $\phi_{ij}$~and~$\phi_{i'j'}$.
 For example, for $G = 3$,
-let $T_1$ be the total number of individuals entering group $x_1$ due to turnover.
+let $T_1$ be the total number of individuals entering group $1$ due to turnover.
 If we know that
-70\% of $T_1$ originates from group $x_2$, while
-30\% of $T_1$ originates from group $x_3$,
+70\% of $T_1$ originates from group $2$, while
+30\% of $T_1$ originates from group $3$,
 then $0.7\,T_1 = \phi_{23} \, x_2$ and $0.3\,T_1 = \phi_{13} \, x_1$,
 and thus: $\phi_{23} \left(\frac{0.3\,x_2}{0.7\,x_1}\right) = \phi_{13}$.
 This constraint can then be appended as another row $k$ in $\bm{b}$ and $A$ like:
@@ -352,15 +358,15 @@ b_k = \left[\begin{array}{c}
 0
 \end{array}\right];\qquad
 A_k = \left[\begin{array}{ccccccccc}
-	\cdot & \cdot & \cdot & \cdot & \left(\frac{0.3\,x_2}{0.7\,x_1}\right) & \cdot & 1 & \cdot & \cdot
+  \cdot & \cdot & \cdot & \cdot & \left(\frac{0.3\,x_2}{0.7\,x_1}\right) & \cdot & 1 & \cdot & \cdot
 \end{array}\right] 
 \end{equation}
 The example in Eq.~(\ref{eq:eg-ratio}) is based on
-what proportions of individuals entering a risk group $j$
-came from which former risk group $i$,
+what proportions of individuals entering a risk group~$j$
+came from which former risk group~$i$,
 but similar constraints may be defined based on
-what proportions of individuals exiting a risk group $i$
-enter into which new risk group $j$.
+what proportions of individuals exiting a risk group~$i$
+enter into which new risk group~$j$.
 It can also be assumed that
 the absolute number of individuals moving between two risk groups is equal,
 in which case the relationship is:

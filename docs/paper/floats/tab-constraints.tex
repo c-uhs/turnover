@@ -1,46 +1,48 @@
 \footnotesize%
 \setlength{\tabcolsep}{3pt}%
 \begin{tabular}{llcl}
-	\toprule
-	Name & Description & Variables & Data sources \& Examples \\
-	\midrule
-	1.~Constant group size
+  \toprule
+  Constraint & Assumption & Parameters & Types of data sources for parameterization \\
+  \midrule
+  1.~Constant group size
   & \cellbox{0.3\linewidth}{
-    the relative sizes of groups are known or assumed,
+    the relative population sizes of groups are known or assumed,
     and assumed to not change over time}
   & $\hat{x}_i$
   & \cellbox{0.36\linewidth}{
     demographic health surveys \citep{DHS},
     key population mapping and enumeration \citep{Abdul-Quader2014}}\\
-	2.~Specified elements
+  2.~Specified elements
   & \cellbox{0.3\linewidth}{
-    group sizes in the population following sexual debut
-    and/or individual rates of turnover
+    the relative numbers of people entering into each group
+    upon entry into the model or after leaving another group
     are known or assumed}
+%    group sizes in the population following sexual debut
+%    and/or individual rates of turnover
+%    are known or assumed}
   & $\hat{e}_i$, $\phi_{ij}$
   & \cellbox{0.36\linewidth}{
     demographic health surveys \citep{DHS},
     key population surveys \citep{Baral2014}}\\
-	3.~Group duration
+  3.~Group duration
   & \cellbox{0.3\linewidth}{
     the average durations of individuals in each group
     are known or assumed}
   & $\delta_i$
   & \cellbox{0.36\linewidth}{
     cohort studies of sexual behaviour over time \citep{Fergus2007},
-    key population surveys \citep{Baral2014}}\\
-	4.~Turnover rate ratios
+    key population surveys \citep{Watts2010,Baral2014}}\\
+  4.~Turnover rate ratios
   & \cellbox{0.3\linewidth}{
     ratios between different rates of turnover are known or assumed}
   & $\phi_{ij}$
   & \cellbox{0.36\linewidth}{
     demographic health surveys \citep{DHS},
     key population surveys \citep{Baral2014}}\\
-	\bottomrule
+  \bottomrule
 \end{tabular}\\[1em]
 \footnotesize\flushleft
-$\nu$:~rate of population entry;
-$\phi_{ij}$:~rate of turnover from group $i$ to group $j$;
-$\hat{x}_i$:~proportion of individuals in risk group $i$;
-$\hat{e}_i$:~proportion of individuals entering into risk group $i$;
-$\delta_i$:~average duration spent in risk group $i$.
+$\phi_{ij}$:~rate of turnover from group~$i$ to group~$j$;
+$\hat{x}_i$:~proportion of individuals in risk group~$i$;
+$\hat{e}_i$:~proportion of individuals entering into risk group~$i$;
+$\delta_i$:~average duration spent in risk group~$i$.
