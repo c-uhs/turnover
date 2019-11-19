@@ -6,6 +6,7 @@ save    = True
 model   = 'sit'
 context = 'paper'
 N       = 31
+n4      = [0, int(N*0.3), int(N*0.7), N-1]
 
 whatif  = '' if (model == 'sit') else 'whatif'
 path = {

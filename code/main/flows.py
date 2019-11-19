@@ -20,13 +20,12 @@ import system
 import sensitivity
 
 names = ['S','I','T']
+lights = [0.6,0.2,0.4]
 selects = ['high','med','low']
 # names = ['S','infected']
-lights = [0.0,0.0,0.0]
 out = 'X'
-n = 1
 
-def gen_pie_data(sim,select,phi):
+def gen_pie_data(sim,label,select,phi):
   SIR = np.array([
     modelutils.taccum(
       sim.outputs[out],
@@ -34,35 +33,45 @@ def gen_pie_data(sim,select,phi):
     ).islice(t=sim.t[-1])
     for name in names
   ])
-  SIR = np.round(SIR * 360 / SIR.sum()).astype(np.int)
-  SIR[0] = 360-SIR[1:].sum() # HACK in case sum < 1
-  tdir = os.path.join(config.path['data'],'flows','phi={}'.format(phi))
+  SIR = SIR / SIR.sum()
+  SIR[0] = 1-SIR[1:].sum()
+  tdir = os.path.join(config.path['data'],'flows',label)
   if config.save:
     utils.makedir(tdir)
+    utils.savetxt(os.path.join(tdir,'phi.tex'),np.float(phi))
     for name,value in zip(names,SIR):
-      utils.savetxt(os.path.join(tdir,'flow-{}-{}.tex'.format(select,name)),int(np.round(value)))
+      utils.savetxt(os.path.join(tdir,'flow-{}-{}.tex'.format(select,name)),np.float(value))
 
 def make_tikz(label,phi):
   tikzdir = os.path.join(config.path['tikz'],'flows')
-  tdir    = os.path.join(config.path['data'],'flows','phi={}'.format(phi))
+  tdir    = os.path.join(config.path['data'],'flows',label)
   flowdir = os.path.join(config.path['figs'],'flows')
-  # What is this 3x escape mess?
   configstr = '\n'.join([
     '\\newcommand{{\\x{}{}}}{{{}}}'.format(name,select,
-        int(utils.loadtxt(os.path.join(tdir,'flow-{}-{}.tex'.format(select,name))))
+        np.around(utils.loadtxt(os.path.join(tdir,'flow-{}-{}.tex'.format(select,name))),4)
       ) for name in names for select in selects
-  ])+'\n\\newcommand{\\turnover}{'+str(4*np.minimum(1,phi**(1/3)))+'}'
+  ])+'\n\\newcommand{\\turnover}{'+str(int(10*(phi-0.03)**(1/3)))+'}'
   utils.savetxt(os.path.join(tikzdir,'config.tex'),configstr)
   os.system('cd {} && pdflatex flows.tex >/dev/null && cp flows.pdf {}/{}'.format(
     tikzdir, flowdir, 'flows-{}.pdf'.format(label) ))
 
+def make_legend(sim):
+  xy = [np.nan*np.ones((3,))]*2
+  plt.figure(figsize=(4.5,0.6))
+  for name,light in zip(names,lights):
+    select = sim.model.select[name]
+    plt.fill_between(*xy,label='$\\textrm{'+select.label+'}$',color=select.color.lighten(light))
+  h = plt.legend(ncol=3)
+  plt.axis('off')
+  plt.savefig(os.path.join(config.path['figs'],'flows','flows-legend.pdf'))
+
 def run_sims():
   phis = list(sensitivity.iter_phi())
   for label,phi in [
-      ('low',    phis[n]),
-      ('med',    phis[int((config.N-1)/2)]),
-      ('high',   phis[config.N-n-1]),
-      ('extreme',10),
+      ('none', phis[config.n4[0]]),
+      ('low',  phis[config.n4[1]]),
+      ('high', phis[config.n4[2]]),
+      ('extr', phis[config.n4[3]])
     ]:
     specs = system.get_specs()
     model = system.get_model()
@@ -73,9 +82,8 @@ def run_sims():
       t = sim.t,
       names = [out]
     ))
-    if label == 'extreme':
-      sim.update_params(dict(ibeta=0.038))
     sim.solve()
     for select in selects:
-      gen_pie_data(sim,select,phi)
+      gen_pie_data(sim,label,select,phi)
     make_tikz(label,phi)
+    make_legend(sim)

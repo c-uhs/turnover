@@ -3,8 +3,8 @@
   { "name": "S",    "label": "Susceptible", "select": { "hi": ["S"] }, "color": [0.0, 0.6, 1.0] },
   { "name": "I",    "label": "Infectious",  "select": { "hi": ["I"] }, "color": [0.8, 0.2, 0.0] },
   { "name": "T",    "label": "Treated",     "select": { "hi": ["T"] }, "color": [0.8, 0.2, 0.6] },
-  { "name": "high", "label": "High-Risk",   "select": { "ii": ["H"] }, "color": [0.0, 0.0, 0.4] },
-  { "name": "med",  "label": "Medium-Risk", "select": { "ii": ["M"] }, "color": [0.0, 0.0, 1.0] },
-  { "name": "low",  "label": "Low-Risk",    "select": { "ii": ["L"] }, "color": [0.8, 0.8, 1.0] },
+  { "name": "high", "label": "High Risk",   "select": { "ii": ["H"] }, "color": [0.0, 0.0, 0.4] },
+  { "name": "med",  "label": "Medium Risk", "select": { "ii": ["M"] }, "color": [0.0, 0.0, 1.0] },
+  { "name": "low",  "label": "Low Risk",    "select": { "ii": ["L"] }, "color": [0.8, 0.8, 1.0] },
   { "name": "infected","label": "Infected", "select": { "hi": ["I"] }, "color": [0.8,   0, 0.2] }
 ]
