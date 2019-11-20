@@ -179,11 +179,11 @@ Specifically, each row in $A$ and $\bm{b}$ defines a constraint:
 an assumed mathematical relationship involving one or more elements of
 $\bm{\hat{e}}$~and~$\phi$.
 For example, a simple constraint could be to assume the value $\hat{e}_2 = 0.20$.
-Each of the following sections introduces a type of constraint, including:
+Each of the following four sections introduces a type of constraint, including:
 assuming a constant group size,
 specifying elements of $\bm{\theta}$ directly,
 assuming an average duration in a group,
-and assuming relative rates of turnover.
+and specifying a relationship between two individual rates of turnover.
 Constraints may be selected and combined together based on
 availability of data and plausibility of assumptions.
 However, a total of $M = G^2$ constraints must be defined
@@ -272,7 +272,7 @@ since $\hat{e}_2$ is the second element in~$\bm{\theta}$.
 If the data suggest zero turnover from group~$i$ to group~$j$,
 then Eq.~(\ref{eq:eg-spec}) can also be used to set $\phi_{ij} = 0$.
 \par
-Note that the elements of $\bm{\hat{e}}$ must sum to one.
+The elements of $\bm{\hat{e}}$ must sum to one.
 Therefore, specifying all elements in $\bm{\hat{e}}$
 will only provide $G-1$ constraints,
 as the last element will be either redundant or violate the sum-to-one rule.
@@ -282,7 +282,7 @@ so it is not necessary to supply a constraint like $1 = \sum_{i} \hat{e}_i$.
 % --------------------------------------------------------------------------------------------------
 \paragraph{3.~Group duration}
 \label{con:group-dur}
-Type 1 Constraints assume that the relative population size of each group remains constant.
+Type~1 constraints assume that the relative population size of each group remains constant.
 Another epidemiologic feature that epidemic models considered
 is whether or not the duration of time spent within a given risk group remains constant.
 For example, in STI transmission models that include formal sex work,
@@ -315,14 +315,14 @@ A_k = \left[\begin{array}{ccccccccc}
 \end{array}\right]
 \end{equation}
 \par
-Note that, similar to specifying all elements of $\bm{\hat{e}}$,
+Similar to specifying all elements of $\bm{\hat{e}}$,
 specifying $\delta_i$ may result in conflicts or redundancies with other constraints.
 A conflict means it will not be possible to resolve values of $\phi$
 which simultaneously satisfy all constraints, while
 a redundancy means that adding one constraint does not help resolve
 a unique set of values~$\bm{\theta}$.
 For example, for $G = 3$,
-if Type 2 Constraints are used to specify $\phi_{12} = 0.1$ and $\phi_{13} = 0.1$,
+if Type~2 constraints are used to specify $\phi_{12} = 0.1$ and $\phi_{13} = 0.1$,
 and $\mu = 0.05$, then by Eq.~(\ref{eq:duration-group}), we must have
 $\delta_1 = 4$.
 Specifying any other value for $\delta_1$ will result in a conflict,
@@ -337,7 +337,7 @@ conflicts and redundancies when they are not obvious.
 \label{con:rel-turnover}
 In many cases, it may be difficult to
 obtain estimates of a given turnover rate $\phi_{ij}$
-for use in Type 2 Constraints.
+for use in Type~2 constraints.
 However, it may be possible to estimate
 relative relationships between rates of turnover,
 such as:
@@ -430,8 +430,7 @@ have simulated turnover among risk groups,
 and those models which have simulated turnover
 have done so in various ways.
 In this section, we review
-three prior implementations of turnover and each study's objectives for the implementation
--- e.g. constant relative group sizes over time.
+three prior implementations of turnover and their assumptions.
 We then highlight how the approach proposed in Section~\ref{aa:params}
 could be used to achieve the same objectives.
 % --------------------------------------------------------------------------------------------------
@@ -440,11 +439,11 @@ could be used to achieve the same objectives.
 in a population with no exogenous entry or exit
 ($\nu = \mu = 0$ and hence $\bm{\hat{e}}$ is not applicable).
 Turnover between the groups was balanced
-in order to maintain constant risk group sizes (Type 1 Constraint),%
+in order to maintain constant risk group sizes (Type~1 constraint),%
 \footnote{Due to its simplicity,
-  this constraint is actually an example of both Type 1 and Type 4 Constraints.}
+  this constraint is actually an example of both Type~1 and Type~4 constraints.}
 while the rate of turnover from high to low
-was specified as $\kappa$ (Type 2 Constraint).
+was specified as $\kappa$ (Type~2 constraint).
 Thus, the turnover system used by \citet{Stigum1994} can be written
 in the proposed framework as:
 \input{app/prior-systems/Stigum1994.tex}
@@ -453,27 +452,30 @@ in the proposed framework as:
 \citet{Henry2015} also simulated turnover among $G = 2$ risk groups,
 but considered exogenous entry and exit, both at a rate $\mu$.
 The authors used the notation $f_i$ for our $\hat{x}_i$, and assumed that
-the exogenous population had the same distribution of risk groups
-as the system population: $\hat{e}_i = f_i$ (Type 2 Constraint).
-The authors further maintained constant risk group sizes (Type 1 Constraint)
+the population of individuals entering into the modelled population
+had the same distribution of risk groups as the modelled population itself:
+$\hat{e}_i = f_i$ (Type~2 constraint).
+The authors further maintained constant risk group sizes (Type~1 constraint)
 by analytically balancing turnover between the two groups using:
-$\phi_{12} = \omega \hat{x}_2 ;\enspace \phi_{21} = \omega \hat{x}_1$.
+$\phi_{12} = \omega \hat{x}_2 ;\enspace \phi_{21} = \omega \hat{x}_1$,
+where $\omega$ is a constant.
 However, it can be shown that this analytical approach
-is also the solution to the following combination of Type 1 and 2 Constraints:
+is also the solution to the following combination of Type~1 and Type~2 constraints:
 \input{app/prior-systems/Henry2015-simple.tex}
 % --------------------------------------------------------------------------------------------------
 \par
 \citet{Eaton2014} simulated turnover among $G = 3$ risk groups,
-considering exogenous entry from a population
-with a unique distribution of risk groups $\bm{\hat{e}}$.
+considering a distribution of risk among
+individuals entering into the modelled population $\bm{\hat{e}}$
+which was different from $\bm{\hat{x}}$.
 Turnover was considered from
 high-to-medium, high-to-low, and medium-to-low risk,
 all with an equal rate $\psi$;
 the reverse transition rates were set to zero
-(six total Type 2 Constraints).
-In the absence of turnover in the other direction,
+(six total Type~2 constraints).
+Given the unidirectional turnover,
 risk group sizes were maintained using the values of $\hat{e}_i$,
-computed using Type 1 Constraints as follows:
+computed using Type~1 constraints as follows:
 \input{app/prior-systems/Eaton2014-simple.tex}
 % --------------------------------------------------------------------------------------------------
 \par

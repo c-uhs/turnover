@@ -1,13 +1,13 @@
 Substituting the proportional mixing definition of $\rho_{ik}$ into
-the incidence equation $\lambda_i$, we have:
+the incidence equation, Eq.~(\ref{eq:foi}), we have:
 \begin{align}
 \lambda_i
-  &= C_i \sum_k \rho_{ik} \beta \thinspace \frac{\mathcal{I}_k(t)}{\mathcal{X}_k}\\
+  &= C_i \sum_k \rho_{ik} \beta \thinspace \frac{\mathcal{I}_k}{\mathcal{X}_k}\\
   &= C_i \beta \sum_k
     \frac{C_k \mathcal{X}_k}{\sum_{\mathrm{k}}C_{\mathrm{k}}\mathcal{X}_{\mathrm{k}}}
-    \frac{\mathcal{I}_k(t)}{\mathcal{X}_k}\\
+    \frac{\mathcal{I}_k}{\mathcal{X}_k}\\
   &= C_i \beta \underbrace{
-      \frac{\sum_k C_k \mathcal{I}_k(t)}{\sum_{\mathrm{k}}C_{\mathrm{k}}\mathcal{X}_{\mathrm{k}}}
+      \frac{\sum_k C_k \mathcal{I}_k}{\sum_{\mathrm{k}}C_{\mathrm{k}}\mathcal{X}_{\mathrm{k}}}
     }_{f}
 \end{align}
 We can factor the term $f$ as:
@@ -45,12 +45,12 @@ incidence overall, as $C_i$ is only factor depending on $i$.
 %\begin{equation}\label{eq:lambda-dynamic}
 %\begin{aligned}
 %  \lambda_i
-%    &= C_i \sum_k \rho_{ik} \beta \thinspace \frac{\mathcal{I}_k(t)}{\mathcal{X}_k}\\
+%    &= C_i \sum_k \rho_{ik} \beta \thinspace \frac{\mathcal{I}_k}{\mathcal{X}_k}\\
 %    &= C_i \beta \sum_k
 %    \frac{C_k \mathcal{X}_k}{\sum_{\mathrm{k}}C_{\mathrm{k}}\mathcal{X}_{\mathrm{k}}}
-%    \frac{\mathcal{I}_k(t)}{\mathcal{X}_k}\\
+%    \frac{\mathcal{I}_k}{\mathcal{X}_k}\\
 %    &= C_i \beta \underbrace{
-%      \frac{\sum_k C_k \mathcal{I}_k(t)}{\sum_{\mathrm{k}}C_{\mathrm{k}}\mathcal{X}_{\mathrm{k}}}
+%      \frac{\sum_k C_k \mathcal{I}_k}{\sum_{\mathrm{k}}C_{\mathrm{k}}\mathcal{X}_{\mathrm{k}}}
 %    }_{\text{*}}
 %\end{aligned}
 %\end{equation}

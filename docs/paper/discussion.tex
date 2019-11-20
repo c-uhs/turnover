@@ -7,43 +7,68 @@ We found that failure to model turnover when simulating settings with turnover
 could result in underestimation of
 the contribution of the highest risk group to onward transmission.
 % --------------------------------------------------------------------------------------------------
-\paragraph{Influence of turnover on incidence \& prevalence}
-We found that turnover influences the overall equilibrium STI prevalence and incidence
-in a pattern consistent with previous works \citep{Stigum1994,Zhang2012,Henry2015}.
+\paragraph{Influence of turnover on prevalence}
+% TODO: treatment in our model ~~ early infection in Zhang2012:
+% decreasing infectiousness as time since infection increases
+We found that turnover influences the overall equilibrium STI prevalence
+in an inverted U-shaped pattern, consistent with previous works
+\citep{Stigum1994,Zhang2012,Henry2015}.
 However, unlike previous works, we also illustrated the influence of turnover on
-group-specific prevalence, and demonstrated mechanistically how this occurs.
-For example, we showed that some infections among the low risk groups
+risk group-specific prevalence, and demonstrated mechanistically how this influence occurs.
+Under low rates of turnover versus no turnover,
+prevalence in all groups tended to increase, due to
+reduced herd immunity in the high risk group
+via loss of treated individuals.%
+% JK: not sure where to put this footnote.
+\footnote{
+  In comparing these results to \citep{Zhang2012},
+  we theorize that the acute and chronic HIV infection states use by \citeauthor{Zhang2012},
+  with higher and lower levels of infectiousness, respectively,
+  were analogous to our infectious and treated health states.}
+Under high rates of turnover versus low rates of turnover,
+prevalence in all groups tended to decrease, due to
+reduced average number of partners among infectious individuals.
+We also showed that the high/low risk prevalence ratio
+monotonically decreased with increasing turnover
+-- which we describe as the ``homogenizing effect'' of turnover --
+since the net movement of infectious individuals with turnover is
+from high to low risk.
+Indeed, as turnover increased,
+an increasing proportion of infections in the low risk group
 were acquired by individuals during a previous period of higher risk
-(see Figure~\ref{fig:new-inf-phi-vs-lambda} for additional results).
-We can summarize this influence of turnover,
-including reduced ratio of STI prevalence between the highest and lowest risk groups,
-as ``reducing heterogeneity in risk'' via movement of individuals between risk groups.
-\citet{Henry2015} demonstrated that
-such reduction in risk heterogeneity through turnover
-decreases the basic reproductive number and thus,
-means epidemic control could be easier to achieve.
-Our findings on the mechanisms by which increasing turnover
-reduces the STI treatment rate to achieve zero prevalence
-further supports these insights from \citet{Henry2015}.
+(Figure~\ref{fig:new-inf-phi-vs-lambda}).
+% \citet{Henry2015} demonstrated that
+% a reduction in risk heterogeneity through turnover
+% decreases the basic reproductive number and thus,
+% means epidemic control could be easier to achieve.
+% Our findings on the mechanisms by which increasing turnover
+% reduces the STI treatment rate to achieve zero prevalence
+% further supports these insights from \citet{Henry2015}.
+% JK: Re. above - too bad we didn't include this in the main text anymore,
+%     it was a cool result. I will add it in text to the appendix. TODO
+% A proportion of infections among the low risk groups
+% were acquired by individuals during a previous period of higher risk
+% (Figure~\ref{fig:new-inf-phi-vs-lambda}).
+% JK: Same re. this too.
 % --------------------------------------------------------------------------------------------------
 \paragraph{Implications for interventions}
 Our comparison of models with and without turnover,
-calibrated to the same epidemic,
+calibrated to the same STI epidemic,
 showed that if turnover exists in a given setting
-but it is ignored in a model,
+but is ignored in a model,
 the tPAF of high risk groups will be underestimated by the model.
 % LW: I think this is a valid conclusion
 This is because heterogeneity in risk
 must be higher in the presence of turnover than in a model without turnover
-in order to produce the same epidemic features.
-Although we examined a single parameter to capture risk (frequency of partner change),
-these insights would be generalizable to
+in order to produce the same STI prevalence across risk groups.
+Although we examined a single parameter to capture risk
+(number of partners per year),
+these insights would be generalizable to and multiplied by
 any other component of susceptibility or infectivity,
-because the risk per susceptible individual (force of infection) includes both
-biological transmission probabilities and frequency of partner change \citep{Anderson1991}.
+since the risk per susceptible individual (force of infection) includes both
+biological transmission probabilities and number of partners per year \citep{Anderson1991}.
 In the context of models with assortative mixing
-(individuals are more likely to form partnerships with
-other individuals in their risk group),
+(individuals are more likely to select partners from their risk group),
 the difference between the tPAFs estimated by the model
 with versus without turnover is therefore expected to be even larger.
 % SM: have not reviewed results again, so make sure this edit is correct :).
@@ -95,13 +120,12 @@ since optimization techniques can be used to calculate, for example,
 the smallest possible values of $\phi$ which satisfy the given constraints.
 Third, this flexible approach also allows the framework to scale
 to any number of risk groups, $G$.
-Fourth, we have shown how several previous implementations of turnover
+Fourth, we can show how several previous implementations of turnover
 \citep{Stigum1994,Eaton2014,Henry2015}
 can be recreated exactly using the proposed framework
 (Appendix~\ref{aa:prev-appr}).
 In so doing, we highlight which specific assumptions are
-the same and which are different
-across the different implementations.
+the same and which are different across the different implementations.
 Fifth and finally, the framework avoids the need for a burn-in period
 to establish a demographic steady-state before introducing infection,
 which was required in some previous models \citep{Boily2015}.
@@ -109,7 +133,7 @@ which was required in some previous models \citep{Boily2015}.
 The types of data which can be used by this approach include the following four categories
 (Table~\ref{tab:constraints}).
 First, the proportion of total individuals in each risk group $\hat{x}_i$ is required
-for constraints of type~1.
+for constraints of Type~1.
 % SM: the System section would benefit from a table/flow-diagram of the constraints
 %     and their epidemiological meaning + data needs.
 % JK: have added this now in the latest version of System, and added reference here.
@@ -129,16 +153,16 @@ in demographic health surveys \citep{DHS}.
 % HM: overall, I think this para could be shorten and simplified. It reads a little bit long
 % JK: Just trying to balance this with providing examples
 Second, the proportion of individuals who enter into each risk group $\hat{e}_i$
-upon entry into the model can be used to define additional constraints of type~2.
+upon entry into the modelled population can be used to define additional constraints of Type~2.
 Such proportions could be obtained the same way as $\hat{x}_i$ above,
 except using only data from individuals who recently became sexually active.
-For example, among women who became sexually active in the past year,
+For example, among women who became sexually active for the first time in the past year,
 what proportion also engaged in casual sex within the past year.
 If data on sexual debut is not available,
 then recent entry into sexual activity could be approximated using
 a suitable age range.
 Third, the average duration of time spent within each risk group $\delta_i$
-can similarly be used to define type~3 constraints.
+can similarly be used to define Type~3 constraints.
 % SM: what do you mean by useful? are all 4 of these needed? or just 1? unclear from current paragraph
 % JK: That's the thing about the framework (which is tricky to explain):
 %     A combination of constraints is needed. Many combinations will work, but not all,
@@ -153,8 +177,8 @@ that track the self-reported sexual behaviour over time can also provide
 estimates of duration of time spent in other risk groups \citep{Fergus2007}.
 Fourth, similar studies may provide data on
 trajectories in risk behaviour of individuals over time,
-which can be used to estimates specific transition rates $\phi$ (type~2 constraints)
-or ratios of transition rates (type~4 constraints).
+which can be used to estimates specific transition rates $\phi$ (Type~2 constraints)
+or ratios of transition rates (Type~4 constraints).
 For example, upon retirement from sex work,
 twice as many former sex workers may enter into monogamous relationships,
 as compared to those who continue to form multiple partnerships.
@@ -191,7 +215,7 @@ infection-attributable mortality, and age-sex stratifications into the model.
 Third, we assumed that turnover rates were not affected by
 the health status of individuals,
 which could change the observed influence of turnover on
-equilibrium STI prevalence and incidence.
+equilibrium STI prevalence.
 While changes to health state may affect the sexual behaviour of individuals,
 its not clear what overall patterns emerge at the population level.
 Fourth, we did not include individuals becoming re-susceptible
@@ -200,9 +224,8 @@ Fourth, we did not include individuals becoming re-susceptible
 As shown by \citet{Fenton2008} and \citet{Pourbohloul2003},
 the re-supply of susceptible individuals following STI treatment
 will fuel an epidemic, and so the influence of turnover on
-STI incidence, prevalence, and tPAF may be different, and warrants future study.
-Fifth, our analyses were restricted to
-equilibrium STI prevalence and incidence.
+STI prevalence and tPAF may be different, and warrants future study.
+Fifth, our analyses were restricted to equilibrium STI prevalence.
 The influence of turnover at different phases of an epidemic
 -- growth, mature, declining --
 are expected to vary, and thus represents an important topic for future investigation.
@@ -213,7 +236,7 @@ such as the work by \citet{Johnson2016}.
 % --------------------------------------------------------------------------------------------------
 \paragraph{Conclusion}
 In conclusion, turnover in risk will influence
-epidemic model outputs, including projected incidence, prevalence, and
+epidemic model outputs, including projected prevalence and
 measures of the contribution of high risk groups to overall STI transmission.
 Turnover should therefore be considered in
 transmission models with heterogeneity in risk.

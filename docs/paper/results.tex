@@ -10,10 +10,10 @@
 % JK: Yes, good suggestion @LW! I just mean the middle group is hard to explain,
 %     so still they are missing from the text, but included in the figures.
 \subsection{Experiment~1: Mechanisms by which turnover influences equilibrium prevalence}
-\label{ss:res-prev-inc}
+\label{ss:res-prevalence}
 Figure~\ref{fig:prevalence} illustrates trends in equilibrium STI prevalence  
 among the high, medium, low, risk groups, at different rates of turnover,
-controlled by duration of time spent in the highest risk group.
+controlled by duration of time spent in the high risk group.
 We make two observations in Figure~\ref{fig:prevalence}.
 First, there was an inverted U-shaped relationship
 between STI prevalence and turnover in all three risk groups.
@@ -82,10 +82,10 @@ first in the high risk group, and then in the low risk group.
     (number of individuals gained/lost per year)
     among infectious individuals in each risk group,
     broken down by type of change:
-    gain via incident infections,
-    loss via treatment,
-    loss/gain via turnover,
-    loss via death,
+    loss/gain via turnover, % ($+ \sum_j \phi_{ji} \mathcal{I}_j - \sum_j \phi_{ij} \mathcal{I}_i$),
+    gain via incident infections, % ($+ \lambda_i \mathcal{S}_i$),
+    loss via treatment, % ($- \tau \mathcal{I}_i$),
+    loss via death, % ($- \mu \mathcal{I}_i$),
     and net change.
     Based on Eq.~(\ref{eq:model-I}).
     Rates of change do not sum to zero due to population growth.
@@ -172,10 +172,10 @@ thereby increasing the rate of incident infections,
 which we observed for slow rates of turnover versus no turnover
 (Figure~\ref{fig:dX-I-high}, red).
 Under slow rates of turnover, increasing turnover
-added more incident infections to the high risk group via incidence
+added more infections to the high risk group via incidence
 than were lost via turnover
-(Figure~\ref{fig:dX-I-high}),
-which explains why equilibrium prevalence in the high risk group
+(Figure~\ref{fig:dX-I-high});
+thus equilibrium prevalence in the high risk group
 increased with turnover in region~A
 (Figure~\ref{fig:prevalence-high}).
 \par
@@ -189,10 +189,11 @@ the loss of infectious individuals via turnover
 thus prevalence declined with increasing turnover
 (Figure~\ref{fig:prevalence-high}, region~B).
 Two phenomena contributed to decreasing rate of incident infections
-in the high risk group under fast versus slow rates of turnover.
+in the high risk group under faster rates of turnover.
 First, as herd immunity in the high risk group was reduced via turnover,
 the additional infections attributable to
-further reducing this barrier to transmission decreased.
+further reducing this barrier to transmission decreased
+(diminishing returns).
 Second, the net movement of infectious individuals
 from high to low risk (Figure~\ref{fig:flows}) reduced
 the average number of partners per year among infectious individuals
@@ -205,7 +206,7 @@ the average number of partners per year among infectious individuals
 and overall prevalence
 (Figure~\ref{fig:prevalence-all}).
 Thus, as the average number of partners per year among infectious individuals
-decreased with turnover, incidence also decreased
+decreased with faster turnover, incidence also decreased
 (Figure~\ref{fig:incidence-all}).
 Moreover, as equilibrium incidence decreased across all groups
 with faster turnover for the same reason,
@@ -246,7 +247,7 @@ As shown in Figure~\ref{fig:flows}, the low risk group was
 composed mainly of susceptible individuals at equilibrium,
 so increasing turnover yielded
 a net replacement of susceptible individuals
-with infectious and treated individuals.
+with infectious and treated individuals from higher risk groups.
 The net influx of infectious individuals acted to
 increase equilibrium prevalence in the low risk group
 (Figure~\ref{fig:dX-I-low}, yellow).
@@ -255,8 +256,8 @@ contributed to a small increase in herd immunity,
 but the herd immunity effect in the low risk group
 remained negligible due to
 the small proportion of treated relative to susceptible individuals.
-Incident infections also increased
-with slow versus no turnover in the low risk group
+With slow versus no turnover,
+incident infections also increased in the low risk group
 (Figure~\ref{fig:dX-I-low}, red),
 driven by increasing overall incidence
 (Figure~\ref{fig:incidence-all}),
@@ -267,7 +268,7 @@ then both increased equilibrium prevalence in the low risk group
 under slow versus no turnover
 (Figure~\ref{fig:prevalence-low}, region~A).
 \par
-Faster turnover still contributed a net gain of infectious individuals
+Faster rates of turnover still contributed a net gain of infectious individuals
 via movement of already infected individuals.
 However, as in the high risk group,
 the rate of incident infections decreased
@@ -280,9 +281,10 @@ via decreasing number of partners per year among infectious individuals
 As a result, equilibrium prevalence decreased in the low risk group as turnover increased
 (Figure~\ref{fig:prevalence-low}, region~B),
 following the same exponential decline as in the high risk group
-under faster rates of turnover.
+under very fast rates of turnover.
 % --------------------------------------------------------------------------------------------------
 \subsubsection{Prevalence ratios and different turnover rates for peak prevalence among risk groups}
+% JK: not really sure if this is the best title for this section.
 The movement of individuals between risk groups via turnover yielded
 a net loss of infectious individuals from the high risk group, but
 a net gain of infectious individuals in the low risk group
@@ -294,9 +296,15 @@ Thus, the net effect of increasing turnover in the high risk group
 \emph{tended towards} decreasing prevalence,
 whereas in the low risk group,
 the net effect \emph{tended towards} increasing prevalence.
-Since these two tendencies act to bring prevalence between the two groups
-closer together, we summarize these two tendencies as
-the ``homogenizing effect'' of turnover on group-specific prevalence.
+Since these two tendencies act to bring prevalence in the two groups
+closer together, we describe the overall tendency as
+the ``homogenizing effect'' of turnover on group-specific prevalence.%
+\footnote{The level of risk heterogeneity experienced by individuals in the model
+  also decreases with faster turnover;
+  this decrease in risk heterogeneity
+  could also be described as a ``risk homogenizing effect''.}
+% JK: I remember we had agreed on ``reducing risk heterogeneity'' versus ``risk homogenizing''
+%     
 The homogenizing effect is demonstrated in Figure~\ref{fig:ratio-prevalence},
 which shows the equilibrium prevalence ratios
 in pair-wise comparisons of all three risk groups.
@@ -345,10 +353,9 @@ Next, we compared the fitted parameters in models with versus without turnover
 Before model fitting, the predicted prevalence ratio
 between high and low risk groups was lower with turnover versus without:
 $\input{\datapath/values/turnover-prevalence-ratio-high-low.txt}$~vs~%
-$\input{\datapath/values/no-turnover-prevalence-ratio-high-low.txt}$.
-This reflects the homogenizing effect of turnover on group-specific prevalence.
-As shown in Figure~\ref{fig:ratio-prevalence-high-low},
-the high-to-low prevalence ratio consistently declined with turnover.
+$\input{\datapath/values/no-turnover-prevalence-ratio-high-low.txt}$,
+reflecting the homogenizing effect of turnover on group-specific prevalence
+(Figure~\ref{fig:ratio-prevalence-high-low}).
 Thus, when fitting the model to target prevalence values,
 the fitted numbers of partners per year $C$ would have to compensate for
 this difference in prevalence ratio with versus without turnover.
@@ -378,29 +385,28 @@ greater heterogeneity in risk, as compared to a system without turnover.
   \input{floats/tab-fitting.tex}
 \end{table}
 % ==================================================================================================
-\subsection{Experiment~3: Influence of turnover on the tPAF of the highest risk group}
+\subsection{Experiment~3: Influence of turnover on the tPAF of the high risk group}
 \label{ss:res-tpaf}
-Finally, we compared the predicted tPAF of the highest risk group
+Finally, we compared the predicted tPAF of the high risk group
 with and without turnover, after fitting to the same prevalence data
 (Figure~\ref{fig:tpaf-fit}).
 The tPAF approaches 1 for both models over the 50 year period,
-indicating that unmet treatment needs of the highest risk group
+indicating that unmet treatment needs of the high risk group
 are central to epidemic persistence in both scenarios.
- SB: Crucial.
-The estimated tPAF of the highest risk group is also higher
+% SB: Crucial.
+The estimated tPAF of the high risk group is also higher
 in the model with turnover versus
 in the model without turnover
-over all time horizons.
-This increase in tPAF of the highest risk group can be attributed to
+over all time horizons,
+implying that models which fail to capture turnover dynamics which are present in reality
+may underestimate the tPAF of high risk groups.
+This increase in tPAF of the high risk group can be attributed to
 a higher ratio of fitted partners $C_H~/~C_L$
 in the model with turnover is higher than in the model without
 (Experiment~2).
 The increased partner ratio affords
-a higher risk of onward transmission to the highest risk group
+a higher risk of onward transmission to the high risk group
 in the model with turnover, and thus an increase in tPAF.
-This result then implies that
-models which fail to capture turnover dynamics which are present in reality
-may underestimate the tPAF of high risk groups.
 \begin{figure}[!tbp]
   \centering
   \includegraphics[width=0.5\linewidth]{sit-tpaf-tpaf-high-all-vs=fit.pdf}
