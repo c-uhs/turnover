@@ -1,20 +1,40 @@
-We developed a new framework for modelling turnover of individuals among risk groups,
-based on a flexible combination of data-driven constraints.
-We then used this framework to explore the influence of turnover on
-the contribution of the highest risk group to onward transmission in an
-illustrative STI epidemic without STI-attributable mortality.
-We found that failure to model turnover when simulating settings with turnover
-could result in underestimation of
-the contribution of the highest risk group to onward transmission.
+Using a mechanistic modelling analyses, 
+we found that turnover could be important 
+when estimating the tPAF
+of high risk groups to the overall epidemic.
+Mechanistic insights include disentangling 
+three key phenomena by which turnover 
+alters infection prevalence and incidence within risk groups and 
+thereby, the prevalence ratios between the highest and lowest risk groups.
+Methodological contributions include an unified 
+framework for modelling turnover 
+using a flexible combination of data-driven constraints.
+Thus, the explanatory insights and framework
+have mechanistic, public health, and methodological relevance 		%re-ordered to match the order of the paragraph topics below
+for the parameterization
+and use of epidemic models that project the tPAF of high risk groups.
+
 % --------------------------------------------------------------------------------------------------
-\paragraph{Influence of turnover on prevalence}
+\paragraph{Influence of turnover on prevalence}				% I did not see topic headings like this as subheadings in the papers I have reviewed for Scientific Reports or Epidemics. Are you sure they are allowed?
+
 % TODO: treatment in our model ~~ early infection in Zhang2012:
 % decreasing infectiousness as time since infection increases
-We found that turnover influences the overall equilibrium STI prevalence
-in an inverted U-shaped pattern, consistent with previous works
+Consistent with previous work, we found that the relationship between
+turnover and overall equilibrium STI prevalence has
+an inverted U-shaped pattern
 \citep{Stigum1994,Zhang2012,Henry2015}.
-However, unlike previous works, we also illustrated the influence of turnover on
-risk group-specific prevalence, and demonstrated mechanistically how this influence occurs.
+%SM: how did Stigum, Zhang, Henry explain their U-shaped pattern? --> did they suggest/explain same as the 3 below? if not, then perhaps most accurate to say that.. e.g. "We also identified the following phenomena drove the U-shaped relationship..." or if they found and explained the same thing --> then have to tell the reader that very clearly. from the statement you had before ("However, unlike prior works we also illustrated the influence of turnover on risk group-specific prevalence, and demonstrated mechanistically how this influence occurs ") = its vague but interpretation = they did not provide a mechanistic explanation.
+
+We identified the following phenomena drove the U-shaped relationship:
+shifts in proportion susceptible especially in the high risk group (and thus, reduction in herd immunity); 
+changes in the characteristics of the sexual network (via reduction in infectious partnerships with greater turnover); 
+and influx of individuals in the infectious health-state into the lower risk groups.
+An examination of the above three phenomena revealed an important pattern 
+of prevalence ratios by rates of turnover.
+
+However, unlike prior works %cite
+we also illustrated the influence of turnover on
+risk group-specific prevalence, and demonstrated mechanistically how this influence occurs.  %circular logic. 
 Under low rates of turnover versus no turnover,
 prevalence in all groups tended to increase, due to
 reduced herd immunity in the high risk group
