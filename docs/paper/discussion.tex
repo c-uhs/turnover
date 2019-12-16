@@ -82,8 +82,8 @@ to parameterize risk group turnover
 using available epidemiologic data and/or assumptions.
 There are five potential benefits of using the framework to model turnover.
 First, the framework defines how specific epidemiologic data and assumptions
-could be used as constraints to help define rates of turnover
-(Table~\ref{tab:constraints}).
+could be used as constraints to help define rates of turnover.
+%(Table~\ref{tab:constraints}). %please do not refer to appendix, tables, or figures in the discussion (see journal instructions and discussion write-up guidance docs?).
 Second, the framework allows flexibility in how and which
 constraints (taking the form $b_k = A_k \bm{\theta}$)
 can be chosen and combined, so that constraints best reflect
@@ -109,58 +109,30 @@ to establish a demographic steady-state before introducing infection,
 which was required in some previous models \citep{Boily2015}.
 
 \par
-The types of data which can be used by this approach include the following four categories
-(Table~\ref{tab:constraints}).
-First, the proportion of total individuals in each risk group $\hat{x}_i$ is required
-for constraints of Type~1.
-% SM: the System section would benefit from a table/flow-diagram of the constraints
-%     and their epidemiological meaning + data needs.
-% JK: have added this now in the latest version of System, and added reference here.
-%     I did chose Table specifically though, vs flow-diagram,
-%     since I don't think there should be a path / flow / order of constraint selection;
-%     it's more so an unordered set of constraints, which just have to be sufficient
-%     to yield a unique (exactly one) and consistent (no conflicts) solution \theta.
-In the context of STIs, risk group size estimates may be obtained from
-demographic health surveys \citep{DHS}, and from
-mapping and enumeration of marginalized populations,
+%SM: prior to editing, the framework component took up >50% of the discussion real estate and so I thought best to bring it back to the main research question, and simplify the data paragraph. The details (type 1, type 2, etc.) are available in the appendix if someone wants to use the framework as is and hopefully everything is clear in there and the discussion paragraph reflects an example 'source' context for each key data element.
+As noted above, one benefit of the unified framework for modelling turnover	
+is clarifying data priorities for parameterizing turnover. 
+Absolute or relative population size estimates across
+risk groups may be obtained from
+population-based sexual behaviour surveys \citep{DHS}, and from
+mapping and enumeration of marginalized persons
 such as sex workers \citep{Abdul-Quader2014}.
-For example, one risk group may be defined by
-any engagement in casual sex within the past year,
-and the corresponding proportion of the population
-could be estimated from self-reported behaviours
-in demographic health surveys \citep{DHS}.
-% HM: overall, I think this para could be shorten and simplified. It reads a little bit long
-% JK: Just trying to balance this with providing examples
-Second, the proportion of individuals who enter into each risk group $\hat{e}_i$
-upon entry into the modelled population can be used to define additional constraints of Type~2.
-Such proportions could be obtained the same way as $\hat{x}_i$ above,
-except using only data from individuals who recently became sexually active.
-For example, among women who became sexually active for the first time in the past year,
-what proportion also engaged in casual sex within the past year.
-If data on sexual debut is not available,
-then recent entry into sexual activity could be approximated using
-a suitable age range.
-Third, the average duration of time spent within each risk group $\delta_i$
-can similarly be used to define Type~3 constraints.
-% SM: what do you mean by useful? are all 4 of these needed? or just 1? unclear from current paragraph
-% JK: That's the thing about the framework (which is tricky to explain):
-%     A combination of constraints is needed. Many combinations will work, but not all,
-%     and the number of constraints you need (G^2) depends on the number of risk groups (G).
-%     Hopefully this is more clear now in the above paragraph and in the revised System section.
-Cross-sectional survey questions asked of female sex workers such as
+The proportion of individuals who enter into each risk group
+may be available from sexual behaviour surveys:
+for example, among individuals who became sexually active for the first time in the past year,
+the proportion also engaged in multiple partnerships within the past year.
+The average duration of time spent within each risk group, such as
+the duration in sex work,
+may be drawn from
+cross-sectional survey questions asked of sex workers such as
 ``for how many years have you been a sex worker?''\ %
-may be used to obtain estimates of duration in sex work,
-with the recognition that such data are censured \citep{Watts2010}.
+albeit with the recognition that such data are censured \citep{Watts2010}.
 Longitudinal, or cohort studies
 that track the self-reported sexual behaviour over time can also provide 
-estimates of duration of time spent in other risk groups \citep{Fergus2007}.
-Fourth, similar studies may provide data on
-trajectories in risk behaviour of individuals over time,
-which can be used to estimates specific transition rates $\phi$ (Type~2 constraints)
-or ratios of transition rates (Type~4 constraints).
-For example, upon retirement from sex work,
-twice as many former sex workers may enter into monogamous relationships,
-as compared to those who continue to form multiple partnerships.
+estimates of duration of time spent within a given risk strata \citep{Fergus2007}, 
+or provide direct transition rates between risk strata.
+%SM: p.s. try to overcome the instinct of saying 'difficult/tricky to explain'. we have to find a way to explain it - even if it takes more time and lots of feedback from others to get there. communicating the science with words / diagrams is really important if we ever want science to cross disciplines :) and even if we don't.... its key to the greater good of science :). 
+
 % --------------------------------------------------------------------------------------------------
 \paragraph{Limitations}
 Despite its methodological contribution, our unified 
@@ -221,26 +193,7 @@ pathogen- and population-specific modeling (such as the comparisons of model str
 by \citet{Johnson2016} and % Hontalez PMID: 24167449    			
 and at different epidemic phases.
 
-%SM: the citation for Johnson seems vague - what do we mean by '..."realistic systems for specific STIs, such as the work by..." do we mean use a realistic STI and compare model structures? if yes, then also cite Hontalez and be specific in the wording
-
-
-%SM: Lets leave out assortative mixing for now, and if reviewer asks --> then put it back in. It just felt like too much (i.e. information overload) when I read the discussion out loud a few times. p.s. for later -- but reading sections out before sending to editors is a great practice! 
-
-%In the context of models with assortative mixing
-%(individuals are more likely to select partners from their risk group),
-%the difference between the tPAFs estimated by the model
-%with versus without turnover is therefore expected to be even larger.
-% SM: have not reviewed results again, so make sure this edit is correct :).
-%     I also do want to review that part more carefully to see the checks on the mixing matrices :)
-%     but will do that when paper is with co-authors and after my Sep 6 many deadlines.
-%     Just make sure that what I wrote here is what you showed in results/appendix really clearly.
-%     I remember the figure and think yes, but did not review carefully yet. 
-% JK: yup - all good! In the appendix I used the usual Garnett / Nold approach
-%     with epsilon = 0.5.
-% JK: update: well, now this is removed from the appendix,
-%     so am just suggesting at the expected trend,
-%     though obviously we've explored this and shown that
-%     the TPAF gap is even larger under assortative mixing.
+%SM: suggest leaving out assortative mixing in limitations for now, and if reviewer asks --> then put it back in. It just felt like too much (i.e. information overload) when I read the discussion out loud a few times. p.s. for later -- but reading sections out before sending to editors is a great practice! 
 
 % --------------------------------------------------------------------------------------------------
 \paragraph{Conclusion}
