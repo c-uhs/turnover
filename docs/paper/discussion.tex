@@ -5,104 +5,78 @@ of high risk groups to the overall epidemic.
 Mechanistic insights include disentangling 
 three key phenomena by which turnover 
 alters infection prevalence and incidence within risk groups and 
-thereby, the prevalence ratios between the highest and lowest risk groups.
+thereby, the level of inferred risk heterogeneity between groups.
 Methodological contributions include an unified 
 framework for modelling turnover 
 using a flexible combination of data-driven constraints.
-Thus, the explanatory insights and framework
-have mechanistic, public health, and methodological relevance 		%re-ordered to match the order of the paragraph topics below
+Taken together, the explanatory insights and framework
+have mechanistic, public health, and methodological relevance 		%SM: re-ordered to match the order of the paragraph topics below
 for the parameterization
-and use of epidemic models that project the tPAF of high risk groups.
+and use of epidemic models to project the tPAF of high risk groups.
 
 % --------------------------------------------------------------------------------------------------
-\paragraph{Influence of turnover on prevalence}				% I did not see topic headings like this as subheadings in the papers I have reviewed for Scientific Reports or Epidemics. Are you sure they are allowed?
+\paragraph{Influence of turnover on prevalence}				% SM: did not see topic headings like this as subheadings in the papers I have reviewed for Scientific Reports or Epidemics. we sure they are allowed?
 
-% TODO: treatment in our model ~~ early infection in Zhang2012:
-% decreasing infectiousness as time since infection increases
-Consistent with previous work, we found that the relationship between
-turnover and overall equilibrium STI prevalence has
-an inverted U-shaped pattern
-\citep{Stigum1994,Zhang2012,Henry2015}.
-%SM: how did Stigum, Zhang, Henry explain their U-shaped pattern? --> did they suggest/explain same as the 3 below? if not, then perhaps most accurate to say that.. e.g. "We also identified the following phenomena drove the U-shaped relationship..." or if they found and explained the same thing --> then have to tell the reader that very clearly. from the statement you had before ("However, unlike prior works we also illustrated the influence of turnover on risk group-specific prevalence, and demonstrated mechanistically how this influence occurs ") = its vague but interpretation = they did not provide a mechanistic explanation.
-Building on prior work \citep{Stigum1994,Zhang2012,Henry2015}, 
-we identified three key phenomena that generated the U-shaped relationship across risk groups:
+% TODO: treatment in our model ~~ early infection in Zhang2012:  %SM: ??
+% decreasing infectiousness as time since infection increases         %SM: ??
+Building on prior work by \citep{Stigum1994,Zhang2012,Henry2015}
+which similarly found an inverted 
+U-shaped relationship between
+turnover and overall equilibrium STI prevalence, 
+we identified three key phenomena that generated the relationship.
+The turnover-driven phenomena include: 
 shifts in proportion susceptible especially in the high risk group (and thus, reduction in herd immunity); 
 changes in the characteristics of the sexual network (via reduction in infectious partnerships with greater turnover); 
 and influx of individuals in the infectious health-state into the lower risk groups.
 An examination of the above three phenomena revealed an important pattern 
 of declining prevalence ratios between the highest and lowest risk groups at increasing rates of turnover. 
-Prior studies have shown that prevalence ratios are an important marker of risk heterogeneity and in turn, 
-the impact of interventions focused on high risk groups. %cite PMID
 The implication of declining prevalence ratios with faster turnover could 
 be described as a ``homogenizing effect'' of turnover because the 
-net movement of infectious individuals with turnover is
-from high to low risk - which, when occurring at faster and faster rates means there is
-very little time spent in any given risk group.			%SM: correct?
+net movement of infectious individuals was
+from high to low risk - which, when taking place at faster and faster rates 
+means individuals spend
+very little time in any given risk group.			%SM: correct?
 This `homogenizing effect'' is consistent with work by 
-\citet{Henry2015} which demonstrated that
+\citet{Henry2015} which showed that
  a reduction in risk heterogeneity through turnover
- decreases the basic reproductive number.
-% Our findings on the mechanisms by which increasing turnover
-% reduces the STI treatment rate to achieve zero prevalence
-% further supports these insights from \citet{Henry2015}.
-% JK: Re. above - too bad we didn't include this in the main text anymore,
-%     it was a cool result. I will add it in text to the appendix. TODO
-% A proportion of infections among the low risk groups
-% were acquired by individuals during a previous period of higher risk
-% (Figure~\ref{fig:new-inf-phi-vs-lambda}).
-% JK: Same re. this too.
+decreases the basic reproductive number.
+Indeed, epidemiological and transmission modelling studies have shown that prevalence ratios 
+are an important marker of risk heterogeneity and in turn, 
+the impact of interventions focused on high risk groups. %cite: PMID: 22424777 (epi studies); PMID: 23226357 (review modeling studies)
+
+
 % --------------------------------------------------------------------------------------------------
 \paragraph{Implications for interventions}
-Our comparison of models with and without turnover,
-calibrated to the same STI epidemic,
+Our comparison of fitted models with and without turnover
 showed that if turnover exists in a given setting
-but is ignored in a model,
-the tPAF of high risk groups will be underestimated by the model.
-% LW: I think this is a valid conclusion
-This is because heterogeneity in risk
-must be higher in the presence of turnover than in a model without turnover
-in order to produce the same STI prevalence across risk groups.
+but is ignored in a model, its projections could 
+underestimate 
+the tPAF of high risk groups.		
+The tPAF was underestimated because heterogeneity in risk
+had to be higher in the presence of turnover
+to reproduce the same group-specific STI prevalence as the model without turnover.
 Although we examined a single parameter to capture risk
 (number of partners per year),
-these insights would be generalizable to and multiplied by
-any other component of susceptibility or infectivity,
-since the risk per susceptible individual (force of infection) includes both
-biological transmission probabilities and number of partners per year \citep{Anderson1991}.
-In the context of models with assortative mixing
-(individuals are more likely to select partners from their risk group),
-the difference between the tPAFs estimated by the model
-with versus without turnover is therefore expected to be even larger.
-% SM: have not reviewed results again, so make sure this edit is correct :).
-%     I also do want to review that part more carefully to see the checks on the mixing matrices :)
-%     but will do that when paper is with co-authors and after my Sep 6 many deadlines.
-%     Just make sure that what I wrote here is what you showed in results/appendix really clearly.
-%     I remember the figure and think yes, but did not review carefully yet. 
-% JK: yup - all good! In the appendix I used the usual Garnett / Nold approach
-%     with epsilon = 0.5.
-% JK: update: well, now this is removed from the appendix,
-%     so am just suggesting at the expected trend,
-%     though obviously we've explored this and shown that
-%     the TPAF gap is even larger under assortative mixing.
+the findings would hold for any combination of factors
+that alter the risk per susceptible individual (force of infection)  
+which includes
+biological transmission probabilities and rates of partner change \citep{Anderson1991}.
+That is, the level of inferred risk heterogeneity may vary depending on whether
+the epidemic model includes or excludes turnover.
 The public health implication of models ignoring turnover
 which is present in reality is that
-the tPAF of high risk groups will be systematically underestimated,
-potentially misguiding resources away from high risk groups.
-Follow on research should quantify the size of
-this potential bias in tPAFs generated from models without turnover,
-and characterize the epidemiologic conditions under which the bias would be largest.
+the tPAF of high risk groups could be systematically underestimated.
+Underestimating the tPAF of high risk groups - and underestimating
+risk heterogeneity itself - could potentially misguide resources away from high risk groups.
+Indeed, underestimating risk heterogeneity could lead to underestimating the resources 
+required to achieve local epidemic control, as suggested by \citet{Henry2015}. %SM: add  PMID: 24167449    
+Important next steps surrounding the potential bias in tPAF projections attributable to inclusion/exclusion
+of turnover include quantifying its magnitude, 
+and characterizing the epidemiologic conditions under which the bias would be largest with 
+pathogen and population-specific epidemic models.
+
 % --------------------------------------------------------------------------------------------------
 \paragraph{Turnover framework}
-% LW: I would keep this at the end of discussion before limitation section.
-%     It just flows better with results if we discuss result implications first
-%     before moving into method advance.
-% JK: done.
-% SM: this paragraph needs a lot of revision/work
-%     and I think I should definitely review/edit the next version before submission.
-%     I will not have time to edit before it goes to co-authors unfortuntely
-%     - so please make a note for them to tell you whether they understood the key messages here.
-%     Remember that a big part of this paragraph is written for epidemiologists/data folks
-%     who are going to give modelers the data to parameterize turnover.
-% JK: have given this an overhaul -- hopefully is more precise and clear now.
 The proposed framework provides a flexible way to parameterize risk group turnover
 based on available epidemiologic data and/or assumptions.
 The approach has five advantages.
@@ -234,6 +208,24 @@ Finally, our analyses reflected an illustrative STI epidemic
 in a population with illustrative risk strata.
 Future work should explore more realistic systems for specific STIs,
 such as the work by \citet{Johnson2016}.
+
+
+In the context of models with assortative mixing
+(individuals are more likely to select partners from their risk group),
+the difference between the tPAFs estimated by the model
+with versus without turnover is therefore expected to be even larger.
+% SM: have not reviewed results again, so make sure this edit is correct :).
+%     I also do want to review that part more carefully to see the checks on the mixing matrices :)
+%     but will do that when paper is with co-authors and after my Sep 6 many deadlines.
+%     Just make sure that what I wrote here is what you showed in results/appendix really clearly.
+%     I remember the figure and think yes, but did not review carefully yet. 
+% JK: yup - all good! In the appendix I used the usual Garnett / Nold approach
+%     with epsilon = 0.5.
+% JK: update: well, now this is removed from the appendix,
+%     so am just suggesting at the expected trend,
+%     though obviously we've explored this and shown that
+%     the TPAF gap is even larger under assortative mixing.
+
 % --------------------------------------------------------------------------------------------------
 \paragraph{Conclusion}
 In conclusion, turnover in risk will influence
