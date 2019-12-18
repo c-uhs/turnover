@@ -326,10 +326,10 @@ monotonically decreased with turnover
 (Figure~\ref{fig:ratio-prevalence-high-low}).
 For example, the predicted prevalence ratio
 between high and low risk groups was:
-$\input{\datapath/values/turnover-prevalence-ratio-high-low.txt}$ from
+$\input{\datapath/values/turnover-prevalence-ratio-high-low.txt}$ from			%SM: and refer to Table 2 here as well as in section below
 the model with turnover (($\delta_H = 5$)
 ~vs~%
-$\input{\datapath/values/no-turnover-prevalence-ratio-high-low.txt}$ 
+$\input{\datapath/values/no-turnover-prevalence-ratio-high-low.txt}$ 				%SM: and refer to Table 2 here as well as in section below
 from the model without turnover ($\delta_H = 33$ years).
 
 % JK: I don't talk about prevalence ratios between high/med or med/low.
@@ -372,7 +372,7 @@ from the model without turnover ($\delta_H = 33$ years).
 % ==================================================================================================
 \subsection{Experiment~2: Inferred risk heterogeneity with vs without turnover}
 \label{ss:res-infer}
-%SM: moved/edited the text re: predicted prevalance ratios to the above section as I think fits better there. In current section, best to go right into fitted results. 
+%SM: moved/edited the text re: predicted prevalance ratios to the above section as I think fits better there right after talking about shrinking prevalence ratios with turnover. In current section, best to go right into fitted results. 
 Because turnover reduced the STI prevalence ratios  between
 high and low risk groups (Figure X), 
 when fitting the STI transmission model to target prevalence values,
@@ -381,7 +381,7 @@ extent to which turnover reduced risk heterogeneity.
 After fitting the only non-fixed parameter (number of partners per year), 
 our two models (one with turnover and one without turnover) reproduced
 the target equilibrium infection prevalence values of 20\%,~8.75\%,~3\%,~and~5\%
-in the high, medium, low risk groups, and total population, respectively			%SM: please use term respectively when listing. also double check that there is symmetry (e.g. with and without turnover --> then the numbers that follow should reflect the same order).
+in the high, medium, low risk groups, and total population, respectively			%SM: suggest using term respectively when listing multiple items? also double check that there is symmetry (e.g. with and without turnover --> then the numbers that follow should reflect the same order).
 (Figure~\ref{fig:tpaf-prevalence}).
 The posterior values of the parameter (partner numbers per year) 
 meant that the ratio of partner numbers
@@ -405,28 +405,25 @@ in the model with turnover than in the model without turnover.
 \subsection{Experiment~3: Influence of turnover on the tPAF of the high risk group}
 \label{ss:res-tpaf}
 Finally, we compared the tPAF of the high risk group
-predicted by the fitted model with turnover and 
+estimated by the fitted model with turnover and 				%SM: check consistency re: estimated, projected, predicted. when referring to the tPAF. I think various terms used in paper, and all are fine so suggest choosing one for consistency.
 the fitted model without turnover 
 (Figure~\ref{fig:tpaf-fit}).
 The tPAF estimated by both models
 increased over longer and longer time horizons
-indicating that unmet prevention and treatment
+indicating that unmet prevention and treatment				%SM: why just treatment? better to allow for prevention and treatment needs?
 needs of the high risk group
 were central to epidemic persistence in both models.			%SM: not scenarios (be careful as scenarios = counterfactuals from the same model). Here we have two different models or two different modelled systems. Also, it is an increasing tPAF over time-horizons that is linked to R0/Reffective/epidemiologic drivers, not just whether or not it get close to a certain value although that is correct re: approaching 1 --> tPAF approaching 0.4 over 50  years could also be central to epidemic persistence. Given that we are not actually simulating a real STI --> 50 years does not "mean" something here, and so would couch this sentence more carefully.
 % SB: Crucial.
-The estimated tPAF of the high risk group is also higher
-in the model with turnover versus
-in the model without turnover
-over all time horizons,
-implying that models which fail to capture turnover dynamics which are present in reality
-may underestimate the tPAF of high risk groups.
-This increase in tPAF of the high risk group can be attributed to
-a higher ratio of fitted partners $C_H~/~C_L$
-in the model with turnover is higher than in the model without
-(Experiment~2).
-The increased partner ratio affords
-a higher risk of onward transmission to the high risk group
-in the model with turnover, and thus an increase in tPAF.
+The model with turnover estimated a larger tPAF at all
+time-horizons compared with the tPAF estimated by the model
+without turnover.
+%SM: said this in discussion so not sure need to also say in results. removed to make the results a bit more succinct and crisp i hope.
+% implying that models which fail to capture turnover dynamics which are present in reality
+%may underestimate the tPAF of high risk groups.
+The larger tPAF via the model with turnover
+stemmed from more risk heterogeneity (Table 2) which
+led to more onward transmission from the unmet 
+prevention and treatment needs of the high risk group.
 \begin{figure}[!tbp]
   \centering
   \includegraphics[width=0.5\linewidth]{sit-tpaf-tpaf-high-all-vs=fit.pdf}
