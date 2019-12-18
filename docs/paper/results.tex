@@ -324,6 +324,14 @@ in Figure~\ref{fig:ratio-prevalence}
 In particular, the prevalence ratio between highest and lowest risk groups
 monotonically decreased with turnover
 (Figure~\ref{fig:ratio-prevalence-high-low}).
+For example, the predicted prevalence ratio
+between high and low risk groups was:
+$\input{\datapath/values/turnover-prevalence-ratio-high-low.txt}$ from
+the model with turnover (($\delta_H = 5$)
+~vs~%
+$\input{\datapath/values/no-turnover-prevalence-ratio-high-low.txt}$ 
+from the model without turnover ($\delta_H = 33$ years).
+
 % JK: I don't talk about prevalence ratios between high/med or med/low.
 %     They're difficult to explain and I'm not sure it add anything,					
 %     especially considering we haven't discussed the medium risk group
@@ -364,33 +372,26 @@ monotonically decreased with turnover
 % ==================================================================================================
 \subsection{Experiment~2: Inferred risk heterogeneity with vs without turnover}
 \label{ss:res-infer}
-Next, we compared the fitted parameters in models with versus without turnover
-($\delta_H = 5$ vs $\delta_H = 33$ years).
-Before model fitting, the predicted prevalence ratio
-between high and low risk groups was lower with turnover versus without:
-$\input{\datapath/values/turnover-prevalence-ratio-high-low.txt}$~vs~%
-$\input{\datapath/values/no-turnover-prevalence-ratio-high-low.txt}$,
-reflecting the homogenizing effect of turnover on group-specific prevalence
-(Figure~\ref{fig:ratio-prevalence-high-low}).
-Thus, when fitting the model to target prevalence values,
-the fitted numbers of partners per year $C$ would have to compensate for
-this difference in prevalence ratio with versus without turnover.
-\par
-After fitting the number of partners per year, both models predicted
+%SM: moved/edited the text re: predicted prevalance ratios to the above section as I think fits better there. In current section, best to go right into fitted results. 
+Because turnover reduced the STI prevalence ratios  between
+high and low risk groups (Figure X), 
+when fitting the STI transmission model to target prevalence values,
+the fitted numbers of partners per year $C$ had compensate for the
+extent to which turnover reduced risk heterogeneity.
+After fitting the only non-fixed parameter (number of partners per year), 
+our two models (one with turnover and one without turnover) reproduced
 the target equilibrium infection prevalence values of 20\%,~8.75\%,~3\%,~and~5\%
-among the high, medium, low risk groups, and overall
+in the high, medium, low risk groups, and total population, respectively			%SM: please use term respectively when listing. also double check that there is symmetry (e.g. with and without turnover --> then the numbers that follow should reflect the same order).
 (Figure~\ref{fig:tpaf-prevalence}).
-However, in order to do so, the ratio of fitted partners
+The posterior values of the parameter (partner numbers per year) 
+meant that the ratio of partner numbers
 between high and low risk groups ($C_H~/~C_L$)
-was higher with turnover than without:
+had to be higher in the model with turnover compared to the model without turnover:
 $\input{\datapath/values/turnover-[fit]-C-ratio-high-low.txt}$~vs~%
 $\input{\datapath/values/no-turnover-[fit]-C-ratio-high-low.txt}$
 (Table~\ref{tab:fitting}).
 That is, the inferred level of risk heterogeneity was higher
 in the model with turnover than in the model without turnover.
-In order to observe the same prevalence ratio in a system with turnover,
-the homogenizing effect of turnover must be overcome by
-greater heterogeneity in risk, as compared to a system without turnover.
 \begin{table}
   \centering
   \caption{Equilibrium partnership formation rates and prevalence
