@@ -1,17 +1,28 @@
 \documentclass[a4]{article}
 \usepackage[margin=3cm]{geometry}
+\usepackage{graphicx}
+\graphicspath{{logo/}}
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{1em}
 \pagenumbering{gobble}
 \begin{document}
-\begin{flushright}
-Jesse Knight\\
-MAP Centre for Urban Health Solutions\\
-Li Ka Shing Knowledge Institute\\
-St Michael's Hospital\\
-Unity Health Toronto\\
-\texttt{knightje@smh.ca}\\[1em]
-\end{flushright}
+\begin{minipage}{0.5\linewidth}
+  \includegraphics[height=0.8cm]{map-cuhs.eps}\\[1em]
+  \includegraphics[height=1.2cm]{smh.eps}\\[1em]
+  \includegraphics[height=1cm]{uoft.eps}
+\end{minipage}%
+\begin{minipage}{0.5\linewidth}
+  \begin{flushright}
+    Sharmistha Mishra\\
+    MAP Centre for Urban Health Solutions\\
+    Li Ka Shing Knowledge Institute\\
+    St Michael's Hospital,
+    Unity Health Toronto\\
+    University of Toronto\\
+    \texttt{sharmistha.mishra@utoronto.ca}
+  \end{flushright}
+\end{minipage}
+\\[2em]
 Prof. Neil Ferguson \& Prof. Dr. Hans Heesterbeek\\
 Editors-in-Chief of \textit{Epidemics}\\[1em]
 % ==================================================================================================
@@ -21,11 +32,11 @@ Dear Editors,
 \par
 We are pleased to submit to you the attached manuscript entitled
 \textit{\input{../../meta/title.tex}}%
-for publication as a Regular Issue Research Paper.
+for publication as a (regular issue) research paper.
 \par
 Epidemic models of sexually transmitted infections (STI) such as HIV
 are increasingly used to help guide intervention priorities
-by quantifying the contribution of high-risk groups to overall transmission.
+by quantifying the contribution of high risk groups to overall transmission.
 However, movement of individuals between risk groups
 -- which we call ``turnover'' --
 is not often considered, and it is not clear how
@@ -42,7 +53,7 @@ including the contribution of the highest risk group to overall transmission.
 We find that this contribution could be underestimated in models without turnover
 following model fitting,
 which suggests that models without turnover may underestimate
-the importance of reaching high-risk groups with interventions.
+the importance of reaching high risk groups with interventions.
 \par
 While our study is framed around a representative STI,
 risk group turnover is applicable to a wide range of 
@@ -61,8 +72,7 @@ Geoff Garnett (Bill and Melinda Gates Foundation).
 \par
 We look forward to hearing from you about how we can share our contributions
 with the readers of \textit{Epidemics}.
-\par
+\\[2em]
 Sincerely,\\[1em]
-\rule{0.5\textwidth}{.4pt}\hfil\\
-Jesse Knight
+Sharmistha Mishra
 \end{document}
