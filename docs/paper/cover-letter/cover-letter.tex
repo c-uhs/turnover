@@ -30,49 +30,65 @@ Editors-in-Chief of \textit{Epidemics}\\[1em]
 % ==================================================================================================
 Dear Editors,
 \par
-We are pleased to submit to you the attached manuscript entitled
+We are pleased to submit the attached manuscript entitled
 \textit{\input{../title.tex}}%
-for publication as a (regular issue) research paper.
+for consideration in  \textit{Epidemics}.							%SM: I do not see instructions to say whether it is a regular issue or not in the cover letter. I think that goes into the online submission drop-downs maybe. Usually do not say regualr or not unless submitting to a special call/special issue.
 \par
-Epidemic models of sexually transmitted infections (STI) such as HIV
-are increasingly used to help guide intervention priorities
-by quantifying the contribution of high risk groups to overall transmission.
+Epidemic models of sexually transmitted infections (STI)
+are increasingly used to 
+quantify the contribution of high risk groups to overall transmission.
+Contributions are often measured from epidemic models 
+by calculating the transmission population attributable 
+fraction of unmet prevention and treatment needs of specific risk groups.
 However, movement of individuals between risk groups
--- which we call ``turnover'' --
-is not often considered, and it is not clear how
-estimates of ``contribution'' would change if turnover was considered.
-Moreover, methods to implement turnover which incorporate epidemiological data
-appear to be lacking.
+-- i.e. ``turnover'' --					%SM: i do not think we invented the term :) 
+is not often considered, despite epidemiological evidence to suggest 
+that STI risk is dynamic over an individual's sexual life course.
+Moreover, there exist various implementations of turnover without
+a unified approach of implementing turnover using epidemiological data.		
 \par
-In this paper, we present new methods to design and parameterize
-systems of turnover among risk groups in epidemic models,
-based on epidemiological data.
-We then leverage these methods to examine the influence of turnover
-on several epidemic model outputs in a representative STI,
-including the contribution of the highest risk group to overall transmission.
-We find that this contribution could be underestimated in models without turnover
-following model fitting,
-which suggests that models without turnover may underestimate
-the importance of reaching high risk groups with interventions.
+In this paper, we examined the mechanisms by which turnover could
+influence modelled estimates of the transmission population 
+attributable fraction of high risk groups. First, we developed
+a new, unified framework to design and parameterize
+systems of turnover among risk groups in epidemic models when
+guided by epidemiological data. We then 
+used the new framework in an illustrative, risk-stratified model of an STI
+and identified for the first time: (a) that fitted models without turnover underestimate
+the contribution of high risk groups to overall transmission; and (b) 
+the underestimate stems from inferred 
+risk heterogeneity in the presence/absence of turnover which in turn is mediated by
+three phenomena that shift with varying turnover rates: herd immunity 
+in the highest risk group, influx of infectious individuals into the low risk group,
+and changes in number of partnerships where transmission can occur.
+
 \par
-While our study is framed around a representative STI,
+To our knowledge, this is the first study to examine and thus generate new insights 
+into the influence of turnover
+on the transmission population attributable fraction of high risk groups; and the first
+to detail the mechanisms underlying the relationship. The findings have important
+implications for projecting not only the contribution of high risk groups to overall transmission 
+but also when projecting the potential transmission impact of interventions priortiized to high risk groups.
+
+\par
+While our study is framed around an illustrative STI,
 risk group turnover is applicable to a wide range of 
-epidemic contexts, infections, and hosts.
-We therefore aimed to reach a broad audience in the readers of \textit{Epidemics},
-who we expect will benefit from the proposed framework for parameterizing turnover,
-and our mechanistic insights as to the influence of turnover on epidemic model outputs.
+epidemic contexts, infections, and hosts. 
+We therefore believe the new framework for parameterizing turnover, 
+the findings, and the mechanistic insights will be of interest to the broad readership of
+ \textit{Epidemics},
+
+
+%Researchers who we think would provide excellent review of this work include:
+%James S. Koopman (University of Michigan); 
+%Michael Pickles (University of Manitoba);
+%Marie-Claude Boily (Imperial College London); 
+%Jeffrey Eaton (Imperial College London);
+%Hein Stigum (Norwegian Institute of Public Health); and
+%Geoff Garnett (Bill and Melinda Gates Foundation).
 \par
-Researchers who we think would provide excellent review of this work include:
-James S. Koopman (University of Michigan);
-Michael Pickles (University of Manitoba);
-Marie-Claude Boily (Imperial College London);
-Jeffrey Eaton (Imperial College London);
-Hein Stigum (Norwegian Institute of Public Health); and
-Geoff Garnett (Bill and Melinda Gates Foundation).
-\par
-We look forward to hearing from you about how we can share our contributions
-with the readers of \textit{Epidemics}.
+Thank you for your consideration and we look forward to hearing from you.
 \\[2em]
 Sincerely,\\[1em]
-Sharmistha Mishra
+Sharmistha Mishra and Jesse Knight, on behalf of co-authors
 \end{document}
