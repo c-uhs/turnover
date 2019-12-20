@@ -1,20 +1,25 @@
-\documentclass[border=1pt,varwidth]{standalone}
-\renewcommand{\familydefault}{\sfdefault}
+%\PassOptionsToClass{varwidth}{standalone}
+\input{../config.tex}
 \usepackage{graphicx,tikz}
 \usetikzlibrary{arrows.meta}
-\graphicspath{{../../paper/sit/figs/flows/}}
-\definecolor{C1}{HTML}{224466}
+\graphicspath{{../../paper/sit/figs/flows/}{../flows/}}
 \begin{document}
-  \centering
-  \includegraphics[width=1.00\linewidth]{flows-legend.pdf}\\
-  \includegraphics[width=0.25\linewidth]{flows-low.pdf}%
-  \includegraphics[width=0.25\linewidth]{flows-med.pdf}%
-  \includegraphics[width=0.25\linewidth]{flows-high.pdf}%
-  \includegraphics[width=0.25\linewidth]{flows-extreme.pdf}\\[6pt]
-  \resizebox{\linewidth}{!}{
-  \begin{tikzpicture}
-    \node(low) at (0,0) {Low Turnover};
-    \node(high) at (8,0) {High Turnover};
-    \draw[<->, thick, > = latex, draw=C1!50!white] (low) -- (high);
-  \end{tikzpicture}}
+  \begin{minipage}[t]{1cm}\vspace{0pt}
+    \includegraphics[width=\linewidth]{flows-labels.pdf}%
+  \end{minipage}%
+  \begin{minipage}[t]{8cm}\vspace{0pt}
+    \includegraphics[width=0.25\linewidth]{flows-none.pdf}%
+    \includegraphics[width=0.25\linewidth]{flows-low.pdf}%
+    \includegraphics[width=0.25\linewidth]{flows-high.pdf}%
+    \includegraphics[width=0.25\linewidth]{flows-extr.pdf}\\[6pt]
+    \resizebox{\linewidth}{!}{
+    \begin{tikzpicture}
+      \node(low) at (0,0) {No Turnover};
+      \node(high) at (8,0) {High Turnover};
+      \draw[<->, thick, > = latex, draw=C1!50!white] (low) -- (high);
+    \end{tikzpicture}}
+  \end{minipage}%
+  \begin{minipage}[t]{2.6cm}\vspace{1.1cm}
+    \includegraphics[width=\linewidth]{flows-legend-v.pdf}
+  \end{minipage}
 \end{document}
