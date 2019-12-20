@@ -55,15 +55,17 @@ def make_tikz(label,phi):
   os.system('cd {} && pdflatex flows.tex >/dev/null && cp flows.pdf {}/{}'.format(
     tikzdir, flowdir, 'flows-{}.pdf'.format(label) ))
 
-def make_legend(sim):
+def make_legend(sim,d='h'):
   xy = [np.nan*np.ones((3,))]*2
-  plt.figure(figsize=(4.5,0.6))
+  fs = {'h':(4.5,0.6), 'v':(1.6,1.0)}
+  nc = {'h': 3, 'v': 1}
+  plt.figure(figsize=fs[d])
   for name,light in zip(names,lights):
     select = sim.model.select[name]
     plt.fill_between(*xy,label='$\\textrm{'+select.label+'}$',color=select.color.lighten(light))
-  h = plt.legend(ncol=3)
+  plt.legend(ncol=nc[d])
   plt.axis('off')
-  plt.savefig(os.path.join(config.path['figs'],'flows','flows-legend.pdf'))
+  plt.savefig(os.path.join(config.path['figs'],'flows','flows-legend-{}.pdf'.format(d)))
 
 def run_sims():
   phis = list(sensitivity.iter_phi())
