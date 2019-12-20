@@ -17,6 +17,7 @@ path = {
   'tikz':      os.path.join(root,'outputs','tikz'),
   'specs':     os.path.join(root,'code','main','specs'),
   'model':     os.path.join(root,'code','main'),
+  'paper':     os.path.join(root,'docs','paper'),
 }
 
 def epimodel():
