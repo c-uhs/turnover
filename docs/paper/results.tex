@@ -1,184 +1,220 @@
+% --------------------------------------------------------------------------------------------------
 \subsection{Experiment~1: Mechanisms by which turnover influences equilibrium prevalence}
 \label{ss:res-prevalence}
-Figure~\ref{fig:prevalence} shows the trends in equilibrium STI prevalence  			
-among the high, medium, low, risk groups, at different rates of turnover which 		%SM: suggest refer to Figure panels in text ".... the high (Figure 4a), medium (Figure 4b), ... etc. 
-are depicted on the x-axis as
-duration of time spent in the high risk group.
-First, Figure~\ref{fig:prevalence} reveals an inverted U-shaped relationship
+Figure~\ref{fig:prevalence} shows the trends in equilibrium STI prevalence among the
+high~(\subref{fig:prevalence-high}),
+medium~(\subref{fig:prevalence-med}), and
+low~(\subref{fig:prevalence-low})
+risk groups, at different rates of turnover
+which are depicted on the x-axis,
+based on duration of time spent in the high risk group.
+Figure~\ref{fig:prevalence} reveals an inverted U-shaped relationship
 between STI prevalence and turnover in all three risk groups.
-That is, equilibrium STI prevalence is higher in systems with slow turnover 
-versus those with no turnover 
-(region~A in Figure~\ref{fig:prevalence} ). Equilibrium STI prevalence then peaked						%SM: when talking about Region in the text, must refer to the figure.
-at slightly faster turnover before declining in systems with even faster turnover 
-(region~B in Figure~\ref{fig:prevalence} ).
-Second, comparison of group-specific prevalence in Figure~\ref{fig:prevalence} shows that
-the threshold turnover rate at which group-specific prevalence peaked
-varied by risk group.
-Prevalence in the high risk group peaked at the lower turnover threshold
+That is, equilibrium STI prevalence was higher in systems with slow turnover
+versus those with no turnover
+(Figure~\ref{fig:prevalence}, region~A).
+Equilibrium STI prevalence then peaked at slightly faster turnover
+before declining in systems with even faster turnover
+(region~B in Figure~\ref{fig:prevalence}).
+Comparison of group-specific prevalence in Figure~\ref{fig:prevalence} shows that
+the threshold turnover rate at which group-specific prevalence peaked varied by risk group:
+prevalence in the high risk group peaked at the lower turnover threshold
 (Figure~\ref{fig:prevalence-high}),
-while prevalence in low risk group peaked at a higher turnover threshold								
+while prevalence in low risk group peaked at a higher turnover threshold
 (Figure~\ref{fig:prevalence-low}).
-
-%SM: Figure 4 and Figure 5. (and appendix figures). suggest could make it more clear that 0.03 = no turnover in the caption. Figures should be stand-alone and 'no turnover' is not clear at all when reading those figures without the main text. 
-%SM: Figure 7. Avoid asking reader (esp in the main text figures) to look at another figure (Figure 3) for the x-axis definition. Violates principe of stand-alone figures. Sometimes we have to do this (e.g. when pointing to an appendix, etc.) but in general - i think it will frustrate the reader to go back and forth to understand a figure on its own.
-
-To explain the inverted U-shape and different turnover thresholds by group,							%SM: good. could follow this :). 
+To explain the inverted U-shape and different turnover thresholds by group,
 we examined the components contributing to prevalence,
 first in the high risk group, and then in the low risk group.
 \begin{figure}
-\begin{minipage}[t]{0.475\linewidth}
-  \centering
-  \begin{subfigure}{0.85\linewidth}
-    \centering
+  % JK: @SM: FYI this horizontal positioning is temporary
+  %     I agree it is more intuitive to read vertically as we discussed,
+  %     but for now that vertical layout is causing funny LaTeX spacing
+  \begingroup\centering
+  \begin{subfigure}{0.33\linewidth}
     \includegraphics[width=\linewidth]{{1d-prevalence-high-tau=0.1}.pdf}
     \caption{High risk}
     \label{fig:prevalence-high}
-  \end{subfigure}\\
-  \begin{subfigure}{0.85\linewidth}
-    \centering
+  \end{subfigure}%\\
+  \begin{subfigure}{0.33\linewidth}
     \includegraphics[width=\linewidth]{{1d-prevalence-med-tau=0.1}.pdf}
     \caption{Medium risk}
     \label{fig:prevalence-med}
-  \end{subfigure}\\
-  \begin{subfigure}{0.85\linewidth}
-    \centering
+  \end{subfigure}%\\
+  \begin{subfigure}{0.33\linewidth}
     \includegraphics[width=\linewidth]{{1d-prevalence-low-tau=0.1}.pdf}
     \caption{Low risk}
     \label{fig:prevalence-low}
-  \end{subfigure}
+  \end{subfigure}\\
+  \endgroup
   \caption{Relationship between equilibrium STI prevalence
     in high, medium, and low risk groups versus turnover rate.
     Regions A~and~B denote where equilibrium prevalence is increasing and decreasing
-    with different rates of turnover, respectively.
-    See Figure~\ref{fig:dur-group} for x-axis definition.}
+    with different rates of turnover, respectively.}
   \label{fig:prevalence}
-\end{minipage}\hspace{0.05\linewidth}%
-\begin{minipage}[t]{0.475\linewidth}
-  \centering
-  \begin{subfigure}{0.85\linewidth}
-    \centering
+  \footnotesize\input{x-axis.tex}
+\end{figure}
+\begin{figure}
+  \begingroup\centering
+  \begin{subfigure}{0.33\linewidth}
+    \includegraphics[width=\linewidth]{dX-abs-basic-high-S.pdf}
+    \caption{High risk susceptible}
+    \label{fig:dX-high-S}
+  \end{subfigure}%
+  \begin{subfigure}{0.33\linewidth}
     \includegraphics[width=\linewidth]{dX-abs-basic-high-I.pdf}
-    \caption{High risk}
-    \label{fig:dX-I-high}
+    \caption{High risk infectious}
+    \label{fig:dX-high-I}
+  \end{subfigure}%
+  \begin{subfigure}{0.33\linewidth}
+    \includegraphics[width=\linewidth]{dX-abs-basic-high-T.pdf}
+    \caption{High risk treated}
+    \label{fig:dX-high-T}
   \end{subfigure}\\
-  \begin{subfigure}{0.85\linewidth}
-    \centering
-    \includegraphics[width=\linewidth]{dX-abs-basic-med-I.pdf}
-    \caption{Medium risk}
-    \label{fig:dX-I-med}
-  \end{subfigure}\\
-  \begin{subfigure}{0.85\linewidth}
-    \centering
+  \begin{subfigure}{0.33\linewidth}
+    \includegraphics[width=\linewidth]{dX-abs-basic-low-S.pdf}
+    \caption{Low risk susceptible}
+    \label{fig:dX-low-S}
+  \end{subfigure}%
+  \begin{subfigure}{0.33\linewidth}
     \includegraphics[width=\linewidth]{dX-abs-basic-low-I.pdf}
-    \caption{Low risk}
-    \label{fig:dX-I-low}
+    \caption{Low risk infectious}
+    \label{fig:dX-low-I}
+  \end{subfigure}%
+  \begin{subfigure}{0.33\linewidth}
+    \includegraphics[width=\linewidth]{dX-abs-basic-low-T.pdf}
+    \caption{Low risk treated}
+    \label{fig:dX-low-T}
   \end{subfigure}\\
+  \endgroup
   \caption{Absolute rates of change at equilibrium
     (number of individuals gained/lost per year)
-    among infectious individuals in each risk group,
-    broken down by type of change:
-    loss/gain via turnover, % ($+ \sum_j \phi_{ji} \mathcal{I}_j - \sum_j \phi_{ij} \mathcal{I}_i$),
-    gain via incident infections, % ($+ \lambda_i \mathcal{S}_i$),
-    loss via treatment, % ($- \tau \mathcal{I}_i$),
-    loss via death, % ($- \mu \mathcal{I}_i$),
-    and net change.
-    Based on Eq.~(\ref{eq:model-I}).
-    Rates of change do not sum to zero due to population growth.
-    See Figure~\ref{fig:dur-group} for x-axis definition.}
-  \label{fig:dX-I}
-\end{minipage}
+    among individuals in each health state and risk group, due to:
+    loss/gain via turnover (yellow), and
+    loss/gain via incident infections (red).
+    Based on Eq.~(\ref{eq:model}).
+    See Figure~\ref{fig:dX-app} for all derivative components.}
+  \label{fig:dX}
+  \footnotesize\input{x-axis.tex}
 \end{figure}
 \begin{figure}[!tbp]
-  \centering
-  \includegraphics[width=0.6\linewidth]{flows-legend.pdf}\\
+  \begingroup\centering
+  \includegraphics[width=0.6\linewidth]{flows-legend-h.pdf}\\
   \includegraphics[width=0.11\linewidth]{flows-labels.pdf}
   \begin{subfigure}[t]{0.22\linewidth}
-    \centering
     \includegraphics[width=\linewidth]{flows-none.pdf}
     \caption{No turnover}
-    \footnotesize $\delta_H^{-1} = \input{\datapath/flows/none/phi.tex}$
+    \centering\footnotesize $\delta_H^{-1} = \input{\datapath/flows/none/phi.tex}$
     \label{fig:flows-none}
   \end{subfigure}%
   \begin{subfigure}[t]{0.22\linewidth}
-    \centering
     \includegraphics[width=\linewidth]{flows-low.pdf}
     \caption{Slow turnover}
-    \footnotesize $\delta_H^{-1} = \input{\datapath/flows/low/phi.tex}$
+    \centering\footnotesize $\delta_H^{-1} = \input{\datapath/flows/low/phi.tex}$
     \label{fig:flows-low}
   \end{subfigure}%
   \begin{subfigure}[t]{0.22\linewidth}
-    \centering
     \includegraphics[width=\linewidth]{flows-high.pdf}
     \caption{Fast turnover}
-    \footnotesize $\delta_H^{-1} = \input{\datapath/flows/high/phi.tex}$
+    \centering\footnotesize $\delta_H^{-1} = \input{\datapath/flows/high/phi.tex}$
     \label{fig:flows-high}
   \end{subfigure}%
   \begin{subfigure}[t]{0.22\linewidth}
-    \centering
     \includegraphics[width=\linewidth]{flows-extr.pdf}
     \caption{Very fast turnover}
-    \footnotesize $\delta_H^{-1} = \input{\datapath/flows/extr/phi.tex}$
+    \centering\footnotesize $\delta_H^{-1} = \input{\datapath/flows/extr/phi.tex}$
     \label{fig:flows-extr}
   \end{subfigure}\\[0.5em]
   $\null\hspace{0.11\linewidth}
   \underbrace{\hspace{0.44\linewidth}}_{\textrm{Region~A}}
   \underbrace{\hspace{0.44\linewidth}}_{\textrm{Region~B}}$
-  \caption{Depiction of health states of individuals in each risk group		
+  \endgroup
+  \caption{Depiction of health states of individuals in each risk group
     and of individuals moving between risk groups,
     obtained from models at equilibrium
-    under four overall rates of turnover.
-    Circle sizes are proportional to risk group sizes.
-    Circle slices and arrow widths are also proportional to
-    the proportion of health states within risk groups and
-    among individuals moving between risk groups, respectively.
-    However, circle sizes and arrow widths do not have comparable scales.}	%SM: tell reader that Appendix Figure 7 provides the numerical support for the proportions, etc.
+    under four overall rates of turnover.}
+  \footnotesize
+  Circle sizes are proportional to risk group sizes.
+  Circle slices and arrow widths are also proportional to
+  the proportion of health states within risk groups and
+  among individuals moving between risk groups, respectively.
+  However, circle sizes and arrow widths do not have comparable scales.
+  Appendix Figure~\ref{fig:1d-health} illustrates
+  proportions of health states versus turnover in full.
   \label{fig:flows}
 \end{figure}
-
 \par
-Figure~\ref{fig:dX-I} shows the four components which contributed to 
-gain/loss of infectious individuals in each risk group:
-1)~net gain/loss via turnover,
-2)~gain via incident infections,
-3)~loss via treatment, and
-4)~loss via death,
-for each risk group in the model,
+Figure~\ref{fig:dX} shows the yearly
+gain/loss of individuals via turnover, and
+gain/loss via incident infections,
+in each health state and risk group,
 at equilibrium under different rates of turnover.
 Figure~\ref{fig:flows} also illustrates
 the distribution of health states in each risk group
 and among individuals moving between risk groups
 under four different rates of turnover.
 % --------------------------------------------------------------------------------------------------
-\subsubsection{Influence of turnover on equilibrium prevalence in the high risk group}		%SM: becuase there are so many figures, i think will have to refer to the figure in almost every sentence. Before sending me the penulitmate version, please read out loud and check if any sentences seem unclear as to which figure they are referring to, etc.
+\subsubsection{Influence of turnover on equilibrium prevalence in the high risk group}
 \label{sss:res-prev-high}
-As shown in Figure~\ref{fig:flows} at all four rates of turnover,
-the proportion of individuals 
-who were in the infectious state was largest in the high risk group. 
-As infectious individuals left
-the high risk group via turnover, they were largely 
-replaced by susceptible individuals from lower risk groups (Figure C.7b). 			%SM: refer here to Figure 7b in Appendix so that the "numbers" can be corroborated.
-For example, in the context of slow turnover (Figure 6b, Figure C.7b), 			%SM for each statement --> give clear example with numbers to support the statement.
-X percent of individuals in the high risk group were in the infectious state,
-and the absolute rate of change of the infectious state 
-attributable to turnover was -XX (Figure C.7b) while the
-absolute rate of change in the susceptible state attributable to 
-turnover was +XX (Figure C.7a). The pattern of net loss of 
-infectious individuals in the high risk group via turnover
-persisted across the range of turnover rates (Figure~\ref{fig:dX-I-high}, yellow).			%SM: and Figure 7b?
-This net loss of infectious individuals via turnover 
-reduced STI prevalence within the high risk group (Figure XXX). 					%SM: insert right figure call out
-At the same time, 
-there was a net increase in susceptible individuals flowing into the high risk group
-(Figure~\ref{fig:flows}) - the consequence of which was reduced protective herd effects
-leading to a rise in incident infections among those at high risk when systems moved from 
-no turnover to slow turnover (Figure~\ref{fig:dX-I-high}, red).
-A third phenomena further mediated incidence reductions as systems
-moved from no turnover to higher rates of turnover: 
+As shown in Figure~\ref{fig:flows}, at all four rates of turnover
+the proportion of individuals who were in the infectious state (STI prevalence)
+was largest in the high risk group.
+As infectious individuals left the high risk group via turnover,
+they were largely replaced by susceptible individuals from lower risk groups
+(Figure~\ref{fig:flows-low} and
+Figures~\ref{fig:dX-high-S}~vs~\ref{fig:dX-high-I}, yellow).
+% SM: for each statement --> give clear example with numbers to support the statement.
+% JK: @SM I think maybe this was more needed when Figure dX was not very clear / helpful.
+%     I've revised the figure and I think now the examples are not needed
+%     and they feel distracting to me on re-read, since there is so much detail here already.
+%     What do you think?
+%     I leave the content here commented if we want to revive.
+% For example, in the context of slow turnover
+% ($\delta_H^{-1} = \input{\datapath/flows/low/phi.tex}$),
+% infection prevalence in the high risk group was 25\%,
+% and the rate of change in the infectious state
+% attributable to turnover was
+% $\input{\datapath/values/dX/dX-high-I-Turnover-phi=0.062.txt}$ individuals per year
+% (Figure~\ref{fig:dX-high-I})
+% while the
+% rate of change in the susceptible state attributable to turnover was
+% $\input{\datapath/values/dX/dX-high-S-Turnover-phi=0.062.txt}$ individuals per year
+% (Figure~\ref{fig:dX-high-S}).
+The pattern of net outflow of infectious individuals
+% JK: FYI changed throughout:
+%     - "removal" & "loss" -> "outflow"
+%     - "influx" -> "inflow" for consistency
+from the high risk group via turnover
+persisted across the range of turnover rates
+(Figure~\ref{fig:dX-high-I}, yellow).
+This net outflow of infectious individuals via turnover
+acted to reduce STI prevalence in the high risk group
+% JK: @SM How do you feel about numbering the phenomena like this?
+%     I'm not sure, but think it can help a bit
+(phenomenon~1).
+% JK: originally this was "reduced STI prevalence" (Figure ...)
+%     rather than "acted to reduce STI prevalence".
+%     I think the distinction is important, as it is only one of the three factors,
+%     so we cannot see the effect on prevalence directly without confounding by the other factors,
+%     hence, I think it doesn't make sense to reference Figure 4a here yet.
+%     Does that make sense?
+Treated individuals were similarly replaced largely by susceptible individuals
+(Figure~\ref{fig:flows-low} and
+Figures~\ref{fig:dX-high-S}~vs~\ref{fig:dX-high-T}, yellow).
+The net replacement of both infectious and treated individuals with susceptible individuals
+in the high risk group acted to reduce herd immunity in that group.
+% JK: I changed from herd effect to herd immunity throughout
+%     since I think the term is more recognizable, and also more specific
+%     (e.g. I googled "herd effect", and the 1st result was about herd behaviour)
+Reduced herd immunity then contributed to a rise in
+the number of incident infections in the high risk group,
+as the system moved from no turnover to slow turnover
+(Figure~\ref{fig:dX-high-I}, red; phenomenon~2).
+Incidence was further influenced by a third phenomenon
+as systems moved from no turnover to higher rates of turnover:
 the net movement of infectious individuals
-from high to low risk (Figure~\ref{fig:flows}) reduced
-the average number of partners per year on offer or available among 
-individuals in the infectious state
-(Figure~\ref{fig:C-I}). 
+from high to low risk (Figure~\ref{fig:flows-low})
+reduced the average number of partners per year made available by
+individuals in the infectious state (Figure~\ref{fig:C-I}).
 As shown in Appendix~\ref{aa:eqs-incidence},
 modelled incidence in all risk groups was proportional to
 the average number of partners per year among infectious individuals
@@ -187,204 +223,214 @@ and overall prevalence
 (Figure~\ref{fig:prevalence-all}).
 Thus, as the average number of partners per year among infectious individuals
 fell with faster turnover, incidence decreased
-(Figure~\ref{fig:incidence-all}).
-
-
+(Figure~\ref{fig:incidence-all}, region~B; phenomenon~3).
 \par
 Therefore, the inverted U-shaped relationship between turnover rate
-and equilibrium STI prevalence within the high risk group was mediated
-by the above three phenomena acting in concert. When systems moved 
-from no turnover to 
-slow turnover, reduction in herd effects predominated leading to increasing
-equilbrium prevalence in the presence of some turnover 
-(region~A of Figure~\ref{fig:prevalence-high}).
+and equilibrium STI prevalence in the high risk group was mediated
+by the combination of the above three phenomena.
+When systems moved from no turnover to slow turnover,
+reduction in herd immunity (phenomenon~2) predominated,
+leading to increasing equilibrium prevalence with turnover
+(Figure~\ref{fig:prevalence-high}, region~A).
 When systems were modelled under faster and faster turnover,
-removal of infectious individuals via turnover and changes in the characteristic of the 
-sexual network (i.e. reduction in average number of partners per year among infectious individuals) 
-predominated, leading to lower equlibrium prevalence
-at faster rates of turnover (Figure~\ref{fig:prevalence-high}, region~B).
-Accordingly, the inverted U-shaped relationship between turnover rate and equlibrium incidence 
-followed a similar pattern within all three groups. 
-
-% SM: did not understand the complex sentence below (sentence starting with "Moreover"). Not sure how it flowed nor what the main point was. suggest rephrase for clarity (?mutally enforcing exponential decline = wordy and unclear and makes reader feel dumb :) or remove or use suggested edits (but not sure if that is what you meant) = in sentence above.
-%Moreover, as equilibrium incidence decreased across all groups
-%with faster turnover for the same reason,
-%equilibrium prevalence then decreased, which in turn reduced incidence,
-%and so on in a mutually reinforcing exponential decline
-(Figure~\ref{fig:prevalence}, region~B).
+outflow of infectious individuals from the group via turnover (phenomenon~1) and
+reduction in the average number of partners per year among infectious individuals (phenomenon~3)
+% JK: we originally had:
+%     "changes in the characteristic of the sexual network
+%     (i.e. reduction in average number of partners per year among infectious individuals)"
+%     but I find "characteristics of the sexual network" to be a bit vague,
+%     and if we specify what we mean immediately after,
+%     I think we might as well skip the first part?
+predominated, leading to lower equilibrium prevalence at faster rates of turnover
+(Figure~\ref{fig:prevalence-high}, region~B).
+% JK: I removed the sentence below as we say that these experiments aim to explain
+%     group-specific prevalence only, not incidence (for more specific focus & scope).
+%     The influence on incidence is briefly described in the last sentence of the
+%     paragraph just before this one, and I think distracting to circle back to it here
+% Accordingly, the inverted U-shaped relationship between turnover rate and equilibrium incidence
+% followed a similar pattern within all three groups.
+% SM: did not understand the complex sentence below (sentence starting with "Moreover").
+%     Not sure how it flowed nor what the main point was. suggest rephrase for clarity
+%     (?mutally enforcing exponential decline = wordy and unclear and makes reader feel dumb :)
+%     or remove or use suggested edits (but not sure if that is what you meant) = in sentence above.
+% JK: We can just remove it.
+%     There is a knock-on / snowball / mutually-reinforcing decline in incidence and prevalence:
+%     Prevalence among high risk initially declines due to dominance of the 2 factors above,
+%     but as a result we have fewer partnerships made available by infectious individuals,
+%     so incidence among all groups then declines as a result,
+%     which yields fewer infectious individuals, and lower prevalence ...
+%     It's kind of circular logic, and not the original driving phenomena
+%     so I'm fine to leave it out.
 \begin{figure}
-  \centering
-  \begin{subfigure}[t]{0.32\linewidth}
-    \centering
+  \begingroup\centering
+  \begin{subfigure}[t]{0.33\linewidth}
     \includegraphics[width=\linewidth]{{1d-C-I-tau=0.1}.pdf}
     \caption{Average number of partners per year among infectious individuals}
     \label{fig:C-I}
   \end{subfigure}%
-  \begin{subfigure}[t]{0.32\linewidth}
-    \centering
+  \begin{subfigure}[t]{0.33\linewidth}
     \includegraphics[width=\linewidth]{{1d-prevalence-all-tau=0.1}.pdf}
     \caption{Overall prevalence}
     \label{fig:prevalence-all}
   \end{subfigure}%
-  \begin{subfigure}[t]{0.32\linewidth}
-    \centering
+  \begin{subfigure}[t]{0.33\linewidth}
     \includegraphics[width=\linewidth]{{1d-incidence-all-tau=0.1}.pdf}
     \caption{Overall incidence}
     \label{fig:incidence-all}
   \end{subfigure}%
+  \\\endgroup
   \caption{Overall incidence and the non-constant factors of incidence versus turnover.
     The product of factors (\subref{fig:C-I}) and (\subref{fig:prevalence-all})
     is proportional to (\subref{fig:incidence-all}) overall incidence.
-    See Appendix~\ref{aa:eqs-incidence} for proof.
-    See Figure~\ref{fig:dur-group} for x-axis definition.}
+    See Appendix~\ref{aa:eqs-incidence} for proof.}
   \label{fig:incidence-factors}
+  \footnotesize\input{x-axis.tex}
 \end{figure}
 % --------------------------------------------------------------------------------------------------
 \subsubsection{Influence of turnover on equilibrium prevalence in the low risk group}
 \label{sss:res-prev-low}
 As shown in Figure~\ref{fig:flows}, at equilibrium, the low risk group was
-composed mainly of susceptible individuals (e.g. X percent susceptible at slow turnover, Figure 5 and Figure C.7g).
-Moving from a system without turnover to one 
-with slow
-turnover lead to a net influx of 
-infectious (Figure Appendix C.7i) and treated (Figure C.7h) individuals and net removal of		%SM: Appendix Figure C.7 currently hides the curves with the legend. Grey and black a bit hard to differentiate; and same with red and pink. might make it harder on the reader. consider using dashed lines to differeniate similar colors, etc.
-susceptible individuals (Figure C.7g). 		%SM: it is hard to see the decline in appendix figure C.7
-The net influx of infectious individuals led to
-higher equilibrium prevalence in the low risk group when the system
-moved from no turnover to slow turnover
-(Figure~\ref{fig:dX-I-low}, yellow).
-
-%The net influx of treated individuals
-%contributed to a small increase in herd immunity,
-%but the herd immunity effect in the low risk group
-%remained negligible due to
-%the small proportion of treated relative to susceptible individuals. %SM: removed this sentence. I don't follow the logic. proportion "not susceptible" leads to herd effect. so the "due to..." part does not make sense to me the way currently written. If confusing me, may confuse others? So leave out as the statement also would require more 'evidence (i.e. show don't tell)' before it can be included as an explanation.
-
-At the same time, incident
-infections rose in the low risk group 
-(Figure~\ref{fig:dX-I-low}, red) as the system moved from 
-no turnover to slow turnover -
-due to higher incidence in the total population (Figure~\ref{fig:incidence-all}) 
-which was largely driven by  
-reduced herd effects in the high risk group
-(see Section~\ref{sss:res-prev-high}).
-
-Thus, there were two phenomena working in concert
-to increase equilibrium STI prevalence in the low risk group
-at slow rates of turnover (Figure~\ref{fig:prevalence-low}, region~A).
-\par
-As systems moved to even faster turnover,
-incident infections declined in 
-the low risk group
-(Figure~\ref{fig:dX-I-low}, red),		%SM: also refer to region B here?
+composed mainly of susceptible individuals.
+Moving from a system no turnover to one with slow turnover
+lead to a net inflow of infectious and treated individuals
+(Figures~\ref{fig:dX-low-I}~and~\ref{fig:dX-low-T}, yellow),
+and a net removal of susceptible individuals
+(Figure~\ref{fig:dX-low-S}, yellow).
+% SM: Appendix Figure C.7 currently hides the curves with the legend.
+%     Grey and black a bit hard to differentiate; and same with red and pink.
+%     might make it harder on the reader.
+%     consider using dashed lines to differeniate similar colors, etc.
+% JK: I prefer consistent line types, but I increased the color contrast
+%     and popped the legend out in the Appendix version.
+The net inflow of infectious individuals
+(Figure~\ref{fig:dX-low-I}, yellow) contributed to
+% JK: same thing with "led" to vs "contributed to" here
+%     re. three factors all contributing to the overall observed pattern
+higher equilibrium prevalence in the low risk group
+when the system moved from no turnover to slow turnover
+(phenomenon~1).
+The inflow of infectious and treated individuals
+only slightly reduced the already large proportion who were susceptible
+in the low risk group.
+Thus, there was little increase in herd immunity within the low risk group
+as turnover increased
+(phenomenon~2).
+However, incident infections still rose in the low risk group
+as the system moved from no turnover to slow turnover
+(Figure~\ref{fig:dX-low-I}, red)
+due to higher incidence in the total population (Figure~\ref{fig:incidence-all})
+which was largely driven by
+reduced herd immunity in the high risk group
+(see Section~\ref{sss:res-prev-high}; phenomenon~2).
+Under faster rates of turnover,
+incident infections declined in the low risk group
+(Figure~\ref{fig:dX-low-I}, red)
 due to lower incidence in the total population
-(Figure~\ref{fig:incidence-all}) 
-which was driven by 
+(Figure~\ref{fig:incidence-all})
+which was driven by
 decreasing number of partners per year among infectious individuals
-(Figure~\ref{fig:C-I}).
-The decline in incident infections in the low
-risk group predominated over the influx
-of infectious individuals from the medium and high risk groups
-and equilibrium prevalence decreased in the low risk group when 
-the system moved from slow to fast and very fast turnover
-(Figure~\ref{fig:prevalence-low}, region~B).  %SM: and Figure 6 and Figure C.7 g,h,i?
-
-Thus, there were three phenomena that
-drove shifts in equilibrium prevalence in the low risk group 
-at variable rates of turnover: changes in herd effects especially within the high risk group;
-changes in characteristics of the sexual network; and influx of infectious individuals 
-into the low risk group.
-
+(Figure~\ref{fig:C-I}; phenomenon~3),
+as described in Section~\ref{sss:res-prev-high}.
+\par
+Therefore, as in the high risk group,
+the inverted U-shaped relationship between turnover rate
+and equilibrium STI prevalence in the low risk group was mediated
+by the combination of the above three phenomena.
+Moving from no turnover to slow turnover,
+the net inflow of infectious individuals (phenomenon~1)
+and reduced herd immunity in the high risk group (phenomenon~2)
+predominated, leading to higher equilibrium prevalence
+(Figure~\ref{fig:prevalence-low}, region~A).
+At higher rates of turnover,
+a decreasing overall incidence due to
+a reduction in the number of partners among infectious individuals (phenomenon~3)
+predominated, leading to declining equilibrium prevalence
+(Figure~\ref{fig:prevalence-low}, region~B).
+\par
+In sum, there were three phenomena that
+drove shifts in equilibrium STI prevalence across risk groups
+at variable rates of turnover:
+1)~net flows of infectious individuals from high risk groups into low risk groups;
+2)~changes to herd immunity, especially within the high risk group; and
+3)~changes to the number of partnerships available with infectious individuals.
 % --------------------------------------------------------------------------------------------------
-\subsubsection{ Influence of turnover on ratio of STI prevalence ratio between high and low risk groups}
-% JK: not really sure if this is the best title for this section.
-As shown in Figure~\ref{fig:dX-I} (yellow lines), turnover created
-a net loss of infectious individuals from the high risk group and
-a net gain of infectious individuals in the low risk group.
+\subsubsection{Influence of turnover on STI prevalence ratio between high and low risk groups}
+% JK: I ended up rewriting some of this section, to clarify the logic
+%     and remove the part about which peak happened first and comparing the slopes.
+As discussed in Sections~\ref{sss:res-prev-high}~and~\ref{sss:res-prev-low},
+turnover caused
+a net outflow of infectious individuals from the high risk group
+(Figure~\ref{fig:dX-high-I}, yellow) and
+a net inflow of infectious individuals into the low risk group
+(Figure~\ref{fig:dX-low-I}, yellow).
 In contrast, the influence of turnover on
-the rate of incident infections followed a similar pattern			
-in the high and low risk groups (Figure~\ref{fig:dX-I}, red).
-
-As discussed above (specify where), as a system moves from
-no turnover to faster turnover,
-equilibrium prevalence
-in the high risk group peaks and starts to fall while
-equilibrium prevalence in the low risk group is still increasing (Figure 4a-c).
-Even when equilibrium prevalence in the low risk group 
-starts to fall at very fast turnover, it declines slower than
-prevalence decline in the high risk group (Figure 4-c, region B).				%SM: correct? it looks like that from Figure 4a and 4c, but please confirm correct.
-Thus, the ratio of equilibrium prevalence in the high risk
-and low risk come closer to each other with 
-faster turnover leading to a ``homogenizing effect'' of 
-turnover on group-specific prevalence.% SM: I am ok with using term 'homogenizing' maybe once here, but perhaps not in discussion... really worried about how it might be stigmatizing if misunderstood...
-That is, faster turnover minimizes risk heterogeneity as 
-shown via the relationship between turnover and 
-between-group STI prevalence ratios 
-in Figure~\ref{fig:ratio-prevalence}
-In particular, the prevalence ratio between highest and lowest risk groups
-monotonically decreased with turnover
-(Figure~\ref{fig:ratio-prevalence-high-low}).
-For example, the predicted prevalence ratio
+the rate of incident infections followed a more similar pattern
+in both the high and low risk groups
+(Figures~\ref{fig:dX-high-I}~and~\ref{fig:dX-low-I}, red).
+Therefore, differences in the influence of turnover on prevalence between risk groups
+were driven by net movement of infectious individuals from high to low risk,
+causing prevalence in the high and low risk groups
+to come closer together with faster turnover.
+As shown in Figure~\ref{fig:ratio-prevalence-high-low},
+the ratio of equilibrium STI prevalence in the high versus low risk groups
+was thus reduced under faster turnover rates.
+For example, the prevalence ratio
 between high and low risk groups was:
-$\input{\datapath/values/turnover-prevalence-ratio-high-low.txt}$ from			%SM: and refer to Table 2 here as well as in section below
-the model with turnover (($\delta_H = 5$)
-~vs~%
-$\input{\datapath/values/no-turnover-prevalence-ratio-high-low.txt}$ 				%SM: and refer to Table 2 here as well as in section below
-from the model without turnover ($\delta_H = 33$ years).
-
-% JK: I don't talk about prevalence ratios between high/med or med/low.
-%     They're difficult to explain and I'm not sure it add anything,					
-%     especially considering we haven't discussed the medium risk group
-%     at all in this section...
-%SM: Agree with the current approach to leave out. Though I have a feeling a reviewer will ask because it is shown in main text :). I agree would not explain now but move the prevalence ratio figures for medium: low and high:low to appendix since we are not talking about them here. They do not add but will distract the reader/reviewer. Also see my edits for the heading if we stick to comparing high vs. low for prevalence ratios as that is what we examine/vary for the  model fitting.
-
-%SM: remove the sentences below....we may get asked to explain by reviewer more --> and if so, then will need to add more or explain this more clearly. I could not easily edit and do not think it adds enough at this stage since the 3 phenomena were already discussed in above sections. And so sentences below feel like they do not flow here.
-%The homogenizing effect is also why, in the high risk group,
-%lower rates of turnover were required
-%to have a net decreasing effect on prevalence,
-%as compared to in the low risk group.
-%That is, the threshold rate of turnover at which
-%prevalence in the high risk group peaked and then declined
-%was lower than in the low risk group
-%(Figure~\ref{fig:prevalence}).
-\begin{figure}				%SM: move Figure 8b and 8c to appendix. Generally, try not to show figures / panels that are not discussed in main text. Most good jounrals/editors will ask to remove any figure panel not directly referred to in the main text at least once. i.e. since we do not refer to Figure 8b ever,...move to appendix.
-  \centering
-  \begin{subfigure}{0.31\linewidth}
-    \centering\includegraphics[width=\linewidth]{{1d-ratio-prevalence-high-low-tau=0.1}.pdf}
-    \caption{High vs Low risk}
-    \label{fig:ratio-prevalence-high-low}
-  \end{subfigure}
-  \begin{subfigure}{0.31\linewidth}
-    \centering\includegraphics[width=\linewidth]{{1d-ratio-prevalence-high-med-tau=0.1}.pdf}
-    \caption{High vs Medium Risk}
-    \label{fig:ratio-prevalence-high-med}
-  \end{subfigure}
-  \begin{subfigure}{0.31\linewidth}
-    \centering\includegraphics[width=\linewidth]{{1d-ratio-prevalence-med-low-tau=0.1}.pdf}
-    \caption{Medium vs Low Risk}
-    \label{fig:ratio-prevalence-med-low}
-  \end{subfigure}
-  \caption{Equilibrium prevalence ratios between risk groups
-    under different rates of turnover.
-    See Figure~\ref{fig:dur-group} for x-axis definition.}
-  \label{fig:ratio-prevalence}
+$\input{\datapath/values/turnover-prevalence-ratio-high-low.txt}$
+in the model under high turnover ($\delta_H = 5$~years) versus
+$\input{\datapath/values/no-turnover-prevalence-ratio-high-low.txt}$
+in the model without turnover ($\delta_H = 33$~years)
+(Table~\ref{tab:fitting}).
+% SM: remove the sentences below....we may get asked to explain by reviewer more
+%     --> and if so, then will need to add more or explain this more clearly.
+%     I could not easily edit and do not think it adds enough at this stage
+%     since the 3 phenomena were already discussed in above sections.
+%     And so sentences below feel like they do not flow here.
+% JK: Definitely agree about the flow and not adding much.
+%     I felt the need to explain since we make the observation in very first results para
+%     about the different thresholds, and promise to explain it.
+%     So, I think either leave both, or remove both -- what do you think?
+Finally, the propensity for equilibrium STI
+prevalence to decrease in the high risk group and for
+prevalence to increase in the low risk group with faster turnover
+-- due to net movement of infectious individuals from high to low risk --
+also explains why prevalence peaked at
+slower turnover in the high risk group
+(Figure~\ref{fig:prevalence-high}) and
+faster turnover in the low risk group
+(Figure~\ref{fig:prevalence-low}).
+\begin{figure}
+  \centerline{\includegraphics[width=0.5\linewidth]{{1d-ratio-prevalence-high-low-tau=0.1}.pdf}}
+  \caption{Equilibrium prevalence ratios between high and low risk groups
+    under different rates of turnover.}
+  \label{fig:ratio-prevalence-high-low}
+  \footnotesize\input{x-axis.tex}
 \end{figure}
 % ==================================================================================================
-\subsection{Experiment~2: Inferred risk heterogeneity with vs without turnover}
+\subsection{Experiment~2: Inferred risk heterogeneity with versus without turnover}
 \label{ss:res-infer}
-%SM: moved/edited the text re: predicted prevalance ratios to the above section as I think fits better there right after talking about shrinking prevalence ratios with turnover. In current section, best to go right into fitted results. 
-Because turnover reduced the STI prevalence ratios  between
-high and low risk groups (Figure X), 
-when fitting the STI transmission model to target prevalence values,
-the fitted numbers of partners per year $C$ had compensate for the
-extent to which turnover reduced risk heterogeneity.
-After fitting the only non-fixed parameter (number of partners per year), 
-our two models (one with turnover and one without turnover) reproduced
-the target equilibrium infection prevalence values of 20\%,~8.75\%,~3\%,~and~5\%
-in the high, medium, low risk groups, and total population, respectively			%SM: suggest using term respectively when listing multiple items? also double check that there is symmetry (e.g. with and without turnover --> then the numbers that follow should reflect the same order).
-(Figure~\ref{fig:tpaf-prevalence}).
-The posterior values of the parameter (partner numbers per year) 
-meant that the ratio of partner numbers
+% SM: moved/edited the text re: predicted prevalance ratios to the above section
+%     as I think fits better there right after talking about shrinking prevalence ratios with turnover.
+%     In current section, best to go right into fitted results.
+% JK: I agree! At first I wasn't sure but I really like it now.
+After model fitting,
+our two STI transmission models
+(one with turnover and one without turnover)
+reproduced the target equilibrium STI prevalence values of 20\%,~8.75\%,~3\%,~and~5\%
+in the high, medium, low risk groups, and total population, respectively
+(Table~\ref{tab:fitting}; Figure~\ref{fig:tpaf-prevalence}).
+% JK: re. below: originally read:
+%     "had to compensate for the extent to which turnover reduced risk heterogeneity."
+%     I reworded and got rid of "risk heterogeneity" since I think that
+%     prevalence ratios are more a result of risk heterogeneity than a direct measure of it,
+%     and I would describe model fitting as inference on risk heterogeneity,
+%     in which we use the observed prevalence ratios
+When fitting the model with turnover to these group-specific prevalence targets,
+the fitted numbers of partners per year $C_i$ (the only non-fixed parameter)
+had to compensate for the reduction in
+STI prevalence ratio between high and low risk groups
+(Figure~\ref{fig:ratio-prevalence-high-low}).
+As a result, the ratio of fitted partner numbers
 between high and low risk groups ($C_H~/~C_L$)
 had to be higher in the model with turnover compared to the model without turnover:
 $\input{\datapath/values/turnover-[fit]-C-ratio-high-low.txt}$~vs~%
@@ -393,7 +439,6 @@ $\input{\datapath/values/no-turnover-[fit]-C-ratio-high-low.txt}$
 That is, the inferred level of risk heterogeneity was higher
 in the model with turnover than in the model without turnover.
 \begin{table}
-  \centering
   \caption{Equilibrium partnership formation rates and prevalence
     among the high and low risk groups
     predicted by the models with and without turnover,
@@ -405,44 +450,22 @@ in the model with turnover than in the model without turnover.
 \subsection{Experiment~3: Influence of turnover on the tPAF of the high risk group}
 \label{ss:res-tpaf}
 Finally, we compared the tPAF of the high risk group
-estimated by the fitted model with turnover and 				%SM: check consistency re: estimated, projected, predicted. when referring to the tPAF. I think various terms used in paper, and all are fine so suggest choosing one for consistency.
-the fitted model without turnover 
+projected by the fitted model with turnover and the fitted model without turnover
 (Figure~\ref{fig:tpaf-fit}).
-The tPAF estimated by both models
-increased over longer and longer time horizons
-indicating that unmet prevention and treatment				%SM: why just treatment? better to allow for prevention and treatment needs?
-needs of the high risk group
-were central to epidemic persistence in both models.			%SM: not scenarios (be careful as scenarios = counterfactuals from the same model). Here we have two different models or two different modelled systems. Also, it is an increasing tPAF over time-horizons that is linked to R0/Reffective/epidemiologic drivers, not just whether or not it get close to a certain value although that is correct re: approaching 1 --> tPAF approaching 0.4 over 50  years could also be central to epidemic persistence. Given that we are not actually simulating a real STI --> 50 years does not "mean" something here, and so would couch this sentence more carefully.
-% SB: Crucial.
-The model with turnover estimated a larger tPAF at all
-time-horizons compared with the tPAF estimated by the model
-without turnover.
-%SM: said this in discussion so not sure need to also say in results. removed to make the results a bit more succinct and crisp i hope.
-% implying that models which fail to capture turnover dynamics which are present in reality
-%may underestimate the tPAF of high risk groups.
-The larger tPAF via the model with turnover
-stemmed from more risk heterogeneity (Table 2) which
-led to more onward transmission from the unmet 
+The tPAF projected by both models
+increased over longer and longer time horizons,
+indicating that unmet prevention and treatment needs of the high risk group
+were central to epidemic persistence in both fitted models.
+The model with turnover projected a larger tPAF at all
+time-horizons compared with the tPAF projected by the model without turnover.
+The larger tPAF projected by the model with turnover
+stemmed from more risk heterogeneity (Table~\ref{tab:fitting})
+which led to more onward transmission from the unmet
 prevention and treatment needs of the high risk group.
 \begin{figure}[!tbp]
-  \centering
-  \includegraphics[width=0.5\linewidth]{sit-tpaf-tpaf-high-all-vs=fit.pdf}
+  \centerline{\includegraphics[width=0.5\linewidth]{sit-tpaf-tpaf-high-all-vs=fit.pdf}}
   \caption{Transmission population attributable fraction (tPAF)
     of the high risk group in models with and without turnover,
     after fitting the number of partners per year to group-specific prevalence.}
   \label{fig:tpaf-fit}
 \end{figure}
-% LW: I think this is the key message and valid.
-% SS: This section perhaps could be a bit clearer as clearly very important
-%     Is there a way to more explicitly talk about new infections
-%     in the low / medium risks coming from prevalent infections
-%     entering into these states from high risk groups and that
-%     subsequent infections emanating from these individuals are thus still
-%     linked back to prior history in the high risk group?
-% JK: Great point and I realized this was not emphasized anywhere in the paper.
-%     However, I think this section is not the right place for it,
-%     as the increase in TPAF is really attributable to the higher estimated
-%     partners ratio from Experiment 2.
-%     However, I highlight that infections in low risk groups can originate
-%     from higher risk period in the discussion,
-%     since it kind of gets lost in Experiment 1.
