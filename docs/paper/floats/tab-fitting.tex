@@ -1,8 +1,16 @@
+\centerline{
 \begin{tabular}{rcccccc}
   \toprule
   & \multicolumn{3}{c}{Number of Partners} & \multicolumn{3}{c}{Prevalence} \\
   \cmidrule(lr){2-4}\cmidrule(lr){5-7}
   Context & High & Low & High/Low & High & Low & High/Low \\\midrule
+  Turnover &
+  \input{\datapath/values/turnover-C-high.txt}
+  & \input{\datapath/values/turnover-C-low.txt}
+  & \input{\datapath/values/turnover-C-ratio-high-low.txt}
+  & \input{\datapath/values/turnover-prevalence-high.txt}
+  & \input{\datapath/values/turnover-prevalence-low.txt}
+  & \textbf{\input{\datapath/values/turnover-prevalence-ratio-high-low.txt}}\\
   No Turnover &
   \input{\datapath/values/no-turnover-C-high.txt}
   & \input{\datapath/values/no-turnover-C-low.txt}
@@ -10,20 +18,6 @@
   & \input{\datapath/values/no-turnover-prevalence-high.txt}
   & \input{\datapath/values/no-turnover-prevalence-low.txt}
   & \textbf{\input{\datapath/values/no-turnover-prevalence-ratio-high-low.txt}}\\
-  Turnover &
-    \input{\datapath/values/turnover-C-high.txt}
-  & \input{\datapath/values/turnover-C-low.txt}
-  & \input{\datapath/values/turnover-C-ratio-high-low.txt}
-  & \input{\datapath/values/turnover-prevalence-high.txt}
-  & \input{\datapath/values/turnover-prevalence-low.txt}
-  & \textbf{\input{\datapath/values/turnover-prevalence-ratio-high-low.txt}}\\
-  No Turnover [fit] &
-    \input{\datapath/values/no-turnover-[fit]-C-high.txt}
-  & \input{\datapath/values/no-turnover-[fit]-C-low.txt}
-  & \textbf{\input{\datapath/values/no-turnover-[fit]-C-ratio-high-low.txt}}
-  & \input{\datapath/values/no-turnover-[fit]-prevalence-high.txt}
-  & \input{\datapath/values/no-turnover-[fit]-prevalence-low.txt}
-  & \input{\datapath/values/no-turnover-[fit]-prevalence-ratio-high-low.txt}\\
   Turnover [fit] &
   \input{\datapath/values/turnover-[fit]-C-high.txt}
   & \input{\datapath/values/turnover-[fit]-C-low.txt}
@@ -31,5 +25,12 @@
   & \input{\datapath/values/turnover-[fit]-prevalence-high.txt}
   & \input{\datapath/values/turnover-[fit]-prevalence-low.txt}
   & \input{\datapath/values/turnover-[fit]-prevalence-ratio-high-low.txt}\\
+  No Turnover [fit] &
+    \input{\datapath/values/no-turnover-[fit]-C-high.txt}
+  & \input{\datapath/values/no-turnover-[fit]-C-low.txt}
+  & \textbf{\input{\datapath/values/no-turnover-[fit]-C-ratio-high-low.txt}}
+  & \input{\datapath/values/no-turnover-[fit]-prevalence-high.txt}
+  & \input{\datapath/values/no-turnover-[fit]-prevalence-low.txt}
+  & \input{\datapath/values/no-turnover-[fit]-prevalence-ratio-high-low.txt}\\
   \bottomrule
-\end{tabular}
+\end{tabular}}
