@@ -1,53 +1,38 @@
 Using a mechanistic modelling analysis,
 we found that turnover could be important when
-estimating the tPAF of high risk groups to the overall epidemic.
+projecting the tPAF of high risk groups to the overall epidemic.
 Mechanistic insights include disentangling
 three key phenomena by which turnover
-alters equilibrium infection prevalence and incidence within risk groups,
+alters equilibrium STI prevalence within risk groups,
 and thereby the level of inferred risk heterogeneity between groups via model fitting.
-Methodological contributions include a unified framework for modelling turnover
+Methodological contributions include a  framework for modelling turnover
 which uses a flexible combination of data-driven constraints.
 Taken together, our explanatory insights and framework
 have mechanistic, public health, and methodological relevance for
 the parameterization and use of epidemic models
-to project intervention priorities for high risk groups.
-% JK: wanted to clarify the relevance also for analyses which may not use tPAF. (before):
-%     "to project the tPAF of high risk groups." SM: agree
+to project intervention priorities for high~risk~groups. % TEMP spacing
 % --------------------------------------------------------------------------------------------------
 \paragraph{Influence of turnover on prevalence}
-% SM: did not see topic headings like this as subheadings in the papers I have reviewed
-%     for Scientific Reports or Epidemics. we sure they are allowed?
-% JK: in Epidemics Yes ok (e.g. doi:10.1016/j.epidem.2017.03.002)
-%     in Sci-Rep Not allowed, but I think we had not discussed Sci-Rep before I pushed last edits
-%     I really prefer them though.
-%SM: got it - for sure ok if allowed 
-% TODO: treatment in our model ~~ early infection in Zhang2012:
-% decreasing infectiousness as time since infection increases
-% SM: ??
-% JK: TODO
 Building on prior work by \citet{Stigum1994,Zhang2012,Henry2015}
 which similarly found an inverted U-shaped relationship between
 turnover and overall equilibrium STI prevalence,
 we identified three key phenomena that generated this relationship.
 These turnover-driven phenomena were:
-% JK: @SM I tried to make these more specific: SM - nice work!
-reduced herd immunity in the higher risk groups due to net gain of susceptible individuals;
-a net influx of infectious individuals into the lower risk groups; and
-reduced incidence overall due to fewer partnerships among infectious individuals.
-% JK: (previous descriptions):
-% shifts in proportion susceptible especially in the high risk group (and thus, reduction in herd immunity);
-% changes in the characteristics of the sexual network (via reduction in infectious partnerships with greater turnover);
-% and influx of individuals in the infectious health-state into the lower risk groups.
-The above three phenomena contributed to the pattern			%SM: not sure adjective needed
+1)~a net flow of infectious individuals from higher risk groups to lower risk groups;
+2)~reduced herd immunity in the higher risk groups due to net gain of susceptible individuals; and
+3)~reduced incidence overall due to fewer partner numbers among infectious individuals.
+The above three phenomena contributed to the pattern
 of declining prevalence ratio between the highest and lowest risk groups
 for increasing rates of turnover.
 A decline in prevalence ratio due to turnover implies a reduction in risk heterogeneity.
-Risk heterogeneity is associated with epidemic emergence and persistence \citep{May1988} - i.e. the basic reproductive number.
-Our findings are consistent with  \citet{Henry2015} demonstrated that turnover reduces the basic reproductive number by reducing 
-
-%SM: sentence grammatically not correct - the noun 'this' does not 'recognize' something :). Tried to edit for clarity and grammar.
-% JK: @SM without clarifying that heterogeneity is correlated with R0,
-%     I think this sentence was not quite clear. SM: agree - i like that linkage point
+Since risk heterogeneity is associated with epidemic emergence and persistence \citep{May1988}
+-- i.e. the basic reproductive number --
+our findings are thus consistent with \citet{Henry2015},
+who demonstrated that turnover reduces the basic reproductive number by reducing heterogeneity.
+% SM: sentence grammatically not correct - the noun 'this' does not 'recognize' something :).
+%     Tried to edit for clarity and grammar.
+% JK: Sounds good. I had meant "recognizing" as an imperative for the reader,
+%     but I guess that's to be generally avoided too.
 Indeed, epidemiological and transmission modelling studies have shown that prevalence ratios
 are an important marker of risk heterogeneity, and in turn
 the impact of interventions focused on high risk groups \citep{Baral2012,Mishra2012}.
@@ -91,32 +76,11 @@ using available epidemiologic data and/or assumptions.
 There are four potential benefits of using the framework to model turnover.
 First, the framework defines how specific epidemiologic data and assumptions
 could be used as constraints to help define rates of turnover.
-% (Table~\ref{tab:constraints}).
 Second, the framework allows flexibility in which constraints can be chosen and combined,
 so that the constraints best reflect locally available data and/or plausible assumptions.
-% SM: hard time following the sentence starting with "While...".
-%     suggst edit for clarity / simplify language
-%     -- already mentionted the technical in appendix,
-%     so try to keep discussion as free of jargon as possible.
-%     no need to fully repeat technical deets.
-% JK: OK I have removed.
 In fact, the framework can adequately reproduce
 several prior implementations of turnover
 in various epidemic models \citep{Stigum1994,Eaton2014,Henry2015}.
-% SM: which means.....???
-%     I did not follow the following sentence in relation to the sentence above.
-%     not sure i get the 'so what'?
-%     "In so doing, we highlight which specific assumptions are
-%     the same and which are different across the different implementations."
-% JK: This was originally listed as separete benefit of the framework,
-%     but the "so what" wasn't clear, so instead, what about highlighting
-%     the flexibility of the approach by noting that it can
-%     reproduce previous implementations? ("In fact, ...")
-% SM: ^ didn't Eaton paper have HIV-attributable mortality?
-%     Does this not then contradict what is said in limitations
-%     re: infection-attributable mortality?
-% JK: actually, I think we could actually use this approach with infection-attributable mortality
-%     (see my comments below). SM: nicely written
 Third, this flexible approach also allows the framework to scale
 to any number of risk groups.
 Finally, the framework avoids the need for a burn-in period
@@ -163,14 +127,11 @@ often do not constrain the relative size
 of the sub-group populations to be stable over time \citep{Pickles2013}.
 By ignoring infection-attributable mortality,
 the proposed framework would similarly allow risk groups to change relative size
-in response to disproportionate infection-attributable mortality.						%SM: nicely framed
+in response to disproportionate infection-attributable mortality.
 Future modifications of the proposed framework include methods to optionally re-balance
 infection-attributable mortality, and relevant age-sex stratifications so that
 the framework can be applied more broadly to pathogen-specific epidemics.
 \par
-% SM: in reading the limitations, felt a bit confused at times re: whether talking about
-%     the transmission model or the framework, so suggest separating out the two into shorter paragraphs.
-% JK: Thanks -- I agree, and great idea!
 Our analyses of turnover and tPAF also have several limitations.
 First, we did not capture the possibility that some individuals may become
 re-susceptible to infection after treatment
