@@ -1,6 +1,8 @@
 \newcommand{\bracelabel}[2]{%
   \underbrace{\smash{\phantom{#1}}}_{\textrm{#2}}
 }
+\begin{subequations}
+\label{eq:model}
 \begin{alignat}{9}
 \frac{d}{dt}\mathcal{S}_i(t) &=
       + \sum_j \phi_{ji} \mathcal{S}_j(t)
@@ -35,4 +37,5 @@
 &&    \bracelabel{+ \tau \mathcal{I}_i(t)}{treatment}
 \nonumber
 \end{alignat}
+\end{subequations}
 \\
