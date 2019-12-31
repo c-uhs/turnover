@@ -12,10 +12,9 @@ to conduct out experiments.
 \subsection{A unified framework for implementing turnover}
 \label{ss:framework}
 \begin{figure}
-  \centering
-  \includegraphics[width=0.5\linewidth]{turnover}
+  \centerline{\includegraphics[width=0.5\linewidth]{turnover}}
   \caption{System of $G = 3$ risk groups and turnover between them.}
-  \footnotesize\raggedright
+  \footnotesize
   $x_i$: number of individuals in risk group~$i$;
   $e_i$: number of individuals available to enter risk group~$i$;
   $\nu$: rate of population entry;
@@ -40,19 +39,8 @@ where $\phi_{ij}$ is the proportion of individuals in group~$i$
 who move from group~$i$ into group~$j$ each year.
 The framework is independent of the disease model,
 and thus transition rates $\phi$ do not depend on health states.
-% SM: But health states have not been described yet.
-%     Seems funny to write it into the unified system noh?
-%     Perhaps should say that the unified system is independent of the disease model,
-%     and thus, independent of the health states, or something like that?
-% JK: Good point! How is the sentense above?
 \par
 The framework assumes that:
-% SM: Clarify that the 'we assume' part is specific to the research question
-%     - i.e. for the set of experiments in the current paper.
-%     vs. the unified framework assumes that the relative size of risk groups remain stable, etc.
-% JK: Good point. Actually here the assumptions are for the framework overall,
-%     then in {sss:turnover-implemented} we add additional assumptions as constraints
-%     for the experiments.
 1.~the relative sizes of risk groups
 $\bm{\hat{x}} = [\hat{x}_1, \dots, \hat{x}_G]$
 are known and should remain constant over time; and
@@ -66,18 +54,9 @@ In the framework,
 $\bm{\hat{e}}$ and $\phi$ are collected in the vector
 $\bm{\theta} = \left[\bm{\hat{e}}, \bm{y}\right]$,
 where $\bm{y} = \mathrm{vec}_{i \ne j}(\phi)$.
-% JK: regarding tense, though we changed this section to past tense recently,
-%     I found it confusing to read this section in past tense,
-%     since the framework simply exists (in present)
-%     and it continutes to "actively" facilitates solving the system.
-%     In experiment sections we can describe how we used it (past tense) to do things,
-%     but really I think it makes more sense to use present tense for this para.
-%     What do you think @SM?
 To uniquely determine the elements of $\bm{\theta}$,
 a set of linear constraints are constructed.
 Each constraint $k$ takes the form
-% SM: remove 'this' and 'these' from every sentence in paper,
-%     and then put back in with a clear definition of the subject :)
 $b_k = A_k \bm{\theta}$,
 where $b_k$ is a constant and $A_k$ is a vector with the same length as $\bm{\theta}$.
 The values of $\bm{\theta}$ are then obtained by solving:
@@ -102,10 +81,7 @@ and the types of data that can be used in each case.
 Additional details, including
 constraint equations, examples, and considerations for combining constraints,
 are in Appendix~\ref{aaa:params-turnover}.
-% SM: hard copy of edits on your desk. the references need some work.
-% JK: TODO
 \begin{table}
-  \centering
   \caption{Summary of constraint types for defining risk group turnover}
   \label{tab:constraints}
   \input{floats/tab-constraints.tex}
@@ -115,7 +91,6 @@ are in Appendix~\ref{aaa:params-turnover}.
 We developed a deterministic, compartmental model of an illustrative
 sexually transmitted infection with 3 risk groups.
 We did not simulate a specific pathogen, but rather constructed a biological system
-% JK: "selected" sounds like we chose a real one, so "designed/constructed" here?
 that included susceptible, infectious, and treated (or recovered/immune) health states.
 The transmission model therefore was mechanistically representative of
 sexually transmitted infections like
@@ -132,8 +107,7 @@ susceptible~$\mathcal{S}$, infectious~$\mathcal{I}$, and treated~$\mathcal{T}$
 and $G = 3$ levels of risk:
 high~$H$, medium~$M$, and low~$L$.
 \begin{figure}
-  \centering
-  \includegraphics[width=0.4\linewidth]{health-states}
+  \centerline{\includegraphics[width=0.4\linewidth]{health-states}}
   \caption{Modelled health states:
     $\mathcal{S}$: susceptible;
     $\mathcal{I}$: infected;
@@ -183,48 +157,15 @@ The turnover rates $\phi$ and
 distribution of individuals entering the model by risk group $\bm{\hat{e}}$
 were computed using the methods outlined in
 Appendix~\ref{aaa:params-turnover}, based on the following three assumptions.
-% SM: assumption, or condition, or constraint? 
-% SB: Do we need to explain why we made these assumptions? Or provide refs?
-% JK: Since we are constructing a simulated system, I'm not sure what refs might be appropriate,
-%     but, you make a great point about justifying.
-%     I've added a sentence after all 3 assumptions explaining.
-%     I think I was avoiding this because it was hard to explain,
-%     but let me know how it reads.
 First, we assumed that
 the proportion of individuals entering each risk group $\bm{\hat{e}}$
 was equal to the proportion of individuals across risk groups in the model $\bm{\hat{x}}$.
-% LW: And another strong assumption which was implicit here is that u assume
-%     the rate of turn over to be the same irrespective of disease status.
-%     And I think it is critical to make it explicit.
-%     So S, I, T all have the same turn over rate,
-% JK: So, I did now include this in the Turnover System section (last sentence).
-%     Do you think it needs to be restated here?
-% SM: yes, re-iterate here (before 'first')
-% JK: done.
 Second, we assumed that
 the average duration of time spent in each risk group $\bm{\delta}$ was known.
 Third, we assumed that the absolute number of individuals
 moving between two risk groups in either direction was balanced,
 meaning that if 10 individuals moved from group~$i$ to group~$j$,
 then another 10 individuals moved from group~$j$ to group~$i$.
-% JK: @SM ^ re. revision above -- this balanced in/out in either direction
-%     is not necessary to maintain stable group sizes over time,
-%     so I've edited with the example, instead of
-%     "such that the proportion of individuals in each risk group remained stable over time".
-% SM: yes agree a strong assumption, but one that most models make.
-%     So make sure to discuss each of these excellent points by SB and LW and HM in the discussion!
-% LW: I would think this is a very strong assumption.
-%     It is essentially saying the turn-over system consistently
-%     *swap* individuals in two risk groups.
-% HM: Not fully understand how does this assumption work?
-%     If high risk group has 10 individuals move to medium group,
-%     medium group will move 10 individuals to high risk? This is independent from population entry?
-% JK: @HM: yes, this is what this assumption means. I've edited hopefully to be more clear.
-% SM: could be more clear. suggest giving an example  as HM did in her comments.
-%     @LW: see new sentence below. We have to make at least one more assumption,
-%     else the system will not have a unique solution,
-%     and by "balancing" the turnover rates, it is a way of avoiding "bias":
-% JK: done -- thanks team for the strong detail!
 These three assumptions were selected
 because they reflect the common assumptions underlying turnover in prior models
 \citep{Zhang2012,Henry2015}
@@ -240,22 +181,12 @@ for each element in $\phi$~and~$\bm{\hat{e}}$.
 That is, by specifying these three assumptions,
 we generated a unique set of $\phi$~and~$\bm{\hat{e}}$.
 \par
-% SM: I did not understand the paragraph below.
 Under the above three assumptions,
 we still needed to specify the particular values of the parameters
 $\bm{\hat{x}}$,~$\bm{\delta}$,~$\nu$,~and~$\mu$.
 Such parameter values could be derived from data as described in Appendix~\ref{aaa:params-turnover}.
 However, in all our experiments, we used the illustrative values summarized in
 Table~\ref{tab:params}.
-% LW: After read the whole results section,
-%     I think experiment 2 and 3.2 followed values specified in Table 3.
-%     But experiment 1 and 3.1 explored a wide range of
-%     turn-over and treatment rates.
-%     it is unclear what do u refer to when u said “this experiment”.
-%     Given the organization and length – by the time I reached results of Experiemnt 2,
-%     I almost forgot under which values they were done – as the section preceed it
-%     explored a range of values of turn-over rate and treatment rate.
-% JK: Hopefully now with the paper much much shorter, this is resolved?
 After resolving the system of equations Eq.~(\ref{eq:system-matrix}) using these values,
 $\bm{\hat{e}}$ was equal to $\bm{\hat{x}}$ (assumed), and $\phi$ was:
 \begin{equation}
@@ -267,12 +198,6 @@ $\bm{\hat{e}}$ was equal to $\bm{\hat{x}}$ (assumed), and $\phi$ was:
   \caption{Default model parameters for experiments}
   \label{tab:params}
   \input{floats/tab-params.tex}
-  % SS: All of this seems a little hard to follow in terms of the infection,
-  %     b/c it seems to indicate that there is an underlying infection of interest,
-  %     but it is not being stated.
-  % JK: Same as above, not sure what to say here...
-  %     We did start out with HIV, but since we're not considering STI-mortality,
-  %     we really cannoy call it HIV.
 \end{table}
 We then simulated epidemics using $\phi$ above
 and the parameters shown in Table~\ref{tab:params}.
@@ -300,7 +225,7 @@ We designed Experiment~1 to explore the mechanisms by which turnover influences
 the equilibrium STI prevalence of infection, and
 the ratio of prevalence between risk groups (prevalence ratios).
 We defined prevalence as $\hat{\mathcal{I}}_i = \dfrac{\mathcal{I}_i}{x_i}$.
-%and incidence as $\lambda_i$ from Eq.~(\ref{eq:foi}).
+% and incidence as $\lambda_i$ from Eq.~(\ref{eq:foi}).
 Similar to previous studies \citep{Zhang2012,Henry2015},
 we varied the rates of turnover using a single parameter.
 However, because our model had $G = 3$ risk groups,
@@ -312,8 +237,6 @@ because of the practical interpretation of $\delta_H$
 in the context of STI transmission,
 such as the duration in formal sex work \citep{Watts2010}.
 A shorter $\delta_H$ yielded faster rates of turnover among all groups.
-% SM: implied or means or is equivalent to? 'implied' seems vague?
-% JK: changed to 'yielded' - @SM is that better?
 The duration of time spent in the medium risk group $\delta_M$
 was then defined as a value between $\delta_H$ and the maximum duration $\mu^{-1}$
 which scaled with $\delta_H$ following:
@@ -336,12 +259,10 @@ The resulting duration of time spent in each group
 versus turnover in the high risk group $\delta_H^{-1}$
 is shown in Figure~\ref{fig:dur-group}.
 \begin{figure}
-  \centering\includegraphics[width=0.45\linewidth]{{1d-dur-all-tau=0.1}.pdf}
-  \caption{Average duration of time spent in each risk group versus turnover.
-    Turnover rate (log scale) is a function of
-    the duration of time spent in the high risk group $\delta_H$,
-    where shorter time spent in the high risk group yields faster turnover.}
+  \centerline{\includegraphics[width=0.45\linewidth]{{1d-dur-all-tau=0.1}.pdf}}
+  \caption{Average duration of time spent in each risk group versus turnover.}
   \label{fig:dur-group}
+  \footnotesize\input{x-axis.tex}
 \end{figure}
 For each set of turnover rates,
 we plotted the equilibrium prevalence in each risk group,
@@ -400,14 +321,12 @@ the SLSQP method~\citep{Kraft1988} from the SciPy Python
 {\texttt{minimize}} package.
 To address Objective~2, we compared
 the fitted (posterior) ratio of partners per year $C_H~/~C_L$
-% SM: in introduction, helpful if objectives listed.
-% JK: done.
 in the model with turnover versus the model without turnover.
 % --------------------------------------------------------------------------------------------------
 \subsubsection{Experiment~3: Influence of turnover on the tPAF of the high risk group}
 \label{sss:exp-tpaf}
 We designed Experiment~3 to examine how the tPAF of the
-high risk group varies when estimated
+high risk group varies when projected
 by a model with versus without turnover (Objective~3).
 We calculated the tPAF of risk group~$i$ by comparing
 the relative difference in cumulative incidence between
