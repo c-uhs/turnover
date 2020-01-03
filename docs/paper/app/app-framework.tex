@@ -1,6 +1,7 @@
 We introduce a system of parameters and constraints
 to describe risk group turnover
-in deterministic epidemic models with heterogeneity in risk.
+in deterministic epidemic models with heterogeneity in risk.%
+\footnote{A preliminary version of this framework was used by \citet{Knight2019}.}
 We then describe how the system can be used in practical terms,
 based on different assumptions and data available for parameterizing turnover in risk.
 We conclude by framing previous approaches to this task using the proposed system.
@@ -25,19 +26,6 @@ Thus, the total number of individuals
 entering into population $\bm{x}$ per year is given by $\nu N$,
 and the number of individuals
 entering into group~$i$ specifically is given by~$\hat{e}_i \nu N$.
-% LW: I think the logic of this paragraph should be modified a bit.
-%     When we say entry rate, we usually define it
-%     from the perspective of the current population size (N).
-%     So with an entry rate of v, and current population size of
-%     N, the total number of individuals entering into population x per year is vN.
-%     As u mentioned, we vN comes from e, which may have different risk group distribution,
-%     and the number of individuals entering into group x_i can thus be given by ê_i ν N.
-%     Up till here, it is all independent of our assumption that e has size of N.
-%     Risk groups, transitions, and the associated rates are also shown for G = 3 in Figure 1.
-%     We assume that population e also has size N given the rational u described here.
-%     That way, the number of individuals entering into group
-%     x_i specifically is given by e_i ν.
-% JK: Is this better?
 \par
 Turnover transitions may then occur between any two groups, in either direction.
 Therefore we denote the turnover rates as a $G \times G$~matrix~$\phi$.

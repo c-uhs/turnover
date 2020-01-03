@@ -2,12 +2,6 @@ We developed a new, unified framework for implementing turnover.
 We then simulated a deterministic compartmental model of an illustrative STI,
 with turnover as per the framework,
 to conduct out experiments.
-% SM: consistency & double-checks
-%     - avoid using the words 'this', 'these', etc. as much as possible.
-%       Used **a lot** throughout methdods section reviewed so far
-%     - numbers (3 or three)
-%     - (relative) size(s) of risk group(s)
-%     - incidence / prevalence among vs in group x
 % ==================================================================================================
 \subsection{A unified framework for implementing turnover}
 \label{ss:framework}
@@ -41,10 +35,10 @@ The framework is independent of the disease model,
 and thus transition rates $\phi$ do not depend on health states.
 \par
 The framework assumes that:
-1.~the relative sizes of risk groups
+1)~the relative sizes of risk groups
 $\bm{\hat{x}} = [\hat{x}_1, \dots, \hat{x}_G]$
 are known and should remain constant over time; and
-2.~the rates of population entry $\nu$ and exit $\mu$
+2)~the rates of population entry $\nu$ and exit $\mu$
 are known, but that they may vary over time.
 An approach to estimate $\nu$ and $\mu$ is detailed in Appendix~\ref{aaa:params-nu-mu}.
 The framework then provides a method to estimate
@@ -122,7 +116,8 @@ so that individuals in risk group~$i$ are assumed to
 form partnerships at a rate $C_{i}$ per year.
 The probability of partnership formation $\rho_{ik}$ between individuals in group~$i$
 and individuals in risk group~$k$ is assumed to be
-proportionate to the total number of available partnerships within each group:
+proportionate to the total number of available partnerships within each group%
+~\cite{Garnett1994}:
 \begin{equation}
 \rho_{ik} = \frac
 {C_k x_k}
@@ -225,7 +220,6 @@ We designed Experiment~1 to explore the mechanisms by which turnover influences
 the equilibrium STI prevalence of infection, and
 the ratio of prevalence between risk groups (prevalence ratios).
 We defined prevalence as $\hat{\mathcal{I}}_i = \dfrac{\mathcal{I}_i}{x_i}$.
-% and incidence as $\lambda_i$ from Eq.~(\ref{eq:foi}).
 Similar to previous studies \citep{Zhang2012,Henry2015},
 we varied the rates of turnover using a single parameter.
 However, because our model had $G = 3$ risk groups,
