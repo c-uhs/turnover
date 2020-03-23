@@ -1,3 +1,6 @@
+IMPORTANCE OF REACHING HIGH RISK GROUPS IN STI EPIDEMICS
+MAY BE FURTHER UNDERESTIMATED WITHOUT SIMULATED TURNOVER
+IN THE CONTEXT OF ASSORTATIVE MIXING
 
 ----------------------------------------------------------------------------------------------------
 BACKGROUND
