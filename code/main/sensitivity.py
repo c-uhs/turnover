@@ -300,13 +300,19 @@ def gen_2d_plot(data,save=None):
     plt.show()
   plt.close()
 
-def gen_1d_plot(data,output,select,health=None,save=None,regions=False,legend=None,cmap=None):
+def gen_1d_plot(data,output,select,health=None,save=None,regions=False,legend=None,cmap=None,ylim=None):
   print(save,flush=True)
-  figsize = {'paper': (4,3),                 'isstdr':(4.5,3)}[config.context]
-  axespos = {'paper': [0.17,0.14,0.81,0.84], 'isstdr':[0.3,0.16,0.68,0.82]}[config.context]
+  figsize = {'paper': (4,3),'isstdr':(4.5,3), 'ims':(4,3)}[config.context]
+  axespos = {
+    'paper': [0.17,0.14,0.81,0.84],
+    'isstdr':[0.30,0.16,0.68,0.82],
+    'ims':   [0.17,0.14,0.81,0.84],
+  }[config.context]
   plt.figure(figsize=figsize)
   make_1d(data,output,select,health=health,regions=regions,cmap=cmap)
   plt.gca().set_position(axespos)
+  if ylim:
+    plt.ylim(ylim)
   if legend:
     plt.legend(legend)
   if save and config.save:
@@ -315,7 +321,7 @@ def gen_1d_plot(data,output,select,health=None,save=None,regions=False,legend=No
     plt.show()
   plt.close()
 
-def gen_flows_plot(health,select,detail='basic',mode='abs'):
+def gen_flows_plot(health,select,detail='basic',mode='abs',net=True,ylim=None,leg='each'):
   name = 'dX-'+mode
   save = fname_fig(name,detail,select,health)
   sim = get_sim(phi=0.1,tau=TAU1D,tmax=1)
@@ -342,35 +348,54 @@ def gen_flows_plot(health,select,detail='basic',mode='abs'):
     'full': [
       # name,           value, color,         sign
       ('Birth',         birth,  [0.0,0.6,1.0], [+1,na,na]),
-      ('Turnover into', aff,    [1.0,0.6,0.0], [+1,+1,+1]),
-      ('Turnover from', eff,    [1.0,0.8,0.0], [-1,-1,-1]),
-      ('Incidence',     inc,    [0.8,0.2,0.0], [-1,+1,na]),
-      ('Treatment',     treat,  [0.8,0.2,0.6], [na,-1,+1]),
-      ('Death',         death,  [0.4,0.4,0.4], [-1,-1,-1]),
-    ],
-    'basic': [
-      ('Birth',         birth,  [0.0,0.6,1.0], [+1,na,na]),
+      # ('Turnover into', aff,    [1.0,0.6,0.0], [+1,+1,+1]),
+      # ('Turnover from', eff,    [1.0,0.8,0.0], [-1,-1,-1]),
       ('Turnover',      aff-eff,[1.0,0.7,0.0], [+1,+1,+1]),
       ('Incidence',     inc,    [0.8,0.2,0.0], [-1,+1,na]),
-      ('Treatment',     treat,  [0.8,0.2,0.6], [na,-1,+1]),
-      ('Death',         death,  [0.4,0.4,0.4], [-1,-1,-1]),
+      ('Treatment',     treat,  [0.7,0.2,0.7], [na,-1,+1]),
+      ('Death',         death,  [0.6,0.6,0.6], [-1,-1,-1]),
+    ],
+    'basic': [
+      ('Turnover',      aff-eff,[1.0,0.7,0.0], [+1,+1,+1]),
+      ('Incidence',     inc,    [0.8,0.2,0.0], [-1,+1,na]),
     ],
     }[detail]
   h = 'SIT'.index(health)
   data = np.concatenate(tuple( spec[1]*spec[3][h] for spec in specs if spec[3][h] is not na))
   legend = [spec[0] for spec in specs if spec[3][h] is not na]
-  cmap = [spec[2] for spec in specs if spec[3][h] is not na]
+  cmap   = [spec[2] for spec in specs if spec[3][h] is not na]
   if mode == 'abs':
     data = 1000 * data
   elif mode == 'rel':
     data = 100 * data / pxh
   else:
     raise ValuError('Unknown mode: {}'.format(mode))
-  data = np.concatenate((data,np.nansum(data,axis=0,keepdims=True)))
+  if net:
+    data = np.concatenate((data,np.nansum(data,axis=0,keepdims=True)))
+    legend += ['Net']
+    cmap   += [[0,0,0]]
+    specs  += [('Net',None,[0,0,0],[+1,+1,+1])]
+  for i,vname in enumerate(legend):
+    for n in config.n4:
+      fname = fname_fun('dX',health,select,vname,phi=list(iter_phi())[n])+'.txt'
+      fname = os.path.join(config.path['data'],'values','dX',fname)
+      utils.savetxt(fname,'{:+.2f}'.format(data[i,n]))
+  if leg == 'pop':
+    plt.figure(figsize=(0.5+1.3*len(specs),0.5))
+    for spec in specs:
+      plt.plot(np.nan,np.nan,label=spec[0],color=spec[2])
+    plt.legend(ncol=len(specs))
+    plt.axis('off')
+    if config.save:
+      plt.savefig(fname_fig(name,detail,'legend'))
+    else:
+      plt.show()
+    plt.close()
   gen_1d_plot(data,name,select,health,
       save   = save,
-      legend = legend+['Net'],
-      cmap   = cmap+[[0,0,0]],
+      legend = legend if leg == 'each' else None,
+      cmap   = cmap,
+      ylim   = ylim,
     )
 
 def gen_plots(save=False):
@@ -378,6 +403,30 @@ def gen_plots(save=False):
     gen_plots_paper()
   if config.context == 'isstdr':
     gen_plots_isstdr()
+  if config.context == 'ims':
+    gen_plots_ims()
+
+def gen_plots_ims():
+  # proportion of infections from turnover -------------------------------------------------------
+  legend = ['High risk','Medium risk','Low risk']
+  data = np.concatenate([load_data('tip',select,tau=[TAU1D]) for select in ['high','med','low']])
+  gen_1d_plot(data,'tip',None,save=fname_fig('2d','tip','all',tau=TAU1D),legend=legend)
+  # health states ----------------------------------------------------------------------------------
+  cmap = [[0.0,0.6,1.0],[0.8,0.2,0.0],[0.8,0.2,0.6]]
+  legend = ['Susceptible','Infectious','Treated']
+  for select in SELECTORS:
+    data = np.concatenate([
+        load_data('X',health+' '+select,tau=[TAU1D])
+        for health in HEALTH
+      ])
+    # data /= np.sum(data,axis=0) # normalized
+    # data -= np.mean(data,axis=1).reshape((3,1))
+    gen_1d_plot(100*data,'X',select,None,save=fname_fig('1d','X','health',select,tau=TAU1D),cmap=cmap,legend=legend)
+  # equilibrium flows (dX) -------------------------------------------------------------------------
+  for health in HEALTH:
+    for select in ['high','med','low']:
+      gen_flows_plot(health,select,detail='basic',mode='abs',net=False,ylim=[-5,+5])
+      gen_flows_plot(health,select,detail='full', mode='abs',leg='pop',)
 
 def gen_plots_isstdr():
   for output,select in [('prevalence','high'),('prevalence','low')]:
@@ -423,7 +472,8 @@ def gen_plots_paper():
   # # equilibrium flows (dX) -----------------------------------------------------------------------
   for health in HEALTH:
     for select in ['high','med','low']:
-      gen_flows_plot(health,select,detail='basic',mode='abs')
+      # gen_flows_plot(health,select,detail='basic',mode='abs',net=False,ylim=[-3.5,+3.5])
+      gen_flows_plot(health,select,detail='full', mode='abs',leg='pop')
   # # proportion of infections from turnover -------------------------------------------------------
   # legend = ['High risk','Medium risk','Low risk']
   # data = np.concatenate([load_data('tip',select,tau=[TAU1D]) for select in ['high','med','low']])

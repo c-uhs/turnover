@@ -46,6 +46,7 @@ def txtsave(sims,output):
     'prevalence': lambda x: '{:.1f}\%'.format(100*float(x)),
     'C':          lambda x: '{:.1f}'.format(float(x)),
     'ratio':      lambda x: '{:.1f}'.format(float(x)),
+    'tpaf-high':  lambda x: '{:.3f}'.format(float(x)),
   }
   for name,sim in sims.items():
     utils.savetxt(fname(name,output,'high'),  fmts[output](vfun(sim,output,'high')))
@@ -69,7 +70,7 @@ def plot_iter(sims,output,selector):
   legend = []
   colors = [[0.8,0.0,0.0],[1.0,0.6,0.6],[0.8,0.0,0.0],[1.0,0.6,0.6]]
   linestyles = ['-','-','--','--']
-  ylim = {'paper': None, 'isstdr': [0.5, 1.0]}[config.context]
+  ylim = {'paper': None, 'isstdr': [0.5, 1.0], 'ims': None}[config.context]
   for (name,sim),color,ls in zip(sims.items(),colors,linestyles):
     legend.append(name)
     select = sim.model.select[selector]
@@ -83,7 +84,7 @@ def plot_iter(sims,output,selector):
       linestyle = ls,
       ylim = ylim,
     )
-  if config.context == 'paper':
+  if config.context in ['paper','ims']:
     plt.legend(legend)
   if config.context == 'isstdr':
     plt.legend(['Turnover','No Turnover'], loc='lower right')
@@ -112,8 +113,12 @@ def exp_run_plot(compare,sims,outputs,selectors,txt=False,**params):
         sim.model.params[name].update(value)
     sim.update_params(sim.model.params)
     run_sim(sim,outputs)
-  figsize = {'paper': (4,3), 'isstdr': (4.5,3)}[config.context]
-  axespos = {'paper': [0.16,0.14,0.82,0.84], 'isstdr':[0.33,0.16,0.65,0.82]}[config.context]
+  figsize = {'paper': (4,3), 'isstdr': (4.5,3), 'ims': (4,3)}[config.context]
+  axespos = {
+  'paper': [0.16,0.14,0.82,0.84],
+  'isstdr':[0.33,0.16,0.65,0.82],
+  'ims':   [0.16,0.14,0.82,0.84],
+  }[config.context]
   for output in outputs:
     for selector in selectors:
       plt.figure(figsize=figsize)
@@ -185,7 +190,7 @@ def simple_turnover():
     )
 
 def exp_tpaf():
-  tmax = {'paper': 50, 'isstdr': 30}[config.context]
+  tmax = {'paper': 50, 'isstdr': 30, 'ims': 10}[config.context]
   t = system.get_t(tmax=tmax)
   for case in ['raw','fit','both']:
     print(case,flush=True)
@@ -206,6 +211,7 @@ def exp_tpaf():
       outputs   = ['tpaf-high'],
       selectors = ['all'],
       vs        = case,
+      txt       = True,
     )
   # equilibrium prevalence plot
   names = list(sims.keys())

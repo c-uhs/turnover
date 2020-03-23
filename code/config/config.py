@@ -3,17 +3,16 @@ import os
 root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 save    = True
-model   = 'sit'
-context = 'paper'
+model   = 'asso'
+context = 'ims'
 N       = 31
 n4      = [0, int(N*0.3), int(N*0.7), N-1]
 
-whatif  = '' if (model == 'sit') else 'whatif'
 path = {
   'root': root,
   'epi-model': os.path.join(root,'code','epi-model','src'),
-  'figs':      os.path.join(root,'outputs',context,whatif,model,'figs'),
-  'data':      os.path.join(root,'outputs',context,whatif,model,'data'),
+  'figs':      os.path.join(root,'outputs',context,model,'figs'),
+  'data':      os.path.join(root,'outputs',context,model,'data'),
   'tikz':      os.path.join(root,'outputs','tikz'),
   'specs':     os.path.join(root,'code','main','specs'),
   'model':     os.path.join(root,'code','main'),
