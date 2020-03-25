@@ -1,6 +1,5 @@
-IMPORTANCE OF REACHING HIGH RISK GROUPS IN STI EPIDEMICS
-MAY BE FURTHER UNDERESTIMATED WITHOUT SIMULATED TURNOVER
-IN THE CONTEXT OF ASSORTATIVE MIXING
+IMPORTANCE OF HIGH RISK GROUPS MAY BE FURTHER UNDERESTIMATED
+WITHOUT SIMULATED TURNOVER IN STI EPIDEMICS WITH ASSORTATIVE MIXING
 
 ----------------------------------------------------------------------------------------------------
 BACKGROUND
@@ -9,23 +8,22 @@ such as by projecting the transmission population attributable fraction (tPAF)
 of unmet treatment and prevention needs among particular risk groups.
 Such risk groups may be identified by differences in sexual behaviour and barriers to care.
 While transmission models typically stratify populations into several risk groups,
-turnover of individuals between risk groups is not often modelled.
-We previously showed that failure to model risk group turnover in fitted models
-can result in underestimated impact of reaching high-risk groups with care.
-However, in order to simplify the analysis,
-we did not previously consider the well-known phenomenon of
-assortative (like-with-like) sexual mixing among risk groups.
-It's possible that such mixing could cause influence differences between
-tPAF estimated by fitted models with and without turnover.
+movement between risk groups (turnover in risk) is not often modelled.
+We previously found that failure to capture risk group turnover in fitted models
+can underestimate the population-level impact of prioritizing interventions to high risk groups.
+The previous analyses assumed proportionate mixing between risk groups;
+yet empiric data suggest assortative (like-with-like) sexual mixing among risk groups.
+The influence of sexual mixing patterns on the extent to which
+failure to capture turnover might bias tPAF estimates by fitted models has not yet been studied.
 
 ----------------------------------------------------------------------------------------------------
 PURPOSE
 We aimed to quantify the relative difference in 10-year tPAF estimated by
-fitted models with vs without risk group turnover under assortative mixing among risk groups.
+fitted models with versus without risk group turnover under assortative mixing among risk groups.
 
 ----------------------------------------------------------------------------------------------------
 HYPOTHESIS
-We hypothesized that underestimation of tPAF by the model without turnover
+We hypothesized that underestimation of tPAF by a model without turnover
 would be larger in the context of assortative risk group mixing,
 as compared to proportionate mixing.
 
@@ -44,7 +42,7 @@ Assortative mixing was implemented following Nold (1980) with ϵ = 0.5.
 For each variant, we fit the risk group-specific rates of partnership formation
 in order to reproduce the same set of risk group-specific STI prevalence targets at equilibrium.
 We then compared the 10-year tPAF of the high risk group
-projected by the models with vs without turnover
+projected by the models with versus without turnover
 under proportionate mixing (1 vs 2) and again under assortative mixing (3 vs 4).
 
 ----------------------------------------------------------------------------------------------------
@@ -53,10 +51,10 @@ Under proportionate mixing, the model without turnover (1) required less heterog
 (differences in rates of partnership formation between risk groups)
 to produce the same prevalence targets as the model with turnover (2).
 Reduced risk heterogeneity then led to
-lower 10-year tPAF of the high risk group in the model without turnover vs with turnover
+lower 10-year tPAF of the high risk group in the model without turnover versus with turnover
 (75.9% vs 80.4%, 5.6% relative reduction).
 Similarly, under assortative mixing, less risk heterogeneity was required
-to fit the model without turnover (3) vs with turnover (4),
+to fit the model without turnover (3) versus with turnover (4),
 contributing to lower tPAF of the high risk group without turnover.
 The tPAF of the high risk group was also reduced under assortative mixing in general,
 due to fewer partnerships and therefore less transmission
@@ -72,7 +70,7 @@ even larger underestimation of the tPAF of the high risk group under assortative
 
 ----------------------------------------------------------------------------------------------------
 CONCLUSIONS
-We previously showed that failure to simulate risk group turnover in transmission models
+We previously found that failure to simulate risk group turnover in transmission models
 can result in underestimated importance of reaching high risk groups with care.
-Here we showed that such underestimation could be even larger
+Here we found that such underestimation could be even larger
 in the context of assortative mixing among risk groups versus proportionate mixing.
