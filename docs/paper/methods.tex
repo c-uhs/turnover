@@ -263,19 +263,24 @@ we plotted the equilibrium prevalence in each risk group,
 and the prevalence ratios between high/low, high/medium, and medium/low risk groups.
 In order to understand the mechanisms by which
 turnover influenced prevalence and prevalence ratios (Objective~1),
-we additionally plotted the four components which contributed to
-gain/loss of infectious individuals in each risk group,
-based on Eq.~(\ref{eq:model-I}):
-1)~net gain/loss via turnover of infectious individuals,
-2)~gain via incident infections,
-3)~loss via treatment, and
-4)~loss via death.
-The influence of turnover on prevalence
-was only mediated by components 1~and~2,
-since components 3~and~4 were defined as
-constant rates which did not change with turnover;
-as such, our analysis focused on components 1~and~2.
-Finally, to further understand trends in incident infections versus turnover (component~1),
+we additionally plotted the absolute number of individuals gained/lost per year
+in each health state and risk group, due to each of the following five processes:
+\begin{subequations}
+\begin{alignat}{3}
+  &\text{1)~net gain/loss via turnover:}       \quad&&
+    + \textstyle\sum_j \phi_{ji} \mathcal{X}_j - \textstyle\sum_j \phi_{ij} \mathcal{X}_i\\
+  &\text{2)~gain/loss via incident infections:}\quad&& \pm \lambda_i \mathcal{S}_i\\
+  &\text{3)~gain/loss via treatment:}          \quad&& \pm \tau \mathcal{I}_i\\
+  &\text{4)~loss via deaths:}                  \quad&& -\mu \mathcal{X}_i\\
+  &\text{5)~gain via entry:}                   \quad&& +\nu \mathcal{S}_i
+\end{alignat}
+\end{subequations}
+where $\mathcal{X}_i$ represents any health state,
+and all five processes sum to the net rate of change described in Eq.~(\ref{eq:model-I}).
+Since the influence of turnover on prevalence was only mediated by processes 1~and~2,
+(processes 3--5 were defined as constant rates which did not change with turnover),
+our analysis focused on processes 1~and~2.
+Finally, to further understand trends in incident infections versus turnover (process~2),
 we factored equation Eq.~(\ref{eq:foi}) for incidence $\lambda_i$
 into constant and non-constant factors,
 and plotted the non-constant factors versus turnover.

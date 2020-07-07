@@ -23,8 +23,10 @@ prevalence in the high risk group peaked at the lower turnover threshold
 while prevalence in low risk group peaked at a higher turnover threshold
 (Figure~\ref{fig:prevalence-low}).
 To explain the inverted U-shape and different turnover thresholds by group,
-we examined the components contributing to prevalence,
+we examined the processes contributing to prevalence,
 first in the high risk group, and then in the low risk group.
+Prevalence in the medium risk group is then driven by a combination of these processes;
+as such, we don't detail the processes in the context of the medium risk group.
 \begin{figure}
   \begingroup\centering
   \begin{subfigure}{0.33\linewidth}
@@ -51,45 +53,66 @@ first in the high risk group, and then in the low risk group.
   \footnotesize\input{x-axis.tex}
 \end{figure}
 \begin{figure}
-  \begingroup\centering
-  \begin{subfigure}{0.33\linewidth}
+  \setlength{\tabcolsep}{0pt}
+  \centerline{\includegraphics[width=0.3\linewidth]{dX-abs-basic-legend.pdf}}
+  \begin{tabular}{cccc}
+  & Susceptible & Infectious & Treated \\
+  \rotatebox[origin=c]{90}{High risk}&
+  \begin{subfigure}{0.32\linewidth}
     \includegraphics[width=\linewidth]{dX-abs-basic-high-S.pdf}
     \caption{High risk susceptible}
     \label{fig:dX-high-S}
-  \end{subfigure}%
-  \begin{subfigure}{0.33\linewidth}
+  \end{subfigure}&
+  \begin{subfigure}{0.32\linewidth}
     \includegraphics[width=\linewidth]{dX-abs-basic-high-I.pdf}
     \caption{High risk infectious}
     \label{fig:dX-high-I}
-  \end{subfigure}%
-  \begin{subfigure}{0.33\linewidth}
+  \end{subfigure}&
+  \begin{subfigure}{0.32\linewidth}
     \includegraphics[width=\linewidth]{dX-abs-basic-high-T.pdf}
     \caption{High risk treated}
     \label{fig:dX-high-T}
   \end{subfigure}\\
-  \begin{subfigure}{0.33\linewidth}
+  \rotatebox[origin=c]{90}{Medium risk}&
+  \begin{subfigure}{0.32\linewidth}
+    \includegraphics[width=\linewidth]{dX-abs-basic-med-S.pdf}
+    \caption{Medium risk susceptible}
+    \label{fig:dX-med-S}
+  \end{subfigure}&
+  \begin{subfigure}{0.32\linewidth}
+    \includegraphics[width=\linewidth]{dX-abs-basic-med-I.pdf}
+    \caption{Medium risk infectious}
+    \label{fig:dX-med-I}
+  \end{subfigure}&
+  \begin{subfigure}{0.32\linewidth}
+    \includegraphics[width=\linewidth]{dX-abs-basic-med-T.pdf}
+    \caption{Medium risk treated}
+    \label{fig:dX-med-T}
+  \end{subfigure}\\
+  \rotatebox[origin=c]{90}{Low risk}&
+  \begin{subfigure}{0.32\linewidth}
     \includegraphics[width=\linewidth]{dX-abs-basic-low-S.pdf}
     \caption{Low risk susceptible}
     \label{fig:dX-low-S}
-  \end{subfigure}%
-  \begin{subfigure}{0.33\linewidth}
+  \end{subfigure}&
+  \begin{subfigure}{0.32\linewidth}
     \includegraphics[width=\linewidth]{dX-abs-basic-low-I.pdf}
     \caption{Low risk infectious}
     \label{fig:dX-low-I}
-  \end{subfigure}%
-  \begin{subfigure}{0.33\linewidth}
+  \end{subfigure}&
+  \begin{subfigure}{0.32\linewidth}
     \includegraphics[width=\linewidth]{dX-abs-basic-low-T.pdf}
     \caption{Low risk treated}
     \label{fig:dX-low-T}
   \end{subfigure}\\
-  \endgroup
+  \end{tabular}
   \caption{Absolute rates of change at equilibrium
     (number of individuals gained/lost per year)
     among individuals in each health state and risk group, due to:
     loss/gain via turnover (yellow), and
     loss/gain via incident infections (red).
     Based on Eq.~(\ref{eq:model}).
-    See Figure~\ref{fig:dX-app} for all derivative components.}
+    See Figure~\ref{fig:dX-app} for all processes.}
   \label{fig:dX}
   \footnotesize\input{x-axis.tex}
 \end{figure}
@@ -170,8 +193,8 @@ Treated individuals were similarly replaced largely by susceptible individuals
 (Figure~\ref{fig:flows-low} and
 Figures~\ref{fig:dX-high-S}~vs~\ref{fig:dX-high-T}, yellow).
 The net replacement of both infectious and treated individuals with susceptible individuals
-in the high risk group acted to reduce herd immunity in that group.
-Reduced herd immunity then contributed to a rise in
+in the high risk group acted to reduce herd effect in that group.
+Reduced herd effect then contributed to a rise in
 the number of incident infections in the high risk group,
 as the system moved from no turnover to slow turnover
 (Figure~\ref{fig:dX-high-I}, red; phenomenon~2).
@@ -195,7 +218,7 @@ Therefore, the inverted U-shaped relationship between turnover rate
 and equilibrium STI prevalence in the high risk group was mediated
 by the combination of the above three phenomena.
 When systems moved from no turnover to slow turnover,
-reduction in herd immunity (phenomenon~2) predominated,
+reduction in herd effect (phenomenon~2) predominated,
 leading to increasing equilibrium prevalence with turnover
 (Figure~\ref{fig:prevalence-high}, region~A).
 When systems were modelled under faster and faster turnover,
@@ -246,7 +269,7 @@ when the system moved from no turnover to slow turnover
 The inflow of infectious and treated individuals
 only slightly reduced the already large proportion who were susceptible
 in the low risk group.
-Thus, there was little increase in herd immunity within the low risk group
+Thus, there was little increase in herd effect within the low risk group
 as turnover increased
 (phenomenon~2).
 However, incident infections still rose in the low risk group
@@ -254,7 +277,7 @@ as the system moved from no turnover to slow turnover
 (Figure~\ref{fig:dX-low-I}, red)
 due to higher incidence in the total population (Figure~\ref{fig:incidence-all})
 which was largely driven by
-reduced herd immunity in the high risk group
+reduced herd effect in the high risk group
 (see Section~\ref{sss:res-prev-high}; phenomenon~2).
 Under faster rates of turnover,
 incident infections declined in the low risk group
@@ -272,7 +295,7 @@ and equilibrium STI prevalence in the low risk group was mediated
 by the combination of the above three phenomena.
 Moving from no turnover to slow turnover,
 the net inflow of infectious individuals (phenomenon~1)
-and reduced herd immunity in the high risk group (phenomenon~2)
+and reduced herd effect in the high risk group (phenomenon~2)
 predominated, leading to higher equilibrium prevalence
 (Figure~\ref{fig:prevalence-low}, region~A).
 At higher rates of turnover,
@@ -285,8 +308,12 @@ In sum, there were three phenomena that
 drove shifts in equilibrium STI prevalence across risk groups
 at variable rates of turnover:
 1)~net flows of infectious individuals from high risk groups into low risk groups;
-2)~changes to herd immunity, especially within the high risk group; and
+2)~changes to herd effect, especially within the high risk group; and
 3)~changes to the number of partnerships available with infectious individuals.
+The effects of these phenomena on the medium risk group were
+a mixture of the effects on the high and low risk groups,
+as illustrated in Figure~\ref{fig:dX-med-S}--\ref{fig:dX-med-T},
+leading to the unique profile shown in Figure~\ref{fig:prevalence-med}.
 % --------------------------------------------------------------------------------------------------
 \subsubsection{Influence of turnover on STI prevalence ratio between high and low risk groups}
 As discussed in Sections~\ref{sss:res-prev-high}~and~\ref{sss:res-prev-low},
