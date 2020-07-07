@@ -3,8 +3,8 @@ import os
 root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 save    = True
-model   = 'asso'
-context = 'ims'
+model   = 'main'
+context = 'paper'
 N       = 31
 n4      = [0, int(N*0.3), int(N*0.7), N-1]
 

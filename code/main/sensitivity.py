@@ -244,35 +244,43 @@ def make_1d_pretty(output,select=None,health=None):
       va='center',
     )
 
-def draw_regions(xp,yp,labels):
+def get_peaks(data,interp):
+  x  = np.arange(0,config.N,1)
+  xi = np.arange(0,config.N,interp)
+  fi = lambda y: interpolate.interp1d(x,y,kind='cubic',bounds_error=False)(xi)
+  xp = [np.nanargmax(fi(y))*interp for y in data]
+  yp = [np.nanmax(fi(y)) for y in data]
+  return xp,yp
+
+def draw_regions(data,which,ylim=None):
+  if ylim: plt.ylim(ylim)
   yl = plt.ylim()
   xl = plt.xlim()
-  x  = [xp[0]] + xp + [xp[-1], xl[1], xl[1]]
-  y  = [yl[0]] + yp + [yl[ 1], yl[1], yl[0]]
-  plt.fill(x, y, color = [1.0,0.0,0.0], alpha = 0.1)
   lp = lambda lim,p: lim[0]+p*(lim[1]-lim[0])
-  tprops = dict(va='top',bbox=dict(boxstyle='round',fc='w',ec='0.8',alpha=0.9))
-  plt.text(lp(xl,0.05),lp(yl,0.95),labels[0],ha='left',**tprops)
-  plt.text(lp(xl,0.95),lp(yl,0.95),labels[1],ha='right',**tprops)
+  tprops = dict(bbox=dict(boxstyle='round',fc='w',ec='0.8',alpha=0.9))
+  if which == 'peaks':
+    xp,yp = get_peaks(data,0.01)
+    x = [xp[0]] + xp + [xp[-1], xl[1], xl[1]]
+    y = [yl[0]] + yp + [yl[ 1], yl[1], yl[0]]
+    plt.fill(x, y, color = [1.0,0.0,0.0], alpha = 0.1)
+    plt.text(lp(xl,0.05),lp(yl,0.95),'A',va='top',ha='left',**tprops)
+    plt.text(lp(xl,0.95),lp(yl,0.95),'B',va='top',ha='right',**tprops)
+  if which == 'dX0':
+    x = [xl[0], xl[0], xl[1], xl[1]]
+    y = [yl[0],     0,     0, yl[0]]
+    plt.fill(x, y, color = [1.0,0.0,0.0], alpha = 0.1)
+    plt.text(lp(xl,0.05),lp(yl,0.05),'Net Loss',ha='left',va='bottom',**tprops)
+    plt.text(lp(xl,0.05),lp(yl,0.95),'Net Gain',ha='left',va='top',**tprops)
   plt.xlim(xl)
   plt.ylim(yl)
 
-def make_1d(data,output,select,health=None,regions=False,cmap=None):
-  def get_peaks(data,interp):
-    x  = np.arange(0,config.N,1)
-    xi = np.arange(0,config.N,interp)
-    fi = lambda y: interpolate.interp1d(x,y,kind='cubic',bounds_error=False)(xi)
-    xp = [np.nanargmax(fi(y))*interp for y in data]
-    yp = [np.nanmax(fi(y)) for y in data]
-    return xp,yp
+def make_1d(data,output,select,health=None,regions=False,cmap=None,ylim=None):
   if cmap is None:
     cmap = plt.cm.Blues_r(np.linspace(0,0.8,data.shape[0]))
   plt.gca().set_prop_cycle('color',cmap)
   plt.plot(range(0,config.N),data.transpose())
   if regions:
-    xp,yp = get_peaks(data,0.01)
-    if np.any(xp):
-      draw_regions(xp,yp,['A','B'])
+    draw_regions(data,regions,ylim)
   make_1d_pretty(output,select,health)
 
 def make_surface(data,labels=None):
@@ -309,7 +317,7 @@ def gen_1d_plot(data,output,select,health=None,save=None,regions=False,legend=No
     'ims':   [0.17,0.14,0.81,0.84],
   }[config.context]
   plt.figure(figsize=figsize)
-  make_1d(data,output,select,health=health,regions=regions,cmap=cmap)
+  make_1d(data,output,select,health=health,regions=regions,cmap=cmap,ylim=ylim)
   plt.gca().set_position(axespos)
   if ylim:
     plt.ylim(ylim)
@@ -321,7 +329,7 @@ def gen_1d_plot(data,output,select,health=None,save=None,regions=False,legend=No
     plt.show()
   plt.close()
 
-def gen_flows_plot(health,select,detail='basic',mode='abs',net=True,ylim=None,leg='each'):
+def gen_flows_plot(health,select,detail='basic',mode='abs',net=True,ylim=None,leg='each',regions=False):
   name = 'dX-'+mode
   save = fname_fig(name,detail,select,health)
   sim = get_sim(phi=0.1,tau=TAU1D,tmax=1)
@@ -392,10 +400,11 @@ def gen_flows_plot(health,select,detail='basic',mode='abs',net=True,ylim=None,le
       plt.show()
     plt.close()
   gen_1d_plot(data,name,select,health,
-      save   = save,
-      legend = legend if leg == 'each' else None,
-      cmap   = cmap,
-      ylim   = ylim,
+      save    = save,
+      legend  = legend if leg == 'each' else None,
+      cmap    = cmap,
+      ylim    = ylim,
+      regions = regions,
     )
 
 def gen_plots(save=False):
@@ -438,8 +447,8 @@ def gen_plots_paper():
   # for output in OUTPUTS:
   #   for select in SELECTORS:
   #     data = load_data(output,select,tau=[TAU1D])
-  #     gen_1d_plot(data,output,select,save=fname_fig('1d',output,select,tau=TAU1D),regions=True)
-  #     gen_1d_plot(load_data(output,select),output,select,save=fname_fig('2d',output,select),regions=True)
+  #     gen_1d_plot(data,output,select,save=fname_fig('1d',output,select,tau=TAU1D),regions='peak')
+  #     gen_1d_plot(load_data(output,select),output,select,save=fname_fig('2d',output,select),regions='peak')
   #     for norm in [False,True]:
   #       gen_2d_plot(load_data(output,select,norm),save=fname_fig('surface',output,select,norm=norm))
   #   for pair in [('high','med'),('high','low'),('med','low')]:
@@ -466,14 +475,14 @@ def gen_plots_paper():
   #   data = { output: load_data(output,select,tau=tau) for output,select in ositer }
   #   data['XC'] = data['prevalence'] * data['C'] / CA
   #   for output,select in ositer+[('XC','I')]:
-  #     gen_1d_plot(data[output],output,select,save=fname_fig(dim,output,select,tau=tau),regions=True)
+  #     gen_1d_plot(data[output],output,select,save=fname_fig(dim,output,select,tau=tau),regions='peak')
   # # overall incidence ----------------------------------------------------------------------------
-  # gen_1d_plot(load_data('incidence','all'),'incidence',None,save=fname_fig('2d','incidence','all'),regions=True)
+  # gen_1d_plot(load_data('incidence','all'),'incidence',None,save=fname_fig('2d','incidence','all'),regions='peak')
   # # equilibrium flows (dX) -----------------------------------------------------------------------
   for health in HEALTH:
     for select in ['high','med','low']:
-      # gen_flows_plot(health,select,detail='basic',mode='abs',net=False,ylim=[-3.5,+3.5])
-      gen_flows_plot(health,select,detail='full', mode='abs',leg='pop')
+      gen_flows_plot(health,select,detail='basic',mode='abs',net=False,ylim=[-3.5,+3.5],regions='dX0',leg='pop')
+      # gen_flows_plot(health,select,detail='full', mode='abs',leg='pop')
   # # proportion of infections from turnover -------------------------------------------------------
   # legend = ['High risk','Medium risk','Low risk']
   # data = np.concatenate([load_data('tip',select,tau=[TAU1D]) for select in ['high','med','low']])
