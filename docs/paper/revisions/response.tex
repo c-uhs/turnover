@@ -1,0 +1,164 @@
+\newcommand{\comment}[1]{\par\textbf{#1}\par}
+\newcommand{\reply}[1]{\par{#1}\par}
+\renewcommand{\quote}[1]{\par\emph{#1}\par}
+\newcommand{\added}[1]{\textcolor{green!70!gray}{#1}}
+% ==================================================================================================
+\textbf{Reviewer \#1}
+% --------------------------------------------------------------------------------------------------
+%\comment{%
+%  This is a well design study which used turnover between risk groups to do modelling for projecting the transmission population attributable fraction.
+%  There included three phenomena that drove shifts in equilibrium sexually transmitted infections (STIs) prevalence across risk groups at variable rates of turnover:
+%  1) net flows of infectious individuals from high risk groups into low risk groups;
+%  2) changes to herd immunity, especially within the high risk group; and
+%  3) changes to the number of partnerships available with infectious individuals.
+%  My suggestions are the following:}
+% --------------------------------------------------------------------------------------------------
+\comment{%
+  Due to have no vaccination for STIs, or persons are not immune to STIs after infected with sexually transmitted diseases,
+  it should consider that STIs have no herd immunity.}
+\reply{%
+  We agree that the choice of terminology, ``herd immunity'' is confusing,
+  especially since we have simulated a ``treated'', rather than ``immune'' group as the final health state.
+  So, we've replaced the phrase ``herd immunity'' with ``\added{herd effect}'' throughout the paper.
+  However, herd effect underpins one of the three key phenomena explored in the paper,
+  and notably it relies on the existence of a treated/immune group,
+  as distinguished from herd effects associated with high infection prevalence
+  (partnerships between two infectious individuals resulting in no transmission).
+  Specifically, it is not possible for reduced herd effect due to
+  loss of infectious individuals via turnover to increase prevalence,
+  whereas reduced herd effect due to loss of treated/immune individuals
+  can and does increase prevalence due to re-supply of infectious individuals.
+  % JK: @SM, I forgot this important detail in my rough thoughts in the email.
+  %     The treated group really is fundamental to the trends we have observed here
+  %     (for better or for worse!)
+  To clarify this point, we've also added to the discussion:
+  \quote{%
+    First, we did not capture the possibility that some individuals may become
+    re-susceptible to infection after treatment
+    -- an important feature of many STIs such as syphilis and gonorrhoea [Fenton2008].
+    As shown by [Fenton2008] and [Pourbohloul2003],
+    the re-supply of susceptible individuals following STI treatment
+    could fuel an epidemic, and so the influence of turnover on
+    STI prevalence and tPAF may be different.
+    \added{In fact, the herd effect underpinning phenomenon~2
+      relies on the existence of a treated/immune health state,
+      since only net replacement of treated (versus infectious) individuals
+      with susceptible individuals via turnover can increase prevalence
+      in the high risk group as observed.}}
+  \par
+  We chose to simulate a ``treated'' health state after this study grew out of HIV modelling work,
+  but we did not call the simulated infection ``HIV'' since we did not model infection-attributable mortality.
+  % JK: @SM, not sure if you feel this is relevant, but I feel it helps contextualize our decisions.
+  We note in the methods (\S~2.2) how the infection could also represent hepatitis B virus,
+  and indeed we think our insights may be useful for a variety of non-STI pathogens
+  where risk heterogeneity is present, many of which may have at least temporary/treatment-induced immunity.
+  % JK: @SM, do you think this comment about useful insights beyong STI pathogens is too strong?
+  %     I really do think this is true, and would even consider adding it to the paper
+  %     (last sentence in the limitations section). What do you think?
+}
+% --------------------------------------------------------------------------------------------------
+\comment{%
+  The most effective prevention is a substantial reduction of sexual partners and/or expanded condom use for STI.
+  This should be considered in the manuscript.}
+\reply{%
+  In the discussion, we have added the following details to help clarify the types of interventions
+  which may be most affected by the insights from the paper:
+  \quote{%
+    For example, epidemic models which fail to include or accurately capture
+    turnover may underestimate the importance of addressing the unmet
+    needs of key populations at disproportionate risk of HIV and other STIs, such as
+    gay men and other men who have sex with men, transgender women, people who use drugs, and sex workers.
+    \added{Such needs may be addressed by interventions tailored to
+    the unique vulnerabilities experienced by key populations, interventions such as
+    enhanced and prioritized screening and testing, condom use programmes, and reductions in barriers to safer sex.}
+  }
+  % JK: @SM, 100% agree with your comment in the email that we should not recommend specific interventions
+  %     as we did not explore, and stay conscientious of the specific language/framing involved.
+}
+% ==================================================================================================
+\textbf{Reviewer \#2}\par
+% --------------------------------------------------------------------------------------------------
+%\comment{%
+%  The authors explored the role of turnover in evaluating the transmission
+%  dynamics of infectious diseases, especial STI. A multi-group model
+%  incorporate with data-guided framework is used to exam this effect. The
+%  authors numerically show the importance of considering turnover to evaluate
+%  the disease transmission in different risk groups via three study cases. This
+%  topic is interesting. I have the following comments:}
+% --------------------------------------------------------------------------------------------------
+\comment{%
+  1) How is the turnover effect on the medium risk group? As it may have
+  various effects on this group which usually has the largest population
+  and could impact the overall disease pattern.}
+\reply{%
+  We agree that medium risk group(s) undoubtedly play an important role
+  in the transmission dynamics of STI, especially in the context of turnover.
+  However, our aim in Experiment 1 was mainly to examine
+  the mechanisms by which turnover influences equilibrium prevalence.
+  To do so, we described the three mechanisms in the context of the highest and lowest risk groups, such that
+  their relative influence on higher vs lower risk groups could be appreciated.
+  For example, phenomenon 1) describes the net movement of infectious individuals from high to low risk;
+  while phenomenon 2) concerning reduced herd effect with greater turnover
+  has the largest impact on the highest risk group.
+  By contrast, phenomenon 3) the number of partnerships with infectious individuals
+  influences all risk groups equally due to assumed proportionate mixing.
+  Thus, we feel that describing these mechanisms in the context of the medium risk group
+  would not add significantly to the readers' understanding of the mechanisms.
+  In fact we are concerned that some confusion may arise in trying to communicate
+  the balance of mechanisms in the medium risk group,
+  which may ultimately be subject to the specific assumptions of risk group size and relative contact rates,
+  as compared to the more simple cases of the highest and lowest risk groups.
+  \par
+  We do acknowledge that the rationale described above was missing from the paper,
+  and that essentially no mention was made of the medium risk group in Experiment 1 results.
+  As such, we have updated the results \S~3.1 with the following:
+  \quote{%
+    To explain the inverted U-shape and different turnover thresholds by group,
+    we examined the processes contributing to prevalence,
+    first in the high risk group, and then in the low risk group.
+    \added{Prevalence in the medium risk group is then driven by a combination of these processes;
+    as such, we don't detail the processes in the context of the medium risk group.}}
+  We also added to Figure 5 the three panels for the medium risk group,
+  and the following sentence to the end of \S~3.1.2:
+  \quote{%
+    \added{The effects of these phenomena on the medium risk group were
+    a mixture of the effects on the high and low risk groups,
+    as illustrated in Figure~5d--5f,
+    leading to the unique profile shown in Figure~4b.}}
+  % JK: @SM, you mentioned in the email to perhaps also mention that tPAF of the medium risk group
+  %     might be similarly underestimated without turnover.
+  %     I'm not confident enough in that conclusion to add to the paper for 2 reasons:
+  %     1) the prevalence ratios involving the medium risk group were not strictly monotonic (Figure C.2 b,c);
+  %     2) while the contribution of the medium risk group to onwrad transmission would likely
+  %     increase relative to the low risk group, the contribution would likely decrease relative to the high risk group;
+  %     thus we cannot reliably conclude that the medium risk group tPAF would increase or decrease, overall
+  %     in the presence of turnover. Does that make sense?
+}
+% --------------------------------------------------------------------------------------------------
+\comment{%
+  2) Please illustrate the Figure 5 in more details, i.e. what are the
+  different scenarios for panels in each column. Formulas for the curves
+  may help readers to understand more.}
+\reply{%
+  To clarify what is being plotted in Figure 5,
+  we've revised the methodology for Experiment 1 (\S~2.3.1)
+  to update the text and to include formulae for the plotted quantities, new Eq.~(5).
+  We think this is what the reviewer requested,
+  versus closed-form solutions for the plotted lines;
+  the latter could be quite difficult to obtain and
+  we think might be beyond the scope of the present work.
+  To further improve the ease of understanding Figure 5,
+  we also made the following changes:
+  \begin{itemize}[itemsep=0pt,topsep=0pt]
+    \item added panel row and column headings at the left and top, respectively
+    \item removed the legend from each panel and replaced it with a single legend
+          at the top of the entire figure
+    \item added a red shaded area below zero labelled ``net loss''
+          and labelled the non-shaded area above zero ``net gain''
+  \end{itemize}
+  We hope that these changes address the limitations noted by the reviewer.
+  % JK: @SM, I think you also mentioned a scatter plot instead of a line graph,
+  %     I would prefer to stick with the line graph,
+  %     since I think it's reasonable to infer that the relationship is continuous,
+  %     even though we obtain it from discrete sampling of the (intractable) solution.
+}
