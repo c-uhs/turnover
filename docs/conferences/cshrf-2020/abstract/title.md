@@ -1,0 +1,1 @@
+Importance of high risk groups may be further underestimated without simulated turnover in STI epidemics with assortative mixing
