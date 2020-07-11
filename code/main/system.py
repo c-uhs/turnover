@@ -128,6 +128,8 @@ def get_outputs(spaces,select,t,names=None,**kwargs):
     'infections':    {'ss':'S'},
     'cum-infect':    {'ss':'S'},
     'tpaf-high':     {'beta':'beta','ss':'S','mode':'from'},
+    'tpaf-med':      {'beta':'beta','ss':'S','mode':'from'},
+    'tpaf-low':      {'beta':'beta','ss':'S','mode':'from'},
     'tip':           {'ss':'S','si':'infected'},
     'sip':           {'ss':'S','si':'infected'},
     'C':             {},

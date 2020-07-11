@@ -47,6 +47,8 @@ def txtsave(sims,output):
     'C':          lambda x: '{:.1f}'.format(float(x)),
     'ratio':      lambda x: '{:.1f}'.format(float(x)),
     'tpaf-high':  lambda x: '{:.3f}'.format(float(x)),
+    'tpaf-med':   lambda x: '{:.3f}'.format(float(x)),
+    'tpaf-low':   lambda x: '{:.3f}'.format(float(x)),
   }
   for name,sim in sims.items():
     utils.savetxt(fname(name,output,'high'),  fmts[output](vfun(sim,output,'high')))
@@ -208,7 +210,7 @@ def exp_tpaf():
         sims.update([(name+' [fit]', load_fit(name,sims.get(name)))])
     exp_run_plot('tpaf',
       sims      = sims,
-      outputs   = ['tpaf-high'],
+      outputs   = ['tpaf-high'], # TPAF
       selectors = ['all'],
       vs        = case,
       txt       = True,
