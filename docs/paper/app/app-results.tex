@@ -170,22 +170,22 @@
 \begin{figure}[H]
   \begingroup\centering
   \begin{subfigure}{0.4\linewidth}
-    \includegraphics[width=\linewidth]{sit-tpaf-prevalence-high}
+    \includegraphics[width=\linewidth]{main-tpaf-prevalence-high}
     \caption{High risk}
     \label{fig:tpaf-prevalence-high}
   \end{subfigure}
   \begin{subfigure}{0.4\linewidth}
-    \centering\includegraphics[width=\linewidth]{sit-tpaf-prevalence-med}
+    \centering\includegraphics[width=\linewidth]{main-tpaf-prevalence-med}
     \caption{Medium risk}
     \label{fig:tpaf-prevalence-med}
   \end{subfigure}
   \begin{subfigure}{0.4\linewidth}
-    \includegraphics[width=\linewidth]{sit-tpaf-prevalence-low}
+    \includegraphics[width=\linewidth]{main-tpaf-prevalence-low}
     \caption{Low risk}
     \label{fig:tpaf-prevalence-low}
   \end{subfigure}
   \begin{subfigure}{0.4\linewidth}
-    \includegraphics[width=\linewidth]{sit-tpaf-prevalence-all}
+    \includegraphics[width=\linewidth]{main-tpaf-prevalence-all}
     \caption{Overall}
     \label{fig:tpaf-prevalence-all}
   \end{subfigure}
@@ -199,22 +199,22 @@
 \begin{figure}[H]
   \begingroup\centering
   \begin{subfigure}{0.4\linewidth}
-    \includegraphics[width=\linewidth]{sit-tpaf-C-high}
+    \includegraphics[width=\linewidth]{main-tpaf-C-high}
     \caption{High risk}
     \label{fig:tpaf-C-high}
   \end{subfigure}
   \begin{subfigure}{0.4\linewidth}
-    \includegraphics[width=\linewidth]{sit-tpaf-C-med}
+    \includegraphics[width=\linewidth]{main-tpaf-C-med}
     \caption{Medium risk}
     \label{fig:tpaf-C-med}
   \end{subfigure}
   \begin{subfigure}{0.4\linewidth}
-    \includegraphics[width=\linewidth]{sit-tpaf-C-low}
+    \includegraphics[width=\linewidth]{main-tpaf-C-low}
     \caption{Low risk}
     \label{fig:tpaf-C-low}
   \end{subfigure}
   \begin{subfigure}{0.4\linewidth}
-    \includegraphics[width=\linewidth]{sit-tpaf-C-all}
+    \includegraphics[width=\linewidth]{main-tpaf-C-all}
     \caption{Overall}
     \label{fig:tpaf-C-all}
   \end{subfigure}
@@ -226,13 +226,33 @@
   \label{fig:tpaf-C}
 \end{figure}
 % ==================================================================================================
-\subsection{Influence of turnover on the tPAF of the highest risk group before model fitting}
+\subsection{Influence of turnover on tPAF of the high and medium risk groups before and after model fitting}
 \begin{figure}[H]
-  \centerline{\includegraphics[width=0.5\linewidth]{sit-tpaf-tpaf-high-all-vs=raw}}
+  \begingroup\centering
+  \begin{subfigure}{0.4\linewidth}
+    \includegraphics[width=\linewidth]{main-tpaf-tpaf-high-all-vs=raw}
+    \caption{High risk, before fitting}
+    \label{fig:tpaf-high-raw}
+  \end{subfigure}
+  \begin{subfigure}{0.4\linewidth}
+    \includegraphics[width=\linewidth]{main-tpaf-tpaf-high-all-vs=fit}
+    \caption{High risk, after fitting}
+    \label{fig:tpaf-high-fit}
+  \end{subfigure}
+  \begin{subfigure}{0.4\linewidth}
+    \includegraphics[width=\linewidth]{main-tpaf-tpaf-med-all-vs=raw}
+    \caption{Medium risk, before fitting}
+    \label{fig:tpaf-med-raw}
+  \end{subfigure}
+  \begin{subfigure}{0.4\linewidth}
+    \includegraphics[width=\linewidth]{main-tpaf-tpaf-med-all-vs=fit}
+    \caption{Medium risk, after fitting}
+    \label{fig:tpaf-med-fit}
+  \end{subfigure}
+  \\\endgroup
   \caption{Transmission population attributable fraction (tPAF)
-    of the high risk group in models with and without turnover,
-    before model fitting.}
-  \label{fig:tpaf-raw}
+    of the high and medium risk groups in models with and without turnover,
+    before and after model fitting.}
 \end{figure}
 % ==================================================================================================
 \subsection{Effect of treatment rate on the influence of turnover on equilibrium prevalence}
