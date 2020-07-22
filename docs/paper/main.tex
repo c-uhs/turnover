@@ -1,11 +1,15 @@
 % !TeX TS-program = pdflatex
 % !BIB TS-program = bibtex
+% 1. pdftk main.pdf cat 1-24 output manuscript.pdf
+% 2. commend 1st \bibliography
+% 3. pdftk main.pdf cat 23-end output appendix.pdf
 \documentclass[review,3p,authoryear]{elsarticle}
 \input{config.tex}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \input{front.tex}
+\clearpage
 % ==================================================================================================
 \section{Introduction}\label{s:intro}
 \input{intro.tex}
@@ -24,10 +28,11 @@
 \clearpage
 % --------------------------------------------------------------------------------------------------
 \section*{References}
-\bibliography{../../refs/refs.bib}
+\bibliography{../../refs/refs.bib} % comment for appendix
 \clearpage
 % ==================================================================================================
 \initappendix
+% --------------------------------------------------------------------------------------------------
 \section{Turnover Framework}\label{a:framework}
 \input{app/app-framework.tex}
 \clearpage
@@ -39,6 +44,9 @@
 \section{Supplemental Results}\label{a:results}
 \input{app/app-results.tex}
 \clearpage
+% --------------------------------------------------------------------------------------------------
+\section*{References}
+\bibliography{../../refs/refs.bib}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \end{document}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

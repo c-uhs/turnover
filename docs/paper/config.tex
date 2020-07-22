@@ -52,4 +52,28 @@
   \numberwithin{table}{section}
   \numberwithin{equation}{section}
   \renewcommand*{\thesection}{\Alph{section}}
+  \apptitle
+  \apptoc
 }
+\newcommand{\apptitle}{%
+  \setcounter{affn}{0}
+  \setcounter{page}{0}
+  \begingroup
+  \renewcommand{\hrule}{\vspace{-5em}}
+  \centerline{\Large\textsc{appendix}}
+  \maketitle
+  \endgroup
+}
+\newcommand{\apptoc}{%
+  \part{}
+  \parttoc
+  \clearpage
+  \faketableofcontents
+}
+\usepackage{minitoc}
+\doparttoc
+\renewcommand{\thepart}{}
+\renewcommand{\partname}{}
+\setcounter{tocdepth}{2}
+\mtcsetrules{*}{off}
+\renewcommand{\ptctitle}{}
