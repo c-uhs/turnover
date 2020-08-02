@@ -34,6 +34,7 @@ __pycache__/
 *.brf
 *.dvi
 *-converted-to.pdf
+*.ptc*
 
 # misc
 .DS_Store
