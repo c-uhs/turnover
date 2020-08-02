@@ -174,3 +174,12 @@ def get_simulation(model,outputs=[],t=None):
   outputs = get_outputs(model.spaces,model.select,t=t,names=outputs)
   sim = Simulation(model,t,outputs=outputs)
   return sim
+
+def xmodel(fun):
+  def wrapper(*args,**kwargs):
+    model = kwargs.pop('model',None)
+    if model: config.path['data'] = config.path['data'].replace('/'+config.model+'/','/'+model+'/')
+    out = fun(*args,**kwargs)
+    if model: config.path['data'] = config.path['data'].replace('/'+model+'/','/'+config.model+'/')
+    return out
+  return wrapper

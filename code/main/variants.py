@@ -26,6 +26,7 @@ def fname_fig(compare,output,selector,**params):
 def fname_fit(name):
   return os.path.join(config.path['data'],'fit',shortname(name)+'.json')
 
+@system.xmodel
 def load_fit(name,sim):
   sim = deepcopy(sim)
   model = sim.model
@@ -58,21 +59,24 @@ def txtsave(sims,output):
     utils.savetxt(fname(name,output,'ratio-high-med'), fmts['ratio'](vfun(sim,output,'high') / vfun(sim,output,'med')))
     utils.savetxt(fname(name,output,'ratio-med-low'),  fmts['ratio'](vfun(sim,output,'med')  / vfun(sim,output,'low')))
 
-def get_sim(variant=None,t=None):
+def get_sim(turnover=True,asso=False,t=None):
   specs = system.get_specs()
   model = system.get_model()
-  if variant in [None,'full']:
-    pass
-  elif variant in ['no-turnover']:
+  if not turnover:
     model.params['dur'].update(np.nan)
     model.params['phi'].update(np.nan)
+  if asso:
+    model.params['eps'] = 0.5
+  else:
+    model.params['eps'] = 0.0
   return system.get_simulation(model,t=t)
 
 def plot_iter(sims,output,selector):
   legend = []
-  colors = [[0.8,0.0,0.0],[1.0,0.6,0.6],[0.8,0.0,0.0],[1.0,0.6,0.6]]
-  linestyles = ['-','-','--','--']
-  ylim = {'paper': None, 'isstdr': [0.5, 1.0], 'ims': None}[config.context]
+  # colors = [[0.8,0.0,0.0],[1.0,0.6,0.6],[0.8,0.0,0.0],[1.0,0.6,0.6]]
+  colors = [[0.0235,0.1608,0.3451]]*2+[[0.5216,0.6588,0.8431]]*2
+  linestyles = ['--','-','--','-']
+  ylim = {'paper': None, 'isstdr': [0.5, 1.0], 'cshrf': [.30,.82]}[config.context]
   for (name,sim),color,ls in zip(sims.items(),colors,linestyles):
     legend.append(name)
     select = sim.model.select[selector]
@@ -86,7 +90,7 @@ def plot_iter(sims,output,selector):
       linestyle = ls,
       ylim = ylim,
     )
-  if config.context in ['paper','ims']:
+  if config.context in ['paper']:
     plt.legend(legend)
   if config.context == 'isstdr':
     plt.legend(['Turnover','No Turnover'], loc='lower right')
@@ -115,11 +119,11 @@ def exp_run_plot(compare,sims,outputs,selectors,txt=False,**params):
         sim.model.params[name].update(value)
     sim.update_params(sim.model.params)
     run_sim(sim,outputs)
-  figsize = {'paper': (4,3), 'isstdr': (4.5,3), 'ims': (4,3)}[config.context]
+  figsize = {'paper': (4,3), 'isstdr': (4.5,3), 'cshrf': (4,2.5)}[config.context]
   axespos = {
   'paper': [0.16,0.14,0.82,0.84],
   'isstdr':[0.33,0.16,0.65,0.82],
-  'ims':   [0.16,0.14,0.82,0.84],
+  'cshrf': [0.16,0.14,0.82,0.84],
   }[config.context]
   for output in outputs:
     for selector in selectors:
@@ -192,13 +196,40 @@ def simple_turnover():
     )
 
 def exp_tpaf():
-  tmax = {'paper': 50, 'isstdr': 30, 'ims': 10}[config.context]
+  if config.context == 'paper':
+    exp_tpaf_paper()
+  if config.context == 'isstdr':
+    print('TBD')
+  if config.context == 'cshrf':
+    exp_tpaf_cshrf()
+
+def exp_tpaf_cshrf():
+  t = system.get_t(tmax=10)
+  mmap = {'main':[0,1],'asso':[2,3],'both':[0,1,2,3]}
+  for iname,im in mmap.items():
+    sims = [
+      ('Turnover [Prop]',      load_fit('Turnover',   get_sim(turnover=True, asso=False,t=t),model='main')),
+      ('No Turnover [Prop]',   load_fit('No Turnover',get_sim(turnover=False,asso=False,t=t),model='main')),
+      ('Turnover [Assort]',    load_fit('Turnover',   get_sim(turnover=True, asso=True, t=t),model='asso')),
+      ('No Turnover [Assort]', load_fit('No Turnover',get_sim(turnover=False,asso=True, t=t),model='asso')),
+    ]
+    sims = odict([sims[i] for i in im])
+    exp_run_plot('tpaf',
+      sims      = sims,
+      outputs   = ['tpaf-high'],
+      selectors = ['all'],
+      vs        = iname,
+      txt       = False,
+    )
+
+def exp_tpaf_paper():
+  tmax = {'paper': 50, 'isstdr': 30}[config.context]
   t = system.get_t(tmax=tmax)
   for case in ['raw','fit','both']:
     print(case,flush=True)
     sims = odict([
-      ('Turnover',    get_sim('full',t=t)),
-      ('No Turnover', get_sim('no-turnover',t=t)),
+      ('Turnover',    get_sim(turnover=True, t=t)),
+      ('No Turnover', get_sim(turnover=False,t=t)),
     ])
     if case == 'raw':
       pass

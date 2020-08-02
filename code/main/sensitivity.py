@@ -178,6 +178,7 @@ def load_element(output,select,phi,tau,norm,tol=1e-5):
   n = np.float(utils.loadtxt(fname_element(output,select,phi=phin,tau=tau))) if norm else 1
   return (x / n) if x > tol else 0
 
+@system.xmodel
 def load_data(output,select,norm=False,phi=None,tau=None,tol=1e-5):
   phi = phi if phi is not None else list(iter_phi())
   tau = tau if tau is not None else list(iter_tau())
@@ -198,26 +199,26 @@ def make_1d_pretty(output,select=None,health=None):
     'X':                'Proportion (\%)',
     'C':                'Average partners per year',
     'XC':               'Infectious partnerships proportion',
-    'tip':              'Proportion of new infections from turnover',
+    'tip':              'Infections from Turnover',
     'dur':              'Duration in the group (years)',
     'phi':              'Turnover rate (per year)',
     'dX-rel':           'Rate of change (\%)\n',
     'dX-abs':           'Absolute rate of change\n',
-    'prevalence-ratio': 'Prevalence ratio:',
-    'incidence-ratio':  'Incidence ratio:',
+    'prevalence-ratio': 'Prevalence Ratio:',
+    'incidence-ratio':  'Incidence Ratio:',
     None: '',
   }
   yspec = {
     'S':        ' among susceptible',
     'I':        ' among infectious',
     'T':        ' among treated',
-    'high':     ' among high risk',
-    'med':      ' among medium risk',
-    'low':      ' among low risk',
+    'high':     ' among High Risk',
+    'med':      ' among Medium Risk',
+    'low':      ' among Low Risk',
     'all':      ' overall',
-    'high-low': ' high vs low risk',
-    'high-med': ' high vs medium risk',
-    'med-low':  ' medium vs low risk',
+    'high-low': ' High vs Low Risk',
+    'high-med': ' High vs Medium Risk',
+    'med-low':  ' Medium vs Low Risk',
     None: '',
   }
   yhspec = {
@@ -230,6 +231,10 @@ def make_1d_pretty(output,select=None,health=None):
   if config.context == 'paper':
     plt.xticks(*ticks(list(iter_phi()),5,2))
     plt.xlabel('High risk turnover $\\delta_H^{-1}$')
+    plt.ylabel(ylabel)
+  if config.context == 'cshrf':
+    plt.xticks(*ticks([1/phi for phi in iter_phi()],5,0))
+    plt.xlabel('Duration in High-Risk Group (years)')
     plt.ylabel(ylabel)
   if config.context == 'isstdr':
     plt.xticks(*ticks([1/phi for phi in iter_phi()],5,0))
@@ -310,11 +315,11 @@ def gen_2d_plot(data,save=None):
 
 def gen_1d_plot(data,output,select,health=None,save=None,regions=False,legend=None,cmap=None,ylim=None):
   print(save,flush=True)
-  figsize = {'paper': (4,3),'isstdr':(4.5,3), 'ims':(4,3)}[config.context]
+  figsize = {'paper': (4,3),'isstdr':(4.5,3), 'cshrf':(4,2.5)}[config.context]
   axespos = {
     'paper': [0.17,0.14,0.81,0.84],
     'isstdr':[0.30,0.16,0.68,0.82],
-    'ims':   [0.17,0.14,0.81,0.84],
+    'cshrf': [0.17,0.14,0.81,0.84],
   }[config.context]
   plt.figure(figsize=figsize)
   make_1d(data,output,select,health=health,regions=regions,cmap=cmap,ylim=ylim)
@@ -412,30 +417,30 @@ def gen_plots(save=False):
     gen_plots_paper()
   if config.context == 'isstdr':
     gen_plots_isstdr()
-  if config.context == 'ims':
-    gen_plots_ims()
+  if config.context == 'cshrf':
+    gen_plots_cshrf()
 
-def gen_plots_ims():
-  # proportion of infections from turnover -------------------------------------------------------
-  legend = ['High risk','Medium risk','Low risk']
-  data = np.concatenate([load_data('tip',select,tau=[TAU1D]) for select in ['high','med','low']])
-  gen_1d_plot(data,'tip',None,save=fname_fig('2d','tip','all',tau=TAU1D),legend=legend)
-  # health states ----------------------------------------------------------------------------------
-  cmap = [[0.0,0.6,1.0],[0.8,0.2,0.0],[0.8,0.2,0.6]]
-  legend = ['Susceptible','Infectious','Treated']
-  for select in SELECTORS:
+def gen_plots_cshrf():
+  cmap = [[0.0235,0.1608,0.3451],[0.5216,0.6588,0.8431],[0.7333,0.0745,0.2431]]
+  legend = ['Random','Assortative']
+  models = ['main','asso']
+  mmap   = {'main':[0],'asso':[1],'both':[0,1]}
+  # proportion of infections from turnover ---------------------------------------------------------
+  save = fname_fig('1d','mix','tip','low',tau=TAU1D)
+  data = np.concatenate([load_data('tip','low',tau=[TAU1D],model=model) for model in models])
+  gen_1d_plot(data,'tip','low',cmap=cmap,legend=legend,save=save)
+  # prevalence ratio -------------------------------------------------------------------------------
+  output = 'prevalence'
+  pair = ('high','low')
+  select = '-'.join(pair)
+  for iname,im in mmap.items():
+    save = fname_fig('1d',iname,'ratio',output,select,tau=TAU1D)
     data = np.concatenate([
-        load_data('X',health+' '+select,tau=[TAU1D])
-        for health in HEALTH
-      ])
-    # data /= np.sum(data,axis=0) # normalized
-    # data -= np.mean(data,axis=1).reshape((3,1))
-    gen_1d_plot(100*data,'X',select,None,save=fname_fig('1d','X','health',select,tau=TAU1D),cmap=cmap,legend=legend)
-  # equilibrium flows (dX) -------------------------------------------------------------------------
-  for health in HEALTH:
-    for select in ['high','med','low']:
-      gen_flows_plot(health,select,detail='basic',mode='abs',net=False,ylim=[-5,+5])
-      gen_flows_plot(health,select,detail='full', mode='abs',leg='pop',)
+      load_data(output,pair[0],tau=[TAU1D],tol=0,model=models[i]) /\
+      load_data(output,pair[1],tau=[TAU1D],tol=0,model=models[i])
+      for i in im
+    ])
+    gen_1d_plot(data,output+'-ratio',select,cmap=cmap,save=save,legend=legend,ylim=[5,20])
 
 def gen_plots_isstdr():
   for output,select in [('prevalence','high'),('prevalence','low')]:
