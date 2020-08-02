@@ -1,0 +1,61 @@
+\usetheme{Malmoe}
+% fonts
+\usepackage[light,sfdefault,osf]{FiraSans}
+\makeatletter \def\bfseries@sf{m} \makeatother
+% colors
+\definecolor{C1}{RGB}{  6, 41, 88}
+\definecolor{C2}{RGB}{133,168,215}
+\definecolor{C3}{RGB}{214, 21, 71}
+%\definecolor{C3}{RGB}{232, 34, 84}
+%\definecolor{C3}{RGB}{187, 19, 62}
+\setbeamercolor{title}     {fg=C3}
+\setbeamercolor{frametitle}{fg=C1}
+\setbeamercolor{structure} {fg=C1}
+% misc
+\setbeamersize{text margin left=2em,text margin right=2em}
+\setbeamertemplate{frametitle continuation}{}
+\setbeamertemplate{title page}[default][left]
+\newcommand{\textbc}[1]{{\color{C3}\textbf{\liningfigures{#1}}}}
+\newcommand{\paragraph}[1]{\par\textbc{#1}\par}
+\newcommand{\xpar}{\vskip 1em}
+\newcommand{\out}[1]{\input{data/#1}\unskip}
+% footer
+\usepackage{xpatch,ifthen}
+\newif\iftikzpause\tikzpausefalse
+\newcommand{\tikzvis}[1]{\iftikzpause\visible<+->{#1}\else{#1}\fi}
+\makeatletter
+\newcommand{\github}[1]{
+  \def\@github{\texttt{#1}}
+}
+\renewcommand{\insertshortauthor}{%
+  \color{gray}
+  \beamer@shortauthor%
+  \hfill\hfill\hfill\hfill\hfill\hfill\hfill\hfill%
+  \@github
+}
+\renewcommand{\insertshorttitle}{%
+  \beamer@shorttitle%
+  \hfill\hfill\hfill\hfill\hfill\hfill\hfill\hfill%
+  \insertframenumber\,/\,\inserttotalframenumber
+}
+\makeatother
+% itemize
+\setbeamercolor{itemize item}   {fg=C1}
+\setbeamercolor{itemize subitem}{fg=C2}
+\settowidth{\leftmargini}{\usebeamertemplate{itemize item}}
+\addtolength{\leftmargini}{\labelsep}
+% floats
+\usepackage{booktabs,graphicx}
+\graphicspath{{fig/}{logo/}}
+% refs
+\usepackage[
+  backend=biber,
+  style=authoryear,
+  isbn=false,
+  url=true,
+  doi=false,
+  eprint=false
+]{biblatex}
+\addbibresource{refs.bib}
+\renewcommand*{\bibfont}{\footnotesize}
+\setbeamertemplate{bibliography item}{}

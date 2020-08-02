@@ -1,0 +1,20 @@
+\begin{tikzpicture}
+\path[use as bounding box] (-2\dx,-2\dx) rectangle (+2\dx,+5\dx);
+% nodes ----------------------------------------------------------------------------------------
+\node(lo) [tbox=C1] at (0\dx,0\dx) {\lab{Low}};
+\node(hi) [tbox=C3] at (0\dx,3\dx) {\lab{High}};
+% partnerships
+\draw[arrow] (lo) to[out=105,in=255] (hi);
+\draw[arrow] (hi) to[out=285,in=075] (lo);
+\ifasso{
+  \draw[arrow,wide]    (lo) to[out=240,in=300,loop,looseness=5] (lo);
+  \draw[arrow,wide,C3] (hi) to[out=060,in=120,loop,looseness=5] (hi);
+}\else{
+  \draw[arrow] (lo) to[out=240,in=300,loop,looseness=5] (lo);
+  \draw[arrow] (hi) to[out=060,in=120,loop,looseness=5] (hi);
+}\fi
+\ifturnover{
+  \draw[arrow,turnover,C3] (hi) to[out=000,in=000] (lo);
+  \draw[arrow,turnover]    (lo) to[out=180,in=180] (hi);
+}\fi
+\end{tikzpicture}

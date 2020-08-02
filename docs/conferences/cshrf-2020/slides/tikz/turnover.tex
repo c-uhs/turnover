@@ -1,0 +1,36 @@
+\begin{tikzpicture}
+\path[use as bounding box] (0\dx,-1\dx) rectangle (8\dx,7\dx);
+% nodes ----------------------------------------------------------------------------------------
+% main 3 nodes
+\node(x1) [tbox=C1] at (4\dx,0\dx) {\lab{Low}};
+\node(x2) [tbox=C1] at (4\dx,3\dx) {\lab{Med}};
+\node(x3) [tbox=C1] at (4\dx,6\dx) {\lab{High}};
+% input nodes (no tbox)
+\node(i1) at (0\dx,0\dx) {};
+\node(i2) at (0\dx,3\dx) {};
+\node(i3) at (0\dx,6\dx) {};
+% output nodes (no tbox)
+\node(o1) at (8\dx,0\dx) {};
+\node(o2) at (8\dx,3\dx) {};
+\node(o3) at (8\dx,6\dx) {};
+% arrows ---------------------------------------------------------------------------------------
+\tikzvis{
+  % entry
+  \draw[arrow,turnover] (i1) -- (x1);
+  \draw[arrow,turnover] (i2) -- (x2);
+  \draw[arrow,turnover] (i3) -- (x3);
+  % exit
+  \draw[arrow,turnover] (x1) -- (o1);
+  \draw[arrow,turnover] (x2) -- (o2);
+  \draw[arrow,turnover] (x3) -- (o3);
+}
+\tikzvis{
+  % turnover
+  \draw[arrow,turnover,emph] (x1) edge[bend left=25] (x2); 
+  \draw[arrow,turnover,emph] (x2) edge[bend left=25] (x1);
+  \draw[arrow,turnover,emph] (x3) edge[bend left=25] (x2); 
+  \draw[arrow,turnover,emph] (x2) edge[bend left=25] (x3);
+  \draw[arrow,turnover,emph] (x1) edge[bend left=60] (x3); 
+  \draw[arrow,turnover,emph] (x3) edge[bend left=60] (x1);
+}
+\end{tikzpicture}

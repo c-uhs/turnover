@@ -1,0 +1,19 @@
+\newcommand{\cell}[2]{\liningfigures{\out{\mix/#1-#2}}}
+\newcommand{\fit}[3]{
+  \ifdim#3pt=1pt\textbc{\cell{#1r}{#2}}\else{\cell{#1r}{#2}}\fi
+  ~$\rightarrow$~%
+  \ifdim#3pt=2pt\textbc{\cell{#1f}{#2}}\else{\cell{#1f}{#2}}\fi
+}
+{\footnotesize
+\begin{tabular}{rcc}
+	\toprule
+                        & \textbf{No Turnover}                  &         \textbf{Turnover} \\
+	\toprule
+       STI prevalence * & \visible<+->{\fit{n}{pr}{1}           &           \fit{t}{pr}{1}} \\
+	\midrule
+	  Partners per year * & \visible<+->{\fit{n}{Cr}{2}           &           \fit{t}{Cr}{2}} \\
+	\midrule
+  	 10-year tPAF (Cal) & \visible<+->{\textbc{\cell{nf}{tpaf}} & \textbc{\cell{tf}{tpaf}}} \\
+	\bottomrule
+\end{tabular}}\\[0.5em]
+{\scriptsize* Ratios = (High\,:\,Low) Risk;\enspace Pre~$\rightarrow$~Post-Calibration}

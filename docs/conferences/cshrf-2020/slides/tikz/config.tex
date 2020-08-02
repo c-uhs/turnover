@@ -1,0 +1,43 @@
+\usepackage{tikz}
+\usetikzlibrary{calc,arrows.meta}
+\tikzset{
+  arrow/.style = {
+    ->,
+    > = {Latex[length=2.5mm]},
+    rounded corners,
+    line width = .3mm,
+    draw = black,
+  },
+  emph/.style = {
+    wide,
+    draw = C3,
+  },
+  wide/.style = {
+    line width = .6mm,
+  },
+  turnover/.style = {
+    wide,
+    dotted,
+  },
+  tbox/.style = {
+    thick,
+    rounded corners,
+    fill = #1!20!white,
+    draw = #1!80!white,
+    align = center,
+    minimum width = 0.8cm,
+    minimum height = 0.6cm,
+  },
+}
+\colorlet{S}{C2}
+\colorlet{I}{C3}
+\colorlet{R}{C2!50!C3}
+\newlength{\dx}\setlength{\dx}{0.5cm}
+\newlength{\dz}
+\newcommand{\lab}[1]{\footnotesize{#1}}
+\newif\ifturnover
+\newif\ifasso
+\newcommand{\mix}{%
+  \expandafter\ifasso asso%
+  \else main%
+\fi}
